@@ -1,26 +1,23 @@
 import { connect } from "react-redux";
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, ScrollView, Platform, Alert } from 'react-native';
+import { Text, Image, TextInput, View, TouchableOpacity, ScrollView, Platform, Alert } from 'react-native';
 import FloatingLabel from "react-native-floating-labels"
 
 import styles from "./styles";
 // import CustomTextInput from '../../components/CustomTextInput';
 import { request as userRegister } from '../../redux/actions/Register';
 import SpinnerLoader from '../../components/SpinnerLoader';
-
-
+import { Images, Metrics } from '../../theme';
 
 class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {
             name: '',
+            postalCode: '',
             email: '',
             password: '',
             confirmPassword: '',
-            companyName: '',
-            countryName: '',
-            btnDisabled: false,
             isLoading: false,
 
             formErrors: {
@@ -28,18 +25,15 @@ class Register extends Component {
                 emailError: false,
                 passwordError: false,
                 confirmPasswordError: false,
-                companyNameError: false,
-                countryNameError: false,
             }
         }
     }
 
     onChangeName = (value) => this.setState({ name: value });
+    onChangePostalCode = (value) => this.setState({ postalCode: value });
     onChangeEmail = (value) => this.setState({ email: value });
     onChangePassword = (value) => this.setState({ password: value });
     onChangeConfirmPassword = (value) => this.setState({ confirmPassword: value });
-    onChangeCompanyName = (value) => this.setState({ companyName: value });
-    onChangeCountryName = (value) => this.setState({ countryName: value });
 
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.register) {
@@ -77,13 +71,8 @@ class Register extends Component {
         }
     }
 
-    _renderOverlaySpinner = () => {
-        const { isloading } = this.state;
-        return <SpinnerLoader isloading={isloading} />;
-    };
-
     checkValidation = () => {
-        const { name, email, password, confirmPassword, companyName, countryName } = this.state
+        const { name, email, password, confirmPassword } = this.state
         const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
         if (name == "" || name == " " || name.length < 3) {
@@ -93,8 +82,6 @@ class Register extends Component {
                     emailError: false,
                     passwordError: false,
                     confirmPasswordError: false,
-                    companyNameError: false,
-                    countryNameError: false,
                 }
             })
             setTimeout(() => {
@@ -104,8 +91,6 @@ class Register extends Component {
                         emailError: false,
                         passwordError: false,
                         confirmPasswordError: false,
-                        companyNameError: false,
-                        countryNameError: false,
                     }
                 })
             }, 3000)
@@ -116,8 +101,6 @@ class Register extends Component {
                     emailError: true,
                     passwordError: false,
                     confirmPasswordError: false,
-                    companyNameError: false,
-                    countryNameError: false,
                 }
             })
             setTimeout(() => {
@@ -127,8 +110,6 @@ class Register extends Component {
                         emailError: false,
                         passwordError: false,
                         confirmPasswordError: false,
-                        companyNameError: false,
-                        countryNameError: false,
                     }
                 })
             }, 3000)
@@ -139,8 +120,6 @@ class Register extends Component {
                     emailError: false,
                     passwordError: true,
                     confirmPasswordError: false,
-                    companyNameError: false,
-                    countryNameError: false,
                 }
             })
             setTimeout(() => {
@@ -150,8 +129,6 @@ class Register extends Component {
                         emailError: false,
                         passwordError: false,
                         confirmPasswordError: false,
-                        companyNameError: false,
-                        countryNameError: false,
                     }
                 })
             }, 3000)
@@ -162,8 +139,6 @@ class Register extends Component {
                     emailError: false,
                     passwordError: false,
                     confirmPasswordError: true,
-                    companyNameError: false,
-                    countryNameError: false,
                 }
             })
             setTimeout(() => {
@@ -173,72 +148,22 @@ class Register extends Component {
                         emailError: false,
                         passwordError: false,
                         confirmPasswordError: false,
-                        companyNameError: false,
-                        countryNameError: false,
-                    }
-                })
-            }, 3000)
-        } else if (companyName.length < 3) {
-            this.setState({
-                formErrors: {
-                    nameError: false,
-                    emailError: false,
-                    passwordError: false,
-                    confirmPasswordError: false,
-                    companyNameError: true,
-                    countryNameError: false,
-                }
-            })
-            setTimeout(() => {
-                this.setState({
-                    formErrors: {
-                        nameError: false,
-                        emailError: false,
-                        passwordError: false,
-                        confirmPasswordError: false,
-                        companyNameError: false,
-                        countryNameError: false,
-                    }
-                })
-            }, 3000)
-        } else if (countryName.length < 3) {
-            this.setState({
-                formErrors: {
-                    nameError: false,
-                    emailError: false,
-                    passwordError: false,
-                    confirmPasswordError: false,
-                    companyNameError: false,
-                    countryNameError: true,
-                }
-            })
-            setTimeout(() => {
-                this.setState({
-                    formErrors: {
-                        nameError: false,
-                        emailError: false,
-                        passwordError: false,
-                        confirmPasswordError: false,
-                        companyNameError: false,
-                        countryNameError: false,
                     }
                 })
             }, 3000)
         } else {
-            this.setState({isLoading: true})
+            this.setState({ isLoading: true })
             this.handleRegister();
         }
     }
 
     handleRegister = () => {
-        const { name, email, password, confirmPassword, companyName, countryName } = this.state;
+        const { name, email, password, confirmPassword, } = this.state;
         const payload = {
             name,
             email,
             password,
             password_confirmation: confirmPassword,
-            // companyName,
-            address: countryName,
             phone: "string",
             device_token: "string",
             device_type: Platform.OS,
@@ -247,86 +172,138 @@ class Register extends Component {
         this.props.userRegister(payload)
     }
 
+    onSubmit = value => {
+        if (value === 'onDone') {
+            this.checkValidation();
+        } else {
+            this[value].focus();
+        }
+    };
+
+    _renderOverlaySpinner = () => {
+        const { isloading } = this.state;
+        return <SpinnerLoader isloading={isloading} />;
+    };
+
+    renderTextInputWithLable = (lable, ref, returnKeyType, onChangeText, value, placeholder, keyboardType, onSubmitEditing, secureTextEntry) => {
+        return (
+            <View>
+                <Text style={styles.labelText}>{lable}</Text>
+                <TextInput
+                    style={styles.textInput}
+                    placeholderTextColor="#81788B"
+                    ref={o => {
+                        ref = o;
+                    }}
+                    returnKeyType={returnKeyType}
+                    onChangeText={onChangeText}
+                    value={value}
+                    placeholder={placeholder}
+                    autoCompleteType="off"
+                    keyboardType={keyboardType}
+                    // onSubmitEditing={() => {
+                    //   this.onSubmit(onSubmitEditing);
+                    // }}
+                    secureTextEntry={secureTextEntry}
+                />
+            </View>
+        )
+    }
+
+    renderHeaderLogo = () => {
+        return (
+            <View style={styles.logoView}>
+                <Image source={Images.easy1_logo_800x300} style={styles.logoImage} />
+            </View>
+        )
+    }
+
+    renderScreenHeading = () => {
+        return (
+            <Text style={styles.screenHeading}>REGISTER</Text>
+        )
+    }
+
+    renderSubmitBtn = () => {
+        return (
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: Metrics.ratio(30) }}>
+                <TouchableOpacity style={styles.submitBtn}>
+                    <Text style={styles.submitBtnText}>Register Now</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => this.props.navigation.navigate('Login')}
+                    style={styles.submitBtn}
+                >
+                    <Text style={styles.submitBtnText}>Go to Login</Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
     render() {
-        const { name, email, password, confirmPassword, companyName, countryName, btnDisabled, formErrors, isLoading } = this.state
+        const { name, postalCode, email, password, confirmPassword, } = this.state
         return (
             <ScrollView style={styles.container}>
-                <View>
-                    <View style={styles.titleView}>
-                        <Text style={[styles.text, { fontSize: 30, fontWeight: "700" }]}>Register to Demo</Text>
-                    </View>
-
-                    <FloatingLabel
-                        labelStyle={styles.labelInput}
-                        inputStyle={styles.input}
-                        style={styles.formInput}
-                        onBlur={this.onBlur}
-                        onChangeText={this.onChangeName}
-                    >Full Name</FloatingLabel>
-                    {formErrors.nameError ? <Text style={styles.errorMessage}>Enter a vaild full name</Text> : null}
-
-                    <FloatingLabel
-                        labelStyle={styles.labelInput}
-                        inputStyle={styles.input}
-                        style={styles.formInput}
-                        onBlur={this.onBlur}
-                        autoCorrect={false}
-                        onChangeText={this.onChangeEmail}
-                    >Email</FloatingLabel>
-                    {formErrors.emailError ? <Text style={styles.errorMessage}>Enter a vaild email address</Text> : null}
-
-                    <FloatingLabel
-                        labelStyle={styles.labelInput}
-                        inputStyle={styles.input}
-                        style={styles.formInput}
-                        onBlur={this.onBlur}
-                        password
-                        onChangeText={this.onChangePassword}
-                    >Password</FloatingLabel>
-                    {formErrors.passwordError ? <Text style={styles.errorMessage}>Password must be atleast 6 characters or long</Text> : null}
-
-                    <FloatingLabel
-                        labelStyle={styles.labelInput}
-                        inputStyle={styles.input}
-                        style={styles.formInput}
-                        onBlur={this.onBlur}
-                        password
-                        onChangeText={this.onChangeConfirmPassword}
-                    >Confirm Password</FloatingLabel>
-                    {formErrors.confirmPasswordError ? <Text style={styles.errorMessage}>Confirm password not match with password</Text> : null}
-
-                    <FloatingLabel
-                        labelStyle={styles.labelInput}
-                        inputStyle={styles.input}
-                        style={styles.formInput}
-                        onBlur={this.onBlur}
-                        onChangeText={this.onChangeCompanyName}
-                    >Company Name</FloatingLabel>
-                    {formErrors.companyNameError ? <Text style={styles.errorMessage}>Enter a vaild company name</Text> : null}
-
-                    <FloatingLabel
-                        labelStyle={styles.labelInput}
-                        inputStyle={styles.input}
-                        style={styles.formInput}
-                        onBlur={this.onBlur}
-                        onChangeText={this.onChangeCountryName}
-                    >Country Name</FloatingLabel>
-                    {formErrors.countryNameError ? <Text style={styles.errorMessage}>Enter a vaild country name</Text> : null}
-
-                    <TouchableOpacity
-                        style={btnDisabled ? styles.submitContainerDisabled : styles.submitContainer}
-                        onPress={() => this.checkValidation()}
-                    >
-                        <Text style={[styles.text, { color: "#FFF", fontWeight: "600", fontSize: 16 }]}>Register</Text>
-                    </TouchableOpacity>
-
-                    <Text style={[styles.text, { fontSize: 14, color: "#ABB4BD", textAlign: "center", marginVertical: 24, lineHeight: 25 }]}>
-                        By registering you agree to <Text style={[styles.text, styles.link]}> Terms &amp; Conditions {"\n"}</Text>
-                        and <Text style={[styles.text, styles.link]}> Privacy Policy </Text> of the Demo
-                    </Text>
-
+                <View style={{ paddingHorizontal: Metrics.ratio(15) }}>
+                    {this.renderHeaderLogo()}
+                    {this.renderScreenHeading()}
+                    {this.renderTextInputWithLable(
+                        "Name",
+                        'inputName',
+                        'next',
+                        this.onChangeName,
+                        name,
+                        "Enter your name.",
+                        "text",
+                        "inputPostalCode",
+                        false,
+                    )}
+                    {this.renderTextInputWithLable(
+                        "Postal Code",
+                        'inputPostalCode',
+                        'next',
+                        this.onChangePostalCode,
+                        postalCode,
+                        "Enter your postal code.",
+                        "text",
+                        "inputEmail",
+                        false,
+                    )}
+                    {this.renderTextInputWithLable(
+                        "Email",
+                        'inputEmail',
+                        'next',
+                        this.onChangeEmail,
+                        email,
+                        "Enter your email.",
+                        "email-address",
+                        "inputPassword",
+                        false,
+                    )}
+                    {this.renderTextInputWithLable(
+                        "Password",
+                        'inputPassword',
+                        'next',
+                        this.onChangePassword,
+                        password,
+                        "* * * * * * *",
+                        "text",
+                        "inputConfirmPassword",
+                        true,
+                    )}
+                    {this.renderTextInputWithLable(
+                        "Confirm Password",
+                        'inputConfirmPassword',
+                        'done',
+                        this.onChangeConfirmPassword,
+                        confirmPassword,
+                        "* * * * * * *",
+                        "text",
+                        "onDone",
+                        true,
+                    )}
+                    {this.renderSubmitBtn()}
                     {this._renderOverlaySpinner()}
-
                 </View>
             </ScrollView>
         );

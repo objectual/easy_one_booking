@@ -1,102 +1,79 @@
 // @flow
-import { StyleSheet } from "react-native";
+import { StyleSheet, ListViewBase } from "react-native";
+import { Images, Metrics, Fonts } from '../../theme';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
-        paddingHorizontal: 30
+        backgroundColor: "#FDFFFC",
     },
     logoView: {
-        marginTop: 40,
+        alignItems: "center",
+        paddingVertical: Metrics.ratio(30)
+    },
+    logoImage: {
+        width: Metrics.ratio(200),
+        height: Metrics.ratio(75),
+        resizeMode: 'contain'
+    },
+    screenHeading: {
+        fontSize: Metrics.ratio(25),
+        color: "#5A5559",
+        marginBottom: Metrics.ratio(20),
+    },
+    labelText: {
+        fontSize: Metrics.ratio(14),
+        color: "#181913",
+        marginBottom: Metrics.ratio(10)
+    },
+    textInput: {
+        height: Metrics.ratio(40),
+        backgroundColor: '#fff',
+        paddingHorizontal: Metrics.ratio(10),
+        marginBottom: Metrics.ratio(15),
+        borderRadius: Metrics.screenWidth * 0.5,
+        borderWidth: 1,
+        borderColor: "#F3F4F8",
+        color: "#81788B",
+    },
+    submitBtn: {
+        backgroundColor: '#FF3600',
+        paddingVertical: Metrics.ratio(10),
         alignItems: 'center',
+        width: Metrics.screenWidth * 0.35,
+        borderRadius: Metrics.screenWidth * 0.35,
+    },
+    submitBtnText: {
+        fontSize: Metrics.ratio(14),
+        color: '#fff'
+    },
+    connectCardText: {
+        fontSize: Metrics.ratio(15),
+        color: "#5A5559",
+        backgroundColor: '#FDFFFC',
+        paddingHorizontal: Metrics.ratio(10),
+        position: 'absolute',
+        top: Metrics.ratio(-10.5),
+        zIndex: 1,
+    },
+    socialBtn: {
+        marginBottom: Metrics.ratio(15),
+        width: Metrics.screenWidth * 0.7,
+        height: Metrics.ratio(40),
+        alignItems: 'center',
+        flexDirection: 'row'
+    },
+    socialBtnIconView: {
+        marginHorizontal: Metrics.ratio(3),
+        width: Metrics.ratio(35),
+        height: Metrics.ratio(35),
         justifyContent: 'center',
+        alignItems: 'center',
     },
-    text: {
-        fontFamily: 'Avenir Next',
-        color: "#1D2029"
-    },
-    loginWithView: {
-        // marginTop: 30,
-        flexDirection: "row",
-        justifyContent: "center",
-    },
-    socialButton: {
-        flexDirection: "row",
-        alignItems: "center",
-        marginHorizontal: 12,
-        paddingVertical: 12,
-        paddingHorizontal: 25,
-        borderWidth: StyleSheet.hairlineWidth,
-        borderColor: "rgba(171, 180, 189, 0.65)",
-        borderRadius: 4,
-        backgroundColor: "#fff",
-        shadowColor: "rgba(171, 180, 189, 0.35)",
-        shadowOffset: { width: 0, height: 10 },
-        shadowOpacity: 1,
-        shadowRadius: 20,
-        elevation: 5
-    },
-    socialLogo: {
-        width: 16,
-        height: 16,
-        marginRight: 8
-    },
-    link: {
-        color: "#FF1654",
-        fontSize: 14,
-        fontWeight: "500"
-    },
-    submitContainer: {
-        backgroundColor: "#FF1654",
-        fontSize: 16,
-        borderRadius: 4,
-        paddingVertical: 12,
-        marginTop: 32,
-        alignItems: "center",
-        justifyContent: "center",
-        color: "#FFF",
-        shadowColor: "rgba(255, 22, 84, 0.24)",
-        shadowOffset: { width: 0, height: 9 },
-        shadowOpacity: 1,
-        shadowRadius: 20,
-        elevation: 5
-    },
-    submitContainerDisabled: {
-        backgroundColor: "#ccc",
-        fontSize: 16,
-        borderRadius: 4,
-        paddingVertical: 12,
-        marginTop: 32,
-        alignItems: "center",
-        justifyContent: "center",
-        color: "#FFF",
-        shadowColor: "rgba(255, 22, 84, 0.24)",
-        shadowOffset: { width: 0, height: 9 },
-        shadowOpacity: 1,
-        shadowRadius: 20,
-        elevation: 5
-    },
-    labelInput: {
-        color: '#ABB4BD',
-        fontSize: 14,
-        fontFamily: 'Avenir Next',
-    },
-    formInput: {
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        borderColor: '#ABB4BD',
-        marginBottom: 10,
-    },
-    input: {
-        borderWidth: 0,
-        fontSize: 16,
-        fontFamily: 'Avenir Next',
-        color: "#1D2029"
-    },
-    errorMessage: {
-        fontFamily: 'Avenir Next',
-        color: "rgba(255, 22, 84, 0.8)",
-        fontSize: 12,
-        fontWeight: "500",
-    },
+    socialBtnText: {
+        fontSize: Metrics.ratio(14),
+        color: '#fff',
+        textAlign: 'center',
+        width: (Metrics.screenWidth * 0.7) - Metrics.ratio(45)
+    }
 });

@@ -1,5 +1,5 @@
-import {connect} from 'react-redux';
-import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -8,12 +8,14 @@ import {
   ScrollView,
   Alert,
   Platform,
+  TextInput,
   Linking,
+  StyleSheet,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
-import {request as userLogin, success} from '../../redux/actions/Login';
+import { request as userLogin, success } from '../../redux/actions/Login';
 import styles from './styles';
-import {Images} from '../../theme';
+import { Images, Metrics, Fonts } from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 // import GoogleSigninBtn from '../../components/GoogleSigninButton';
 // import FacebookSigninButton from '../../components/FacebookSigninButton';
@@ -34,8 +36,6 @@ class Login extends Component {
     };
   }
 
-  componentDidMount() {}
-
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.login) {
       if (
@@ -43,7 +43,7 @@ class Login extends Component {
         !nextProps.login.isFetching &&
         nextProps.login.data
       ) {
-        this.setState({isloading: false}, () => {
+        this.setState({ isloading: false }, () => {
           setTimeout(() => {
             Alert.alert(
               'Successfully',
@@ -56,7 +56,7 @@ class Login extends Component {
                   },
                 },
               ],
-              {cancelable: false},
+              { cancelable: false },
             );
           }, 500);
         });
@@ -66,13 +66,13 @@ class Login extends Component {
         );
         this.props.navigation.navigate('Feeds');
       } else if (nextProps.login.failure && !nextProps.login.isFetching) {
-        this.setState({isloading: false});
+        this.setState({ isloading: false });
       }
     }
   }
 
   checkValidation = () => {
-    const {email, password} = this.state;
+    const { email, password } = this.state;
     const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (!email.match(emailRegex)) {
@@ -111,8 +111,8 @@ class Login extends Component {
   };
 
   handleLogin = () => {
-    this.setState({isLoading: true});
-    const {email, password} = this.state;
+    this.setState({ isLoading: true });
+    const { email, password } = this.state;
     const payload = {
       email,
       password,
@@ -122,116 +122,144 @@ class Login extends Component {
     this.props.userLogin(payload);
   };
 
-  onChangeEmail = (value) => this.setState({email: value});
-  onChangePassword = (value) => this.setState({password: value});
+  onChangeEmail = (value) => this.setState({ email: value });
+  onChangePassword = (value) => this.setState({ password: value });
+
+  onSubmit = value => {
+    if (value === 'onDone') {
+      this.checkValidation();
+    } else {
+      this[value].focus();
+    }
+  };
 
   _renderOverlaySpinner = () => {
-    const {isloading} = this.state;
+    const { isloading } = this.state;
     return <SpinnerLoader isloading={isloading} />;
   };
 
+  renderTextInputWithLabel = (label, ref, returnKeyType, onChangeText, value, placeholder, keyboardType, onSubmitEditing, secureTextEntry) => {
+    return (
+      <View>
+        <Text style={styles.labelText}>{label}</Text>
+        <TextInput
+          style={styles.textInput}
+          placeholderTextColor="#81788B"
+          ref={o => {
+            ref = o;
+          }}
+          returnKeyType={returnKeyType}
+          onChangeText={onChangeText}
+          value={value}
+          placeholder={placeholder}
+          autoCompleteType="off"
+          keyboardType={keyboardType}
+          // onSubmitEditing={() => {
+          //   this.onSubmit(onSubmitEditing);
+          // }}
+          secureTextEntry={secureTextEntry}
+        />
+      </View>
+    )
+  }
+
+
+  renderHeaderLogo = () => {
+    return (
+      <View style={styles.logoView}>
+        <Image source={Images.easy1_logo_800x300} style={styles.logoImage} />
+      </View>
+    )
+  }
+
+  renderScreenHeading = () => {
+    return (
+      <Text style={styles.screenHeading}>LOGIN</Text>
+    )
+  }
+
+  renderSubmitBtn = () => {
+    return (
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <TouchableOpacity style={styles.submitBtn}>
+          <Text style={styles.submitBtnText}>Login Now</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('Register')}
+          style={styles.submitBtn}
+        >
+          <Text style={styles.submitBtnText}>Go to Register</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  renderGmailBtn = () => {
+    return (
+      <TouchableOpacity style={{ backgroundColor: '#4385F5', ...styles.socialBtn }}>
+        <View style={{ backgroundColor: "#fff", ...styles.socialBtnIconView }}>
+          <Image source={Images.gmail_icon} style={{ width: Metrics.ratio(30), height: Metrics.ratio(30) }} />
+        </View>
+        <Text style={styles.socialBtnText}>Sign in with Google</Text>
+      </TouchableOpacity>
+    )
+  }
+
+  renderFacebookBtn = () => {
+    return (
+      <TouchableOpacity style={{ backgroundColor: '#3B5999', ...styles.socialBtn }}>
+        <View style={{ ...styles.socialBtnIconView }}>
+          <Image source={Images.facebook_icon} style={{ width: Metrics.ratio(25), height: Metrics.ratio(25) }} />
+        </View>
+        <Text style={styles.socialBtnText}>Facebook</Text>
+      </TouchableOpacity>
+    )
+  }
+
+  renderConnectCard = () => {
+    return (
+      <View style={{ alignItems: 'center' }}>
+        <View style={{ marginVertical: Metrics.ratio(30), alignItems: 'center' }}>
+          <Text style={styles.connectCardText}>OR CONNECT WITH</Text>
+          <View style={{ width: Metrics.screenWidth * 0.7, height: 1, backgroundColor: '#000' }}></View>
+        </View>
+        {this.renderGmailBtn()}
+        {this.renderFacebookBtn()}
+      </View>
+    )
+  }
+
   render() {
-    const {btnDisabled, formErrors} = this.state;
+    const { btnDisabled, formErrors, email, password } = this.state;
     return (
       <ScrollView style={styles.container}>
-        <View>
-          <View style={styles.logoView}>
-            <Image source={Images.logo} />
-            <Text
-              style={[
-                styles.text,
-                {marginTop: 5, fontSize: 25, fontWeight: '700'},
-              ]}>
-              DEMO
-            </Text>
-          </View>
-
-          <FloatingLabel
-            labelStyle={styles.labelInput}
-            inputStyle={styles.input}
-            style={styles.formInput}
-            onBlur={this.onBlur}
-            autoCorrect={false}
-            onChangeText={this.onChangeEmail}>
-            Email ID
-          </FloatingLabel>
-          {formErrors.emailError ? (
-            <Text style={styles.errorMessage}>Enter a vaild email address</Text>
-          ) : null}
-
-          <FloatingLabel
-            labelStyle={styles.labelInput}
-            inputStyle={styles.input}
-            style={styles.formInput}
-            onBlur={this.onBlur}
-            password
-            onChangeText={this.onChangePassword}>
-            Password
-          </FloatingLabel>
-          {formErrors.passwordError ? (
-            <Text style={styles.errorMessage}>
-              Password has must be atleast 6 characters
-            </Text>
-          ) : null}
-
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('ForgotPassword')}>
-            <Text style={[styles.text, styles.link, {textAlign: 'right'}]}>
-              Forgot Password?
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={
-              btnDisabled
-                ? styles.submitContainerDisabled
-                : styles.submitContainer
-            }
-            // onPress={() => this.checkValidation()}
-            onPress={() => this.props.navigation.navigate('Yourplaces')}>
-            <Text
-              style={[
-                styles.text,
-                {color: '#FFF', fontWeight: '600', fontSize: 16},
-              ]}>
-              Login
-            </Text>
-          </TouchableOpacity>
-
-          <Text
-            style={[
-              styles.text,
-              {
-                color: '#ABB4BD',
-                fontSize: 18,
-                textAlign: 'center',
-                marginVertical: 20,
-              },
-            ]}>
-            or
-          </Text>
-
-          <View style={styles.loginWithView}></View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              marginVertical: 24,
-              justifyContent: 'center',
-            }}>
-            <Text
-              style={[
-                styles.text,
-                {fontSize: 14, color: '#ABB4BD', fontWeight: '500'},
-              ]}>
-              Don't have an account?{' '}
-            </Text>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('Register')}>
-              <Text style={[styles.text, styles.link]}> Register Now </Text>
-            </TouchableOpacity>
-          </View>
-
+        <View style={{ paddingHorizontal: Metrics.ratio(15) }}>
+          {this.renderHeaderLogo()}
+          {this.renderScreenHeading()}
+          {this.renderTextInputWithLabel(
+            "Email",
+            'inputEmail',
+            'next',
+            this.onChangeEmail,
+            email,
+            "Enter your email.",
+            "email-address",
+            "inputPassword",
+            false,
+          )}
+          {this.renderTextInputWithLabel(
+            "Password",
+            'inputPassword',
+            'done',
+            this.onChangePassword,
+            password,
+            "* * * * * * *",
+            "text",
+            "onDone",
+            true,
+          )}
+          {this.renderSubmitBtn()}
+          {this.renderConnectCard()}
           {this._renderOverlaySpinner()}
         </View>
       </ScrollView>
@@ -239,8 +267,8 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({login: state.login});
+const mapStateToProps = (state) => ({ login: state.login });
 
-const action = {userLogin};
+const action = { userLogin };
 
 export default connect(mapStateToProps, action)(Login);
