@@ -1,37 +1,45 @@
 // @flow
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
+import { Fonts, Metrics } from '../../theme';
 
 export default StyleSheet.create({
-    container: {
-        flex: 1
-    },
-    profile: {
-        width: 80,
-        height: 80,
-        borderRadius: 40,
-        borderWidth: 3,
-        borderColor: "#FFF"
-    },
-    name: {
-        color: "#FFF",
-        fontSize: 20,
-        fontWeight: "800",
-        marginVertical: 8
-    },
-    followers: {
-        color: "rgba(255, 255, 255, 0.8)",
-        fontSize: 13,
-        marginRight: 4
-    },
-    logOutBtn: {
-        flexDirection: "row",
-        marginHorizontal: 8,
-        borderRadius: 4,
-        paddingVertical: 14,
-    },
-    logOutText: {
-        color: 'rgba(0, 0, 0, 0.4)',
-        fontWeight: '700',
-        marginLeft: 15
-    }
+  container: {
+    flex: 1,
+  },
+
+  // profile: {
+  //   width: Metrics.ratio(80),
+  //   height: Metrics.ratio(80),
+  //   borderRadius: Metrics.ratio(80),
+  //   borderColor: '#FFF',
+  //   marginTop: Metrics.ratio(20),
+  // },
+
+  // name: {
+  //   color: '#FFF',
+  //   fontSize: Metrics.ratio(13),
+  //   marginVertical: Metrics.ratio(8),
+  //   fontWeight: '700',
+  //   fontFamily: Fonts.type.regular,
+  // },
+
+  // mail: {
+  //   color: 'rgba(255, 255, 255, 0.8)',
+  //   fontSize: Metrics.ratio(13),
+  //   marginRight: Metrics.ratio(4),
+  //   fontFamily: Fonts.type.regular,
+  // },
+
+  listView: {
+    height: Metrics.screenHeight * 0.08,
+    flexDirection: 'row',
+    paddingHorizontal: Metrics.ratio(5),
+    alignItems: 'center',
+    // backgroundColor: '#d1d1d1',
+  },
+
+  listTitle: {
+    color: 'black',
+    fontSize: Metrics.ratio(15),
+  },
 });

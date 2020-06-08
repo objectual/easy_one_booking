@@ -70,6 +70,9 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    CustomTextInput: {
+        paddingBottom: Metrics.ratio(7),
+    },
     socialBtnText: {
         fontSize: Metrics.ratio(14),
         color: '#fff',

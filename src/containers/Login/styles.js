@@ -4,8 +4,9 @@ import { Images, Metrics, Fonts } from '../../theme';
 
 export default StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: "#FDFFFC",
+         flex: 1,
+        //  justifyContent: "center"
     },
     logoView: {
         alignItems: "center",
@@ -30,11 +31,14 @@ export default StyleSheet.create({
         height: Metrics.ratio(40),
         backgroundColor: '#fff',
         paddingHorizontal: Metrics.ratio(10),
+        // paddingVertical: Metrics.ratio(5),
+        // paddingBottom: Metrics.ratio(5),
         marginBottom: Metrics.ratio(15),
         borderRadius: Metrics.screenWidth * 0.5,
         borderWidth: 1,
         borderColor: "#F3F4F8",
         color: "#81788B",
+        justifyContent: "center",
     },
     submitBtn: {
         backgroundColor: '#FF3600',
@@ -62,6 +66,9 @@ export default StyleSheet.create({
         height: Metrics.ratio(40),
         alignItems: 'center',
         flexDirection: 'row'
+    },
+    CustomTextInput: {
+        paddingBottom: Metrics.ratio(7),
     },
     socialBtnIconView: {
         marginHorizontal: Metrics.ratio(3),

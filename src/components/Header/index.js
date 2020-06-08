@@ -49,17 +49,17 @@ class Header extends Component {
     } = this.props;
 
     return (
-      <View style={[styles.container, Platform.OS === 'ios' && { paddingTop: Metrics.screenHeight * 0.035 }]}>
-        <TouchableOpacity style={styles.TouchableMenu} onPress={leftBtnPress}>
-          <Image source={leftIcon} style={{ width: Metrics.ratio(40), height: Metrics.ratio(40) }} />
+      <View style={[styles.container, Platform.OS === 'ios' && { paddingTop: Metrics.screenHeight * 0.035, }]}>
+        <TouchableOpacity style={{ ...styles.TouchableMenu}} onPress={leftBtnPress}>
+          <Image source={leftIcon} style={{ width: Metrics.ratio(25), height: Metrics.ratio(25), resizeMode: 'contain',}} />
         </TouchableOpacity>
 
         <View style={styles.headerTextView}>
-          <Image source={Images.logo} style={{ width: Metrics.ratio(45), height: Metrics.ratio(45) }} />
+          <Image source={Images.logo} style={{ width: Metrics.ratio(0), height: Metrics.ratio(45)}} />
           <Text style={[styles.headerText, headerTextStyle,]}>{headerText}</Text>
         </View>
         <TouchableOpacity style={styles.TouchableMenu} onPress={rightBtnPress}>
-          <Image source={rightIcon} style={{ width: Metrics.ratio(40), height: Metrics.ratio(40) }} />
+          <Image source={rightIcon} style={{ width: Metrics.ratio(40), height: Metrics.ratio(40)}} />
         </TouchableOpacity>
 
       </View>

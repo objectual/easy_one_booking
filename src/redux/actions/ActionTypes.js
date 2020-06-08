@@ -18,6 +18,9 @@ export const FORGOT_PASSWORD = createRequestTypes("FORGOT_PASSWORD");
 export const VERIFY_RESET_CODE = createRequestTypes("VERIFY_RESET_CODE");
 export const RESET_PASSWORD = createRequestTypes("RESET_PASSWORD");
 export const SOCIAL_LOGIN = createRequestTypes("SOCIAL_LOGIN");
+export const GET_SALOON = createRequestTypes("GET_SALOON");
+export const GET_CATEGORIES = createRequestTypes("GET_CATEGORIES");
+export const GET_SALOON_CATEGORIES = createRequestTypes("GET_SALOON_CATEGORIES");
 export const LOGOUT = "LOGOUT";
 
 export const DRAWAR_MENU_SWITCHED = "DRAWAR_MENU_SWITCHED";

@@ -53,14 +53,14 @@ class ApiSauce {
       // Authorization: `Bearer ${token}`
     });
     const response = await api.get(url, payload);
-
+    // console.log(response,'kkkkkkkkkkkkkkkkk')
     return new Promise((resolve, reject) => {
       this.handlePromise(resolve, reject, response);
     });
   }
 
   handlePromise = (resolve, reject, response) => {
-    console.log(response, "kkkkkkkkkkkkkkk");
+    // console.log(response, "kkkkkkkkkkkkkkk");
     if (response.ok && response.data && response.originalError === null) {
       resolve(response.data);
     } else {

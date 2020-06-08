@@ -17,7 +17,15 @@ import {Header} from '../../components';
 import {Images, Metrics, Colors, Fonts} from '../../theme';
 import styles from '../styles';
 import Sidebar from '../../containers/Sidebar';
-import AwesomePlaces from '../../containers/AwesomePlaces';
+import Home from './../../containers/Home/index';
+import Services from './../../containers/Services/index';
+import ChartBox from './../../containers/ChartBox/index';
+import AvailableServices from './../../containers/AvailableServices/index';
+import Proceeding from './../../containers/Proceeding/index';
+import Login from './../../containers/Login/index';
+import Categories from './../../containers/Categories/index';
+import Register from './../../containers/Registration/index';
+
 const CustomHeader = () => {
   return (
     <Header
@@ -49,7 +57,7 @@ class DrawerMenu {
         drawer
         hideNavBar
         type={ActionConst.RESET}
-        key="dashboard"
+        key="Home"
         contentComponent={Sidebar}
         openDrawerOffset={0.2}
         panCloseMask={0.2}
@@ -65,7 +73,14 @@ class DrawerMenu {
         drawerWidth={Metrics.screenWidth * 0.72}>
         <Scene hideNavBar>
           <Stack key="root">
-            <Scene hideNavBar key="Yourplaces" component={AwesomePlaces} />
+            <Scene hideNavBar key="HomePage" component={Home} />
+            <Scene hideNavBar key="ServicesPage" component={Services} />
+            <Scene hideNavBar key="ChartBox" component={ChartBox} />
+            <Scene hideNavBar key="Categories" component={Categories} />
+            <Scene hideNavBar key="AvailableServices" component={AvailableServices} />
+            <Scene hideNavBar key="Proceeding" component={Proceeding} />
+            <Scene hideNavBar key="LoginPage" component={Login} />
+            <Scene hideNavBar key="Register" component={Register} />
           </Stack>
         </Scene>
       </Drawer>

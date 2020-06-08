@@ -40,6 +40,8 @@ const navigator = Actions.create(
     tintColor={Colors.primary}
     // panHandlers={null}
   >
+    {DrawerMenu.getDrawerMenu()}
+
     <Scene
       hideNavBar
       headerStyle={styles.header}
@@ -111,10 +113,12 @@ const navigator = Actions.create(
         //<TabButtonLeft imagesArray={["rightArrow"]} actions={[Actions.pop]} />
       }
     /> */}
-    {DrawerMenu.getDrawerMenu()}
   </Stack>,
 );
 export default () => (
-  <AppNavigator backAndroidHandler={onBackPress} navigator={navigator} />
+  <AppNavigator
+    // backAndroidHandler={onBackPress}
+    navigator={navigator}
+  />
 );
 const AppNavigator = connect()(Router);

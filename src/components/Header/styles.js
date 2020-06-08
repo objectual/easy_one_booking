@@ -5,9 +5,10 @@ import { Colors, Metrics, Fonts } from "../../theme";
 export default StyleSheet.create({
   container: {
     backgroundColor: "#fff",
-    height: Metrics.screenHeight * 0.095,
+    height: Metrics.screenHeight * 0.08,
     flexDirection: "row",
     shadowColor: Colors.black,
+    paddingHorizontal: Metrics.ratio(10),
     elevation: 4,
     shadowOffset: {
       width: 0,
@@ -21,7 +22,7 @@ export default StyleSheet.create({
     height: Metrics.ratio(25)
   },
   TouchableMenu: {
-    width: Metrics.ratio(50),
+    width: Metrics.ratio(40),
     justifyContent: 'center',
     alignItems: 'center',
   },

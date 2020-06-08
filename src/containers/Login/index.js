@@ -1,5 +1,5 @@
-import { connect } from 'react-redux';
-import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import React, {Component} from 'react';
 import {
   Text,
   View,
@@ -13,9 +13,9 @@ import {
   StyleSheet,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
-import { request as userLogin, success } from '../../redux/actions/Login';
+import {request as userLogin, success} from '../../redux/actions/Login';
 import styles from './styles';
-import { Images, Metrics, Fonts } from '../../theme';
+import {Images, Metrics, Fonts} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 // import GoogleSigninBtn from '../../components/GoogleSigninButton';
 // import FacebookSigninButton from '../../components/FacebookSigninButton';
@@ -25,8 +25,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      email: 'Aahsan1000@gmail.com',
+      password: 'Ahsan123456',
       isloading: false,
       btnDisabled: false,
       formErrors: {
@@ -36,14 +36,28 @@ class Login extends Component {
     };
   }
 
+  _renderOverlaySpinner = () => {
+    const {isloading} = this.state;
+    console.log(
+      isloading,
+      'isloadingisloadingisloadingisloadingisloadingisloadingisloading',
+    );
+    return <SpinnerLoader isloading={isloading} />;
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.login) {
+      console.log(
+        nextProps.login,
+        'nextProps.loginnextProps.loginnextProps.loginnextProps.loginnextProps.loginnextProps.login',
+      );
       if (
         !nextProps.login.failure &&
         !nextProps.login.isFetching &&
-        nextProps.login.data
+        nextProps.login.data &&
+        nextProps.login.data.success
       ) {
-        this.setState({ isloading: false }, () => {
+        this.setState({isloading: false}, () => {
           setTimeout(() => {
             Alert.alert(
               'Successfully',
@@ -56,23 +70,33 @@ class Login extends Component {
                   },
                 },
               ],
-              { cancelable: false },
+              {cancelable: false},
             );
-          }, 500);
+          }, 3000);
         });
         console.log(
           nextProps.login.data,
           ' nextProps.login.data nextProps.login.data',
         );
-        this.props.navigation.navigate('Feeds');
-      } else if (nextProps.login.failure && !nextProps.login.isFetching) {
-        this.setState({ isloading: false });
+        this.props.navigation.navigate('HomePage');
+      } else if (
+        !nextProps.login.failure &&
+        !nextProps.login.isFetching &&
+        nextProps.login.data &&
+        !nextProps.login.data.success
+      ) {
+        console.log(nextProps.login.data.msg, 'nextProps.login.data.data.msgnextProps.login.data.data.msg')
+        this.setState({isloading: false}, () => {
+          setTimeout(() => {
+            Alert.alert('Error', nextProps.login.data.msg);
+          }, 3000);
+        });
       }
     }
   }
 
   checkValidation = () => {
-    const { email, password } = this.state;
+    const {email, password} = this.state;
     const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (!email.match(emailRegex)) {
@@ -111,21 +135,23 @@ class Login extends Component {
   };
 
   handleLogin = () => {
-    this.setState({ isLoading: true });
-    const { email, password } = this.state;
+    this.setState({isLoading: true});
+    const {email, password} = this.state;
     const payload = {
-      email,
-      password,
-      device_type: Platform.OS,
-      device_token: 'string',
+      email: email,
+      password: password,
+      gcm_id: 'string123',
+      platform: 'android',
+      // device_type: Platform.OS,
+      // device_token: 'string',
     };
     this.props.userLogin(payload);
   };
 
-  onChangeEmail = (value) => this.setState({ email: value });
-  onChangePassword = (value) => this.setState({ password: value });
+  onChangeEmail = (value) => this.setState({email: value});
+  onChangePassword = (value) => this.setState({password: value});
 
-  onSubmit = value => {
+  onSubmit = (value) => {
     if (value === 'onDone') {
       this.checkValidation();
     } else {
@@ -133,19 +159,25 @@ class Login extends Component {
     }
   };
 
-  _renderOverlaySpinner = () => {
-    const { isloading } = this.state;
-    return <SpinnerLoader isloading={isloading} />;
-  };
-
-  renderTextInputWithLabel = (label, ref, returnKeyType, onChangeText, value, placeholder, keyboardType, onSubmitEditing, secureTextEntry) => {
+  renderTextInputWithLabel = (
+    label,
+    ref,
+    returnKeyType,
+    onChangeText,
+    value,
+    placeholder,
+    keyboardType,
+    onSubmitEditing,
+    secureTextEntry,
+    CustomTextInput,
+  ) => {
     return (
       <View>
         <Text style={styles.labelText}>{label}</Text>
         <TextInput
-          style={styles.textInput}
+          style={[styles.textInput, CustomTextInput]}
           placeholderTextColor="#81788B"
-          ref={o => {
+          ref={(o) => {
             ref = o;
           }}
           returnKeyType={returnKeyType}
@@ -160,115 +192,134 @@ class Login extends Component {
           secureTextEntry={secureTextEntry}
         />
       </View>
-    )
-  }
-
+    );
+  };
 
   renderHeaderLogo = () => {
     return (
       <View style={styles.logoView}>
         <Image source={Images.easy1_logo_800x300} style={styles.logoImage} />
       </View>
-    )
-  }
+    );
+  };
 
   renderScreenHeading = () => {
-    return (
-      <Text style={styles.screenHeading}>LOGIN</Text>
-    )
-  }
+    return <Text style={styles.screenHeading}>LOGIN</Text>;
+  };
 
   renderSubmitBtn = () => {
     return (
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <TouchableOpacity style={styles.submitBtn}>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <TouchableOpacity
+          style={styles.submitBtn}
+          onPress={() => this.checkValidation()}>
           <Text style={styles.submitBtnText}>Login Now</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Register')}
-          style={styles.submitBtn}
-        >
+          style={styles.submitBtn}>
           <Text style={styles.submitBtnText}>Go to Register</Text>
         </TouchableOpacity>
       </View>
-    )
-  }
+    );
+  };
 
   renderGmailBtn = () => {
     return (
-      <TouchableOpacity style={{ backgroundColor: '#4385F5', ...styles.socialBtn }}>
-        <View style={{ backgroundColor: "#fff", ...styles.socialBtnIconView }}>
-          <Image source={Images.gmail_icon} style={{ width: Metrics.ratio(30), height: Metrics.ratio(30) }} />
+      <TouchableOpacity
+        style={{backgroundColor: '#4385F5', ...styles.socialBtn}}>
+        <View style={{backgroundColor: '#fff', ...styles.socialBtnIconView}}>
+          <Image
+            source={Images.gmail_icon}
+            style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
+          />
         </View>
         <Text style={styles.socialBtnText}>Sign in with Google</Text>
       </TouchableOpacity>
-    )
-  }
+    );
+  };
 
   renderFacebookBtn = () => {
     return (
-      <TouchableOpacity style={{ backgroundColor: '#3B5999', ...styles.socialBtn }}>
-        <View style={{ ...styles.socialBtnIconView }}>
-          <Image source={Images.facebook_icon} style={{ width: Metrics.ratio(25), height: Metrics.ratio(25) }} />
+      <TouchableOpacity
+        style={{backgroundColor: '#3B5999', ...styles.socialBtn}}>
+        <View style={{...styles.socialBtnIconView}}>
+          <Image
+            source={Images.facebook_icon}
+            style={{width: Metrics.ratio(25), height: Metrics.ratio(25)}}
+          />
         </View>
         <Text style={styles.socialBtnText}>Facebook</Text>
       </TouchableOpacity>
-    )
-  }
+    );
+  };
 
   renderConnectCard = () => {
     return (
-      <View style={{ alignItems: 'center' }}>
-        <View style={{ marginVertical: Metrics.ratio(30), alignItems: 'center' }}>
+      <View style={{alignItems: 'center'}}>
+        <View style={{marginVertical: Metrics.ratio(30), alignItems: 'center'}}>
           <Text style={styles.connectCardText}>OR CONNECT WITH</Text>
-          <View style={{ width: Metrics.screenWidth * 0.7, height: 1, backgroundColor: '#000' }}></View>
+          <View
+            style={{
+              width: Metrics.screenWidth * 0.7,
+              height: 1,
+              backgroundColor: '#000',
+            }}></View>
         </View>
         {this.renderGmailBtn()}
         {this.renderFacebookBtn()}
       </View>
-    )
-  }
+    );
+  };
 
   render() {
-    const { btnDisabled, formErrors, email, password } = this.state;
+    const {btnDisabled, formErrors, email, password} = this.state;
     return (
-      <ScrollView style={styles.container}>
-        <View style={{ paddingHorizontal: Metrics.ratio(15) }}>
-          {this.renderHeaderLogo()}
-          {this.renderScreenHeading()}
-          {this.renderTextInputWithLabel(
-            "Email",
-            'inputEmail',
-            'next',
-            this.onChangeEmail,
-            email,
-            "Enter your email.",
-            "email-address",
-            "inputPassword",
-            false,
-          )}
-          {this.renderTextInputWithLabel(
-            "Password",
-            'inputPassword',
-            'done',
-            this.onChangePassword,
-            password,
-            "* * * * * * *",
-            "text",
-            "onDone",
-            true,
-          )}
-          {this.renderSubmitBtn()}
-          {this.renderConnectCard()}
-          {this._renderOverlaySpinner()}
-        </View>
-      </ScrollView>
+      <View style={styles.container}>
+        <ScrollView>
+          <View
+            style={{
+              paddingHorizontal: Metrics.ratio(20),
+              height: Metrics.screenHeight,
+              justifyContent: 'center',
+            }}>
+            {this.renderHeaderLogo()}
+            {this.renderScreenHeading()}
+            {this.renderTextInputWithLabel(
+              'Email',
+              'inputEmail',
+              'next',
+              this.onChangeEmail,
+              email,
+              'Enter your email.',
+              'email-address',
+              'inputPassword',
+              false,
+            )}
+            {this.renderTextInputWithLabel(
+              'Password',
+              'inputPassword',
+              'done',
+              this.onChangePassword,
+              password,
+              '* * * * * * *',
+              'text',
+              'onDone',
+              true,
+              styles.CustomTextInput,
+            )}
+            {this.renderSubmitBtn()}
+            {this.renderConnectCard()}
+            {this._renderOverlaySpinner()}
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }
 
-const mapStateToProps = (state) => ({ login: state.login });
+const mapStateToProps = (state) => ({login: state.login});
 
-const action = { userLogin };
+const action = {userLogin};
 
 export default connect(mapStateToProps, action)(Login);
