@@ -58,6 +58,7 @@ class Proceeding extends Component {
     super(props);
     this.state = {
       cardNumber: '',
+      cscNumber : '',
       selectedMonth: '',
       selectedYear: '',
       selectedPaymentMethod: '',
@@ -77,6 +78,7 @@ class Proceeding extends Component {
     };
   }
   onChangeCardNumber = (value) => this.setState({cardNumber: value});
+  onChangeCSCNumber = (value) => this.setState({cscNumber: value});
 
   renderServicesSum = () => {
     const {services} = this.state;
@@ -295,9 +297,44 @@ class Proceeding extends Component {
       </View>
     );
   };
+  renderCSCNumber = (
+    label,
+    ref,
+    returnKeyType,
+    onChangeText,
+    value,
+    placeholder,
+    keyboardType,
+    onSubmitEditing,
+    secureTextEntry,
+    CustomTextInput,
+  ) => {
+    return (
+      <View>
+        <Text style={styles.labelText}>{label}</Text>
+        <TextInput
+          style={[styles.textInputcsc, CustomTextInput]}
+          placeholderTextColor="#81788B"
+          ref={(o) => {
+            ref = o;
+          }}
+          returnKeyType={returnKeyType}
+          onChangeText={onChangeText}
+          value={value}
+          placeholder={placeholder}
+          autoCompleteType="off"
+          keyboardType={keyboardType}
+          // onSubmitEditing={() => {
+          //   this.onSubmit(onSubmitEditing);
+          // }}
+          secureTextEntry={secureTextEntry}
+        />
+      </View>
+    );
+  };
 
   renderPaymentMethod = () => {
-    const {cardNumber} = this.state;
+    const {cardNumber, cscNumber} = this.state;
     return (
       <View style={styles.containerForRow}>
         {this.renderPaymentButton('Choose Your Payment Method')}
@@ -309,6 +346,17 @@ class Proceeding extends Component {
           this.onChangeCardNumber,
           cardNumber,
           '111-2222-3333-4444',
+          '',
+          '',
+          false,
+        )}
+        {this.renderCSCNumber(
+          'CSC Number',
+          'inputEmail',
+          'next',
+          this.onChangeCSCNumber,
+          cscNumber,
+          'Put csc number',
           '',
           '',
           false,

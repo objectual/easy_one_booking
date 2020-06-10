@@ -31,6 +31,7 @@ export default StyleSheet.create({
     marginHorizontal: Metrics.ratio(15),
     height: Metrics.ratio(80),
     width: Metrics.ratio(80),
+    borderRadius : Metrics.ratio(80),
   },
   containerForRow: {
     paddingHorizontal: Metrics.ratio(20),

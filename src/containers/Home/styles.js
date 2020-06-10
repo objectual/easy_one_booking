@@ -76,6 +76,7 @@ export default StyleSheet.create({
   titleText: {
     fontSize: Metrics.ratio(18),
     marginVertical: Metrics.ratio(5),
+    width : Metrics.ratio(150)
   },
   cardradius: {
     padding: Metrics.ratio(7),

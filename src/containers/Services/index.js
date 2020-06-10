@@ -12,6 +12,7 @@ import {
   Linking,
   StyleSheet,
   Button,
+  FlatList,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
@@ -20,6 +21,7 @@ import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
 import Rating from './../../components/Rating/index';
 import StarRating from 'react-native-star-rating';
+import {request as get_Saloon_Services_By_Categor} from '../../redux/actions/GetSaloonServicesByCategor';
 import DatePicker from 'react-native-datepicker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -31,27 +33,56 @@ class Services extends Component {
       date: new Date(1598051730000),
       mode: 'date',
       show: false,
+      getSelectedServices: [],
       selectBookNow: 0,
-      services: [
-        {
-          serviceImg:Images.select_services,
-          serviceTitle:'Lorem Ipsum',
-          servicePrice:'$50.00',
-        },
-        {
-          serviceImg:Images.select_services,
-          serviceTitle:'Lorem Ipsum',
-          servicePrice:'$50.00',
-        },
-        {
-          serviceImg:Images.select_services,
-          serviceTitle:'Lorem Ipsum',
-          servicePrice:'$50.00',
-        }
-      ]
-
     };
   }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.getSaloonServicesByCategory) {
+      if (
+        //   !nextProps.getSaloonServicesByCategory.failure &&
+        //   !nextProps.getSaloonServicesByCategory.isFetching &&
+        nextProps.getSaloonServicesByCategory.data
+        // nextProps.getSaloonServicesByCategory.data.success
+      ) {
+        this.setState({
+          getSelectedServices: nextProps.getSaloonServicesByCategory.data.data,
+        });
+        console.log(
+          nextProps.getSaloonServicesByCategory.data.data,
+          'getSaloonServicesByCategoryDatagetSaloonServicesByCategoryDatagetSaloonServicesByCategoryDatagetSaloonServicesByCategoryData',
+        );
+      } else if (
+        !nextProps.getSaloonServicesByCategory.failure &&
+        !nextProps.getSaloonServicesByCategory.isFetching &&
+        nextProps.getSaloonServicesByCategory.data &&
+        !nextProps.getSaloonServicesByCategory.data.success
+      ) {
+        this.setState({isloading: false}, () => {
+          setTimeout(() => {
+            Alert.alert(
+              'Error',
+              nextProps.getSaloonServicesByCategory.data.msg,
+            );
+          }, 3000);
+        });
+      }
+    }
+  }
+  componentDidMount = () => {
+    this.handleSaloonServicesByCategory();
+  };
+
+  handleSaloonServicesByCategory = () => {
+    this.setState({isLoading: true});
+    const payload = {
+      companyId: '5ee0ca321b1dc85bb0a98c17',
+      categoryId: '5ee0cb031b1dc85bb0a98c18',
+    };
+    this.props.get_Saloon_Services_By_Categor(payload);
+  };
+
   onChange = (event, date) => {
     date = date || this.state;
     this.setState({
@@ -86,77 +117,99 @@ class Services extends Component {
     return <SpinnerLoader isloading={isloading} />;
   };
   renderRow = () => {
-    const {services} = this.state
+    const {getSelectedServices} = this.state;
     return (
-      <View style={styles.containerForRow}>
-        <Text style={{fontSize: Metrics.ratio(20)}}>Select Services</Text>
-        {services.map((val, index) => {
-          return(
-            <View>
-              {this.renderService(
-              val.serviceImg,
-              val.serviceTitle,
-              val.servicePrice,
-              index
-        )}
-            </View>
-          )
-        })}
-        
+      <View>
+        <Text style={[styles.containerForRow, {fontSize: Metrics.ratio(20)}]}>
+          Select Services
+        </Text>
+        <FlatList
+          // horizontal
+          data={getSelectedServices}
+          renderItem={({item, index}) => this.renderService(item, index)}
+          // keyExtractor={item => item.id}
+          // extraData={selected}
+        />
       </View>
     );
   };
   renderNextStepButton = () => {
     return (
       <View
-        style={[styles.containerForRow, {marginVertical: Metrics.ratio(10), alignItems: 'flex-end'}]}>
+        style={[
+          styles.containerForRow,
+          {marginVertical: Metrics.ratio(10), alignItems: 'flex-end'},
+        ]}>
         <TouchableOpacity style={styles.submitBtn}>
           <Text style={styles.submitBtnText}>Next Step</Text>
         </TouchableOpacity>
       </View>
     );
   };
-  renderService = (image, title, Price, index) => {
+  renderService = (services, index) => {
     return (
-      <View style={[styles.servicebox, {flexDirection: 'row'}]}>
-        <View style={{width: Metrics.screenWidth * 0.3}}>
-          <Image source={image} style={styles.servicesImage} />
-        </View>
-        <View
-          style={{
-            marginVertical: Metrics.ratio(15),
-            width: Metrics.screenWidth * 0.35,
-          }}>
-          <Text style={{fontSize: Metrics.ratio(17)}}>{title}</Text>
-          <TouchableOpacity onPress={() => this.showDatepicker()}>
-            <View
-              style={{flexDirection: 'row', marginVertical: Metrics.ratio(5)}}>
+      <View style={styles.containerForRow}>
+        <View style={[styles.servicebox, {flexDirection: 'row'}]}>
+          <View style={{width: Metrics.screenWidth * 0.3}}>
+            {services && services.image ? (
               <Image
-                source={Images.calendar}
+                source={{uri: services.image}}
+                style={styles.servicesImage}
+              />
+            ) : (
+              <Image source={image} style={styles.servicesImage} />
+            )}
+          </View>
+          <View
+            style={{
+              marginVertical: Metrics.ratio(15),
+              width: Metrics.screenWidth * 0.35,
+            }}>
+            <Text numberOfLines={1} style={{fontSize: Metrics.ratio(17)}}>
+              {services && services.serviceName ? services.serviceName : 'name'}
+            </Text>
+            <TouchableOpacity
+            //  onPress={() => this.showDatepicker()}
+            >
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginVertical: Metrics.ratio(5),
+                }}>
+                <Image
+                  source={Images.calendar}
+                  style={{
+                    height: Metrics.ratio(17),
+                    width: Metrics.ratio(17),
+                    marginRight: Metrics.ratio(5),
+                  }}
+                />
+                <Text style={{fontSize: Metrics.ratio(14)}}>
+                  {'Select Date hh'}
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <View style={{flexDirection: 'row'}}>
+              <Image
+                source={Images.tag_grey}
                 style={{
                   height: Metrics.ratio(17),
                   width: Metrics.ratio(17),
                   marginRight: Metrics.ratio(5),
                 }}
               />
-              <Text style={{fontSize: Metrics.ratio(14)}}>{'Select Date hh'}</Text>
+              <Text style={{fontSize: Metrics.ratio(14)}}>
+                {services && services.price ? services.price : 'name'}
+              </Text>
             </View>
-          </TouchableOpacity>
-          <View style={{flexDirection: 'row'}}>
-            <Image
-              source={ Images.tag_grey}
-              style={{
-                height: Metrics.ratio(17),
-                width: Metrics.ratio(17),
-                marginRight: Metrics.ratio(5),
-              }}
-            />
-            <Text style={{fontSize: Metrics.ratio(14)}}>{Price}</Text>
           </View>
-        </View>
-        <View
-          style={{justifyContent: 'center', width: Metrics.screenWidth * 0.2}}>
-          {this.renderBookNowButton(index)}
+          <View
+            style={{
+              justifyContent: 'center',
+              width: Metrics.screenWidth * 0.2,
+            }}>
+            {this.renderBookNowButton()}
+          </View>
         </View>
       </View>
     );
@@ -179,35 +232,39 @@ class Services extends Component {
       </View>
     );
   }
-  renderBookNowButton = (index) => {
-    const { selectBookNow} = this.state;
+  renderBookNowButton = () => {
+    const {selectBookNow} = this.state;
     return (
       <View>
         <TouchableOpacity
-          style={[styles.submitBtn1,{backgroundColor: selectBookNow == index ? '#d1d1d1'  : '#FF3600'}]}
-          onPress={() =>
-            this.setState({
-              selectBookNow: index,
-            })
-          }>
+          // style={[styles.submitBtn1,{backgroundColor: selectBookNow == index ? '#d1d1d1'  : '#FF3600'}]}
+          style={[styles.submitBtn1,{backgroundColor:'#FF3600'}]}
+          // onPress={() =>
+          //   this.setState({
+          //     selectBookNow: index,
+          //   })
+          // }
+        >
           <Text style={styles.submitBtnText1}>Book Now</Text>
         </TouchableOpacity>
       </View>
     );
   };
   render() {
+    const {getSelectedServices} = this.state;
     return (
       <View style={styles.container}>
         <Header
           headerText={'Services'}
-          leftIcon={Images.costumer_header_menu}
+          leftIcon={Images.pagination_back}
+          leftBtnPress={() => this.props.navigation.goBack()}
           leftBtnPress={() => this.props.navigation.openDrawer()}
           rightBtnPress={() => this.props.navigation.navigate('Proceeding')}
           rightIcon={Images.cart_payment}
         />
         <ScrollView>
           <View>
-            {this.renderRow()}
+            {getSelectedServices.length != 0 && this.renderRow()}
             {this.dateAndTimePicker()}
             {this.renderNextStepButton()}
           </View>
@@ -217,8 +274,10 @@ class Services extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  getSaloonServicesByCategory: state.getSaloonServicesByCategory,
+});
 
-const action = {};
+const action = {get_Saloon_Services_By_Categor};
 
 export default connect(mapStateToProps, action)(Services);

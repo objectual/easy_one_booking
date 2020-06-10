@@ -102,7 +102,7 @@ class Home extends Component {
       ) {
         this.setState({isloading: false}, () => {
           setTimeout(() => {
-            Alert.alert('Error', nextProps.getSaloon.data.msg);
+            // Alert.alert('Error', nextProps.getSaloon.data.msg);
           }, 3000);
         });
       }
@@ -160,11 +160,11 @@ class Home extends Component {
 
   renderShowCategoryButton = () => {
     const {selectCard} = this.state;
-    console.log( selectCard, 'selectCardselectCardselectCardselectCard')
+    // console.log( selectCard, 'selectCardselectCardselectCardselectCard')
     return (
       <View>
         <Text style={styles.mainheading2}>{selectCard && selectCard.saloon.name ? selectCard.saloon.name : null}</Text>
-        <TouchableOpacity style={styles.submitBtn} onPress={() => this.props.navigation.navigate('Categories')}>
+        <TouchableOpacity style={styles.submitBtn} onPress={() => this.props.navigation.navigate('Categories',{id : selectCard.saloon._id})}>
           <Text style={styles.submitBtnText}>Show Category</Text>
         </TouchableOpacity>
       </View>

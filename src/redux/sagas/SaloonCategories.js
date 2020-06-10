@@ -4,7 +4,7 @@ import ApiSauce from "../../services/apiSauce";
 import { get_Saloon_Categories_Api } from "../../config/WebServices";
 import * as types from "../actions/ActionTypes";
 
-import { success, failure } from "../actions/GetCategories";
+import { success, failure } from "../actions/SaloonCategories";
 
 import { ErrorHelper } from "../../helpers";
 
@@ -12,8 +12,8 @@ function callRequest(data) {
   // const access_token = data.access_token;
   // delete data.access_token;
   // return ApiSauce.postWithToken(get_Saloon_Api, data, access_token);
-  return ApiSauce.get(get_Saloon_Categories_Api, data);
-
+  // return ApiSauce.get(`${get_Saloon_Categories_Api}?id=${data.id}`);
+  return ApiSauce.post(get_Saloon_Categories_Api, data);
 }
 function* watchRequest() {
   while (true) {
@@ -22,7 +22,7 @@ function* watchRequest() {
     // delete payload.targetView;
     try {
       const response = yield call(callRequest, payload);
-      // console.log(response,"responseresponseresponseresponseresponseresponseresponseresponseresponse")
+      console.log(response,"responseresponseresponseresponseresponseresponseresponse")
       yield put(success(response));
 
       //   setTimeout(() => {

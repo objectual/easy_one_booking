@@ -5,6 +5,7 @@ import register from "./Register";
 import getSaloon from "./GetSaloon";
 import getCategories from "./GetCategories";
 import getSaloonCategories from "./SaloonCategories";
+import getSaloonServicesByCategory from "./GetSaloonServicesByCategor";
 import forgotPassword from "./ForgotPassword";
 import verifyResetCode from "./VerifyResetCode";
 import resetPassword from "./ResetPassword";
@@ -20,4 +21,5 @@ export const rootReducer = combineReducers({
   getSaloon,
   getCategories,
   getSaloonCategories,
+  getSaloonServicesByCategory,
 });

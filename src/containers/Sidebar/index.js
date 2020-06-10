@@ -57,12 +57,12 @@ class Sidebar extends Component {
           paddingVertical: Metrics.ratio(10),
         }}>
         {this.renderRow('Home', this.navigateHomePage, 'costumer_home', '')}
-        {this.renderRow(
+        {/* {this.renderRow(
           'Services',
           this.navigateServicesPage,
           'costumer_services',
           '',
-        )}
+        )} */}
         {this.renderRow(
           'Chart Box',
           this.navigateChartBox,
