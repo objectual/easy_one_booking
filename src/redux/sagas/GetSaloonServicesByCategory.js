@@ -4,7 +4,7 @@ import ApiSauce from "../../services/apiSauce";
 import { get_Saloon_Services_By_Category_Api } from "../../config/WebServices";
 import * as types from "../actions/ActionTypes";
 
-import { success, failure } from "../actions/GetSaloonServicesByCategor";
+import { success, failure } from "../actions/GetSaloonServicesByCategory";
 
 import { ErrorHelper } from "../../helpers";
 
@@ -22,7 +22,7 @@ function* watchRequest() {
     // delete payload.targetView;
     try {
       const response = yield call(callRequest, payload);
-      console.log(response,"getSaloonServicesByCategorygetSaloonServicesByCategorygetSaloonServicesByCategory")
+      // console.log(response,"getSaloonServicesByCategorygetSaloonServicesByCategorygetSaloonServicesByCategory")
       yield put(success(response));
 
       //   setTimeout(() => {

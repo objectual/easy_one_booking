@@ -22,6 +22,7 @@ export const GET_SALOON = createRequestTypes("GET_SALOON");
 export const GET_CATEGORIES = createRequestTypes("GET_CATEGORIES");
 export const GET_SALOON_CATEGORIES = createRequestTypes("GET_SALOON_CATEGORIES");
 export const GET_SALOON_SERVICES_BY_CATEGORY = createRequestTypes("GET_SALOON_SERVICES_BY_CATEGORY");
+export const GET_SALOON_BY_CATEGORY = createRequestTypes("GET_SALOON_BY_CATEGORY");
 export const LOGOUT = "LOGOUT";
 
 export const DRAWAR_MENU_SWITCHED = "DRAWAR_MENU_SWITCHED";

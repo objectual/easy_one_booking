@@ -3,7 +3,8 @@ import register from "./Register";
 import getSalon from './GetSaloon'
 import getCategories from './GetCategories'
 import getSaloonCategories from './SaloonCategories'
-import getSaloonServicesByCategory from './GetSaloonServicesByCategor'
+import getSaloonServicesByCategory from './GetSaloonServicesByCategory'
+import getSaloonByCategory from './GetSaloonByCategory'
 // import forgotPassword from "./ForgotPassword";
 // import verifyResetCode from "./VerifyResetCode";
 // import resetPassword from "./ResetPassword";
@@ -18,6 +19,7 @@ export default function* rootSaga() {
   yield fork(getCategories);
   yield fork(getSaloonCategories);
   yield fork(getSaloonServicesByCategory);
+  yield fork(getSaloonByCategory);
   // yield fork(forgotPassword);
   // yield fork(verifyResetCode);
   // yield fork(resetPassword);

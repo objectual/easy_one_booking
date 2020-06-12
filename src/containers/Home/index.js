@@ -296,7 +296,7 @@ class Home extends Component {
   };
   renderSaloonCategories = (category) => {
     return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => this.props.navigation.navigate("SaloonsPage")}>
         <View style={styles.cardradius}>
           {category && category.image && category.image ? (
             <Image

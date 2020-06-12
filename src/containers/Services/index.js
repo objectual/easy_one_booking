@@ -21,7 +21,7 @@ import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
 import Rating from './../../components/Rating/index';
 import StarRating from 'react-native-star-rating';
-import {request as get_Saloon_Services_By_Categor} from '../../redux/actions/GetSaloonServicesByCategor';
+import {request as get_Saloon_Services_By_Category} from '../../redux/actions/GetSaloonServicesByCategory.js';
 import DatePicker from 'react-native-datepicker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -80,7 +80,7 @@ class Services extends Component {
       companyId: '5ee0ca321b1dc85bb0a98c17',
       categoryId: '5ee0cb031b1dc85bb0a98c18',
     };
-    this.props.get_Saloon_Services_By_Categor(payload);
+    this.props.get_Saloon_Services_By_Category(payload);
   };
 
   onChange = (event, date) => {
@@ -120,9 +120,6 @@ class Services extends Component {
     const {getSelectedServices} = this.state;
     return (
       <View>
-        <Text style={[styles.containerForRow, {fontSize: Metrics.ratio(20)}]}>
-          Select Services
-        </Text>
         <FlatList
           // horizontal
           data={getSelectedServices}
@@ -264,7 +261,7 @@ class Services extends Component {
         />
         <ScrollView>
           <View>
-            {getSelectedServices.length != 0 && this.renderRow()}
+            {getSelectedServices && getSelectedServices.length != 0 && this.renderRow()}
             {this.dateAndTimePicker()}
             {this.renderNextStepButton()}
           </View>
@@ -278,6 +275,6 @@ const mapStateToProps = (state) => ({
   getSaloonServicesByCategory: state.getSaloonServicesByCategory,
 });
 
-const action = {get_Saloon_Services_By_Categor};
+const action = {get_Saloon_Services_By_Category};
 
 export default connect(mapStateToProps, action)(Services);

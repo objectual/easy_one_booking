@@ -35,7 +35,7 @@ export default StyleSheet.create({
   },
   containerForRow: {
     paddingHorizontal: Metrics.ratio(20),
-    marginTop: Metrics.ratio(20),
+    // marginTop: Metrics.ratio(20),
   },
   submitBtn: {
     paddingVertical: Metrics.ratio(14),

@@ -24,6 +24,7 @@ class AvailableServices extends Component {
     this.state = {};
   }
 
+
   _renderOverlaySpinner = () => {
     const {isloading} = this.state;
     return <SpinnerLoader isloading={isloading} />;

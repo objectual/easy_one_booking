@@ -25,6 +25,7 @@ import Proceeding from './../../containers/Proceeding/index';
 import Login from './../../containers/Login/index';
 import Categories from './../../containers/Categories/index';
 import Register from './../../containers/Registration/index';
+import Saloons from './../../containers/Saloons/index';
 
 const CustomHeader = () => {
   return (
@@ -81,6 +82,7 @@ class DrawerMenu {
             <Scene hideNavBar key="Proceeding" component={Proceeding} />
             <Scene hideNavBar key="LoginPage" component={Login} />
             <Scene hideNavBar key="Register" component={Register} />
+            <Scene hideNavBar key="SaloonsPage" component={Saloons} />
           </Stack>
         </Scene>
       </Drawer>

@@ -15,9 +15,11 @@ export const get_Saloon_Api = `${baseUrl}saloon/Nearby`;
 export const get_Categories_Api = `${baseUrl}saloon/getCategories`;
 export const get_Saloon_Categories_Api = `${baseUrl}saloon/getSaloonCategories`;
 export const get_Saloon_Services_By_Category_Api = `${baseUrl}saloon/getSaloonServicesByCategory`;
-export const get_All_Services_Api = `${baseUrl}saloon/getAllService`;
+export const get_Saloon_By_Category_Api = `${baseUrl}saloon/getSaloonsByCategory`;
 
 export const secret_Key = "AIzaSyCIGENLCfCwZwPaumiUQs21GfgMhgppa7s"
 export const place_Autocomplete_URL = "https://maps.googleapis.com/maps/api/place/autocomplete/json?"
 export const place_Details_URL = "https://maps.googleapis.com/maps/api/place/details/json?"
 
+
+ 
