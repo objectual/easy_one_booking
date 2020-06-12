@@ -21,17 +21,19 @@ import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
 import Rating from './../../components/Rating/index';
 import StarRating from 'react-native-star-rating';
-import {request as get_Saloon_Services_By_Category} from '../../redux/actions/GetSaloonServicesByCategory.js';
+import {request as get_Employees_By_Saloon_And_Category} from '../../redux/actions/GetEmployeesBySaloonAndCategory.js';
+import {request as create_Booking} from '../../redux/actions/CreateBooking.js';
 import DatePicker from 'react-native-datepicker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-class Services extends Component {
+class SaloonEmployee extends Component {
   constructor(props) {
     super(props);
     this.state = {
       starCount: 5,
       date: new Date(1598051730000),
       mode: 'date',
+      loginData: this.props.login.data.data,
       show: false,
       getSelectedServices: [],
       selectBookNow: 0,
@@ -39,32 +41,64 @@ class Services extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.getSaloonServicesByCategory) {
+    if (nextProps.getEmployeesBySaloonAndCategory) {
       if (
-        !nextProps.getSaloonServicesByCategory.failure &&
-        !nextProps.getSaloonServicesByCategory.isFetching &&
-        nextProps.getSaloonServicesByCategory.data.data &&
-        nextProps.getSaloonServicesByCategory.data.success
+        !nextProps.getEmployeesBySaloonAndCategory.failure &&
+        !nextProps.getEmployeesBySaloonAndCategory.isFetching &&
+        nextProps.getEmployeesBySaloonAndCategory.data.data &&
+        nextProps.getEmployeesBySaloonAndCategory.data.success
       ) {
         this.setState({
-          getSelectedServices: nextProps.getSaloonServicesByCategory.data.data,
+          getSelectedServices:
+            nextProps.getEmployeesBySaloonAndCategory.data.data,
         });
         // console.log(
-        //   nextProps.getSaloonServicesByCategory.data.data,
-        //   'getSaloonServicesByCategoryDatagetSaloonServicesByCategoryDatagetSaloonServicesByCategoryDatagetSaloonServicesByCategoryData',
+        //   nextProps.getEmployeesBySaloonAndCategory.data.data,
+        //   'getEmployeesBySaloonAndCategory',
         // );
       } else if (
-        !nextProps.getSaloonServicesByCategory.failure &&
-        !nextProps.getSaloonServicesByCategory.isFetching &&
-        nextProps.getSaloonServicesByCategory.data.data &&
-        !nextProps.getSaloonServicesByCategory.data.success
+        !nextProps.getEmployeesBySaloonAndCategory.failure &&
+        !nextProps.getEmployeesBySaloonAndCategory.isFetching &&
+        nextProps.getEmployeesBySaloonAndCategory.data.data &&
+        !nextProps.getEmployeesBySaloonAndCategory.data.success
       ) {
         this.setState({isloading: false}, () => {
           setTimeout(() => {
             Alert.alert(
               'Error',
-              nextProps.getSaloonServicesByCategory.data.msg,
+              nextProps.getEmployeesBySaloonAndCategory.data.msg,
             );
+          }, 3000);
+        });
+      }
+    }
+    if (nextProps.createBooking) {
+      console.log(
+        nextProps.createBooking,
+        'createBookingcreateBookingcreateBookingcreateBookingcreateBooking',
+      );
+      if (
+        !nextProps.createBooking.failure &&
+        !nextProps.createBooking.isFetching &&
+        nextProps.createBooking.data &&
+        nextProps.createBooking.data.success
+      ) {
+        // this.setState({
+        //   getSelectedServices: nextProps.createBooking.data.data,
+        // });
+        console.log(
+          nextProps.createBooking,
+          'createBookingcreateBookingcreateBookingcreateBookingcreateBooking',
+        );
+      } else if (
+        !nextProps.createBooking.failure &&
+        !nextProps.createBooking.isFetching &&
+        nextProps.createBooking.data &&
+        !nextProps.createBooking.data.success
+      ) {
+        this.setState({isloading: false}, () => {
+          setTimeout(() => {
+            Alert.alert('Error', nextProps.createBooking.data.msg);
           }, 3000);
         });
       }
@@ -79,9 +113,36 @@ class Services extends Component {
     this.setState({isLoading: true});
     const payload = {
       companyId: '5ee0ca321b1dc85bb0a98c17',
-      categoryId: '5ee0cb031b1dc85bb0a98c18',
+      serviceId: '5ee38d25e6d5b733dcca9297',
     };
-    this.props.get_Saloon_Services_By_Category(payload);
+    this.props.get_Employees_By_Saloon_And_Category(payload);
+  };
+  handleCreateBookingLogin = () => {
+    const {loginData} = this.state;
+    if (loginData && loginData.access_token) {
+      this.handleCreateBooking();
+    } else {
+      Alert.alert('Cannot Create Order', 'Please Login First for order');
+    }
+  };
+
+  handleCreateBooking = () => {
+    const {loginData} = this.state;
+    console.log(
+      loginData.access_token,
+      'loginDataloginDataloginDataloginDataloginData',
+    );
+    // const {categoryId} = this.props;
+    this.setState({isLoading: true});
+    const payloadBooking = {
+      employeeId: '5ee232365391f10aa8a853dc',
+      serviceId: '5ee21ff48384d05ab0b87a1a',
+      categoryId: '5ee0cb031b1dc85bb0a98c18',
+      status: '1',
+      bookingDate: '10-06-2020',
+      access_token: loginData.access_token,
+    };
+    this.props.create_Booking(payloadBooking);
   };
 
   onChange = (event, date) => {
@@ -162,7 +223,7 @@ class Services extends Component {
           <View
             style={{
               marginVertical: Metrics.ratio(15),
-              width: Metrics.screenWidth * 0.45,
+              width: Metrics.screenWidth * 0.35,
             }}>
             <Text numberOfLines={1} style={{fontSize: Metrics.ratio(17)}}>
               {services && services.serviceName ? services.serviceName : 'name'}
@@ -203,17 +264,14 @@ class Services extends Component {
               </Text>
             </View>
           </View>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('SaloonEmployee')}>
-            <View
-              style={{
-                justifyContent: 'center',
-                width: Metrics.screenWidth * 0.1,
-              }}>
-              <Image source={Images.arrow} style={styles.arrowImage} />
-            </View>
-          </TouchableOpacity>
-          {/* {this.renderBookNowButton()} */}
+
+          <View
+            style={{
+              justifyContent: 'center',
+              width: Metrics.screenWidth * 0.2,
+            }}>
+            {this.renderBookNowButton()}
+          </View>
         </View>
       </View>
     );
@@ -236,16 +294,32 @@ class Services extends Component {
       </View>
     );
   }
+  renderBookNowButton = (services) => {
+    const {selectBookNow} = this.state;
+    return (
+      <View>
+        <TouchableOpacity
+          style={
+            selectBookNow && selectBookNow._id == services.selectBookNow._id
+              ? styles.btnSelect
+              : styles.submitBtn1
+          }
+          onPress={() => this.handleCreateBookingLogin()}>
+          <Text style={styles.submitBtnText1}>Book Now</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
   render() {
     const {getSelectedServices} = this.state;
     return (
       <View style={styles.container}>
         <Header
-          headerText={'Services'}
+          headerText={'Employees'}
           leftIcon={Images.pagination_back}
           leftBtnPress={() => this.props.navigation.goBack()}
-          // rightBtnPress={() => this.props.navigation.navigate('Proceeding')}
-          // rightIcon={Images.cart_payment}
+          rightBtnPress={() => this.props.navigation.navigate('Proceeding')}
+          rightIcon={Images.cart_payment}
         />
         <ScrollView>
           <View>
@@ -262,10 +336,11 @@ class Services extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  getSaloonServicesByCategory: state.getSaloonServicesByCategory,
+  getEmployeesBySaloonAndCategory: state.getEmployeesBySaloonAndCategory,
+  createBooking: state.createBooking,
   login: state.login,
 });
 
-const action = {get_Saloon_Services_By_Category};
+const action = {get_Employees_By_Saloon_And_Category, create_Booking};
 
-export default connect(mapStateToProps, action)(Services);
+export default connect(mapStateToProps, action)(SaloonEmployee);

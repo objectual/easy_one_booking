@@ -11,18 +11,18 @@ const initialState = Immutable({
 
 export default (state: Object = initialState, action: Object) => {
   switch (action.type) {
-    case types.GET_SALOON_SERVICES_BY_CATEGORY.REQUEST:
+    case types.GET_EMPLOYEES_BY_SALOON_AND_CATEGORY.REQUEST:
       return Immutable.merge(state, {
         isFetching: true,
       });
-    case types.GET_SALOON_SERVICES_BY_CATEGORY.SUCCESS:
+    case types.GET_EMPLOYEES_BY_SALOON_AND_CATEGORY.SUCCESS:
       return Immutable.merge(state, {
         failure: false,
         isFetching: false,
         errorMessage: '',
         data: action.data,
       });
-    case types.GET_SALOON_SERVICES_BY_CATEGORY.FAILURE:
+    case types.GET_EMPLOYEES_BY_SALOON_AND_CATEGORY.FAILURE:
       return Immutable.merge(state, {
         failure: true,
         isFetching: false,

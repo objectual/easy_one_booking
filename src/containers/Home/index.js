@@ -31,6 +31,7 @@ class Home extends Component {
       longitude: '',
       latitude: '',
       selectCard: null,
+      selectSaloon: null,
       GetSaloonData: [],
       GetSaloonCategories: [],
       dayandtime: [
@@ -86,7 +87,7 @@ class Home extends Component {
       if (
         !nextProps.getSaloon.failure &&
         !nextProps.getSaloon.isFetching &&
-        nextProps.getSaloon.data &&
+        nextProps.getSaloon.data.data &&
         nextProps.getSaloon.data.success
       ) {
         this.setState({GetSaloonData: nextProps.getSaloon.data.data});
@@ -97,12 +98,12 @@ class Home extends Component {
       } else if (
         !nextProps.getSaloon.failure &&
         !nextProps.getSaloon.isFetching &&
-        nextProps.getSaloon.data &&
+        nextProps.getSaloon.data.data &&
         !nextProps.getSaloon.data.success
       ) {
         this.setState({isloading: false}, () => {
           setTimeout(() => {
-            // Alert.alert('Error', nextProps.getSaloon.data.msg);
+            Alert.alert('Error', nextProps.getSaloon.data.msg);
           }, 3000);
         });
       }
@@ -163,8 +164,16 @@ class Home extends Component {
     // console.log( selectCard, 'selectCardselectCardselectCardselectCard')
     return (
       <View>
-        <Text style={styles.mainheading2}>{selectCard && selectCard.saloon.name ? selectCard.saloon.name : null}</Text>
-        <TouchableOpacity style={styles.submitBtn} onPress={() => this.props.navigation.navigate('Categories',{id : selectCard.saloon._id})}>
+        <Text style={styles.mainheading2}>
+          {selectCard && selectCard.saloon.name ? selectCard.saloon.name : null}
+        </Text>
+        <TouchableOpacity
+          style={styles.submitBtn}
+          onPress={() =>
+            this.props.navigation.navigate('Categories', {
+              id: selectCard.saloon._id,
+            })
+          }>
           <Text style={styles.submitBtnText}>Show Category</Text>
         </TouchableOpacity>
       </View>
@@ -215,7 +224,7 @@ class Home extends Component {
         ]}>
         <Text style={styles.mainheading}>Top Rated Saloon</Text>
         {/* <Icon name="star" size={30} color="#841777"/> */}
-        {this.renderShowWithRadiusButton()}
+        {/* {this.renderShowWithRadiusButton()} */}
       </View>
     );
   };
@@ -267,7 +276,11 @@ class Home extends Component {
     // console.log(salon,'llllllllllllll')
     return (
       <TouchableOpacity
-        style={selectCard && selectCard.saloon._id == salon.saloon._id ? styles.showcardradius : null}
+        style={
+          selectCard && selectCard.saloon._id == salon.saloon._id
+            ? styles.showcardradius
+            : null
+        }
         onPress={() =>
           this.setState({showdescription: true, selectCard: salon})
         }>
@@ -295,14 +308,18 @@ class Home extends Component {
     );
   };
   renderSaloonCategories = (category) => {
+    const {selectSaloon} = this.state;
     return (
-      <TouchableOpacity onPress={() => this.props.navigation.navigate("SaloonsPage")}>
+      <TouchableOpacity
+        style={
+          selectSaloon && selectSaloon.templateID == category.templateID
+            ? styles.showcardradius
+            : null
+        }
+        onPress={() => this.props.navigation.navigate('SaloonsPage')}>
         <View style={styles.cardradius}>
           {category && category.image && category.image ? (
-            <Image
-              source={{uri: category.image}}
-              style={styles.cardImage}
-            />
+            <Image source={{uri: category.image}} style={styles.cardImage} />
           ) : (
             <Image source={Images.saloon_card} style={styles.cardImage} />
           )}
@@ -396,7 +413,9 @@ class Home extends Component {
         })}
         <Text style={styles.mainheading2}>Address</Text>
         <Text style={{fontSize: Metrics.ratio(15)}}>
-        {selectCard && selectCard.saloon.address ? selectCard.saloon.address :null }
+          {selectCard && selectCard.saloon.address
+            ? selectCard.saloon.address
+            : null}
         </Text>
         {/* {this.renderShowCategoryButton()} */}
       </View>

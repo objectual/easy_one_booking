@@ -85,7 +85,10 @@ class Login extends Component {
         nextProps.login.data &&
         !nextProps.login.data.success
       ) {
-        console.log(nextProps.login.data.msg, 'nextProps.login.data.data.msgnextProps.login.data.data.msg')
+        console.log(
+          nextProps.login.data.msg,
+          'nextProps.login.data.data.msgnextProps.login.data.data.msg',
+        );
         this.setState({isloading: false}, () => {
           setTimeout(() => {
             Alert.alert('Error', nextProps.login.data.msg);

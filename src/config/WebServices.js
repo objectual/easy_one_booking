@@ -1,7 +1,7 @@
 // export const baseUrl = "http://itsolution24x7.com/request_form/";
 // export const register_API = `${baseUrl}/api/v1/register`;
 
-export const baseUrl = "https://easy-one.herokuapp.com/api/";
+export const baseUrl = 'https://easy-one.herokuapp.com/api/';
 // export const baseUrl = "http://192.168.0.111/reactboilerplate/";
 // export const baseUrl = "http://192.168.18.68:3000/api/"; // H
 
@@ -16,10 +16,11 @@ export const get_Categories_Api = `${baseUrl}saloon/getCategories`;
 export const get_Saloon_Categories_Api = `${baseUrl}saloon/getSaloonCategories`;
 export const get_Saloon_Services_By_Category_Api = `${baseUrl}saloon/getSaloonServicesByCategory`;
 export const get_Saloon_By_Category_Api = `${baseUrl}saloon/getSaloonsByCategory`;
+export const create_Booking_Api = `${baseUrl}booking/createBooking`;
+export const get_Employees_By_Saloon_And_Category_Api = `${baseUrl}saloon/getEmployeesBySaloonAndService`;
 
-export const secret_Key = "AIzaSyCIGENLCfCwZwPaumiUQs21GfgMhgppa7s"
-export const place_Autocomplete_URL = "https://maps.googleapis.com/maps/api/place/autocomplete/json?"
-export const place_Details_URL = "https://maps.googleapis.com/maps/api/place/details/json?"
-
-
- 
+export const secret_Key = 'AIzaSyCIGENLCfCwZwPaumiUQs21GfgMhgppa7s';
+export const place_Autocomplete_URL =
+  'https://maps.googleapis.com/maps/api/place/autocomplete/json?';
+export const place_Details_URL =
+  'https://maps.googleapis.com/maps/api/place/details/json?';

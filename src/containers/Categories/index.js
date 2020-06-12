@@ -62,12 +62,12 @@ class Categories extends Component {
   };
 
   handleSaloonCategories = () => {
-    const {id} = this.props
-    console.log(id, 'ididididididididididid')
+    const {id} = this.props;
+    console.log(id, 'ididididididididididid');
     this.setState({isLoading: true});
     const payload = {
       // id: id,
-      id : '5ed8ddd8ef6d924bb8cca4f3'
+      id: '5ed905f5194a762bac5a4162',
     };
     this.props.get_Saloon_Categories(payload);
   };
@@ -78,49 +78,49 @@ class Categories extends Component {
   };
 
   renderCategory = (category, index) => {
+    const {id} = this.props;
     return (
-        <View style={styles.containerForRow}>
-          <View style={[styles.servicebox, {flexDirection: 'row'}]}>
-        <View style={{width: Metrics.screenWidth * 0.3}}>
-          {category && category.image ? (
-            <Image
-              source={{uri: category.image}}
-              style={styles.servicesImage}
-            />
-          ) : (
-            <Image
-              source={Images.select_services}
-              style={styles.servicesImage}
-            />
-          )}
+      <View style={styles.containerForRow}>
+        <View style={[styles.servicebox, {flexDirection: 'row'}]}>
+          <View style={{width: Metrics.screenWidth * 0.3}}>
+            {category && category.image ? (
+              <Image
+                source={{uri: category.image}}
+                style={styles.servicesImage}
+              />
+            ) : (
+              <Image
+                source={Images.select_services}
+                style={styles.servicesImage}
+              />
+            )}
+          </View>
+          <View
+            style={{
+              justifyContent: 'center',
+              width: Metrics.screenWidth * 0.45,
+            }}>
+            <Text numberOfLines={1} style={styles.titleText}>
+              {category && category.name ? category.name : 'name'}
+            </Text>
+          </View>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('ServicesPage', {categoryId: id})
+            }>
+            <View style={{width: Metrics.screenWidth * 0.1}}>
+              <Image source={Images.arrow} style={styles.arrowImage} />
+            </View>
+          </TouchableOpacity>
         </View>
-        <View
-          style={{
-            justifyContent: "center",
-            width: Metrics.screenWidth * 0.45,
-          }}>
-          <Text numberOfLines={1} style={styles.titleText}>
-            {category && category.name ? category.name : 'name'}
-          </Text>
-        </View>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('ServicesPage')}>
-        <View
-          style={{width: Metrics.screenWidth * 0.1}}>
-          <Image
-              source={Images.arrow}
-              style={styles.arrowImage}
-            />
-        </View>
-        </TouchableOpacity>
       </View>
-        </View>
     );
   };
 
   renderCategoryRow = () => {
     const {getSelectedCategory} = this.state;
     return (
-      <View >
+      <View>
         <FlatList
           data={getSelectedCategory}
           renderItem={({item, index}) => this.renderCategory(item, index)}

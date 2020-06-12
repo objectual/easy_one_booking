@@ -1,16 +1,18 @@
-import login from "./Login";
-import register from "./Register";
-import getSalon from './GetSaloon'
-import getCategories from './GetCategories'
-import getSaloonCategories from './SaloonCategories'
-import getSaloonServicesByCategory from './GetSaloonServicesByCategory'
-import getSaloonByCategory from './GetSaloonByCategory'
+import login from './Login';
+import register from './Register';
+import getSalon from './GetSaloon';
+import getCategories from './GetCategories';
+import getSaloonCategories from './SaloonCategories';
+import getSaloonServicesByCategory from './GetSaloonServicesByCategory';
+import getSaloonByCategory from './GetSaloonByCategory';
+import createBooking from './CreateBooking';
+import getEmployeesBySaloonAndCategory from './GetEmployeesBySaloonAndCategory';
 // import forgotPassword from "./ForgotPassword";
 // import verifyResetCode from "./VerifyResetCode";
 // import resetPassword from "./ResetPassword";
 // import socialLogin from "./SocialLogin";
 
-import { fork } from "redux-saga/effects";
+import {fork} from 'redux-saga/effects';
 
 export default function* rootSaga() {
   yield fork(login);
@@ -20,9 +22,10 @@ export default function* rootSaga() {
   yield fork(getSaloonCategories);
   yield fork(getSaloonServicesByCategory);
   yield fork(getSaloonByCategory);
+  yield fork(createBooking);
+  yield fork(getEmployeesBySaloonAndCategory);
   // yield fork(forgotPassword);
   // yield fork(verifyResetCode);
   // yield fork(resetPassword);
   // yield fork(socialLogin);
-
 }

@@ -17,12 +17,11 @@ import {Images, Metrics} from '../../theme';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
 import {Actions} from 'react-native-router-flux';
-import { stackNavigator } from "../../redux/actions/StackNavigator";
-
+import {stackNavigator} from '../../redux/actions/StackNavigator';
 
 class Sidebar extends Component {
   navigateHomePage = () => {
-    const { myNavigation } = this.props;
+    const {myNavigation} = this.props;
     Actions.HomePage();
     // this.props(myNavigation.newView, 'Home');
   };
@@ -43,6 +42,9 @@ class Sidebar extends Component {
   };
   navigateRegister = () => {
     Actions.Register();
+  };
+  navigateSaloonEmployee = () => {
+    Actions.SaloonEmployee();
   };
   onLogout = () => {
     Actions.HomePage();
@@ -81,12 +83,7 @@ class Sidebar extends Component {
           'costumer_available_services',
           '',
         )}
-        {this.renderRow(
-          'Login',
-          this.navigateLogin,
-          'costumer_login',
-          '',
-        )}
+        {this.renderRow('Login', this.navigateLogin, 'costumer_login', '')}
         {this.renderRow(
           'Register',
           this.navigateRegister,
@@ -110,10 +107,11 @@ class Sidebar extends Component {
             },
           title == 'Logout' && {
             marginBottom: Metrics.ratio(25),
-          },{
+          },
+          {
             borderBottomColor: 'black',
             borderBottomWidth: StyleSheet.hairlineWidth,
-          }
+          },
         ]}>
         <Image
           resizeMethod="auto"
