@@ -157,7 +157,7 @@ class Sidebar extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({myNavigation: state.myNavigation});
+const mapStateToProps = state => ({myNavigation: state.myNavigation});
 
 const action = {stackNavigator};
 

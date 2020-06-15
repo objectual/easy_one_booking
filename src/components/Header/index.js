@@ -1,10 +1,10 @@
-import { connect } from "react-redux";
-import React, { Component } from "react";
-import { Text, View, Image, TouchableOpacity, Platform } from "react-native";
-import styles from "./styles";
-import { Images, Metrics } from "../../theme";
-import PropTypes from "prop-types";
-import Icon from "react-native-vector-icons/FontAwesome";
+import {connect} from 'react-redux';
+import React, {Component} from 'react';
+import {Text, View, Image, TouchableOpacity, Platform} from 'react-native';
+import styles from './styles';
+import {Images, Metrics} from '../../theme';
+import PropTypes from 'prop-types';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class Header extends Component {
   static propTypes = {
@@ -19,10 +19,10 @@ class Header extends Component {
     rightIconStyle: PropTypes.object,
     rightIconSize: PropTypes.number,
     productQuantity: PropTypes.number,
-    itemQuantity: PropTypes.number
+    itemQuantity: PropTypes.number,
   };
   static defaultProps = {
-    headerText: "",
+    headerText: '',
     leftIcon: undefined,
     rightIcon: undefined,
     leftBtnPress: undefined,
@@ -32,7 +32,7 @@ class Header extends Component {
     rightIconSize: undefined,
     rightBtnPress: undefined,
     productQuantity: undefined,
-    itemQuantity: undefined
+    itemQuantity: undefined,
   };
 
   render() {
@@ -45,23 +45,41 @@ class Header extends Component {
       rightIconStyle,
       rightIconSize,
       rightBtnPress,
-      itemQuantity
+      itemQuantity,
     } = this.props;
 
     return (
-      <View style={[styles.container, Platform.OS === 'ios' && { paddingTop: Metrics.screenHeight * 0.035, }]}>
-        <TouchableOpacity style={{ ...styles.TouchableMenu}} onPress={leftBtnPress}>
-          <Image source={leftIcon} style={{ width: Metrics.ratio(25), height: Metrics.ratio(25), resizeMode: 'contain',}} />
+      <View
+        style={[
+          styles.container,
+          Platform.OS === 'ios' && {paddingTop: Metrics.screenHeight * 0.035},
+        ]}>
+        <TouchableOpacity
+          style={{...styles.TouchableMenu}}
+          onPress={leftBtnPress}>
+          <Image
+            source={leftIcon}
+            style={{
+              width: Metrics.ratio(25),
+              height: Metrics.ratio(25),
+              resizeMode: 'contain',
+            }}
+          />
         </TouchableOpacity>
 
         <View style={styles.headerTextView}>
-          <Image source={Images.logo} style={{ width: Metrics.ratio(0), height: Metrics.ratio(45)}} />
-          <Text style={[styles.headerText, headerTextStyle,]}>{headerText}</Text>
+          <Image
+            source={Images.logo}
+            style={{width: Metrics.ratio(0), height: Metrics.ratio(45)}}
+          />
+          <Text style={[styles.headerText, headerTextStyle]}>{headerText}</Text>
         </View>
         <TouchableOpacity style={styles.TouchableMenu} onPress={rightBtnPress}>
-          <Image source={rightIcon} style={{ width: Metrics.ratio(40), height: Metrics.ratio(40)}} />
+          <Image
+            source={rightIcon}
+            style={{width: Metrics.ratio(40), height: Metrics.ratio(40)}}
+          />
         </TouchableOpacity>
-
       </View>
     );
   }

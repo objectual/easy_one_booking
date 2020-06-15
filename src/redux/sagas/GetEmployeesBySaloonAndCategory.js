@@ -9,7 +9,7 @@ import {success, failure} from '../actions/GetEmployeesBySaloonAndCategory';
 import {ErrorHelper} from '../../helpers';
 
 function callRequest(data) {
-  return ApiSauce.get(get_Employees_By_Saloon_And_Category_Api, data);
+  return ApiSauce.post(get_Employees_By_Saloon_And_Category_Api, data);
 }
 function* watchRequest() {
   while (true) {
@@ -21,7 +21,7 @@ function* watchRequest() {
     // delete payload.targetView;
     try {
       const response = yield call(callRequest, payload);
-      console.log(response, 'rererererererererererererererere');
+      console.log(response, 'responseresponseresponseresponseresponse');
       yield put(success(response));
       //   setTimeout(() => {
       //     Actions.verify({

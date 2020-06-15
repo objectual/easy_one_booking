@@ -1,28 +1,30 @@
-import { take, put, call, fork } from "redux-saga/effects";
+import {take, put, call, fork} from 'redux-saga/effects';
 
-import ApiSauce from "../../services/apiSauce";
-import { get_Saloon_Services_By_Category_Api } from "../../config/WebServices";
-import * as types from "../actions/ActionTypes";
+import ApiSauce from '../../services/apiSauce';
+import {get_Saloon_Services_By_Category_Api} from '../../config/WebServices';
+import * as types from '../actions/ActionTypes';
 
-import { success, failure } from "../actions/GetSaloonServicesByCategory";
+import {success, failure} from '../actions/GetSaloonServicesByCategory';
 
-import { ErrorHelper } from "../../helpers";
+import {ErrorHelper} from '../../helpers';
 
 function callRequest(data) {
   // const access_token = data.access_token;
   // delete data.access_token;
   // return ApiSauce.postWithToken(get_Saloon_Api, data, access_token);
   return ApiSauce.post(get_Saloon_Services_By_Category_Api, data);
-
 }
 function* watchRequest() {
   while (true) {
-    const { payload } = yield take(types.GET_SALOON_SERVICES_BY_CATEGORY.REQUEST);
+    const {payload} = yield take(types.GET_SALOON_SERVICES_BY_CATEGORY.REQUEST);
     // const { targetView } = payload;
     // delete payload.targetView;
     try {
       const response = yield call(callRequest, payload);
-      // console.log(response,"getSaloonServicesByCategorygetSaloonServicesByCategorygetSaloonServicesByCategory")
+      console.log(
+        response,
+        'getSaloonServicesByCategorygetSaloonServicesByCategorygetSaloonServicesByCategory',
+      );
       yield put(success(response));
 
       //   setTimeout(() => {
@@ -39,9 +41,6 @@ function* watchRequest() {
     }
   }
 }
-
-
-
 
 export default function* root() {
   yield fork(watchRequest);

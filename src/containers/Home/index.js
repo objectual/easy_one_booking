@@ -179,23 +179,6 @@ class Home extends Component {
       </View>
     );
   };
-  // renderPreviewButton = () => {
-  //   return (
-  //     <View>
-  //       <TouchableOpacity
-  //         style={styles.previewBtn}
-  //         onPress={() => this.setState({showdescription: true})}>
-  //         <Text
-  //           style={[
-  //             styles.submitBtnText,
-  //             {fontSize: Metrics.ratio(8), color: '#000'},
-  //           ]}>
-  //           Preview
-  //         </Text>
-  //       </TouchableOpacity>
-  //     </View>
-  //   );
-  // };
   renderShowWithRadiusButton = () => {
     return (
       <View>
@@ -210,7 +193,6 @@ class Home extends Component {
           <Text style={[styles.submitBtnText, {fontSize: Metrics.ratio(12)}]}>
             Show With Radius
           </Text>
-          {/* <Image source={Images.costumer_forward_arrow} style={{marginLeft: 10}}/> */}
         </TouchableOpacity>
       </View>
     );
@@ -223,7 +205,6 @@ class Home extends Component {
           {flexDirection: 'row', justifyContent: 'space-between'},
         ]}>
         <Text style={styles.mainheading}>Top Rated Saloon</Text>
-        {/* <Icon name="star" size={30} color="#841777"/> */}
         {/* {this.renderShowWithRadiusButton()} */}
       </View>
     );
@@ -239,25 +220,20 @@ class Home extends Component {
   getLocationHandler = () => {
     this.setState({isLoading: true});
     Geolocation.getCurrentPosition(
-      (pos) => {
+      pos => {
         this.setState(
           {
             longitude: pos.coords.longitude,
             latitude: pos.coords.latitude,
-            radius: 100,
-            enableHighAccuracy: true,
-            timeout: 2000,
-            maximumAge: 1000,
+            radius: 5000,
           },
           () => this.handleGetSaloon(),
         );
         console.log('latitude: ', pos.coords.longitude);
         console.log('longitude: ', pos.coords.latitude);
       },
-      (err) => {
-        console.log(err, 'errrrrrrrrrrrrrrrrrrrrr');
-        // Alert.alert('Error', err.message);
-      },
+      error => this.setState({error: error.message}),
+      {enableHighAccuracy: false, timeout: 5000, maximumAge: 10000},
     );
   };
   handleGetSaloon = () => {
@@ -271,7 +247,7 @@ class Home extends Component {
     this.props.get_Saloon(payload);
   };
 
-  renderSaloonCard = (salon) => {
+  renderSaloonCard = salon => {
     const {selectCard} = this.state;
     // console.log(salon,'llllllllllllll')
     return (
@@ -296,27 +272,28 @@ class Home extends Component {
           ) : (
             <Image source={Images.saloon_card} style={styles.cardImage} />
           )}
-          {/* <Image source={{uri:}} style={{height: Metrics.ratio(105)}} /> */}
           <View>
             <Text numberOfLines={1} style={styles.titleText}>
               {salon && salon.saloon && salon.saloon.name}
             </Text>
-            <Rating totalRating={'(2.2k)'} Default_Rating={5} />
+            <Rating totalRating={'(2.2k)'} Default_Rating={5} disabled={true} />
           </View>
         </View>
       </TouchableOpacity>
     );
   };
-  renderSaloonCategories = (category) => {
+  renderSaloonCategories = category => {
     const {selectSaloon} = this.state;
     return (
       <TouchableOpacity
         style={
-          selectSaloon && selectSaloon.templateID == category.templateID
+          selectSaloon && selectSaloon._id == category._id
             ? styles.showcardradius
             : null
         }
-        onPress={() => this.props.navigation.navigate('SaloonsPage')}>
+        onPress={() =>
+          this.props.navigation.navigate('SaloonsPage', {id: category._id})
+        }>
         <View style={styles.cardradius}>
           {category && category.image && category.image ? (
             <Image source={{uri: category.image}} style={styles.cardImage} />
@@ -364,16 +341,7 @@ class Home extends Component {
               horizontal
               data={GetSaloonData}
               renderItem={({item, index}) => this.renderSaloonCard(item, index)}
-              // keyExtractor={item => item.id}
-              // extraData={selected}
             />
-            {/* {GetSaloonData.map((val, index) => {
-              return (
-                <View>
-                  {this.renderSaloonCard(val, index)}
-                </View>
-              );
-            })} */}
           </View>
         </View>
       </ScrollView>
@@ -412,12 +380,11 @@ class Home extends Component {
           return <View>{this.renderDayAndTime(val.day, val.time, index)}</View>;
         })}
         <Text style={styles.mainheading2}>Address</Text>
-        <Text style={{fontSize: Metrics.ratio(15)}}>
+        <Text style={styles.mainheading3}>
           {selectCard && selectCard.saloon.address
             ? selectCard.saloon.address
             : null}
         </Text>
-        {/* {this.renderShowCategoryButton()} */}
       </View>
     );
   };
@@ -433,24 +400,20 @@ class Home extends Component {
           leftBtnPress={() => this.props.navigation.openDrawer()}
         />
         <ScrollView>
-          <View>
-            {this.renderScreenHeadImg()}
-            {this.renderHeading()}
-            {this.renderOurServices()}
-            {GetSaloonCategories.length != 0 &&
-              this.renderSaloonCategoriesCard()}
-            {this.renderRatedSaloon()}
-            {GetSaloonData.length != 0 && this.renderTopRatedSaloonCard()}
-            {showdescription ? this.renderDescription() : null}
-          </View>
+          {this.renderScreenHeadImg()}
+          {this.renderHeading()}
+          {this.renderOurServices()}
+          {GetSaloonCategories.length != 0 && this.renderSaloonCategoriesCard()}
+          {this.renderRatedSaloon()}
+          {GetSaloonData.length != 0 && this.renderTopRatedSaloonCard()}
+          {showdescription ? this.renderDescription() : null}
         </ScrollView>
       </View>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  // console.log(state,'sssaaaaaaaaaasssssssssssss')
+const mapStateToProps = state => {
   return {
     getSaloon: state.getSaloon,
     getCategories: state.getCategories,

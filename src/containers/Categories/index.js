@@ -25,6 +25,7 @@ class Categories extends Component {
     super(props);
     this.state = {
       getSelectedCategory: [],
+      categoryId: null,
     };
   }
 
@@ -66,8 +67,7 @@ class Categories extends Component {
     console.log(id, 'ididididididididididid');
     this.setState({isLoading: true});
     const payload = {
-      // id: id,
-      id: '5ed905f5194a762bac5a4162',
+      id,
     };
     this.props.get_Saloon_Categories(payload);
   };
@@ -105,8 +105,16 @@ class Categories extends Component {
             </Text>
           </View>
           <TouchableOpacity
+            style={
+              category && category._id == category._id
+                ? styles.showcardradius
+                : null
+            }
             onPress={() =>
-              this.props.navigation.navigate('ServicesPage', {categoryId: id})
+              this.props.navigation.navigate('ServicesPage', {
+                id: category._id,
+                companyId: id,
+              })
             }>
             <View style={{width: Metrics.screenWidth * 0.1}}>
               <Image source={Images.arrow} style={styles.arrowImage} />
@@ -139,7 +147,6 @@ class Categories extends Component {
           headerText={'Categories'}
           leftIcon={Images.pagination_back}
           leftBtnPress={() => this.props.navigation.goBack()}
-          // leftBtnPress={() => this.props.navigation.openDrawer()}
         />
         <ScrollView>
           <View>
@@ -152,7 +159,7 @@ class Categories extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   // console.log(state, 'sssaaaaaaaaaafffffffffffffffffffsssssssssssss');
   return {
     getSaloonCategories: state.getSaloonCategories,

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  Modal,
   Platform,
   TextInput,
   Linking,
@@ -35,7 +36,7 @@ class SaloonEmployee extends Component {
       mode: 'date',
       loginData: this.props.login.data.data,
       show: false,
-      getSelectedServices: [],
+      getEmployeesList: [],
       selectBookNow: 0,
     };
   }
@@ -49,13 +50,12 @@ class SaloonEmployee extends Component {
         nextProps.getEmployeesBySaloonAndCategory.data.success
       ) {
         this.setState({
-          getSelectedServices:
-            nextProps.getEmployeesBySaloonAndCategory.data.data,
+          getEmployeesList: nextProps.getEmployeesBySaloonAndCategory.data.data,
         });
-        // console.log(
-        //   nextProps.getEmployeesBySaloonAndCategory.data.data,
-        //   'getEmployeesBySaloonAndCategory',
-        // );
+        console.log(
+          nextProps.getEmployeesBySaloonAndCategory.data.data,
+          'getEmployeesBySaloonAndCategorygetEmployeesBySaloonAndCategory',
+        );
       } else if (
         !nextProps.getEmployeesBySaloonAndCategory.failure &&
         !nextProps.getEmployeesBySaloonAndCategory.isFetching &&
@@ -72,78 +72,76 @@ class SaloonEmployee extends Component {
         });
       }
     }
-    if (nextProps.createBooking) {
-      console.log(
-        nextProps.createBooking,
-        'createBookingcreateBookingcreateBookingcreateBookingcreateBooking',
-      );
-      if (
-        !nextProps.createBooking.failure &&
-        !nextProps.createBooking.isFetching &&
-        nextProps.createBooking.data &&
-        nextProps.createBooking.data.success
-      ) {
-        // this.setState({
-        //   getSelectedServices: nextProps.createBooking.data.data,
-        // });
-        console.log(
-          nextProps.createBooking,
-          'createBookingcreateBookingcreateBookingcreateBookingcreateBooking',
-        );
-      } else if (
-        !nextProps.createBooking.failure &&
-        !nextProps.createBooking.isFetching &&
-        nextProps.createBooking.data &&
-        !nextProps.createBooking.data.success
-      ) {
-        this.setState({isloading: false}, () => {
-          setTimeout(() => {
-            Alert.alert('Error', nextProps.createBooking.data.msg);
-          }, 3000);
-        });
-      }
-    }
+    // if (nextProps.createBooking) {
+    //   console.log(
+    //     nextProps.createBooking,
+    //     'createBookingcreateBookingcreateBookingcreateBookingcreateBooking',
+    //   );
+    //   if (
+    //     !nextProps.createBooking.failure &&
+    //     !nextProps.createBooking.isFetching &&
+    //     nextProps.createBooking.data &&
+    //     nextProps.createBooking.data.success
+    //   ) {
+    //     // this.setState({
+    //     //   getSelectedServices: nextProps.createBooking.data.data,
+    //     // });
+    //     console.log(
+    //       nextProps.createBooking,
+    //       'createBookingcreateBookingcreateBookingcreateBookingcreateBooking',
+    //     );
+    //   } else if (
+    //     !nextProps.createBooking.failure &&
+    //     !nextProps.createBooking.isFetching &&
+    //     nextProps.createBooking.data &&
+    //     !nextProps.createBooking.data.success
+    //   ) {
+    //     this.setState({isloading: false}, () => {
+    //       setTimeout(() => {
+    //         Alert.alert('Error', nextProps.createBooking.data.msg);
+    //       }, 3000);
+    //     });
+    //   }
+    // }
   }
   componentDidMount = () => {
     this.handleSaloonServicesByCategory();
   };
 
   handleSaloonServicesByCategory = () => {
-    // const {categoryId} = this.props;
+    const {ID, servicesId} = this.props;
+    console.log(servicesId, 'servicesIdservicesIdservicesId');
     this.setState({isLoading: true});
     const payload = {
-      companyId: '5ee0ca321b1dc85bb0a98c17',
-      serviceId: '5ee38d25e6d5b733dcca9297',
+      companyId: '5ee3b96663c5580017cd089b',
+      serviceId: '5ee7417408ea9d0017d1f881',
     };
     this.props.get_Employees_By_Saloon_And_Category(payload);
   };
-  handleCreateBookingLogin = () => {
-    const {loginData} = this.state;
-    if (loginData && loginData.access_token) {
-      this.handleCreateBooking();
-    } else {
-      Alert.alert('Cannot Create Order', 'Please Login First for order');
-    }
-  };
+  // handleCreateBookingLogin = () => {
+  //   const {loginData} = this.state;
+  //   if (loginData && loginData.access_token) {
+  //     this.handleCreateBooking();
+  //   } else {
+  //     Alert.alert('Cannot Create Order', 'Please Login First for order');
+  //   }
+  // };
 
-  handleCreateBooking = () => {
-    const {loginData} = this.state;
-    console.log(
-      loginData.access_token,
-      'loginDataloginDataloginDataloginDataloginData',
-    );
-    // const {categoryId} = this.props;
-    this.setState({isLoading: true});
-    const payloadBooking = {
-      employeeId: '5ee232365391f10aa8a853dc',
-      serviceId: '5ee21ff48384d05ab0b87a1a',
-      categoryId: '5ee0cb031b1dc85bb0a98c18',
-      status: '1',
-      bookingDate: '10-06-2020',
-      access_token: loginData.access_token,
-    };
-    this.props.create_Booking(payloadBooking);
-  };
+  // handleCreateBooking = () => {
+  //   this.setState({isLoading: true});
+  //   const {loginData} = this.state;
+  //   const {ID, servicesId} = this.props;
+  //   console.log(servicesId, 'servicesIdservicesIdservicesIdservicesId');
+  //   const payload = {
+  //     // employeeId: '5ee232365391f10aa8a853dc',
+  //     // serviceId: '5ee21ff48384d05ab0b87a1a',
+  //     // categoryId: ID,
+  //     // status: '1',
+  //     // bookingDate: '10-06-2020',
+  //     access_token: loginData.access_token,
+  //   };
+  //   this.props.create_Booking(payload);
+  // };
 
   onChange = (event, date) => {
     date = date || this.state;
@@ -153,7 +151,7 @@ class SaloonEmployee extends Component {
     });
   };
 
-  showMode = (mode) => {
+  showMode = mode => {
     this.setState({
       show: true,
       mode,
@@ -179,45 +177,43 @@ class SaloonEmployee extends Component {
     return <SpinnerLoader isloading={isloading} />;
   };
   renderRow = () => {
-    const {getSelectedServices} = this.state;
+    const {getEmployeesList} = this.state;
     return (
       <View>
         <FlatList
-          // horizontal
-          data={getSelectedServices}
-          renderItem={({item, index}) => this.renderService(item, index)}
-          // keyExtractor={item => item.id}
-          // extraData={selected}
+          data={getEmployeesList}
+          renderItem={({item, index}) => this.renderEmoployee(item, index)}
         />
       </View>
     );
   };
   renderNextStepButton = () => {
     return (
-      <View
-        style={[
-          styles.containerForRow,
-          {marginVertical: Metrics.ratio(10), alignItems: 'flex-end'},
-        ]}>
-        <TouchableOpacity style={styles.submitBtn}>
-          <Text style={styles.submitBtnText}>Next Step</Text>
+      <View>
+        <TouchableOpacity
+          style={styles.submitBtn}
+          onPress={() => this.setState({setModalVisible: true})}>
+          <Text style={styles.submitBtnText}>Show Date And Time</Text>
         </TouchableOpacity>
       </View>
     );
   };
-  renderService = (services, index) => {
-    const {selectBookNow} = this.state;
+  renderEmoployee = (employees, index) => {
+    console.log(employees, 'employeesemployeesemployeesemployeesemployees');
     return (
       <View style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
           <View style={{width: Metrics.screenWidth * 0.3}}>
-            {services && services.image ? (
+            {employees && employees.image ? (
               <Image
-                source={{uri: services.image}}
+                source={{uri: employees.image}}
                 style={styles.servicesImage}
               />
             ) : (
-              <Image source={image} style={styles.servicesImage} />
+              <Image
+                source={Images.select_services}
+                style={styles.servicesImage}
+              />
             )}
           </View>
           <View
@@ -226,92 +222,80 @@ class SaloonEmployee extends Component {
               width: Metrics.screenWidth * 0.35,
             }}>
             <Text numberOfLines={1} style={{fontSize: Metrics.ratio(17)}}>
-              {services && services.serviceName ? services.serviceName : 'name'}
+              {employees && employees.createdDate && employees.createdDate
+                ? employees.createdDate
+                : 'created Date'}
             </Text>
-            {/* <Text>{services && services._id ? services._id : 'id'}</Text> */}
-            <TouchableOpacity
-            //  onPress={() => this.showDatepicker()}
-            >
-              <View
-                style={{
-                  flexDirection: 'row',
-                  marginVertical: Metrics.ratio(5),
-                }}>
-                <Image
-                  source={Images.calendar}
-                  style={{
-                    height: Metrics.ratio(17),
-                    width: Metrics.ratio(17),
-                    marginRight: Metrics.ratio(5),
-                  }}
-                />
-                <Text style={{fontSize: Metrics.ratio(14)}}>
-                  {'Select Date hh'}
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <View style={{flexDirection: 'row'}}>
-              <Image
-                source={Images.tag_grey}
-                style={{
-                  height: Metrics.ratio(17),
-                  width: Metrics.ratio(17),
-                  marginRight: Metrics.ratio(5),
-                }}
-              />
-              <Text style={{fontSize: Metrics.ratio(14)}}>
-                {services && services.price ? services.price : 'name'}
-              </Text>
-            </View>
-          </View>
-
-          <View
-            style={{
-              justifyContent: 'center',
-              width: Metrics.screenWidth * 0.2,
-            }}>
-            {this.renderBookNowButton()}
+            {this.renderNextStepButton()}
           </View>
         </View>
       </View>
     );
   };
-  dateAndTimePicker() {
-    const {showDatepicker} = this.state;
+  // dateAndTimePicker() {
+  //   const {showDatepicker} = this.state;
+  //   return (
+  //     <View>
+  //       {showDatepicker ? (
+  //         <DateTimePicker
+  //           testID="dateTimePicker"
+  //           timeZoneOffsetInMinutes={0}
+  //           value={1591103986723}
+  //           mode="datetime"
+  //           is24Hour={false}
+  //           display="default"
+  //           onChange={this.onChange}
+  //         />
+  //       ) : null}
+  //     </View>
+  //   );
+  // }
+  // renderBookNowButton = services => {
+  //   const {selectBookNow} = this.state;
+  //   return (
+  //     <View>
+  //       <TouchableOpacity
+  //         style={
+  //           selectBookNow && selectBookNow._id == services.selectBookNow._id
+  //             ? styles.btnSelect
+  //             : styles.submitBtn1
+  //         }
+  //         onPress={() => this.handleCreateBookingLogin()}>
+  //         <Text style={styles.submitBtnText1}>Book Now</Text>
+  //       </TouchableOpacity>
+  //     </View>
+  //   );
+  // };
+
+  renderPopup = () => {
+    const {modalVisible, setModalVisible} = this.setState;
     return (
-      <View>
-        {showDatepicker ? (
-          <DateTimePicker
-            testID="dateTimePicker"
-            timeZoneOffsetInMinutes={0}
-            value={1591103986723}
-            mode="datetime"
-            is24Hour={false}
-            display="default"
-            onChange={this.onChange}
-          />
-        ) : null}
-      </View>
-    );
-  }
-  renderBookNowButton = (services) => {
-    const {selectBookNow} = this.state;
-    return (
-      <View>
-        <TouchableOpacity
-          style={
-            selectBookNow && selectBookNow._id == services.selectBookNow._id
-              ? styles.btnSelect
-              : styles.submitBtn1
-          }
-          onPress={() => this.handleCreateBookingLogin()}>
-          <Text style={styles.submitBtnText1}>Book Now</Text>
-        </TouchableOpacity>
-      </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Hello World!</Text>
+
+            <TouchableOpacity
+              style={{...styles.openButton, backgroundColor: '#2196F3'}}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}>
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     );
   };
+
   render() {
-    const {getSelectedServices} = this.state;
+    const {getEmployeesList, setModalVisible} = this.state;
     return (
       <View style={styles.container}>
         <Header
@@ -323,11 +307,9 @@ class SaloonEmployee extends Component {
         />
         <ScrollView>
           <View>
-            {getSelectedServices &&
-              getSelectedServices.length != 0 &&
-              this.renderRow()}
-            {this.dateAndTimePicker()}
-            {this.renderNextStepButton()}
+            {getEmployeesList.length != 0 && this.renderRow()}
+            {/* {setModalVisible ? this.renderPopup() : null} */}
+            {/* {this.dateAndTimePicker()} */}
           </View>
         </ScrollView>
       </View>
@@ -335,7 +317,7 @@ class SaloonEmployee extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   getEmployeesBySaloonAndCategory: state.getEmployeesBySaloonAndCategory,
   createBooking: state.createBooking,
   login: state.login,

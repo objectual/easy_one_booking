@@ -37,32 +37,10 @@ export default StyleSheet.create({
     paddingHorizontal: Metrics.ratio(20),
     // marginTop: Metrics.ratio(20),
   },
-  submitBtn: {
-    paddingVertical: Metrics.ratio(14),
-    // alignItems: 'center',
-    width: Metrics.screenWidth * 0.5,
-    borderRadius: Metrics.screenWidth * 0.35,
-    backgroundColor: '#fff',
-    elevation: 5,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.18,
-    shadowRadius: 1.0,
-  },
-  submitBtnText: {
-    fontSize: Metrics.ratio(14),
-    color: '#000',
-    // justifyContent: "center",
-    // textAlignVertical: "center"
-    textAlign: 'center',
-  },
+
   submitBtnText1: {
     fontSize: Metrics.ratio(12),
     color: '#fff',
-    // justifyContent: "center",
-    // textAlignVertical: "center"
     textAlign: 'center',
   },
   submitBtn1: {
@@ -72,10 +50,11 @@ export default StyleSheet.create({
     borderRadius: Metrics.screenWidth * 0.35,
   },
   submitBtn: {
+    marginTop: Metrics.ratio(10),
     backgroundColor: '#FF3600',
     paddingVertical: Metrics.ratio(10),
     // alignItems: 'center',
-    width: Metrics.screenWidth * 0.4,
+    width: Metrics.screenWidth * 0.5,
     borderRadius: Metrics.screenWidth * 0.35,
   },
   submitBtnText: {
@@ -95,5 +74,30 @@ export default StyleSheet.create({
     width: Metrics.ratio(25),
     borderRadius: Metrics.ratio(80),
     resizeMode: 'contain',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    width: Metrics.screenWidth * 0.8,
+    height: Metrics.screenHeight * 0.7,
+    // alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
 });

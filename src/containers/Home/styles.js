@@ -31,6 +31,11 @@ export default StyleSheet.create({
     marginBottom: Metrics.ratio(10),
     fontFamily: Fonts.type.bold,
   },
+  mainheading3: {
+    color: '#5c0000',
+    fontSize: Metrics.ratio(15),
+    marginBottom: Metrics.ratio(30),
+  },
   submitBtn: {
     backgroundColor: '#FF3600',
     paddingVertical: Metrics.ratio(10),
@@ -76,7 +81,7 @@ export default StyleSheet.create({
   titleText: {
     fontSize: Metrics.ratio(18),
     marginVertical: Metrics.ratio(5),
-    width : Metrics.ratio(150)
+    width: Metrics.ratio(150),
   },
   cardradius: {
     padding: Metrics.ratio(7),

@@ -1,12 +1,12 @@
-import {take, put, call, fork} from 'redux-saga/effects';
+import { take, put, call, fork } from 'redux-saga/effects';
 
 import ApiSauce from '../../services/apiSauce';
-import {create_Booking_Api} from '../../config/WebServices';
+import { create_Booking_Api } from '../../config/WebServices';
 import * as types from '../actions/ActionTypes';
 
-import {success, failure} from '../actions/CreateBooking';
+import { success, failure } from '../actions/CreateBooking';
 
-import {ErrorHelper} from '../../helpers';
+import { ErrorHelper } from '../../helpers';
 
 function callRequest(data) {
   const access_token = data.access_token;
@@ -16,15 +16,15 @@ function callRequest(data) {
 }
 function* watchRequest() {
   while (true) {
-    const {payload} = yield take(types.CREATE_BOOKING.REQUEST);
+    const { payload } = yield take(types.CREATE_BOOKING.REQUEST);
     // const { targetView } = payload;
     // delete payload.targetView;
     try {
       const response = yield call(callRequest, payload);
-      console.log(
-        response,
-        'responseresponseresponseresponseresponseresponseresponseresponse',
-      );
+      // console.log(
+      //   response,
+      //   'responseresponseresponseresponseresponseresponseresponseresponse',
+      // );
       yield put(success(response));
 
       //   setTimeout(() => {

@@ -67,9 +67,11 @@ class Saloons extends Component {
   };
 
   handleGetSaloonByCategory = () => {
+    const {id} = this.props;
+    console.log(id, 'ididididididididididid');
     this.setState({isLoading: true});
     const payload = {
-      categoryId: '5ee0cb031b1dc85bb0a98c18',
+      categoryId: id,
     };
     this.props.get_Saloon_By_Category(payload);
   };
@@ -102,7 +104,9 @@ class Saloons extends Component {
             </Text>
 
             <Text style={{fontSize: Metrics.ratio(14)}}>
-              {saloons && saloons.createdDate ? saloons.createdDate : 'created Date'}
+              {saloons && saloons.createdDate
+                ? saloons.createdDate
+                : 'created Date'}
             </Text>
 
             <Text style={{fontSize: Metrics.ratio(14)}}>
@@ -156,7 +160,7 @@ class Saloons extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   getSaloonByCategory: state.getSaloonByCategory,
 });
 

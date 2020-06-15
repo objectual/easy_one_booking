@@ -33,6 +33,7 @@ class Services extends Component {
       date: new Date(1598051730000),
       mode: 'date',
       show: false,
+      selectCompanyId: this.props.getSaloon.data.data.saloon,
       getSelectedServices: [],
       selectBookNow: 0,
     };
@@ -75,11 +76,12 @@ class Services extends Component {
   };
 
   handleSaloonServicesByCategory = () => {
-    // const {categoryId} = this.props;
+    const {id, companyId} = this.props;
+    console.log(companyId, 'selectCompanyIdselectCompanyIdselectCompanyId');
     this.setState({isLoading: true});
     const payload = {
-      companyId: '5ee0ca321b1dc85bb0a98c17',
-      categoryId: '5ee0cb031b1dc85bb0a98c18',
+      companyId: companyId,
+      categoryId: id,
     };
     this.props.get_Saloon_Services_By_Category(payload);
   };
@@ -92,7 +94,7 @@ class Services extends Component {
     });
   };
 
-  showMode = (mode) => {
+  showMode = mode => {
     this.setState({
       show: true,
       mode,
@@ -145,7 +147,7 @@ class Services extends Component {
     );
   };
   renderService = (services, index) => {
-    const {selectBookNow} = this.state;
+    const {id} = this.props;
     return (
       <View style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
@@ -204,7 +206,12 @@ class Services extends Component {
             </View>
           </View>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('SaloonEmployee')}>
+            onPress={() =>
+              this.props.navigation.navigate('SaloonEmployee', {
+                ID: id,
+                servicesId: services._id,
+              })
+            }>
             <View
               style={{
                 justifyContent: 'center',
@@ -261,8 +268,9 @@ class Services extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   getSaloonServicesByCategory: state.getSaloonServicesByCategory,
+  getSaloon: state.getSaloon,
   login: state.login,
 });
 
