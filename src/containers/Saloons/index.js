@@ -67,12 +67,12 @@ class Saloons extends Component {
   };
 
   handleGetSaloonByCategory = () => {
-    const {id} = this.props;
-    console.log(id, 'ididididididididididid');
+    const {id} = this.props.route.params;
     this.setState({isLoading: true});
     const payload = {
       categoryId: id,
     };
+    console.log(payload,'categoryID')
     this.props.get_Saloon_By_Category(payload);
   };
 
@@ -126,10 +126,20 @@ class Saloons extends Component {
   };
   renderRow = () => {
     const {getSelectedSaloon} = this.state;
+    console.log(getSelectedSaloon,'getSelectedSaloon1212')
+    if(getSelectedSaloon.length == 0)
+    {
+      return (
+        <View style={styles.textContainer}>
+           <Text style={styles.textNotFound}>No Saloon Found</Text>
+        </View>
+      )
+    }
+    else  
+    {
     return (
       <View>
         <FlatList
-          // horizontal
           data={getSelectedSaloon}
           renderItem={({item, index}) => this.renderService(item, index)}
           // keyExtractor={item => item.id}
@@ -137,10 +147,12 @@ class Saloons extends Component {
         />
       </View>
     );
+    }
   };
 
   render() {
     const {getSelectedSaloon} = this.state;
+    const {isFetching, failure} = this.props.getSaloonByCategory
     return (
       <View style={styles.container}>
         <Header
@@ -148,13 +160,15 @@ class Saloons extends Component {
           leftIcon={Images.pagination_back}
           leftBtnPress={() => this.props.navigation.goBack()}
         />
+        { <SpinnerLoader isloading={isFetching} />}
+
+        {isFetching == false && failure == false &&
         <ScrollView>
           <View>
-            {getSelectedSaloon &&
-              getSelectedSaloon.length != 0 &&
-              this.renderRow()}
+            {this.renderRow()}
           </View>
         </ScrollView>
+      }
       </View>
     );
   }

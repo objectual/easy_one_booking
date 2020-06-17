@@ -123,10 +123,6 @@
 // );
 // const AppNavigator = connect()(Router);
 
-
-
-
-
 import * as React from 'react';
 import {
   View,
@@ -137,8 +133,8 @@ import {
   ImageBackground,
   Image,
 } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -146,7 +142,7 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import Home from './../containers/Home/index';
-import { Images, Metrics, Fonts, Colors } from '../theme';
+import {Images, Metrics, Fonts, Colors} from '../theme';
 import Services from './../containers/Services/index';
 import ChartBox from './../containers/ChartBox/index';
 import AvailableServices from './../containers/AvailableServices/index';
@@ -158,41 +154,29 @@ import Saloons from './../containers/Saloons/index';
 import SaloonEmployee from './../containers/SaloonEmployee/index';
 import styles from './styles';
 
-
-
-
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-
-
 function CustomDrawerContent(props) {
-
-
-
   return (
     <DrawerContentScrollView {...props}>
-
       <DrawerItemList {...props} />
       <DrawerItem
         label="Logout"
-        onPress={() => null} 
-        style={{marginTop:20}}
-        icon={  ({focused}) => 
-        <Image
-          source={Images.costumer_logout}
-          style={[getFocusedTabStyles(focused),styles.drawerIcon]}
-
-        />
-       }/>
-     
+        onPress={() => null}
+        style={{marginTop: 20}}
+        icon={({focused}) => (
+          <Image
+            source={Images.costumer_logout}
+            style={[getFocusedTabStyles(focused), styles.drawerIcon]}
+          />
+        )}
+      />
     </DrawerContentScrollView>
   );
 }
 
-
-function homeStack({ navigation }) {
-
+function homeStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -201,17 +185,12 @@ function homeStack({ navigation }) {
         options={{
           title: 'Home',
           headerTitleStyle: {
-            marginLeft: '30%'
+            marginLeft: '30%',
           },
 
-
           headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => navigation.openDrawer()}
-            >
-              <Image
-                source={Images.costumer_header_menu}
-              />
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <Image source={Images.costumer_header_menu} />
             </TouchableOpacity>
           ),
         }}
@@ -220,10 +199,7 @@ function homeStack({ navigation }) {
   );
 }
 
-
-
-function serviceStack({ navigation }) {
-
+function serviceStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -232,17 +208,12 @@ function serviceStack({ navigation }) {
         options={{
           title: 'Services',
           headerTitleStyle: {
-            marginLeft: '25%'
+            marginLeft: '25%',
           },
 
-
           headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => navigation.openDrawer()}
-            >
-              <Image
-                source={Images.costumer_header_menu}
-              />
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <Image source={Images.costumer_header_menu} />
             </TouchableOpacity>
           ),
         }}
@@ -251,10 +222,7 @@ function serviceStack({ navigation }) {
   );
 }
 
-
-
-function chatStack({ navigation }) {
-
+function chatStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -263,17 +231,12 @@ function chatStack({ navigation }) {
         options={{
           title: 'Live Chat',
           headerTitleStyle: {
-            marginLeft: '30%'
+            marginLeft: '30%',
           },
 
-
           headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => navigation.openDrawer()}
-            >
-              <Image
-                source={Images.costumer_header_menu}
-              />
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <Image source={Images.costumer_header_menu} />
             </TouchableOpacity>
           ),
         }}
@@ -282,9 +245,7 @@ function chatStack({ navigation }) {
   );
 }
 
-
-function categoriesStack({ navigation }) {
-
+function categoriesStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -293,17 +254,12 @@ function categoriesStack({ navigation }) {
         options={{
           title: 'Categories',
           headerTitleStyle: {
-            marginLeft: '25%'
+            marginLeft: '25%',
           },
 
-
           headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => navigation.openDrawer()}
-            >
-              <Image
-                source={Images.costumer_header_menu}
-              />
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <Image source={Images.costumer_header_menu} />
             </TouchableOpacity>
           ),
         }}
@@ -312,9 +268,7 @@ function categoriesStack({ navigation }) {
   );
 }
 
-
-function saloonStack({ navigation }) {
-
+function saloonStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -323,17 +277,12 @@ function saloonStack({ navigation }) {
         options={{
           title: 'Saloons',
           headerTitleStyle: {
-            marginLeft: '15%'
+            marginLeft: '15%',
           },
 
-
           headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => navigation.openDrawer()}
-            >
-              <Image
-                source={Images.costumer_header_menu}
-              />
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <Image source={Images.costumer_header_menu} />
             </TouchableOpacity>
           ),
         }}
@@ -342,11 +291,7 @@ function saloonStack({ navigation }) {
   );
 }
 
-
-
-
-function employeeStack({ navigation }) {
-
+function employeeStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -355,17 +300,12 @@ function employeeStack({ navigation }) {
         options={{
           title: 'SaloonEmployee',
           headerTitleStyle: {
-            marginLeft: '15%'
+            marginLeft: '15%',
           },
 
-
           headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => navigation.openDrawer()}
-            >
-              <Image
-                source={Images.costumer_header_menu}
-              />
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <Image source={Images.costumer_header_menu} />
             </TouchableOpacity>
           ),
         }}
@@ -374,10 +314,7 @@ function employeeStack({ navigation }) {
   );
 }
 
-
-
-function availableServicesStack({ navigation }) {
-
+function availableServicesStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -386,17 +323,12 @@ function availableServicesStack({ navigation }) {
         options={{
           title: 'Available Services',
           headerTitleStyle: {
-            marginLeft: '15%'
+            marginLeft: '15%',
           },
 
-
           headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => navigation.openDrawer()}
-            >
-              <Image
-                source={Images.costumer_header_menu}
-              />
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <Image source={Images.costumer_header_menu} />
             </TouchableOpacity>
           ),
         }}
@@ -405,10 +337,7 @@ function availableServicesStack({ navigation }) {
   );
 }
 
-
-
-function loginStack({ navigation }) {
-
+function loginStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -417,17 +346,12 @@ function loginStack({ navigation }) {
         options={{
           title: 'Login',
           headerTitleStyle: {
-            marginLeft: '30%'
+            marginLeft: '30%',
           },
 
-
           headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => navigation.openDrawer()}
-            >
-              <Image
-                source={Images.costumer_header_menu}
-              />
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <Image source={Images.costumer_header_menu} />
             </TouchableOpacity>
           ),
         }}
@@ -436,10 +360,7 @@ function loginStack({ navigation }) {
   );
 }
 
-
-
-function registerStack({ navigation }) {
-
+function registerStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -448,17 +369,12 @@ function registerStack({ navigation }) {
         options={{
           title: 'Register',
           headerTitleStyle: {
-            marginLeft: '30%'
+            marginLeft: '30%',
           },
 
-
           headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => navigation.openDrawer()}
-            >
-              <Image
-                source={Images.costumer_header_menu}
-              />
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <Image source={Images.costumer_header_menu} />
             </TouchableOpacity>
           ),
         }}
@@ -467,75 +383,63 @@ function registerStack({ navigation }) {
   );
 }
 
-
-
-
-
-function getFocusedTabStyles(focused)
-{
-   if(focused)
-   {
-     return { tintColor: Colors.red }
-   }
-  
+function getFocusedTabStyles(focused) {
+  if (focused) {
+    return {tintColor: Colors.red};
+  }
 }
-
-
-
 
 function mainDrawer() {
   return (
-    <NavigationContainer>
-      <Drawer.Navigator
-        drawerContentOptions={{
-          itemStyle: { marginVertical: 10 },
-          activeTintColor: 'red',
-        }}
-
-        drawerStyle={{
-          width: '70%',
-          backgroundColor: Colors.white,
-          activeBackgroundColor: Colors.red
-        }}
-        drawerType={'slide'}
-        drawerContent={props => <CustomDrawerContent {...props} />}>
-        <Drawer.Screen
-          name="Home"
-          component={homeStack}
-          options={{
-            drawerIcon: ({focused}) => 
-             <Image
+    <Drawer.Navigator
+      drawerContentOptions={{
+        itemStyle: {marginVertical: 10},
+        activeTintColor: 'red',
+      }}
+      drawerStyle={{
+        width: '70%',
+        backgroundColor: Colors.white,
+        activeBackgroundColor: Colors.red,
+      }}
+      drawerType={'slide'}
+      drawerContent={(props) => <CustomDrawerContent {...props} />}>
+      <Drawer.Screen
+        name="Home"
+        component={homeStack}
+        options={{
+          drawerIcon: ({focused}) => (
+            <Image
               source={Images.costumer_home}
-              style={[getFocusedTabStyles(focused),styles.drawerIcon]}
+              style={[getFocusedTabStyles(focused), styles.drawerIcon]}
             />
-          }}
-        />
-        <Drawer.Screen
-          name="Services"
-          component={serviceStack}
-          options={{
-            drawerIcon: ({focused}) => 
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Services"
+        component={serviceStack}
+        options={{
+          drawerIcon: ({focused}) => (
             <Image
               source={Images.costumer_services}
-              style={[getFocusedTabStyles(focused),styles.drawerIcon]}
-
+              style={[getFocusedTabStyles(focused), styles.drawerIcon]}
             />
-          }}
-        />
-        <Drawer.Screen
-          name="Chatbox"
-          component={chatStack}
-          options={{
-            drawerIcon: ({focused}) => 
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Chatbox"
+        component={chatStack}
+        options={{
+          drawerIcon: ({focused}) => (
             <Image
               source={Images.costumer_chart_box}
-              style={[getFocusedTabStyles(focused),styles.drawerIcon]}
-
-
+              style={[getFocusedTabStyles(focused), styles.drawerIcon]}
             />
-          }}
-        />
-        {/*
+          ),
+        }}
+      />
+      {/*
         <Drawer.Screen
           name="Categories"
           component={categoriesStack}
@@ -550,47 +454,45 @@ function mainDrawer() {
           }}
         />*/}
 
-        <Drawer.Screen
-          name="Available Services"
-          component={availableServicesStack}
-          options={{
-            drawerIcon: ({focused}) => 
+      <Drawer.Screen
+        name="Available Services"
+        component={availableServicesStack}
+        options={{
+          drawerIcon: ({focused}) => (
             <Image
               source={Images.costumer_available_services}
-              style={[getFocusedTabStyles(focused),styles.drawerIcon]}
-
-
+              style={[getFocusedTabStyles(focused), styles.drawerIcon]}
             />
-          }}
-        />
-        <Drawer.Screen
-          name="Login"
-          component={loginStack}
-          options={{
-            drawerIcon: ({focused}) => 
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Login"
+        component={loginStack}
+        options={{
+          drawerIcon: ({focused}) => (
             <Image
               source={Images.costumer_login}
-              style={[getFocusedTabStyles(focused),styles.drawerIcon]}
-
+              style={[getFocusedTabStyles(focused), styles.drawerIcon]}
             />
-          }}
-        />
+          ),
+        }}
+      />
 
-        <Drawer.Screen
-          name="Register"
-          component={registerStack}
-          options={{
-            drawerIcon: ({focused}) => 
+      <Drawer.Screen
+        name="Register"
+        component={registerStack}
+        options={{
+          drawerIcon: ({focused}) => (
             <Image
               source={Images.costumer_register}
-              style={[getFocusedTabStyles(focused),styles.drawerIcon]}
-
-
+              style={[getFocusedTabStyles(focused), styles.drawerIcon]}
             />
-          }}
-        />
+          ),
+        }}
+      />
 
-       {/*}
+      {/*}
 
         <Drawer.Screen
           name="Saloons"
@@ -618,19 +520,50 @@ function mainDrawer() {
             />
           }}
         /> */}
-      </Drawer.Navigator>
-    </NavigationContainer>
-
+    </Drawer.Navigator>
   );
 }
 
+function mainStack({navigation}) {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+     
+      >
+        <Stack.Screen
+          name="mainDrawer"
+          component={mainDrawer}
+          options={{
+            headerShown: false,
+            headerTitleStyle: {
+              marginLeft: '30%',
+            },
+          }}
+        />
+         <Stack.Screen
+          name="Saloons"
+          component={Saloons}
+          options={{
+            headerShown: false,
+            headerTitleStyle: {
+              marginLeft: '30%',
+            },
+          }}
+        />
 
+        <Stack.Screen
+          name="Categories"
+          component={Categories}
+          options={{
+            headerShown: false,
+            headerTitleStyle: {
+              marginLeft: '30%',
+            },
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
-
-
-
-
-export default mainDrawer;
-
-
-
+export default mainStack;

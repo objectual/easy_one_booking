@@ -100,4 +100,11 @@ servicesImage: {
   width: Metrics.ratio(80),
   borderRadius : Metrics.ratio(80),
 },
+textContainer:{
+  alignItems: 'center',
+  marginTop: '50%'
+},
+textNotFound:{
+  fontSize: 22
+}
 });
