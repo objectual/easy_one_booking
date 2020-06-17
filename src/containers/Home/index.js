@@ -394,11 +394,6 @@ class Home extends Component {
 
     return (
       <View style={styles.container}>
-        <Header
-          headerText={'Home'}
-          leftIcon={Images.costumer_header_menu}
-          leftBtnPress={() => this.props.navigation.openDrawer()}
-        />
         <ScrollView>
           {this.renderScreenHeadImg()}
           {this.renderHeading()}

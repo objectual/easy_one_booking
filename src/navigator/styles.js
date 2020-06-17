@@ -51,4 +51,8 @@ export default StyleSheet.create({
     height: Metrics.ratio(50),
     width: Metrics.ratio(100),
   },
-});
+
+  drawerIcon:{
+    height: 35, width: 35
+  }
+})

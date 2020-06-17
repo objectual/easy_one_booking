@@ -79,6 +79,7 @@ const indicatorColor = 'rgba(40,42,49,0.5)';
 const salmon = 'rgba(255, 145, 121, 1)';
 const checkoutDetailArea = '#d9d9d9';
 const badgeCart = '#00c61e';
+const red = 'red'
 
 // app generic components colors
 
@@ -208,4 +209,7 @@ export default {
   checkoutDetailArea,
   badgeCart,
   placeholder,
+  red
+
+
 };

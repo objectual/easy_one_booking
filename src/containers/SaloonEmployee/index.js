@@ -298,13 +298,7 @@ class SaloonEmployee extends Component {
     const {getEmployeesList, setModalVisible} = this.state;
     return (
       <View style={styles.container}>
-        <Header
-          headerText={'Employees'}
-          leftIcon={Images.pagination_back}
-          leftBtnPress={() => this.props.navigation.goBack()}
-          rightBtnPress={() => this.props.navigation.navigate('Proceeding')}
-          rightIcon={Images.cart_payment}
-        />
+        
         <ScrollView>
           <View>
             {getEmployeesList.length != 0 && this.renderRow()}

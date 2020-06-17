@@ -143,11 +143,6 @@ class Categories extends Component {
     const {getSelectedCategory} = this.state;
     return (
       <View style={styles.container}>
-        <Header
-          headerText={'Categories'}
-          leftIcon={Images.pagination_back}
-          leftBtnPress={() => this.props.navigation.goBack()}
-        />
         <ScrollView>
           <View>
             {getSelectedCategory.length != 0 && this.renderCategoryRow()}

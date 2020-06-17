@@ -34,11 +34,6 @@ class AvailableServices extends Component {
   render() {
     return (
       <View style={styles.container}>
-      <Header
-        headerText={'Available Services'}
-        leftIcon={Images.costumer_header_menu}
-        leftBtnPress={() => this.props.navigation.openDrawer()}
-      />
         <ScrollView>
           <View>
             {/* {this.renderRow()} */}

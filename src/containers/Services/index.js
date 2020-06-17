@@ -72,7 +72,7 @@ class Services extends Component {
     }
   }
   componentDidMount = () => {
-    this.handleSaloonServicesByCategory();
+    // this.handleSaloonServicesByCategory();
   };
 
   handleSaloonServicesByCategory = () => {
@@ -247,13 +247,7 @@ class Services extends Component {
     const {getSelectedServices} = this.state;
     return (
       <View style={styles.container}>
-        <Header
-          headerText={'Services'}
-          leftIcon={Images.pagination_back}
-          leftBtnPress={() => this.props.navigation.goBack()}
-          // rightBtnPress={() => this.props.navigation.navigate('Proceeding')}
-          // rightIcon={Images.cart_payment}
-        />
+       
         <ScrollView>
           <View>
             {getSelectedServices &&

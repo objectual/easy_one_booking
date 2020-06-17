@@ -33,11 +33,7 @@ class ChartBox extends Component {
   render() {
     return (
       <View style={styles.container}>
-      <Header
-        headerText={'Live Chat!'}
-        leftIcon={Images.costumer_header_menu}
-        leftBtnPress={() => this.props.navigation.openDrawer()}
-      />
+      
         <ScrollView>
           <View>
             {/* {this.renderRow()} */}
