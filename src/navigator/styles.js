@@ -52,7 +52,13 @@ export default StyleSheet.create({
     width: Metrics.ratio(100),
   },
 
-  drawerIcon:{
-    height: 35, width: 35
-  }
-})
+  drawerIcon: {
+    height: 35,
+    width: 35,
+  },
+  headerIcon: {
+    height: Metrics.ratio(50),
+    width: Metrics.ratio(37),
+    marginLeft: Metrics.ratio(15),
+  },
+});

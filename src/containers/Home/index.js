@@ -292,7 +292,7 @@ class Home extends Component {
             : null
         }
         onPress={() =>
-          this.props.navigation.navigate('SaloonsPage', {id: category._id})
+          this.props.navigation.navigate('Saloons', {id: category._id})
         }>
         <View style={styles.cardradius}>
           {category && category.image && category.image ? (
