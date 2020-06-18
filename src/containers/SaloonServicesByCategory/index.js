@@ -153,6 +153,13 @@ class SaloonServicesByCategory extends Component {
   };
   renderService = (services, index) => {
     const {id} = this.props;
+    const {companyId} = this.props.route.params;
+
+    const payload = {
+      companyId: companyId,
+      serviceId: services._id,
+    }
+    
     return (
       <View style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
@@ -212,10 +219,7 @@ class SaloonServicesByCategory extends Component {
           </View>
           <TouchableOpacity
             onPress={() =>
-              this.props.navigation.navigate('SaloonEmployee', {
-                ID: id,
-                servicesId: services._id,
-              })
+              this.props.navigation.navigate('SaloonEmployee',payload)
             }>
             <View
               style={{
@@ -271,7 +275,6 @@ class SaloonServicesByCategory extends Component {
               getSelectedServices.length != 0 &&
               this.renderRow()}
             {this.dateAndTimePicker()}
-            {this.renderNextStepButton()}
           </View>
         </ScrollView>
       )}

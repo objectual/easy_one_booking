@@ -109,13 +109,23 @@ class SaloonEmployee extends Component {
   };
 
   handleSaloonServicesByCategory = () => {
-    const {ID, servicesId} = this.props;
-    console.log(servicesId, 'servicesIdservicesIdservicesId');
-    this.setState({isLoading: true});
+    // const {ID, servicesId} = this.props;
+    // console.log(servicesId, 'servicesIdservicesIdservicesId');
+    // this.setState({isLoading: true});
+    // const payload = {
+    //   companyId: '5ee3b96663c5580017cd089b',
+    //   serviceId: '5ee7417408ea9d0017d1f881',
+    // };
+
+    const {serviceId, companyId} = this.props.route.params;
+
     const payload = {
-      companyId: '5ee3b96663c5580017cd089b',
-      serviceId: '5ee7417408ea9d0017d1f881',
+      companyId: companyId,
+      serviceId: serviceId,
     };
+
+    console.log(payload, 'SaloonEmployee');
+
     this.props.get_Employees_By_Saloon_And_Category(payload);
   };
   // handleCreateBookingLogin = () => {
@@ -151,7 +161,7 @@ class SaloonEmployee extends Component {
     });
   };
 
-  showMode = mode => {
+  showMode = (mode) => {
     this.setState({
       show: true,
       mode,
@@ -296,22 +306,32 @@ class SaloonEmployee extends Component {
 
   render() {
     const {getEmployeesList, setModalVisible} = this.state;
+    const {isFetching, failure} = this.props.getEmployeesBySaloonAndCategory;
+
     return (
       <View style={styles.container}>
-        
-        <ScrollView>
-          <View>
-            {getEmployeesList.length != 0 && this.renderRow()}
-            {/* {setModalVisible ? this.renderPopup() : null} */}
-            {/* {this.dateAndTimePicker()} */}
-          </View>
-        </ScrollView>
+        <Header
+          headerText={'Employee'}
+          leftIcon={Images.pagination_back}
+          leftBtnPress={() => this.props.navigation.goBack()}
+        />
+        {<SpinnerLoader isloading={isFetching} />}
+
+        {isFetching == false && failure == false && (
+          <ScrollView>
+            <View>
+              {getEmployeesList.length != 0 && this.renderRow()}
+              {/* {setModalVisible ? this.renderPopup() : null} */}
+              {/* {this.dateAndTimePicker()} */}
+            </View>
+          </ScrollView>
+        )}
       </View>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   getEmployeesBySaloonAndCategory: state.getEmployeesBySaloonAndCategory,
   createBooking: state.createBooking,
   login: state.login,
