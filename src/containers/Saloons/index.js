@@ -70,9 +70,9 @@ class Saloons extends Component {
     const {id} = this.props.route.params;
     this.setState({isLoading: true});
     const payload = {
-      categoryId: id,
+      categoryId: '5ede12376629165590097bb7',
     };
-    console.log(payload,'categoryID')
+    console.log(payload, 'categoryID');
     this.props.get_Saloon_By_Category(payload);
   };
 
@@ -126,33 +126,30 @@ class Saloons extends Component {
   };
   renderRow = () => {
     const {getSelectedSaloon} = this.state;
-    console.log(getSelectedSaloon,'getSelectedSaloon1212')
-    if(getSelectedSaloon.length == 0)
-    {
+    console.log(getSelectedSaloon, 'getSelectedSaloon1212');
+    if (getSelectedSaloon.length == 0) {
       return (
         <View style={styles.textContainer}>
-           <Text style={styles.textNotFound}>No Saloon Found</Text>
+          <Text style={styles.textNotFound}>No Saloon Found</Text>
         </View>
-      )
-    }
-    else  
-    {
-    return (
-      <View>
-        <FlatList
-          data={getSelectedSaloon}
-          renderItem={({item, index}) => this.renderService(item, index)}
-          // keyExtractor={item => item.id}
-          // extraData={selected}
-        />
-      </View>
-    );
+      );
+    } else {
+      return (
+        <View>
+          <FlatList
+            data={getSelectedSaloon}
+            renderItem={({item, index}) => this.renderService(item, index)}
+            // keyExtractor={item => item.id}
+            // extraData={selected}
+          />
+        </View>
+      );
     }
   };
 
   render() {
     const {getSelectedSaloon} = this.state;
-    const {isFetching, failure} = this.props.getSaloonByCategory
+    const {isFetching, failure} = this.props.getSaloonByCategory;
     return (
       <View style={styles.container}>
         <Header
@@ -160,15 +157,13 @@ class Saloons extends Component {
           leftIcon={Images.pagination_back}
           leftBtnPress={() => this.props.navigation.goBack()}
         />
-        { <SpinnerLoader isloading={isFetching} />}
+        {<SpinnerLoader isloading={isFetching} />}
 
-        {isFetching == false && failure == false &&
-        <ScrollView>
-          <View>
-            {this.renderRow()}
-          </View>
-        </ScrollView>
-      }
+        {isFetching == false && failure == false && (
+          <ScrollView>
+            <View>{this.renderRow()}</View>
+          </ScrollView>
+        )}
       </View>
     );
   }
