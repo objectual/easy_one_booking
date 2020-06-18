@@ -78,8 +78,14 @@ class Saloons extends Component {
 
   renderService = (saloons, index) => {
     const {getSelectedSaloon} = this.state;
+    const {id} = this.props.route.params;
+
     return (
-      <View style={styles.containerForRow}>
+      <TouchableOpacity 
+      onPress={() =>
+        this.props.navigation.navigate('SaloonServicesByCategory', {categoryId:id, companyId:saloons._id})
+      }
+      style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
           <View style={{width: Metrics.screenWidth * 0.3}}>
             {saloons && saloons.image ? (
@@ -121,7 +127,7 @@ class Saloons extends Component {
             {/* {this.renderBookNowButton()} */}
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
   renderRow = () => {

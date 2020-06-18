@@ -23,7 +23,7 @@ function* watchRequest() {
       const response = yield call(callRequest, payload);
       console.log(
         response,
-        'getSaloonServicesByCategorygetSaloonServicesByCategorygetSaloonServicesByCategory',
+        'getSaloonServicesByCategory',
       );
       yield put(success(response));
 

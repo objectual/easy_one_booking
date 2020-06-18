@@ -29,6 +29,9 @@ import Saloons from './../containers/Saloons/index';
 import SaloonEmployee from './../containers/SaloonEmployee/index';
 import styles from './styles';
 import DrawerSaloons from './../containers/DrawerSaloons/index';
+import SaloonServicesByCategory from './../containers/SaloonServicesByCategory/index';
+
+
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -344,18 +347,7 @@ function mainDrawer() {
           ),
         }}
       />
-      <Drawer.Screen
-        name="Services"
-        component={serviceStack}
-        options={{
-          drawerIcon: ({focused}) => (
-            <Image
-              source={Images.costumer_services}
-              style={[getFocusedTabStyles(focused), styles.drawerIcon]}
-            />
-          ),
-        }}
-      />
+   
       <Drawer.Screen
         name="Chatbox"
         component={chatStack}
@@ -515,6 +507,29 @@ function mainStack({navigation}) {
             },
           }}
         />
+
+        <Stack.Screen
+          name="SaloonEmployee"
+          component={SaloonEmployee}
+          options={{
+            headerShown: false,
+            headerTitleStyle: {
+              marginLeft: '30%',
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name="SaloonServicesByCategory"
+          component={SaloonServicesByCategory}
+          options={{
+            headerShown: false,
+            headerTitleStyle: {
+              marginLeft: '30%',
+            },
+          }}
+        /> 
+
       </Stack.Navigator>
     </NavigationContainer>
   );

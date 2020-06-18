@@ -23,7 +23,7 @@ function* watchRequest() {
     try {
       const response = yield call(callRequest, payload);
       // console.log(response,"responseresponseresponseresponseresponseresponseresponseresponse")
-      console.log(response,'get_Saloon_By_Category_Api')
+      console.log(response,'getSaloonsByCategory')
       yield put(success(response));
 
       //   setTimeout(() => {
