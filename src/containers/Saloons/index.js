@@ -70,7 +70,7 @@ class Saloons extends Component {
     const {id} = this.props.route.params;
     this.setState({isLoading: true});
     const payload = {
-      categoryId: '5ede12376629165590097bb7',
+      categoryId: id,
     };
     console.log(payload, 'categoryID');
     this.props.get_Saloon_By_Category(payload);
