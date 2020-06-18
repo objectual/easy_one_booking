@@ -127,6 +127,17 @@ class Categories extends Component {
 
   renderCategoryRow = () => {
     const {getSelectedCategory} = this.state;
+    if(getSelectedCategory.length == 0)
+    {
+      return (
+        <View style={styles.textContainer}>
+           <Text style={styles.textNotFound}>No Categories Found</Text>
+        </View>
+      )
+    }
+    else  
+    {
+
     return (
       <View>
         <FlatList
@@ -137,24 +148,37 @@ class Categories extends Component {
         />
       </View>
     );
+    }
   };
 
   render() {
     const {getSelectedCategory} = this.state;
+
+    const {isFetching, failure} = this.props.getSaloonCategories;
     return (
       <View style={styles.container}>
-        <ScrollView>
-          <View>
-            {getSelectedCategory.length != 0 && this.renderCategoryRow()}
-            {/* {this.renderCategory()} */}
-          </View>
-        </ScrollView>
+        <Header
+          headerText={'Categories'}
+          leftIcon={Images.pagination_back}
+          leftBtnPress={() => this.props.navigation.goBack()}
+        />
+
+        {<SpinnerLoader isloading={isFetching} />}
+
+        {isFetching == false && failure == false && (
+          <ScrollView>
+            <View>
+              {this.renderCategoryRow()}
+              {/* {this.renderCategory()} */}
+            </View>
+          </ScrollView>
+        )}
       </View>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   // console.log(state, 'sssaaaaaaaaaafffffffffffffffffffsssssssssssss');
   return {
     getSaloonCategories: state.getSaloonCategories,

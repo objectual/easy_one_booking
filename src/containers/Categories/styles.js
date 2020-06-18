@@ -46,5 +46,12 @@ titleText : {
   fontSize : Metrics.ratio(20),
   // resizeMode: 'contain',
 
+},
+textContainer:{
+  alignItems: 'center',
+  marginTop: '50%'
+},
+textNotFound:{
+  fontSize: 22
 }
 });

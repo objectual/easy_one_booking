@@ -12,10 +12,11 @@ import {
   Linking,
   FlatList,
   StyleSheet,
+  ActivityIndicator
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
-import {Images, Metrics, Fonts} from '../../theme';
+import {Images, Metrics, Fonts,Colors} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
 import Rating from './../../components/Rating/index';
@@ -75,9 +76,20 @@ class Home extends Component {
   }
 
   componentDidMount = () => {
+
+    this.didFocusListener = this.props.navigation.addListener('focus', () => {
+      this.getLocationHandler();
+      this.getCategoriesApi();
+    });
+    
     this.getLocationHandler();
     this.getCategoriesApi();
   };
+
+  // componentWillUnmount()
+  // {
+  //   this.didFocusListener.remove();
+  // }
 
   getCategoriesApi = () => {
     this.props.Get_Categories();
@@ -137,7 +149,9 @@ class Home extends Component {
   }
   _renderOverlaySpinner = () => {
     const {isloading} = this.state;
-    return <SpinnerLoader isloading={isloading} />;
+    return  <ActivityIndicator size="large" color={Colors.violetBlue} />
+
+
   };
 
   renderScreenHeadImg = () => {
@@ -311,11 +325,18 @@ class Home extends Component {
   };
   renderSaloonCategoriesCard = () => {
     const {GetSaloonCategories} = this.state;
+    const {isFetching, failure} = this.props.getCategories
+
+
     return (
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+      
         <View
           style={[styles.containerForRow, {marginBottom: Metrics.ratio(30)}]}>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', justifyContent:'center', alignItems:"center"}}>
+
+          {isFetching == false && failure == false ?
+
             <FlatList
               horizontal
               data={GetSaloonCategories}
@@ -325,23 +346,40 @@ class Home extends Component {
               // keyExtractor={item => item.id}
               // extraData={selected}
             />
+
+          :
+            
+            this._renderOverlaySpinner()
+
+        }
           </View>
         </View>
+      
       </ScrollView>
     );
   };
   renderTopRatedSaloonCard = () => {
     const {GetSaloonData} = this.state;
+    const {isFetching, failure} = this.props.getSaloon
+
     return (
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         <View
           style={[styles.containerForRow, {marginBottom: Metrics.ratio(30)}]}>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row', justifyContent:'center', alignItems:"center" }}>
+          {isFetching == false && failure == false ?
+
             <FlatList
               horizontal
               data={GetSaloonData}
               renderItem={({item, index}) => this.renderSaloonCard(item, index)}
             />
+            
+            :
+            
+            this._renderOverlaySpinner()
+
+          }
           </View>
         </View>
       </ScrollView>
@@ -398,9 +436,9 @@ class Home extends Component {
           {this.renderScreenHeadImg()}
           {this.renderHeading()}
           {this.renderOurServices()}
-          {GetSaloonCategories.length != 0 && this.renderSaloonCategoriesCard()}
+          {this.renderSaloonCategoriesCard()}
           {this.renderRatedSaloon()}
-          {GetSaloonData.length != 0 && this.renderTopRatedSaloonCard()}
+          {this.renderTopRatedSaloonCard()}
           {showdescription ? this.renderDescription() : null}
         </ScrollView>
       </View>
