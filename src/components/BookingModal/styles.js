@@ -12,7 +12,7 @@ export default StyleSheet.create ({
       flexGrow: 1
     },
     modal: {
-       width:'80%',
+       width:'90%',
        justifyContent:'center',
        alignItems: 'center',
        paddingTop: 20,
@@ -27,14 +27,15 @@ export default StyleSheet.create ({
        marginTop: 10
     },
     row:{
-    width:'70%',
+    width:'85%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent:'flex-start',
-    marginVertical: 10
+    marginVertical: 10,
+    borderWidth:0
     },
     rowCancel:{
-        width: '80%',
+        width: '90%',
         flexDirection: 'row',
         justifyContent: 'flex-end'
     },
@@ -60,26 +61,33 @@ export default StyleSheet.create ({
       color: '#fff',
       textAlign: 'center',
     },
+    onCancel:{
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: 30,
+      height: 20
+    },
+    onCancelText:{
+      fontSize:18,
+    },
     nameLabelBorder:{
        height: 0,
-       width: '30%',
+       width: '22%',
        backgroundColor:'black',
        marginTop: -10,
     },
     dateContainer:{
        width:'50%',
-       justifyContent:'center',
-       alignItems: 'center',
-       backgroundColor:'red',
+       alignItems:'flex-start',
+       borderWidth:0
 
 
     },
     timeContainer:{
-      width:'40%',
-      justifyContent:'center',
-      alignItems: 'center',
-      backgroundColor:'red',
-      marginLeft: '20%'
+      width:'50%',
+      alignItems:'flex-start',
+      borderWidth:0,
+      marginLeft: 5
 
     },
     datePicker:{
@@ -98,18 +106,18 @@ export default StyleSheet.create ({
        alignItems: 'center',
     },
     datePickerComponent:{
-      width: '80%',
+      width: '90%',
       justifyContent:'center',
       alignItems: 'center',
+      borderWidth: 0,
+      marginTop: 20
    },
    datePickerRow:{
-      height: 40,
       flexDirection:'row',
-      justifyContent:'center',
       alignItems: 'center',
       borderRadius: 10,
-      borderWidth: 1,
-      paddingHorizontal: 10
+      width:'100%',
+      height: 50
    
    },
 
@@ -118,7 +126,7 @@ export default StyleSheet.create ({
    },
 
     timePicker:{
-      width:'80%',
+      width:'100%',
       justifyContent:'center',
       alignItems: 'center',
       paddingTop: 20,
@@ -129,6 +137,12 @@ export default StyleSheet.create ({
     image:{
        height: 20,
        width: 20
+    },
+    datePickerLabelContainer:{
+       justifyContent:'center',
+       alignItems: 'center'
+       
     }
+
 
  })

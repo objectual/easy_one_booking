@@ -7,25 +7,136 @@ import {
   StyleSheet,
   Image,
   Picker,
+  ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import styles from './styles';
 import {Images, Metrics, Fonts, Colors} from '../../theme';
+import { Dropdown } from 'react-native-material-dropdown';
+
 
 export default class BookingModal extends Component {
   state = {
     modalVisible: true,
-    selectedValue: 'java'
+    date: '8/8/2020',
+    time: '9:34AM',
+    dateData: [{value: '6/18/2020'}, {value: '2/18/2020'}, {value: '5/28/2020'}],
+    timeData: [{value: '12:00 PM'}, {value: '3:00 PM'}, {value: '5:00 PM'}],
+    isloading: false,
   };
-
+  
   renderShowCategoryButton = () => {
     const {selectCard} = this.state;
     // console.log( selectCard, 'selectCardselectCardselectCardselectCard')
     return (
       <TouchableOpacity
         style={styles.submitBtn}
-        onPress={() => this.props.addToCard}>
-        <Text style={styles.submitBtnText}>Add To Card</Text>
+        onPress={this.props.addToCard}>
+        <Text style={styles.submitBtnText}>Add To Cart</Text>
       </TouchableOpacity>
+    );
+  };
+
+  renderDropdown = (data) => {
+    alert('dsd');
+    let calculatedHeightFromRecords = data && data.length * Metrics.ratio(40);
+    let maximumAllowedHeight = Metrics.ratio(40) * 3;
+    return (
+      <View
+        style={{
+          width: Metrics.screenWidth * 0.865,
+          height:
+            calculatedHeightFromRecords < maximumAllowedHeight
+              ? calculatedHeightFromRecords
+              : maximumAllowedHeight,
+          marginHorizontal: Metrics.ratio(25),
+          borderBottomLeftRadius: Metrics.ratio(5),
+          borderBottomRightRadius: Metrics.ratio(5),
+          backgroundColor: 'white',
+          elevation: 4,
+          shadowColor: Colors.black,
+          shadowOffset: {
+            width: 0,
+            height: 1,
+          },
+          shadowOpacity: 0.18,
+          shadowRadius: 1.0,
+          position: 'absolute',
+        }}>
+        <ScrollView>
+          {this.state.isloading && (
+            <ActivityIndicator
+              size="small"
+              style={{marginVertical: 20}}
+              color={Colors.darkStaleBlue}
+            />
+          )}
+          {data && data && data.length > 0 && this.renderDropdownList(data)}
+        </ScrollView>
+      </View>
+    );
+  };
+
+  renderDropdownList = (data) => {
+    return (
+      <View>
+        {data.map((el, index) => {
+          if (el.IsAgencyAccepted) {
+            return (
+              <TouchableOpacity
+                style={{
+                  //backgroundColor: "red",
+                  flex: 1,
+                  height: Metrics.ratio(40),
+                }}
+                onPress={() => {
+                  this.setState({date: el.date});
+                }}>
+                <Text
+                  style={{
+                    fontSize: Metrics.ratio(16),
+                    marginVertical: Metrics.screenHeight * 0.01,
+                    marginLeft: Metrics.screenWidth * 0.02,
+                  }}>
+                  {el.value}454545ssjdjsdjsjdsjdj
+                </Text>
+              </TouchableOpacity>
+            );
+          }
+        })}
+      </View>
+    );
+  };
+
+  renderDropdown = (data) => {
+    let calculatedHeightFromRecords = data && data.length * Metrics.ratio(40);
+    let maximumAllowedHeight = Metrics.ratio(40) * 3;
+    return (
+      <View
+        style={{
+          width: Metrics.screenWidth * 0.865,
+          height:
+            calculatedHeightFromRecords < maximumAllowedHeight
+              ? calculatedHeightFromRecords
+              : maximumAllowedHeight,
+          marginHorizontal: Metrics.ratio(25),
+          borderBottomLeftRadius: Metrics.ratio(5),
+          borderBottomRightRadius: Metrics.ratio(5),
+          backgroundColor: 'white',
+          elevation: 4,
+          shadowColor: Colors.black,
+          shadowOffset: {
+            width: 0,
+            height: 1,
+          },
+          shadowOpacity: 0.18,
+          shadowRadius: 1.0,
+        }}>
+        <ScrollView>
+          {/* {this.state.isloading && <ActivityIndicator size="small" style={{ marginVertical: 20 }} color={Colors.darkStaleBlue} />} */}
+          {data && data && data.length > 0 && this.renderDropdownList(data)}
+        </ScrollView>
+      </View>
     );
   };
 
@@ -41,8 +152,10 @@ export default class BookingModal extends Component {
         <View style={styles.container}>
           <View style={styles.modal}>
             <View style={styles.rowCancel}>
-              <TouchableOpacity onPress={this.props.onCancel}>
-                <Text>X</Text>
+              <TouchableOpacity
+                style={styles.onCancel}
+                onPress={this.props.onCancel}>
+                <Text style={styles.onCancelText}>X</Text>
               </TouchableOpacity>
             </View>
 
@@ -52,11 +165,7 @@ export default class BookingModal extends Component {
             <View style={styles.nameLabelBorder} />
 
             <View style={styles.row}>
-              <Text style={styles.nameValue}>Employee Name</Text>
-            </View>
-
-            <View style={styles.row}>
-              <Text style={styles.nameValue}>Employee Name</Text>
+              <Text style={styles.nameValue}>Alex</Text>
             </View>
 
             <View style={styles.row}>
@@ -67,40 +176,51 @@ export default class BookingModal extends Component {
 
             <View style={styles.row}>
               <View style={styles.dateContainer}>
-                <View style={styles.datePickerLabel}>
-                  <Text>Select date</Text>
+                <View style={styles.datePickerLabelContainer}>
+                  <Text>Select Date</Text>
                 </View>
 
-                <View style={styles.datePickerRow}>
+                <View
+                  style={styles.datePickerRow}>
+                  
 
-                  <View style={styles.datePickerimageContainer}>
-                    <Image
-                      source={Images.costumer_register}
-                      style={styles.image}
-                    />
-                  </View>
+                  <Dropdown
+                  dropdownOffset={{ top: 32, left: 10 }}
+                  containerStyle={{width:'90%', borderWidth: 0}}
+                  pickerStyle={{width:'40%'}}
+                  value={this.state.dateData[0].value}
+                  onChangeText={(text)=>this.setState({date: text})}
+                  data={this.state.dateData}
+                  />
 
-                  <View style={styles.datePickerComponent}>
-                    <Picker
 
-                        selectedValue={this.state.selectedValue}
-        style={{ height: 50, width: 80 }}
-        onValueChange={(itemValue, itemIndex) => this.setState({})}
-      >
-        <Picker.Item label="1/1/2019" value="java" />
-        <Picker.Item label="JavaScript" value="js" />
-      </Picker>
-
-                  </View>
                 </View>
               </View>
 
               <View style={styles.timeContainer}>
-                <Text>Selec time</Text>
+
+              <View style={styles.datePickerLabelContainer}>
+                  <Text>Select Time</Text>
+                </View>
+
+                <View
+                  style={styles.datePickerRow}>
+                   
+                  <Dropdown
+                  dropdownOffset={{ top: 32, left: 10 }}
+                  containerStyle={{width:'90%', borderWidth: 0}}
+                  pickerStyle={{width:'40%'}}
+                  value={this.state.timeData[0].value}
+                  onChangeText={(text)=>this.setState({date: text})}
+                  data={this.state.timeData}
+                  />
+
+
+                </View>
               </View>
             </View>
 
-            <View style={styles.row}>{this.renderShowCategoryButton()}</View>
+            <View style={[styles.row,{marginTop:20}]}>{this.renderShowCategoryButton()}</View>
           </View>
         </View>
       </Modal>
