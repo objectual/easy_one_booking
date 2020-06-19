@@ -31,6 +31,7 @@ import styles from './styles';
 import DrawerSaloons from './../containers/DrawerSaloons/index';
 import BookingForm from './../containers/BookingForm/index';
 import SaloonServicesByCategory from './../containers/SaloonServicesByCategory/index';
+import GiveFeedBack from './../containers/GiveFeedBack/index';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -391,6 +392,32 @@ function proceedingStack({navigation}) {
   );
 }
 
+function giveFeedBackStack({navigation}) {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="GiveFeedBack"
+        component={GiveFeedBack}
+        options={{
+          title: 'GiveFeedBack',
+          headerTitleStyle: {
+            marginLeft: '30%',
+          },
+
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <Image
+                source={Images.costumer_header_menu}
+                style={styles.headerIcon}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function getFocusedTabStyles(focused) {
   if (focused) {
     return {tintColor: Colors.red};
@@ -611,6 +638,16 @@ function mainStack({navigation}) {
         <Stack.Screen
           name="Proceeding"
           component={Proceeding}
+          options={{
+            headerShown: false,
+            headerTitleStyle: {
+              marginLeft: '30%',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="GiveFeedBack"
+          component={GiveFeedBack}
           options={{
             headerShown: false,
             headerTitleStyle: {

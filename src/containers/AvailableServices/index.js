@@ -24,27 +24,35 @@ class AvailableServices extends Component {
     this.state = {};
   }
 
-
   _renderOverlaySpinner = () => {
     const {isloading} = this.state;
     return <SpinnerLoader isloading={isloading} />;
   };
 
-  
+  renderPayNowButton = () => {
+    return (
+      <View style={[styles.containerForRow, {alignItems: 'center'}]}>
+        <TouchableOpacity
+          style={styles.submitBtn2}
+          // onPress={() => this.props.navigation.navigate('GiveFeedBack')}
+        >
+          <Text style={styles.submitBtnText2}>Book Now</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
   render() {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <View>
-            {/* {this.renderRow()} */}
-          </View>
+          <View>{this.renderPayNowButton()}</View>
         </ScrollView>
       </View>
     );
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = state => ({});
 
 const action = {};
 

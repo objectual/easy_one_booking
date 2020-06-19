@@ -99,6 +99,8 @@ class Cards extends Component {
               }}>
               <Rating
                 totalRating={totalRating ? totalRating : '(2.2k)'}
+                StarImage={styles.StarImage}
+                totalRatingtext={styles.totalRatingtext}
                 Default_Rating={rating ? rating : 5}
                 disabled={touchControl ? touchControl : true}
               />

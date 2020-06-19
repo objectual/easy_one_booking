@@ -20,12 +20,6 @@ import styles from './styles';
 import {Images, Metrics, Fonts} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
-import Rating from './../../components/Rating/index';
-import StarRating from 'react-native-star-rating';
-import DatePicker from 'react-native-datepicker';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import ActionSheet from 'react-native-actionsheet';
-import OrderSummery from '../../components/OrderSummery';
 
 class Proceeding extends Component {
   constructor(props) {

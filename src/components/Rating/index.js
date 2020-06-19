@@ -9,6 +9,9 @@ export default class Rating extends Component {
     Default_Rating: PropTypes.number,
     totalRating: PropTypes.string,
     touchableControl: PropTypes.string,
+    StarImage: PropTypes.string,
+    totalRatingtext: PropTypes.string,
+
     // Max_Rating: PropTypes.number,
   };
   constructor(props) {
@@ -28,7 +31,13 @@ export default class Rating extends Component {
     //Keeping the Rating Selected in state
   }
   render() {
-    const {totalRating, Default_Rating, touchableControl} = this.props;
+    const {
+      totalRating,
+      Default_Rating,
+      touchableControl,
+      StarImage,
+      totalRatingtext,
+    } = this.props;
 
     let React_Native_Rating_Bar = [];
     //Array to hold the filled or empty Stars
@@ -40,7 +49,7 @@ export default class Rating extends Component {
           key={i}
           onPress={this.UpdateRating.bind(this, i)}>
           <Image
-            style={styles.StarImage}
+            style={StarImage}
             source={
               i <= Default_Rating
                 ? {uri: this.Star}
@@ -54,7 +63,7 @@ export default class Rating extends Component {
       <View style={styles.MainContainer}>
         {/*View to hold our Stars*/}
         <View style={styles.childView}>{React_Native_Rating_Bar}</View>
-        <Text style={styles.text}>{totalRating}</Text>
+        <Text style={totalRatingtext}>{totalRating}</Text>
         {/* <Text style={styles.textStyle}>
           {this.state.Default_Rating} / {this.state.Max_Rating}
         </Text> */}

@@ -287,7 +287,13 @@ class Home extends Component {
             <Text numberOfLines={1} style={styles.titleText}>
               {salon && salon.saloon && salon.saloon.name}
             </Text>
-            <Rating totalRating={'(2.2k)'} Default_Rating={5} disabled={true} />
+            <Rating
+              totalRating={'(2.2k)'}
+              Default_Rating={5}
+              disabled={true}
+              StarImage={styles.StarImage}
+              totalRatingtext={styles.totalRatingtext}
+            />
           </View>
         </View>
       </TouchableOpacity>

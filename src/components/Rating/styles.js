@@ -9,14 +9,4 @@ export default StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
   },
-  text: {
-    fontSize: 11,
-    marginLeft: 3,
-    color: '#d2d2d2',
-  },
-  StarImage: {
-    width: 12,
-    height: 12,
-    resizeMode: 'cover',
-  },
 });
