@@ -80,6 +80,9 @@ export default StyleSheet.create ({
        height: 60,
        width: 60,
        tintColor:Colors.white
-    }
+    },
+    onCancelText:{
+      fontSize:18,
+    },
 
  })

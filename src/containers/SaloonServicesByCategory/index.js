@@ -89,7 +89,7 @@ class SaloonServicesByCategory extends Component {
       categoryId: categoryId,
     };
 
-    console.log(payload,'SaloonServicesByCategory')
+    console.log(payload, 'SaloonServicesByCategory');
 
     this.props.get_Saloon_Services_By_Category(payload);
   };
@@ -161,8 +161,8 @@ class SaloonServicesByCategory extends Component {
     const payload = {
       companyId: companyId,
       serviceId: services._id,
-    }
-    
+    };
+
     return (
       <View style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
@@ -222,7 +222,7 @@ class SaloonServicesByCategory extends Component {
           </View>
           <TouchableOpacity
             onPress={() =>
-              this.props.navigation.navigate('SaloonEmployee',payload)
+              this.props.navigation.navigate('SaloonEmployee', payload)
             }>
             <View
               style={{
@@ -271,21 +271,17 @@ class SaloonServicesByCategory extends Component {
           leftIcon={Images.pagination_back}
           leftBtnPress={() => this.props.navigation.goBack()}
         />
-
-      <SpinnerLoader isloading={isFetching} />
-
-      {isFetching == false && failure == false && (
-
-        <ScrollView>
-          <View>
-            {getSelectedServices &&
-              getSelectedServices.length != 0 &&
-              this.renderRow()}
-            {this.dateAndTimePicker()}
-          </View>
-        </ScrollView>
-      )}
-      
+        <SpinnerLoader isloading={isFetching} />
+        {isFetching == false && failure == false && (
+          <ScrollView>
+            <View>
+              {getSelectedServices &&
+                getSelectedServices.length != 0 &&
+                this.renderRow()}
+              {this.dateAndTimePicker()}
+            </View>
+          </ScrollView>
+        )}
       </View>
     );
   }

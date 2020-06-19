@@ -29,9 +29,8 @@ import Saloons from './../containers/Saloons/index';
 import SaloonEmployee from './../containers/SaloonEmployee/index';
 import styles from './styles';
 import DrawerSaloons from './../containers/DrawerSaloons/index';
+import BookingForm from './../containers/BookingForm/index';
 import SaloonServicesByCategory from './../containers/SaloonServicesByCategory/index';
-
-
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -40,7 +39,8 @@ function CustomDrawerContent(props) {
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
-      <DrawerItem
+      
+      {/* <DrawerItem
         label="Logout"
         onPress={() => null}
         style={{marginTop: 20}}
@@ -50,7 +50,7 @@ function CustomDrawerContent(props) {
             style={[getFocusedTabStyles(focused), styles.drawerIcon]}
           />
         )}
-      />
+      /> */}
     </DrawerContentScrollView>
   );
 }
@@ -236,6 +236,57 @@ function employeeStack({navigation}) {
     </Stack.Navigator>
   );
 }
+function SaloonsStack({navigation}) {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="ServicesPage"
+        component={Services}
+        options={{
+          title: 'ServicesPage',
+          headerTitleStyle: {
+            marginLeft: '15%',
+          },
+
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <Image
+                source={Images.costumer_header_menu}
+                style={styles.headerIcon}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function bookingFormStack({navigation}) {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="BookingForm"
+        component={BookingForm}
+        options={{
+          title: 'Booking Form',
+          headerTitleStyle: {
+            marginLeft: '15%',
+          },
+
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <Image
+                source={Images.costumer_header_menu}
+                style={styles.headerIcon}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 function availableServicesStack({navigation}) {
   return (
@@ -315,6 +366,32 @@ function registerStack({navigation}) {
   );
 }
 
+function proceedingStack({navigation}) {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Proceeding"
+        component={Proceeding}
+        options={{
+          title: 'Proceeding',
+          headerTitleStyle: {
+            marginLeft: '30%',
+          },
+
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <Image
+                source={Images.costumer_header_menu}
+                style={styles.headerIcon}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function getFocusedTabStyles(focused) {
   if (focused) {
     return {tintColor: Colors.red};
@@ -347,7 +424,7 @@ function mainDrawer() {
           ),
         }}
       />
-   
+
       <Drawer.Screen
         name="Chatbox"
         component={chatStack}
@@ -507,6 +584,16 @@ function mainStack({navigation}) {
             },
           }}
         />
+        <Stack.Screen 
+        name="BookingForm"
+        options={{
+          headerShown: false,
+          headerTitleStyle: {
+            marginLeft: '30%',
+          },
+        }}
+        component={BookingForm} 
+        />
 
         <Stack.Screen
           name="SaloonEmployee"
@@ -518,6 +605,7 @@ function mainStack({navigation}) {
             },
           }}
         />
+        {/* <Stack.Screen name="ServicesPage" component={Services} /> */}
 
         <Stack.Screen
           name="SaloonServicesByCategory"
@@ -528,8 +616,18 @@ function mainStack({navigation}) {
               marginLeft: '30%',
             },
           }}
-        /> 
+        />
 
+        <Stack.Screen
+          name="Proceeding"
+          component={Proceeding}
+          options={{
+            headerShown: false,
+            headerTitleStyle: {
+              marginLeft: '30%',
+            },
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

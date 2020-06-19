@@ -63,7 +63,7 @@ class Categories extends Component {
   };
 
   handleSaloonCategories = () => {
-    const {id} = this.props;
+    const {id} = this.props.route.params;
     console.log(id, 'ididididididididididid');
     this.setState({isLoading: true});
     const payload = {
@@ -78,7 +78,8 @@ class Categories extends Component {
   };
 
   renderCategory = (category, index) => {
-    const {id} = this.props;
+    const {id} = this.props.route.params;
+    console.log(id, 'ididididid');
     return (
       <View style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
@@ -111,8 +112,8 @@ class Categories extends Component {
                 : null
             }
             onPress={() =>
-              this.props.navigation.navigate('ServicesPage', {
-                id: category._id,
+              this.props.navigation.navigate('SaloonServicesByCategory', {
+                categoryId: category._id,
                 companyId: id,
               })
             }>
@@ -127,27 +128,23 @@ class Categories extends Component {
 
   renderCategoryRow = () => {
     const {getSelectedCategory} = this.state;
-    if(getSelectedCategory.length == 0)
-    {
+    if (getSelectedCategory.length == 0) {
       return (
         <View style={styles.textContainer}>
-           <Text style={styles.textNotFound}>No Categories Found</Text>
+          <Text style={styles.textNotFound}>No Categories Found</Text>
         </View>
-      )
-    }
-    else  
-    {
-
-    return (
-      <View>
-        <FlatList
-          data={getSelectedCategory}
-          renderItem={({item, index}) => this.renderCategory(item, index)}
-          // keyExtractor={item => item.id}
-          // extraData={selected}
-        />
-      </View>
-    );
+      );
+    } else {
+      return (
+        <View>
+          <FlatList
+            data={getSelectedCategory}
+            renderItem={({item, index}) => this.renderCategory(item, index)}
+            // keyExtractor={item => item.id}
+            // extraData={selected}
+          />
+        </View>
+      );
     }
   };
 
@@ -162,7 +159,6 @@ class Categories extends Component {
           leftIcon={Images.pagination_back}
           leftBtnPress={() => this.props.navigation.goBack()}
         />
-
         {<SpinnerLoader isloading={isFetching} />}
 
         {isFetching == false && failure == false && (
@@ -178,7 +174,7 @@ class Categories extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   // console.log(state, 'sssaaaaaaaaaafffffffffffffffffffsssssssssssss');
   return {
     getSaloonCategories: state.getSaloonCategories,

@@ -25,8 +25,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'Aahsan1000@gmail.com',
-      password: 'Ahsan123456',
+      email: '',
+      password: '',
       isloading: false,
       btnDisabled: false,
       formErrors: {
@@ -37,12 +37,9 @@ class Login extends Component {
   }
 
   _renderOverlaySpinner = () => {
-    const {isloading} = this.state;
-    console.log(
-      isloading,
-      'isloadingisloadingisloadingisloadingisloadingisloadingisloading',
-    );
-    return <SpinnerLoader isloading={isloading} />;
+    const {isFetching} =  this.props.login
+   
+    return <SpinnerLoader isloading={isFetching} />;
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -78,7 +75,7 @@ class Login extends Component {
           nextProps.login.data,
           ' nextProps.login.data nextProps.login.data',
         );
-        this.props.navigation.navigate('HomePage');
+        this.props.navigation.navigate('Home');
       } else if (
         !nextProps.login.failure &&
         !nextProps.login.isFetching &&
@@ -305,7 +302,7 @@ class Login extends Component {
               'done',
               this.onChangePassword,
               password,
-              '* * * * * * *',
+              'Enter your password',
               'text',
               'onDone',
               true,

@@ -16,7 +16,7 @@ export default class BookedSuccessModal extends Component {
     return (
         <TouchableOpacity
           style={styles.submitBtn}
-          onPress={() => this.props.onPress}>
+          onPress={this.props.onPress}>
           <Text style={styles.submitBtnText}>OK</Text>
         </TouchableOpacity>
     );
@@ -33,11 +33,7 @@ export default class BookedSuccessModal extends Component {
         }}>
         <View style={styles.container}>
           <View style={styles.modal}>
-            <View style={styles.rowCancel}>
-              <TouchableOpacity onPress={this.props.onCancel}>
-                <Text>X</Text>
-              </TouchableOpacity>
-            </View>
+            
 
             <View style={styles.row}>
               <View style={styles.imageContainer}>

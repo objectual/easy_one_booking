@@ -7,9 +7,19 @@ import * as types from "../actions/ActionTypes";
 import { success, failure } from "../actions/Login";
 
 import { ErrorHelper } from "../../helpers";
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 function callRequest(data) {
   return ApiSauce.post(login_Api, data);
+}
+
+function storeToken(response) {
+  try {
+    await AsyncStorage.setItem('access_token', response.data.access_token)
+  } catch (e) {
+    // saving error
+  }
 }
 function* watchRequest() {
   while (true) {
@@ -19,8 +29,10 @@ function* watchRequest() {
     // delete payload.targetView;
     try {
       const response = yield call(callRequest, payload);
-      // console.log(response, "responseresponseresponseresponseresponseresponseresponse");
+      console.log(response, "loginresponce");
+      yield call(storeToken,response)
       yield put(success(response));
+     
       //   setTimeout(() => {
       //     Actions.verify({
       //       phoneNumber: JSON.stringify(payload.phoneNumber).replace(/\"/g, ""),

@@ -317,10 +317,10 @@ class SaloonEmployee extends Component {
       [
         {
           text: "No",
-          onPress: () => this.props.navigation.navigate('Proceeding'),
+          onPress: () => {this.props.navigation.navigate('Proceeding'),this.setState({showBookedModal: false })},
           style: "cancel"
         },
-        { text: "Yes", onPress: () => this.props.navigation.navigate('DrawerSaloons') }
+        { text: "Yes", onPress: () => {this.props.navigation.navigate('Home'),this.setState({showBookedModal: false })} }
       ],
       { cancelable: false }
     );

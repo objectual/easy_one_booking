@@ -206,12 +206,13 @@ class Services extends Component {
             </View>
           </View>
           <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate('SaloonEmployee', {
-                ID: id,
-                servicesId: services._id,
-              })
-            }>
+          // onPress={() =>
+          //   this.props.navigation.navigate('SaloonEmployee', {
+          //     ID: id,
+          //     servicesId: services._id,
+          //   })
+          // }
+          >
             <View
               style={{
                 justifyContent: 'center',
@@ -247,14 +248,18 @@ class Services extends Component {
     const {getSelectedServices} = this.state;
     return (
       <View style={styles.container}>
-       
+        <Header
+          headerText={'Services'}
+          leftIcon={Images.pagination_back}
+          leftBtnPress={() => this.props.navigation.goBack()}
+        />
         <ScrollView>
           <View>
             {getSelectedServices &&
               getSelectedServices.length != 0 &&
               this.renderRow()}
             {this.dateAndTimePicker()}
-            {this.renderNextStepButton()}
+            {/* {this.renderNextStepButton()} */}
           </View>
         </ScrollView>
       </View>

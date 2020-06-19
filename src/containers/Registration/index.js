@@ -22,11 +22,11 @@ class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: 'Ahsanullah',
-      postalCode: '12345',
-      email: 'Aahsan1000@gmail.com',
-      password: 'Ahsan123456',
-      confirmPassword: 'Ahsan123456',
+      name: '',
+      postalCode: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
       isLoading: false,
 
       formErrors: {
@@ -203,6 +203,7 @@ class Register extends Component {
     };
     console.log("payload ==>> ", payload)
     this.props.userRegister(payload);
+    this.setState({name:'',postalCode:'',email:'',password:'',confirmPassword:''})
   };
 
   onSubmit = (value) => {
@@ -214,8 +215,9 @@ class Register extends Component {
   };
 
   _renderOverlaySpinner = () => {
-    const {isloading} = this.state;
-    return <SpinnerLoader isloading={isloading} />;
+
+   const {isFetching} =  this.props.register
+    return <SpinnerLoader isloading={isFetching} />;
   };
 
   renderTextInputWithLable = (
@@ -340,7 +342,7 @@ class Register extends Component {
               'next',
               this.onChangePassword,
               password,
-              '* * * * * * *',
+              'Enter your password',
               'text',
               'inputConfirmPassword',
               true,
@@ -352,7 +354,7 @@ class Register extends Component {
               'done',
               this.onChangeConfirmPassword,
               confirmPassword,
-              '* * * * * * *',
+              'Confirm your password',
               'text',
               'onDone',
               true,
