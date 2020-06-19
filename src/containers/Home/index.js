@@ -12,11 +12,11 @@ import {
   Linking,
   FlatList,
   StyleSheet,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
-import {Images, Metrics, Fonts,Colors} from '../../theme';
+import {Images, Metrics, Fonts, Colors} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
 import Rating from './../../components/Rating/index';
@@ -76,12 +76,11 @@ class Home extends Component {
   }
 
   componentDidMount = () => {
-
     this.didFocusListener = this.props.navigation.addListener('focus', () => {
       this.getLocationHandler();
       this.getCategoriesApi();
     });
-    
+
     this.getLocationHandler();
     this.getCategoriesApi();
   };
@@ -149,9 +148,7 @@ class Home extends Component {
   }
   _renderOverlaySpinner = () => {
     const {isloading} = this.state;
-    return  <ActivityIndicator size="large" color={Colors.violetBlue} />
-
-
+    return <ActivityIndicator size="large" color={Colors.violetBlue} />;
   };
 
   renderScreenHeadImg = () => {
@@ -175,7 +172,7 @@ class Home extends Component {
 
   renderShowCategoryButton = () => {
     const {selectCard} = this.state;
-    // console.log( selectCard, 'selectCardselectCardselectCardselectCard')
+    console.log(selectCard, 'selectCardselectCardselectCardselectCard');
     return (
       <View>
         <Text style={styles.mainheading2}>
@@ -307,7 +304,9 @@ class Home extends Component {
         }
         onPress={() =>
           this.props.navigation.navigate('Saloons', {id: category._id})
-        }>
+        }
+        // onPress={() => this.props.navigation.navigate('BookingForm')}
+      >
         <View style={styles.cardradius}>
           {category && category.image && category.image ? (
             <Image source={{uri: category.image}} style={styles.cardImage} />
@@ -325,61 +324,61 @@ class Home extends Component {
   };
   renderSaloonCategoriesCard = () => {
     const {GetSaloonCategories} = this.state;
-    const {isFetching, failure} = this.props.getCategories
-
+    const {isFetching, failure} = this.props.getCategories;
 
     return (
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-      
         <View
           style={[styles.containerForRow, {marginBottom: Metrics.ratio(30)}]}>
-          <View style={{flexDirection: 'row', justifyContent:'center', alignItems:"center"}}>
-
-          {isFetching == false && failure == false ?
-
-            <FlatList
-              horizontal
-              data={GetSaloonCategories}
-              renderItem={({item, index}) =>
-                this.renderSaloonCategories(item, index)
-              }
-              // keyExtractor={item => item.id}
-              // extraData={selected}
-            />
-
-          :
-            
-            this._renderOverlaySpinner()
-
-        }
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            {isFetching == false && failure == false ? (
+              <FlatList
+                horizontal
+                data={GetSaloonCategories}
+                renderItem={({item, index}) =>
+                  this.renderSaloonCategories(item, index)
+                }
+                // keyExtractor={item => item.id}
+                // extraData={selected}
+              />
+            ) : (
+              this._renderOverlaySpinner()
+            )}
           </View>
         </View>
-      
       </ScrollView>
     );
   };
   renderTopRatedSaloonCard = () => {
     const {GetSaloonData} = this.state;
-    const {isFetching, failure} = this.props.getSaloon
+    const {isFetching, failure} = this.props.getSaloon;
 
     return (
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         <View
           style={[styles.containerForRow, {marginBottom: Metrics.ratio(30)}]}>
-          <View style={{ flexDirection: 'row', justifyContent:'center', alignItems:"center" }}>
-          {isFetching == false && failure == false ?
-
-            <FlatList
-              horizontal
-              data={GetSaloonData}
-              renderItem={({item, index}) => this.renderSaloonCard(item, index)}
-            />
-            
-            :
-            
-            this._renderOverlaySpinner()
-
-          }
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            {isFetching == false && failure == false ? (
+              <FlatList
+                horizontal
+                data={GetSaloonData}
+                renderItem={({item, index}) =>
+                  this.renderSaloonCard(item, index)
+                }
+              />
+            ) : (
+              this._renderOverlaySpinner()
+            )}
           </View>
         </View>
       </ScrollView>
