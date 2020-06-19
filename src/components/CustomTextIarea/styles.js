@@ -16,15 +16,14 @@ export default StyleSheet.create({
     fontFamily: 'Avenir Next',
   },
   textInput: {
-    height: Metrics.ratio(40),
+    height: Metrics.ratio(120),
     backgroundColor: '#fff',
     paddingHorizontal: Metrics.ratio(10),
     // marginBottom: Metrics.ratio(15),
     marginHorizontal: Metrics.ratio(15),
-    borderRadius: Metrics.screenWidth * 0.5,
+    borderRadius: Metrics.screenWidth * 0.05,
     borderWidth: 1,
     borderColor: '#F3F4F8',
     color: '#81788B',
-    justifyContent: 'center',
   },
 });

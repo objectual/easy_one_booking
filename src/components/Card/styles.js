@@ -61,4 +61,14 @@ export default StyleSheet.create({
     // textAlignVertical: "center"
     textAlign: 'center',
   },
+  StarImage: {
+    width: 12,
+    height: 12,
+    resizeMode: 'cover',
+  },
+  totalRatingtext: {
+    fontSize: 11,
+    marginLeft: 3,
+    color: '#d2d2d2',
+  },
 });
