@@ -317,7 +317,7 @@ class SaloonEmployee extends Component {
       [
         {
           text: "No",
-          onPress: () => console.log("Cancel Pressed"),
+          onPress: () => this.props.navigation.navigate('Proceeding'),
           style: "cancel"
         },
         { text: "Yes", onPress: () => this.props.navigation.navigate('DrawerSaloons') }
