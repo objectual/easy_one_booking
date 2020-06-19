@@ -32,18 +32,30 @@ import DrawerSaloons from './../containers/DrawerSaloons/index';
 import BookingForm from './../containers/BookingForm/index';
 import SaloonServicesByCategory from './../containers/SaloonServicesByCategory/index';
 import GiveFeedBack from './../containers/GiveFeedBack/index';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
+
+async function getToken ()  {
+  try {
+    return await AsyncStorage.getItem('access_token')
+  } catch(e) {
+    // error reading value
+  }
+}
+
 function CustomDrawerContent(props) {
+  const token = getToken()
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
-      
-      {/* <DrawerItem
+    
+      { token  && 
+      (<DrawerItem
         label="Logout"
-        onPress={() => null}
+        onPress={() => AsyncStorage.clear()}
         style={{marginTop: 20}}
         icon={({focused}) => (
           <Image
@@ -51,7 +63,8 @@ function CustomDrawerContent(props) {
             style={[getFocusedTabStyles(focused), styles.drawerIcon]}
           />
         )}
-      /> */}
+      />) 
+      }
     </DrawerContentScrollView>
   );
 }

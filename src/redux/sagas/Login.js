@@ -14,7 +14,7 @@ function callRequest(data) {
   return ApiSauce.post(login_Api, data);
 }
 
-function storeToken(response) {
+ async function storeToken(response) {
   try {
     await AsyncStorage.setItem('access_token', response.data.access_token)
   } catch (e) {
