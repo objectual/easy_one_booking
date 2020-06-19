@@ -28,6 +28,10 @@ const saloon_form_credit_card = require("../assets/Images/saloon_form_credit_car
 const saloon_form_master_card = require("../assets/Images/saloon_form_master_card.png");
 const saloon_form_paypal = require("../assets/Images/saloon_form_paypal.png");
 const saloon_form_visa = require("../assets/Images/saloon_form_visa.png");
+const saloon_check_arrow = require("../assets/Images/saloon_check_arrow.png");
+
+
+
 
 export default {
     easy1_logo_800x300,
@@ -60,4 +64,5 @@ export default {
     costumer_login,
     costumer_register,
     arrow,
+    saloon_check_arrow
 };

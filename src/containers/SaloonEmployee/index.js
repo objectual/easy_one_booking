@@ -29,6 +29,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import BookingModal from '../../components/BookingModal';
 
 
+
 class SaloonEmployee extends Component {
   constructor(props) {
     super(props);
@@ -241,7 +242,6 @@ class SaloonEmployee extends Component {
                 ? employees.createdDate
                 : 'created Date'}
             </Text>
-            {this.renderNextStepButton()}
           </View>
         </View>
       </TouchableOpacity>
@@ -337,8 +337,10 @@ class SaloonEmployee extends Component {
          <BookingModal
          addToCard={()=>this.addToCard()}
          onCancel={()=>this.setState({showBookedModal: false })}
-         />
+         />        
         }
+
+        
 
         <Header
           headerText={'Employee'}

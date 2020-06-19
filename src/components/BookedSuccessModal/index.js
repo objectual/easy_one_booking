@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import {Modal, Text, TouchableOpacity, View, StyleSheet} from 'react-native';
+import {Modal, Text, TouchableOpacity, View, Image} from 'react-native';
 import styles from './styles';
+import {Images, Metrics, Fonts, Colors} from '../../theme';
+
 
 export default class BookedSuccessModal extends Component {
   state = {
@@ -14,8 +16,8 @@ export default class BookedSuccessModal extends Component {
     return (
         <TouchableOpacity
           style={styles.submitBtn}
-          onPress={() => this.props.addToCard }>
-          <Text style={styles.submitBtnText}>Add To Card</Text>
+          onPress={() => this.props.onPress}>
+          <Text style={styles.submitBtnText}>OK</Text>
         </TouchableOpacity>
     );
   };
@@ -25,7 +27,7 @@ export default class BookedSuccessModal extends Component {
       <Modal
         animationType={'slide'}
         transparent={true}
-        visible={this.state.modalVisible}
+        visible={true}
         onRequestClose={() => {
           console.log('Modal has been closed.');
         }}>
@@ -38,23 +40,24 @@ export default class BookedSuccessModal extends Component {
             </View>
 
             <View style={styles.row}>
-              <Text style={styles.nameLabel}>Employee Name</Text>
-                
-
+              <View style={styles.imageContainer}>
+                <Image
+                source={Images.saloon_check_arrow}
+                style={styles.image}
+                />
+              </View>
             </View>
             <View style={styles.nameLabelBorder}/>
 
 
             <View style={styles.row}>
-              <Text style={styles.nameValue}>Employee Name</Text>
+              <Text style={styles.nameValue}>Booked Successful</Text>
             </View>
 
             <View style={styles.row}>
-              <Text style={styles.nameValue}>Employee Name</Text>
-            </View>
+              <Text style={styles.descriptionValue}>Your Booking has been confirmed</Text>
+              <Text style={styles.descriptionValue}>Click Ok to proceed next step</Text>
 
-            <View style={styles.row}>
-              <Text style={styles.descriptionValue}>Please Select the date and time for the Appointment</Text>
             </View>
 
             <View style={styles.row}>
