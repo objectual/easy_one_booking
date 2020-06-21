@@ -17,6 +17,8 @@ import {request as userLogin, success} from '../../redux/actions/Login';
 import styles from './styles';
 import {Images, Metrics, Fonts} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
+import {nameRegex,emailRegex,postalCodeRegex,passwordRegex,validate} from '../../services/validation'
+
 // import GoogleSigninBtn from '../../components/GoogleSigninButton';
 // import FacebookSigninButton from '../../components/FacebookSigninButton';
 // import InstagramLoginButton from '../../components/InstagramLoginButton';
@@ -29,6 +31,8 @@ class Login extends Component {
       password: '',
       isloading: false,
       btnDisabled: false,
+      emailError: '',
+      passwordError: '',
       formErrors: {
         emailError: false,
         passwordError: false,
@@ -148,8 +152,19 @@ class Login extends Component {
     this.props.userLogin(payload);
   };
 
-  onChangeEmail = (value) => this.setState({email: value});
-  onChangePassword = (value) => this.setState({password: value});
+  // onChangeEmail = (value) => this.setState({email: value});
+  // onChangePassword = (value) => this.setState({password: value});
+
+  onChangeEmail = async (value) =>  {
+    this.setState({email: value});
+    this.setState({emailError: await validate(value,emailRegex,'Please enter a valid email') })
+
+  }
+  onChangePassword = async (value) => { 
+  this.setState({password: value});
+  this.setState({passwordError: await validate(value,passwordRegex,'Password must be at least 6 characters, no more than 16 characters, and must include at least one upper case letter, one lower case letter, and one numeric digit') })
+}
+  
 
   onSubmit = (value) => {
     if (value === 'onDone') {
@@ -170,6 +185,7 @@ class Login extends Component {
     onSubmitEditing,
     secureTextEntry,
     CustomTextInput,
+    errorMessage
   ) => {
     return (
       <View>
@@ -191,6 +207,9 @@ class Login extends Component {
           // }}
           secureTextEntry={secureTextEntry}
         />
+         <View>
+        <Text style={styles.errorText}>{errorMessage}</Text>
+        </View>
       </View>
     );
   };
@@ -212,6 +231,7 @@ class Login extends Component {
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <TouchableOpacity
           style={styles.submitBtn}
+          disabled={this.state.passwordError==null && this.state.emailError==null ? false : true }
           onPress={() => this.checkValidation()}>
           <Text style={styles.submitBtnText}>Login Now</Text>
         </TouchableOpacity>
@@ -295,6 +315,9 @@ class Login extends Component {
               'email-address',
               'inputPassword',
               false,
+              styles.CustomTextInput,
+              this.state.emailError
+
             )}
             {this.renderTextInputWithLabel(
               'Password',
@@ -307,6 +330,8 @@ class Login extends Component {
               'onDone',
               true,
               styles.CustomTextInput,
+              this.state.passwordError
+
             )}
             {this.renderSubmitBtn()}
             {this.renderConnectCard()}

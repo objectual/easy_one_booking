@@ -1,12 +1,17 @@
 // @flow
 import { StyleSheet } from "react-native";
-import { Images, Metrics, Fonts } from '../../theme';
+import { Images, Metrics, Fonts,Colors } from '../../theme';
 
 export default StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#FDFFFC",
+
+    errorText:{
+        color: 'red'
     },
+    container: {
+        backgroundColor: "#FDFFFC",
+        justifyContent:'center',
+        paddingHorizontal: 20
+        },
     logoView: {
         alignItems: "center",
         paddingVertical: Metrics.ratio(30)
