@@ -22,7 +22,7 @@ export default StyleSheet.create({
     // justifyContent: 'space-between',
   },
   serviceheadfont: {
-    fontSize: Metrics.ratio(18),
+    fontSize: Metrics.ratio(15),
     fontWeight: 'bold',
   },
   serviceheadfontRed: {
@@ -31,7 +31,7 @@ export default StyleSheet.create({
     color: 'red',
   },
   servicebodyfont: {
-    fontSize: Metrics.ratio(16),
+    fontSize: Metrics.ratio(12),
   },
   employeebody: {
     width: Metrics.screenWidth * 0.23,

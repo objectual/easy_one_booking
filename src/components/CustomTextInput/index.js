@@ -23,6 +23,9 @@ export default class CustomTextInput extends Component {
           keyboardType={this.props.keyboardType}
         />
         {/* <View style={{borderBottomColor: '#D8D8D8', borderBottomWidth: 1}} /> */}
+        <View>
+          <Text style={styles.errorText}>{this.props.errorMessage}</Text>
+        </View>
       </View>
     );
   }

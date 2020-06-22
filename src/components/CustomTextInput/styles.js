@@ -27,4 +27,8 @@ export default StyleSheet.create({
     color: '#81788B',
     justifyContent: 'center',
   },
+  errorText: {
+    color: 'red',
+    marginHorizontal: Metrics.ratio(15),
+  },
 });

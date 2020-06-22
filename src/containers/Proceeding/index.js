@@ -127,12 +127,17 @@ class Proceeding extends Component {
   };
 
   renderPayNowButton = () => {
+    const {serviceId, companyId} = this.props.route.params;
     return (
       <View style={[styles.containerForRow, {alignItems: 'center'}]}>
-        <TouchableOpacity 
-        onPress={()=>this.props.navigation.navigate('BookingForm')}
-        style={styles.submitBtn2}
-        >
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate('BookingForm', {
+              companyId: companyId,
+              serviceId: serviceId,
+            })
+          }
+          style={styles.submitBtn2}>
           <Text style={styles.submitBtnText2}>Book Now</Text>
         </TouchableOpacity>
       </View>
@@ -151,6 +156,7 @@ class Proceeding extends Component {
           <View>
             <Text style={styles.orderSummmerytext}>Order summery</Text>
             {this.renderServiceHead()}
+            {this.renderService()}
             {services && services.length != 0 && this.renderServicesRow()}
             {this.renderTotalServices()}
             {this.renderPayNowButton()}
