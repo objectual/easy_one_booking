@@ -44,7 +44,7 @@ class ChartBox extends Component {
           </View>
           <View style={styles.serviceboxsender}>
             <Text style={styles.textmiddlesender}>
-              dddddd ddddddd ddddddddddd dddddddd dddddddd dddddddd
+              
             </Text>
           </View>
         </View>
@@ -57,7 +57,6 @@ class ChartBox extends Component {
         <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
           <View style={styles.serviceboxreciver}>
             <Text style={styles.textmiddlereciver}>
-              dddddd ddddddd ddddddddddd dddddddd dddddddd dddddddd
             </Text>
           </View>
           <View>
@@ -91,9 +90,9 @@ class ChartBox extends Component {
       <View style={styles.container}>
         <ScrollView>
           <View>
-            {this.renderSender()}
+            {/* {this.renderSender()}
             {this.renderReciver()}
-            {this.renderSend()}
+            {this.renderSend()} */}
           </View>
         </ScrollView>
       </View>

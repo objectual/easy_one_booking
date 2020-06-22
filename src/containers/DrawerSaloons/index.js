@@ -405,7 +405,7 @@ class DrawerSaloons extends Component {
             this.state.searchTerm.length == 0 &&
             failure == false &&
             data &&
-            data.data.lengh != 0 && (
+            data.data.lenght != 0 && (
               <FlatList
                 numColumns={2}
                 columnWrapperStyle={{

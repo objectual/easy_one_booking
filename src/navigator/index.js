@@ -439,6 +439,8 @@ function getFocusedTabStyles(focused) {
 }
 
 function mainDrawer() {
+  const token = getToken()
+
   return (
     <Drawer.Navigator
       drawerContentOptions={{
@@ -516,7 +518,8 @@ function mainDrawer() {
             />
           ),
         }}
-      />
+      /> 
+      {token ==null &&
       <Drawer.Screen
         name="Login"
         component={loginStack}
@@ -529,6 +532,7 @@ function mainDrawer() {
           ),
         }}
       />
+      }
 
       <Drawer.Screen
         name="Register"

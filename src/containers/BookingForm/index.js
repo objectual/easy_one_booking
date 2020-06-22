@@ -284,7 +284,7 @@ class BookingForm extends Component {
               ? false
               : true
           }
-          onPress={() => this.checkValidation()}>
+          onPress={() => this.setState({showBookedModal: true})}>
           <Text style={styles.submitBtnText}>Book Now</Text>
         </TouchableOpacity>
       </View>
