@@ -62,7 +62,10 @@ class Cards extends Component {
       rightIconSize,
       rightBtnPress,
       itemQuantity,
+      item
     } = this.props;
+
+    console.log(item,'this.props.items')
 
     return (
       <View
@@ -73,22 +76,24 @@ class Cards extends Component {
           flexWrap: 'wrap',
         }}>
         <View style={styles.servicebox}>
-          <TouchableOpacity>
+          <TouchableOpacity
+          onPress={this.props.onPress}
+          >
             {image ? (
               image
             ) : (
               <Image
-                source={Images.saloon_card}
+                source={{uri:item.image}}
                 style={{height: Metrics.ratio(120)}}
               />
             )}
             <View style={{paddingHorizontal: Metrics.ratio(10)}}>
               <Text numberOfLines={1} style={styles.titleText}>
-                {title ? title : 'Title'}
+                {item.name}
               </Text>
-              <Text numberOfLines={1} style={styles.descriptionText}>
+              {/* <Text numberOfLines={1} style={styles.descriptionText}>
                 {description ? description : 'Descriptsion'}
-              </Text>
+              </Text> */}
             </View>
             <View
               style={{
@@ -104,7 +109,6 @@ class Cards extends Component {
                 Default_Rating={rating ? rating : 5}
                 disabled={touchControl ? touchControl : true}
               />
-              {this.renderShowCategoryButton()}
             </View>
           </TouchableOpacity>
         </View>

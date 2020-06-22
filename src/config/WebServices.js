@@ -19,6 +19,7 @@ export const get_Saloon_By_Category_Api = `${baseUrl}saloon/getSaloonsByCategory
 export const create_Booking_Api = `${baseUrl}booking/createBooking`;
 export const get_Employees_By_Saloon_And_Category_Api = `${baseUrl}saloon/getEmployeesBySaloonAndService`;
 
+
 export const secret_Key = 'AIzaSyCIGENLCfCwZwPaumiUQs21GfgMhgppa7s';
 export const place_Autocomplete_URL =
   'https://maps.googleapis.com/maps/api/place/autocomplete/json?';

@@ -13,7 +13,8 @@ export default (state: Object = initialState, action: Object) => {
   switch (action.type) {
     case types.GET_SALOON.REQUEST:
       return Immutable.merge(state, {
-        isFetching: true
+        isFetching: true,
+        
       });
     case types.GET_SALOON.SUCCESS:
       return Immutable.merge(state, {
@@ -26,7 +27,8 @@ export default (state: Object = initialState, action: Object) => {
       return Immutable.merge(state, {
         failure: true,
         isFetching: false,
-        errorMessage: action.errorMessage
+        errorMessage: action.errorMessage,
+
       });
     case types.LOGOUT:
       return initialState;

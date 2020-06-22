@@ -57,7 +57,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: Metrics.ratio(10),
     marginTop: Metrics.ratio(25),
-    marginBottom: Metrics.ratio(15),
+    marginBottom: 20,
     borderRadius: Metrics.screenWidth * 0.5,
     borderWidth: 1,
     borderColor: '#F3F4F8',

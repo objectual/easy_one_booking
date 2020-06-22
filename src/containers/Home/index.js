@@ -23,6 +23,7 @@ import Rating from './../../components/Rating/index';
 // import Icon from 'react-native-vector-icons/MaterialIcons';
 import {request as get_Saloon} from '../../redux/actions/GetSaloon';
 import {request as Get_Categories} from '../../redux/actions/GetCategories';
+import {request as get_Saloon_By_Category} from '../../redux/actions/GetSaloonByCategory';
 import Geolocation from '@react-native-community/geolocation';
 
 class Home extends Component {
