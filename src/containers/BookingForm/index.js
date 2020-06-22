@@ -20,11 +20,13 @@ import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
 import {request as create_Booking} from '../../redux/actions/CreateBooking';
 import CustomTextInput from './../../components/CustomTextInput/index';
+import BookedSuccessModal from '../../components/BookedSuccessModal';
 
 class BookingForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+<<<<<<< HEAD
       email: '',
       name: '',
       phoneNo: '',
@@ -37,6 +39,11 @@ class BookingForm extends Component {
         phoneNoError: false,
         postalCodeError: false,
       },
+=======
+      getSelectedCategory: [],
+      categoryId: null,
+      showBookedModal: false
+>>>>>>> e406690a4bcc94568b52b0a43d6a61cfca460733
     };
   }
 
@@ -224,7 +231,11 @@ class BookingForm extends Component {
       <View>
         <TouchableOpacity
           style={styles.submitBtn}
+<<<<<<< HEAD
           onPress={() => this.checkValidation()}>
+=======
+          onPress={() => this.setState({showBookedModal: true })}>
+>>>>>>> e406690a4bcc94568b52b0a43d6a61cfca460733
           <Text style={styles.submitBtnText}>Book Now</Text>
         </TouchableOpacity>
       </View>
@@ -241,6 +252,13 @@ class BookingForm extends Component {
           leftIcon={Images.pagination_back}
           leftBtnPress={() => this.props.navigation.goBack()}
         /> */}
+
+        {this.state.showBookedModal &&
+         <BookedSuccessModal
+         onPress={()=>{this.props.navigation.navigate('Home'),this.setState({showBookedModal: false })}}
+         onCancel={()=>this.setState({showBookedModal: false })}
+         />        
+        }
 
         {<SpinnerLoader isloading={isFetching} />}
 

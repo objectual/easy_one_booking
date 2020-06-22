@@ -76,10 +76,10 @@ class Home extends Component {
   }
 
   componentDidMount = () => {
-    this.didFocusListener = this.props.navigation.addListener('focus', () => {
-      this.getLocationHandler();
-      this.getCategoriesApi();
-    });
+    // this.didFocusListener = this.props.navigation.addListener('focus', () => {
+    //   this.getLocationHandler();
+    //   this.getCategoriesApi();
+    // });
 
     this.getLocationHandler();
     this.getCategoriesApi();

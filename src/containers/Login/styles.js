@@ -8,6 +8,9 @@ export default StyleSheet.create({
          flex: 1,
         //  justifyContent: "center"
     },
+    errorText:{
+        color: 'red'
+    },
     logoView: {
         alignItems: "center",
         paddingVertical: Metrics.ratio(30)

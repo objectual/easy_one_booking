@@ -129,7 +129,10 @@ class Proceeding extends Component {
   renderPayNowButton = () => {
     return (
       <View style={[styles.containerForRow, {alignItems: 'center'}]}>
-        <TouchableOpacity style={styles.submitBtn2}>
+        <TouchableOpacity 
+        onPress={()=>this.props.navigation.navigate('BookingForm')}
+        style={styles.submitBtn2}
+        >
           <Text style={styles.submitBtnText2}>Book Now</Text>
         </TouchableOpacity>
       </View>

@@ -17,17 +17,27 @@ import styles from './styles';
 import {request as userRegister} from '../../redux/actions/Register';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import {Images, Metrics} from '../../theme';
+import {nameRegex,emailRegex,postalCodeRegex,passwordRegex,validate} from '../../services/validation'
+
+
+
 
 class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: 'Ahsanullah',
-      postalCode: '12345',
-      email: 'Aahsan1000@gmail.com',
-      password: 'Ahsan123456',
-      confirmPassword: 'Ahsan123456',
+      name: '',
+      postalCode: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
       isLoading: false,
+      nameError: '',
+      postalCodeError: '',
+      emailError: '',
+      passwordError: '',
+      confirmPasswordError: '',
+
 
       formErrors: {
         nameError: false,
@@ -38,11 +48,30 @@ class Register extends Component {
     };
   }
 
-  onChangeName = (value) => this.setState({name: value});
-  onChangePostalCode = (value) => this.setState({postalCode: value});
-  onChangeEmail = (value) => this.setState({email: value});
-  onChangePassword = (value) => this.setState({password: value});
-  onChangeConfirmPassword = (value) => this.setState({confirmPassword: value});
+  onChangeName = async (value) => { 
+    this.setState({name: value}), 
+    this.setState({nameError: await validate(value,nameRegex,'Please enter a valid name') })
+
+};
+  onChangePostalCode = async(value) =>  {
+    this.setState({postalCode: value});
+    this.setState({postalCodeError: await validate(value,postalCodeRegex,'Please enter a valid postal code') })
+
+  }
+  onChangeEmail = async (value) =>  {
+    this.setState({email: value});
+    this.setState({emailError: await validate(value,emailRegex,'Please enter a valid email') })
+
+  }
+  onChangePassword = async (value) => { 
+  this.setState({password: value});
+  this.setState({passwordError: await validate(value,passwordRegex,'Password must be at least 6 characters, no more than 16 characters, and must include at least one upper case letter, one lower case letter, and one numeric digit') })
+}
+  onChangeConfirmPassword = async (value) => { 
+    this.setState({confirmPassword: value}), 
+    this.setState({confirmPasswordError: await validate(value,new RegExp(`${this.state.password}`),'Password did not matach') })
+
+  }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.register) {
@@ -203,6 +232,7 @@ class Register extends Component {
     };
     console.log("payload ==>> ", payload)
     this.props.userRegister(payload);
+    this.setState({name:'',postalCode:'',email:'',password:'',confirmPassword:''})
   };
 
   onSubmit = (value) => {
@@ -214,8 +244,9 @@ class Register extends Component {
   };
 
   _renderOverlaySpinner = () => {
-    const {isloading} = this.state;
-    return <SpinnerLoader isloading={isloading} />;
+
+   const {isFetching} =  this.props.register
+    return <SpinnerLoader isloading={isFetching} />;
   };
 
   renderTextInputWithLable = (
@@ -229,7 +260,9 @@ class Register extends Component {
     onSubmitEditing,
     secureTextEntry,
     CustomTextInput,
+    errorMessage
   ) => {
+
     return (
       <View>
         <Text style={styles.labelText}>{lable}</Text>
@@ -250,6 +283,9 @@ class Register extends Component {
           // }}
           secureTextEntry={secureTextEntry}
         />
+         <View>
+        <Text style={styles.errorText}>{errorMessage}</Text>
+        </View>
       </View>
     );
   };
@@ -276,6 +312,7 @@ class Register extends Component {
         }}>
         <TouchableOpacity
           onPress={() => this.checkValidation()}
+          disabled={this.state.nameError==null && this.state.passwordError==null && this.state.postalCodeError==null && this.state.emailError==null && this.state.confirmPasswordError==null ? false : true }
           style={styles.submitBtn}>
           <Text style={styles.submitBtnText}>Register Now</Text>
         </TouchableOpacity>
@@ -291,14 +328,9 @@ class Register extends Component {
   render() {
     const {name, postalCode, email, password, confirmPassword} = this.state;
     return (
-      <View style={styles.container}>
-        <ScrollView>
-          <View
-            style={{
-              paddingHorizontal: Metrics.ratio(20),
-              height: Metrics.screenHeight,
-              justifyContent: 'center',
-            }}>
+        <ScrollView
+        contentContainerStyle={styles.container}
+        >
             {this.renderHeaderLogo()}
             {this.renderScreenHeading()}
             {this.renderTextInputWithLable(
@@ -311,6 +343,8 @@ class Register extends Component {
               'text',
               'inputPostalCode',
               false,
+              styles.CustomTextInput,
+              this.state.nameError
             )}
             {this.renderTextInputWithLable(
               'Postal Code',
@@ -322,6 +356,8 @@ class Register extends Component {
               'text',
               'inputEmail',
               false,
+              styles.CustomTextInput,
+              this.state.postalCodeError
             )}
             {this.renderTextInputWithLable(
               'Email',
@@ -333,6 +369,9 @@ class Register extends Component {
               'email-address',
               'inputPassword',
               false,
+              styles.CustomTextInput,
+              this.state.emailError
+
             )}
             {this.renderTextInputWithLable(
               'Password',
@@ -340,11 +379,12 @@ class Register extends Component {
               'next',
               this.onChangePassword,
               password,
-              '* * * * * * *',
+              'Enter your password',
               'text',
               'inputConfirmPassword',
               true,
               styles.CustomTextInput,
+              this.state.passwordError
             )}
             {this.renderTextInputWithLable(
               'Confirm Password',
@@ -352,17 +392,17 @@ class Register extends Component {
               'done',
               this.onChangeConfirmPassword,
               confirmPassword,
-              '* * * * * * *',
+              'Confirm your password',
               'text',
               'onDone',
               true,
               styles.CustomTextInput,
+              this.state.confirmPasswordError
+
             )}
             {this.renderSubmitBtn()}
             {this._renderOverlaySpinner()}
-          </View>
         </ScrollView>
-      </View>
     );
   }
 }

@@ -25,6 +25,8 @@ import {request as get_Saloon_Services_By_Category} from '../../redux/actions/Ge
 import DatePicker from 'react-native-datepicker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+
+
 class SaloonServicesByCategory extends Component {
   constructor(props) {
     super(props);
@@ -36,6 +38,7 @@ class SaloonServicesByCategory extends Component {
       selectCompanyId: this.props.getSaloon.data.data.saloon,
       getSelectedServices: [],
       selectBookNow: 0,
+      showBookedModal: false
     };
   }
 
@@ -256,8 +259,13 @@ class SaloonServicesByCategory extends Component {
     const {getSelectedServices} = this.state;
     const {isFetching, failure} = this.props.getSaloonServicesByCategory;
 
+
     return (
       <View style={styles.container}>
+
+
+     
+
         <Header
           headerText={'Saloon Services'}
           leftIcon={Images.pagination_back}

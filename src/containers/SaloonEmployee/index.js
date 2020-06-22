@@ -26,6 +26,9 @@ import {request as get_Employees_By_Saloon_And_Category} from '../../redux/actio
 import {request as create_Booking} from '../../redux/actions/CreateBooking.js';
 import DatePicker from 'react-native-datepicker';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import BookingModal from '../../components/BookingModal';
+
+
 
 class SaloonEmployee extends Component {
   constructor(props) {
@@ -38,6 +41,7 @@ class SaloonEmployee extends Component {
       show: false,
       getEmployeesList: [],
       selectBookNow: 0,
+      showBookedModal: false
     };
   }
 
@@ -211,7 +215,9 @@ class SaloonEmployee extends Component {
   renderEmoployee = (employees, index) => {
     console.log(employees, 'employeesemployeesemployeesemployeesemployees');
     return (
-      <View style={styles.containerForRow}>
+    <TouchableOpacity 
+      onPress={()=>this.setState({showBookedModal: true })} 
+      style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
           <View style={{width: Metrics.screenWidth * 0.3}}>
             {employees && employees.image ? (
@@ -236,10 +242,9 @@ class SaloonEmployee extends Component {
                 ? employees.createdDate
                 : 'created Date'}
             </Text>
-            {this.renderNextStepButton()}
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
   // dateAndTimePicker() {
@@ -304,12 +309,39 @@ class SaloonEmployee extends Component {
     );
   };
 
+  addToCard =()=>
+  {
+    Alert.alert(
+      "Add Service",
+      "Do you want to add another services?",
+      [
+        {
+          text: "No",
+          onPress: () => {this.props.navigation.navigate('Proceeding'),this.setState({showBookedModal: false })},
+          style: "cancel"
+        },
+        { text: "Yes", onPress: () => {this.props.navigation.navigate('Home'),this.setState({showBookedModal: false })} }
+      ],
+      { cancelable: false }
+    );
+  }
+
   render() {
     const {getEmployeesList, setModalVisible} = this.state;
     const {isFetching, failure} = this.props.getEmployeesBySaloonAndCategory;
 
     return (
       <View style={styles.container}>
+
+        {this.state.showBookedModal &&
+         <BookingModal
+         addToCard={()=>this.addToCard()}
+         onCancel={()=>this.setState({showBookedModal: false })}
+         />        
+        }
+
+        
+
         <Header
           headerText={'Employee'}
           leftIcon={Images.pagination_back}
