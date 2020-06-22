@@ -34,7 +34,7 @@ class AvailableServices extends Component {
       <View style={[styles.containerForRow, {alignItems: 'center'}]}>
         <TouchableOpacity
           style={styles.submitBtn2}
-          // onPress={() => this.props.navigation.navigate('GiveFeedBack')}
+          // onPress={() => this.props.navigation.navigate('BookingForm')}
         >
           <Text style={styles.submitBtnText2}>Book Now</Text>
         </TouchableOpacity>

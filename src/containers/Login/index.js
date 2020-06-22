@@ -17,7 +17,13 @@ import {request as userLogin, success} from '../../redux/actions/Login';
 import styles from './styles';
 import {Images, Metrics, Fonts} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
-import {nameRegex,emailRegex,postalCodeRegex,passwordRegex,validate} from '../../services/validation'
+import {
+  nameRegex,
+  emailRegex,
+  postalCodeRegex,
+  passwordRegex,
+  validate,
+} from '../../services/validation';
 
 // import GoogleSigninBtn from '../../components/GoogleSigninButton';
 // import FacebookSigninButton from '../../components/FacebookSigninButton';
@@ -41,8 +47,8 @@ class Login extends Component {
   }
 
   _renderOverlaySpinner = () => {
-    const {isFetching} =  this.props.login
-   
+    const {isFetching} = this.props.login;
+
     return <SpinnerLoader isloading={isFetching} />;
   };
 
@@ -152,21 +158,28 @@ class Login extends Component {
     this.props.userLogin(payload);
   };
 
-  // onChangeEmail = (value) => this.setState({email: value});
-  // onChangePassword = (value) => this.setState({password: value});
-
-  onChangeEmail = async (value) =>  {
+  onChangeEmail = async value => {
     this.setState({email: value});
-    this.setState({emailError: await validate(value,emailRegex,'Please enter a valid email') })
+    this.setState({
+      emailError: await validate(
+        value,
+        emailRegex,
+        'Please enter a valid email',
+      ),
+    });
+  };
+  onChangePassword = async value => {
+    this.setState({password: value});
+    this.setState({
+      passwordError: await validate(
+        value,
+        passwordRegex,
+        'Password must be at least 6 characters, no more than 16 characters, and must include at least one upper case letter, one lower case letter, and one numeric digit',
+      ),
+    });
+  };
 
-  }
-  onChangePassword = async (value) => { 
-  this.setState({password: value});
-  this.setState({passwordError: await validate(value,passwordRegex,'Password must be at least 6 characters, no more than 16 characters, and must include at least one upper case letter, one lower case letter, and one numeric digit') })
-}
-  
-
-  onSubmit = (value) => {
+  onSubmit = value => {
     if (value === 'onDone') {
       this.checkValidation();
     } else {
@@ -185,7 +198,7 @@ class Login extends Component {
     onSubmitEditing,
     secureTextEntry,
     CustomTextInput,
-    errorMessage
+    errorMessage,
   ) => {
     return (
       <View>
@@ -193,7 +206,7 @@ class Login extends Component {
         <TextInput
           style={[styles.textInput, CustomTextInput]}
           placeholderTextColor="#81788B"
-          ref={(o) => {
+          ref={o => {
             ref = o;
           }}
           returnKeyType={returnKeyType}
@@ -207,8 +220,8 @@ class Login extends Component {
           // }}
           secureTextEntry={secureTextEntry}
         />
-         <View>
-        <Text style={styles.errorText}>{errorMessage}</Text>
+        <View>
+          <Text style={styles.errorText}>{errorMessage}</Text>
         </View>
       </View>
     );
@@ -231,7 +244,11 @@ class Login extends Component {
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <TouchableOpacity
           style={styles.submitBtn}
-          disabled={this.state.passwordError==null && this.state.emailError==null ? false : true }
+          disabled={
+            this.state.passwordError == null && this.state.emailError == null
+              ? false
+              : true
+          }
           onPress={() => this.checkValidation()}>
           <Text style={styles.submitBtnText}>Login Now</Text>
         </TouchableOpacity>
@@ -316,8 +333,7 @@ class Login extends Component {
               'inputPassword',
               false,
               styles.CustomTextInput,
-              this.state.emailError
-
+              this.state.emailError,
             )}
             {this.renderTextInputWithLabel(
               'Password',
@@ -330,8 +346,7 @@ class Login extends Component {
               'onDone',
               true,
               styles.CustomTextInput,
-              this.state.passwordError
-
+              this.state.passwordError,
             )}
             {this.renderSubmitBtn()}
             {this.renderConnectCard()}
@@ -343,7 +358,7 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({login: state.login});
+const mapStateToProps = state => ({login: state.login});
 
 const action = {userLogin};
 

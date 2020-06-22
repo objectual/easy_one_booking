@@ -28,8 +28,6 @@ import DatePicker from 'react-native-datepicker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import BookingModal from '../../components/BookingModal';
 
-
-
 class SaloonEmployee extends Component {
   constructor(props) {
     super(props);
@@ -41,7 +39,7 @@ class SaloonEmployee extends Component {
       show: false,
       getEmployeesList: [],
       selectBookNow: 0,
-      showBookedModal: false
+      showBookedModal: false,
     };
   }
 
@@ -165,7 +163,7 @@ class SaloonEmployee extends Component {
     });
   };
 
-  showMode = (mode) => {
+  showMode = mode => {
     this.setState({
       show: true,
       mode,
@@ -213,11 +211,11 @@ class SaloonEmployee extends Component {
     );
   };
   renderEmoployee = (employees, index) => {
-    console.log(employees, 'employeesemployeesemployeesemployeesemployees');
+    // console.log(employees, 'employeesemployeesemployeesemployeesemployees');
     return (
-    <TouchableOpacity 
-      onPress={()=>this.setState({showBookedModal: true })} 
-      style={styles.containerForRow}>
+      <TouchableOpacity
+        onPress={() => this.setState({showBookedModal: true})}
+        style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
           <View style={{width: Metrics.screenWidth * 0.3}}>
             {employees && employees.image ? (
@@ -309,22 +307,34 @@ class SaloonEmployee extends Component {
     );
   };
 
-  addToCard =()=>
-  {
+  addToCard = () => {
+    const {serviceId, companyId} = this.props.route.params;
     Alert.alert(
-      "Add Service",
-      "Do you want to add another services?",
+      'Add Service',
+      'Do you want to add another services?',
       [
         {
-          text: "No",
-          onPress: () => {this.props.navigation.navigate('Proceeding'),this.setState({showBookedModal: false })},
-          style: "cancel"
+          text: 'No',
+          onPress: () => {
+            this.props.navigation.navigate('Proceeding', {
+              companyId: companyId,
+              serviceId: serviceId,
+            }),
+              this.setState({showBookedModal: false});
+          },
+          style: 'cancel',
         },
-        { text: "Yes", onPress: () => {this.props.navigation.navigate('Home'),this.setState({showBookedModal: false })} }
+        {
+          text: 'Yes',
+          onPress: () => {
+            this.props.navigation.navigate('Home'),
+              this.setState({showBookedModal: false});
+          },
+        },
       ],
-      { cancelable: false }
+      {cancelable: false},
     );
-  }
+  };
 
   render() {
     const {getEmployeesList, setModalVisible} = this.state;
@@ -332,15 +342,12 @@ class SaloonEmployee extends Component {
 
     return (
       <View style={styles.container}>
-
-        {this.state.showBookedModal &&
-         <BookingModal
-         addToCard={()=>this.addToCard()}
-         onCancel={()=>this.setState({showBookedModal: false })}
-         />        
-        }
-
-        
+        {this.state.showBookedModal && (
+          <BookingModal
+            addToCard={() => this.addToCard()}
+            onCancel={() => this.setState({showBookedModal: false})}
+          />
+        )}
 
         <Header
           headerText={'Employee'}
@@ -363,7 +370,7 @@ class SaloonEmployee extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   getEmployeesBySaloonAndCategory: state.getEmployeesBySaloonAndCategory,
   createBooking: state.createBooking,
   login: state.login,
