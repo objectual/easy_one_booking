@@ -38,10 +38,10 @@ class Login extends Component {
 
   _renderOverlaySpinner = () => {
     const {isloading} = this.state;
-    console.log(
-      isloading,
-      'isloadingisloadingisloadingisloadingisloadingisloadingisloading',
-    );
+    // console.log(
+    //   isloading,
+    //   'isloadingisloadingisloadingisloadingisloadingisloadingisloading',
+    // );
     return <SpinnerLoader isloading={isloading} />;
   };
 
@@ -78,7 +78,7 @@ class Login extends Component {
           nextProps.login.data,
           ' nextProps.login.data nextProps.login.data',
         );
-        this.props.navigation.navigate('HomePage');
+        this.props.navigation.navigate('Home');
       } else if (
         !nextProps.login.failure &&
         !nextProps.login.isFetching &&
@@ -151,10 +151,10 @@ class Login extends Component {
     this.props.userLogin(payload);
   };
 
-  onChangeEmail = (value) => this.setState({email: value});
-  onChangePassword = (value) => this.setState({password: value});
+  onChangeEmail = value => this.setState({email: value});
+  onChangePassword = value => this.setState({password: value});
 
-  onSubmit = (value) => {
+  onSubmit = value => {
     if (value === 'onDone') {
       this.checkValidation();
     } else {
@@ -180,7 +180,7 @@ class Login extends Component {
         <TextInput
           style={[styles.textInput, CustomTextInput]}
           placeholderTextColor="#81788B"
-          ref={(o) => {
+          ref={o => {
             ref = o;
           }}
           returnKeyType={returnKeyType}
@@ -321,7 +321,7 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({login: state.login});
+const mapStateToProps = state => ({login: state.login});
 
 const action = {userLogin};
 
