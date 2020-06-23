@@ -187,7 +187,7 @@ class Services extends Component {
                   }}
                 />
                 <Text style={{fontSize: Metrics.ratio(14)}}>
-                  {'Select Date hh'}
+                  {'Select Date'}
                 </Text>
               </View>
             </TouchableOpacity>
