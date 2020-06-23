@@ -25,3 +25,16 @@ export const place_Autocomplete_URL =
   'https://maps.googleapis.com/maps/api/place/autocomplete/json?';
 export const place_Details_URL =
   'https://maps.googleapis.com/maps/api/place/details/json?';
+
+
+import AsyncStorage from '@react-native-community/async-storage';
+export var token = ''
+
+export async function  initializeToken  () {
+  try {
+    token = await AsyncStorage.getItem('access_token')
+     
+  } catch(e) {
+    // error reading value
+  }
+}

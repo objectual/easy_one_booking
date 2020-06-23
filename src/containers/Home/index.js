@@ -25,6 +25,8 @@ import {request as get_Saloon} from '../../redux/actions/GetSaloon';
 import {request as Get_Categories} from '../../redux/actions/GetCategories';
 import {request as get_Saloon_By_Category} from '../../redux/actions/GetSaloonByCategory';
 import Geolocation from '@react-native-community/geolocation';
+import {initializeToken, token} from '../../config/WebServices'
+
 
 class Home extends Component {
   constructor(props) {
@@ -76,14 +78,16 @@ class Home extends Component {
     };
   }
 
-  componentDidMount = () => {
-    // this.didFocusListener = this.props.navigation.addListener('focus', () => {
-    //   this.getLocationHandler();
-    //   this.getCategoriesApi();
-    // });
 
-    this.getLocationHandler();
-    this.getCategoriesApi();
+    
+
+  componentDidMount = async () => {
+
+    await initializeToken()
+    
+
+    await this.getLocationHandler();
+    await this.getCategoriesApi();
   };
 
   // componentWillUnmount()

@@ -38,7 +38,6 @@ export default class BookingModal extends Component {
   };
 
   renderDropdown = (data) => {
-    alert('dsd');
     let calculatedHeightFromRecords = data && data.length * Metrics.ratio(40);
     let maximumAllowedHeight = Metrics.ratio(40) * 3;
     return (
