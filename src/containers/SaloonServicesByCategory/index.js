@@ -160,7 +160,7 @@ class SaloonServicesByCategory extends Component {
 
     const payload = {
       companyId: companyId,
-      serviceId: services._id,
+      serviceId: services.serviceId,
     };
 
     return (

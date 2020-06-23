@@ -67,7 +67,7 @@ class Categories extends Component {
     console.log(id, 'ididididididididididid');
     this.setState({isLoading: true});
     const payload = {
-      id,
+      companyId:id,
     };
     this.props.get_Saloon_Categories(payload);
   };

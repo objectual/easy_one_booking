@@ -40,6 +40,7 @@ class SaloonEmployee extends Component {
       getEmployeesList: [],
       selectBookNow: 0,
       showBookedModal: false,
+      selectedEmployee:{},
     };
   }
 
@@ -214,7 +215,7 @@ class SaloonEmployee extends Component {
     // console.log(employees, 'employeesemployeesemployeesemployeesemployees');
     return (
       <TouchableOpacity
-        onPress={() => this.setState({showBookedModal: true})}
+        onPress={() => this.setState({showBookedModal: true, selectedEmployee: employees })}
         style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
           <View style={{width: Metrics.screenWidth * 0.3}}>
@@ -339,11 +340,13 @@ class SaloonEmployee extends Component {
   render() {
     const {getEmployeesList, setModalVisible} = this.state;
     const {isFetching, failure} = this.props.getEmployeesBySaloonAndCategory;
+    console.log(this.state.selectedEmployee,'this.state.selectedEmployee')
 
     return (
       <View style={styles.container}>
         {this.state.showBookedModal && (
           <BookingModal
+            data={this.state.selectedEmployee}
             addToCard={() => this.addToCard()}
             onCancel={() => this.setState({showBookedModal: false})}
           />

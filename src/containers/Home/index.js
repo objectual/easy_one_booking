@@ -183,6 +183,12 @@ class Home extends Component {
         <Text style={styles.mainheading2}>
           {selectCard && selectCard.saloon.name ? selectCard.saloon.name : null}
         </Text>
+        <Text style={styles.mainheading2}>
+          Description
+        </Text>
+        <Text style={styles.mainheading2}>
+          {selectCard && selectCard.saloon.companyShortDescription ? selectCard.saloon.companyShortDescription : null}
+        </Text>
         <TouchableOpacity
           style={styles.submitBtn}
           onPress={() =>
@@ -277,17 +283,17 @@ class Home extends Component {
           this.setState({showdescription: true, selectCard: salon})
         }>
         <View style={styles.cardradius}>
-          {salon &&
+          {/* {salon &&
           salon.template &&
           salon.template.coverImage &&
-          salon.template.coverImage.url ? (
+          salon.template.coverImage.url ? ( */}
             <Image
-              source={{uri: salon.template.coverImage.url}}
+              source={{uri: salon.saloon.companyLogo}}
               style={styles.cardImage}
             />
-          ) : (
+          {/* ) : (
             <Image source={Images.saloon_card} style={styles.cardImage} />
-          )}
+          )} */}
           <View>
             <Text numberOfLines={1} style={styles.titleText}>
               {salon && salon.saloon && salon.saloon.name}
@@ -421,7 +427,7 @@ class Home extends Component {
     const {dayandtime, selectCard} = this.state;
     return (
       <View style={styles.containerForRow}>
-        <Text style={styles.mainheading1}>Description</Text>
+        <Text style={styles.mainheading1}>Name</Text>
         {this.renderShowCategoryButton()}
         <Text style={styles.mainheading2}>Opening Hours</Text>
         {dayandtime.map((val, index) => {
@@ -446,7 +452,7 @@ class Home extends Component {
           {this.renderScreenHeadImg()}
           {this.renderHeading()}
           {this.renderOurServices()}
-          {this.renderSaloonCategoriesCard()}
+          {/* {this.renderSaloonCategoriesCard()} */}
           {this.renderRatedSaloon()}
           {this.renderTopRatedSaloonCard()}
           {showdescription ? this.renderDescription() : null}

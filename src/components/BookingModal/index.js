@@ -9,27 +9,149 @@ import {
   Picker,
   ActivityIndicator,
   ScrollView,
+  Alert,
 } from 'react-native';
 import styles from './styles';
 import {Images, Metrics, Fonts, Colors} from '../../theme';
 import { Dropdown } from 'react-native-material-dropdown';
+import Immutable from 'seamless-immutable';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+
 
 
 export default class BookingModal extends Component {
+
+  
   state = {
     modalVisible: true,
-    date: '8/8/2020',
+    date: new Date().toLocaleDateString(),
     time: '9:34AM',
     dateData: [{value: '6/18/2020'}, {value: '2/18/2020'}, {value: '5/28/2020'}],
     timeData: [{value: '12:00 PM'}, {value: '3:00 PM'}, {value: '5:00 PM'}],
     isloading: false,
+    selectedEmployee:{},
+    timeSlot:{},
+    isDatePickerVisible: false,
+    data:{},
+    buttonDisable: false
   };
+
+  async componentDidMount()
+  {
+    if(await this.validateDate(this.state.date)==false)
+    {
+      Alert.alert(
+        'We are Sorry',
+        'This employee is not available on current date,Please select some other date',
+        [
+          { text: 'OK', onPress: () => console.log('OK Pressed') }
+        ],
+        { cancelable: false }
+      );
+      this.setState({ buttonDisable: true })
+
+    }
+    else
+    {
+      this.setState({ buttonDisable: false })
+
+    }
+  }
+
+
+  static getDerivedStateFromProps(props, state) {
+    if (
+      JSON.stringify(props.data) !==
+      JSON.stringify(state.selectedEmployee)
+    ) {
+
+     
+      let dateSlots = []
+
+      for (let i=0; i <  props.data.employeeId.weekPlans.length ; i++) 
+       {
+          let object = Immutable.asMutable(props.data.employeeId.weekPlans[i])
+          object.timeSlotsLabel = `${object.checkIn} ${object.checkOut}`
+          object.timeSlotsValue = `${object.checkIn}/${object.checkOut}`
+          dateSlots.push(object)
+      }
+     
+
+      
+      return {
+        selectedEmployee: dateSlots ,
+        data: props.data
+      };
+    }
+    
+  }
+
+   showDatePicker = () => {
+    this.setState({isDatePickerVisible: true})
+  };
+ 
+   hideDatePicker = () => {
+    this.setState({isDatePickerVisible: false})
+  };
+
+  validateDate=(date)=>
+  {
+    
+    let day = new Date(date).getDay() 
+        day = day == 0 ? 7 : day + 0
+        day.toString() 
+
+        console.log(day,'day')
+
+
+    for (let i=0; i < this.state.data.employeeId.weekPlans.length ; i++) 
+    {
+      if(this.state.data.employeeId.weekPlans[i].dayOfWeek == day && this.state.data.employeeId.weekPlans[i].availableStatus == "1" )
+      {
+        return true
+      }
+
+    }
+
+    return false 
+ 
+  }
+
+   handleConfirm = async (date) => {
+    var d = new Date(date);
+    var localFormat = d.toLocaleDateString();
+    console.warn("A date has been picked: ", this.state.date);
+    if(await this.validateDate(date)==false)
+    {
+      Alert.alert(
+        'We are Sorry',
+        'This employee is not available on this date',
+        [
+          { text: 'OK', onPress: () => console.log('OK Pressed') }
+        ],
+        { cancelable: false }
+      );
+      this.setState({date: localFormat,isDatePickerVisible: false, buttonDisable: true })
+
+    }
+    else
+    {
+      this.setState({date: localFormat,isDatePickerVisible: false, buttonDisable: false })
+
+    }
+   
+   
+    
+  };
+ 
+
   
   renderShowCategoryButton = () => {
     const {selectCard} = this.state;
     // console.log( selectCard, 'selectCardselectCardselectCardselectCard')
     return (
       <TouchableOpacity
+        disabled={this.state.buttonDisable}
         style={styles.submitBtn}
         onPress={this.props.addToCard}>
         <Text style={styles.submitBtnText}>Add To Cart</Text>
@@ -140,6 +262,7 @@ export default class BookingModal extends Component {
   };
 
   render() {
+    console.log(this.state.selectedEmployee,'dataBookingModal')
     return (
       <Modal
         animationType={'slide'}
@@ -148,6 +271,14 @@ export default class BookingModal extends Component {
         onRequestClose={() => {
           console.log('Modal has been closed.');
         }}>
+
+              <DateTimePickerModal
+                  isVisible={this.state.isDatePickerVisible}
+                  mode="date"
+                  onConfirm={(date)=>this.handleConfirm(date)}
+                  onCancel={()=>this.hideDatePicker()}
+                />
+
         <View style={styles.container}>
           <View style={styles.modal}>
             <View style={styles.rowCancel}>
@@ -164,7 +295,7 @@ export default class BookingModal extends Component {
             <View style={styles.nameLabelBorder} />
 
             <View style={styles.row}>
-              <Text style={styles.nameValue}>Alex</Text>
+              <Text style={styles.nameValue}>{`${this.state.data.employeeId.userId.firstName} ${this.state.data.employeeId.userId.lastName}`}</Text>
             </View>
 
             <View style={styles.row}>
@@ -181,16 +312,27 @@ export default class BookingModal extends Component {
 
                 <View
                   style={styles.datePickerRow}>
-                  
 
-                  <Dropdown
+
+                
+
+                <TouchableOpacity
+                onPress={()=>this.showDatePicker()}
+                style={styles.dateValueContainer}
+                >
+                <Text style={{fontSize:16}}>{this.state.date}</Text>
+
+                </TouchableOpacity>
+                            
+
+                  {/* <Dropdown
                   dropdownOffset={{ top: 32, left: 10 }}
                   containerStyle={{width:'90%', borderWidth: 0}}
                   pickerStyle={{width:'40%'}}
                   value={this.state.dateData[0].value}
                   onChangeText={(text)=>this.setState({date: text})}
                   data={this.state.dateData}
-                  />
+                  /> */}
 
 
                 </View>
@@ -207,11 +349,14 @@ export default class BookingModal extends Component {
                    
                   <Dropdown
                   dropdownOffset={{ top: 32, left: 10 }}
-                  containerStyle={{width:'90%', borderWidth: 0}}
+                  containerStyle={{width:'90%', borderWidth: 0,}}
                   pickerStyle={{width:'40%'}}
-                  value={this.state.timeData[0].value}
-                  onChangeText={(text)=>this.setState({date: text})}
-                  data={this.state.timeData}
+                  value={this.state.selectedEmployee[0].timeSlotsLabel}
+                  onChangeText={(text)=>this.setState({timeSlot: text})}
+                  data={this.state.selectedEmployee}
+                  labelExtractor={x=> x.timeSlotsLabel}
+                  valueExtractor={x=> x.timeSlotsValue}
+
                   />
 
 

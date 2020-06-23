@@ -1,7 +1,10 @@
 // export const baseUrl = "http://itsolution24x7.com/request_form/";
 // export const register_API = `${baseUrl}/api/v1/register`;
 
-export const baseUrl = 'https://easy-one.herokuapp.com/api/';
+// export const baseUrl = 'https://easy-one.herokuapp.com/api/';
+export const baseUrl = 'https://easy-one-staging.herokuapp.com/api/';
+
+
 // export const baseUrl = "http://192.168.0.111/reactboilerplate/";
 // export const baseUrl = "http://192.168.18.68:3000/api/"; // H
 
