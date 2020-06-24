@@ -156,11 +156,13 @@ class SaloonServicesByCategory extends Component {
   };
   renderService = (services, index) => {
     const {id} = this.props;
-    const {companyId} = this.props.route.params;
+    const {companyId, categoryId } = this.props.route.params;
 
     const payload = {
       companyId: companyId,
       serviceId: services.serviceId,
+      services: services,
+      categoryId: categoryId
     };
 
     return (

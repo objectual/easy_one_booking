@@ -27,6 +27,8 @@ import {request as create_Booking} from '../../redux/actions/CreateBooking.js';
 import DatePicker from 'react-native-datepicker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import BookingModal from '../../components/BookingModal';
+import {add as addToCard,remove as removeFromCard } from '../../redux/actions/Cart';
+
 
 class SaloonEmployee extends Component {
   constructor(props) {
@@ -308,8 +310,19 @@ class SaloonEmployee extends Component {
     );
   };
 
-  addToCard = () => {
-    const {serviceId, companyId} = this.props.route.params;
+   addToCard =async (e) => {
+
+   
+
+    const {serviceId, companyId, services,categoryId} = this.props.route.params;
+    // console.log(e, 'employeepayload')
+    // console.log(companyId, 'companyId')
+    // console.log(categoryId, 'categoryId')
+    console.log(services, 'services')
+    let payload = {...e,...{categoryId},...{serviceId},...services}
+    await this.props.addToCard({payload})
+
+
     Alert.alert(
       'Add Service',
       'Do you want to add another services?',
@@ -347,7 +360,7 @@ class SaloonEmployee extends Component {
         {this.state.showBookedModal && (
           <BookingModal
             data={this.state.selectedEmployee}
-            addToCard={() => this.addToCard()}
+            addToCard={(e) => this.addToCard(e)}
             onCancel={() => this.setState({showBookedModal: false})}
           />
         )}
@@ -379,6 +392,6 @@ const mapStateToProps = state => ({
   login: state.login,
 });
 
-const action = {get_Employees_By_Saloon_And_Category, create_Booking};
+const action = {get_Employees_By_Saloon_And_Category, create_Booking, addToCard, removeFromCard};
 
 export default connect(mapStateToProps, action)(SaloonEmployee);

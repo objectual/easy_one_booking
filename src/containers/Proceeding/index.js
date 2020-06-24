@@ -32,7 +32,17 @@ class Proceeding extends Component {
       selectedPaymentMethod: '',
       totalServicesSum: null,
       services: [],
+      cart: ''
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (JSON.stringify(props.cart) !== JSON.stringify(state.cart)) {
+
+      return {
+        cart: props.cart,
+      };
+    }
   }
 
   renderServicesSum = () => {
@@ -45,13 +55,16 @@ class Proceeding extends Component {
   };
 
   renderServicesRow = () => {
-    const {services} = this.state;
+    const {cart} = this.state;
+    console.log(cart,'cartstate')
+
+
     return (
       <View>
         <FlatList
           // horizontal
-          data={services}
-          renderItem={({item, index}) => this.renderService(item, index)}
+          data={[]}
+          renderItem={({item, index}) => this.renderService(item)}
           // keyExtractor={item => item.id}
           // extraData={selected}
         />
@@ -60,14 +73,25 @@ class Proceeding extends Component {
   };
 
   renderService = selectservice => {
+    console.log(selectservice,'itemselectservice')
     return (
-      <View>
-        <View style={[styles.servicebody, styles.containerForRow]}>
-          <Text
-            numberOfLines={1}
-            style={[styles.servicebodyfont, styles.employeebody]}>
-            {selectservice ? selectservice : 'Employee'}
-          </Text>
+      <>
+        <View style={[styles.servicebody,]}>
+          <View style={{ width: '100%',flexDirection:'row', borderWidth:0 }}>
+            <View style={{ width: '50%'}}>
+                <Text>
+                  Employee Name
+                </Text>
+            </View>
+            <View style={{ width: '50%', }}>
+                <Text>
+                 {/* {selectservice.name} */}
+                </Text>
+            </View>
+          
+
+          </View>
+
           <Text
             numberOfLines={1}
             style={[styles.servicebodyfont, styles.servicesbody]}>
@@ -94,7 +118,7 @@ class Proceeding extends Component {
           </TouchableOpacity>
         </View>
         <View style={styles.horizontalLine}></View>
-      </View>
+      </>
     );
   };
   renderServiceHead = () => {
@@ -145,6 +169,8 @@ class Proceeding extends Component {
   };
   render() {
     const {services} = this.state;
+    const {cart} = this.props
+    console.log(cart,'cartarray')
     return (
       <View style={styles.container}>
         <Header
@@ -167,7 +193,9 @@ class Proceeding extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  cart: state.cart,
+});
 
 const action = {};
 
