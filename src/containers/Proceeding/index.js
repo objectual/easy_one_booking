@@ -17,9 +17,12 @@ import {
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
-import {Images, Metrics, Fonts} from '../../theme';
+import {Images, Metrics, Fonts, Colors} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
+import {add as addToCard,remove as removeFromCard } from '../../redux/actions/Cart';
+import {initializeToken, token} from '../../config/WebServices'
+
 
 class Proceeding extends Component {
   constructor(props) {
@@ -32,12 +35,13 @@ class Proceeding extends Component {
       selectedPaymentMethod: '',
       totalServicesSum: null,
       services: [],
-      cart: ''
+      cart: {}
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (JSON.stringify(props.cart) !== JSON.stringify(state.cart)) {
+
 
       return {
         cart: props.cart,
@@ -55,16 +59,16 @@ class Proceeding extends Component {
   };
 
   renderServicesRow = () => {
-    const {cart} = this.state;
-    console.log(cart,'cartstate')
+    const {services,cart} = this.state;
+    console.log(this.state.cart,'cartstate')
 
 
     return (
       <View>
         <FlatList
           // horizontal
-          data={[]}
-          renderItem={({item, index}) => this.renderService(item)}
+          data={cart.data}
+          renderItem={({item, index}) => this.renderService(item,index)}
           // keyExtractor={item => item.id}
           // extraData={selected}
         />
@@ -72,52 +76,41 @@ class Proceeding extends Component {
     );
   };
 
-  renderService = selectservice => {
-    console.log(selectservice,'itemselectservice')
+   getRows = (label,value) =>
+  {
+    return(
+      <View style={{ width: '90%',flexDirection:'row', marginBottom: 5}}>
+      <View style={{ width: '50%'}}>
+          <Text  style={{ fontSize: 18 }} >
+            {label}
+          </Text>
+      </View>
+      <View style={{ width: '50%', }}>
+          <Text style={{ fontSize: 18, color:Colors.taupeGrey }} >
+           {value}
+          </Text>
+      </View>
+
+
+    </View>
+    )
+  
+  }
+
+  renderService = (object,index) => {
+    // let object = {"payload":{"checkIn": "12:00", "checkOut": "21:00","date":"6/24/2020","employee":{"firstName":"Another","lastName":"Fayzee","userName":null,"bio":null,"dob":"2012-12-08T19:00:00.000Z","address":"Khalid bin waleed road","postalCode":"921","city":"Sharjah","province":null,"_id":"5ef0c1c9d93dd409408cace4","email":"anotherfayzee@mailinator.com","phoneNo":90078601,"password":"$2a$10$J.j7ETAVvL8XyiqLPKXgMuxV2gAsLI5NJ9bmsbfalai/bS/F3yZh6","gcm_id":"string123","profile_img":"https://easy-1-jq7udywfca-uc.a.run.app/public/images/user.png","createdDate":"2020-06-22T14:35:53.626Z","__v":0,"platform":"ios"},"price":150,"servicesName":"","serviceId":"5eee2ebe6e24b64cfc018a97","categoryId":"5eee2ebe6e24b64cfc018a97","_id":"5eee4536634bb82ea4c480f5","name":"Hair dressing","isActive":1,"companyId":"5ef2027efcd846363c6aabab","image":"http://res.cloudinary.com/dxwbz4wlo/image/upload/v1592673591/serviceImage/e66lt87us0s0akmmiuep.jpg","__v":0}}
     return (
       <>
-        <View style={[styles.servicebody,]}>
-          <View style={{ width: '100%',flexDirection:'row', borderWidth:0 }}>
-            <View style={{ width: '50%'}}>
-                <Text>
-                  Employee Name
-                </Text>
-            </View>
-            <View style={{ width: '50%', }}>
-                <Text>
-                 {/* {selectservice.name} */}
-                </Text>
-            </View>
-          
+        <TouchableOpacity onLongPress={()=>this.props.removeFromCard({index})} style={[styles.servicebody,]}>
 
-          </View>
-
-          <Text
-            numberOfLines={1}
-            style={[styles.servicebodyfont, styles.servicesbody]}>
-            {selectservice ? selectservice : 'Services'}
-          </Text>
-          <Text
-            numberOfLines={1}
-            style={[styles.servicebodyfont, styles.timebody]}>
-            {selectservice ? selectservice : '11-00/Apr'}
-          </Text>
-          <Text
-            numberOfLines={1}
-            style={[styles.servicebodyfont, styles.pricebody]}>
-            {selectservice ? slectservice : '$5000'}
-          </Text>
-          <TouchableOpacity style={{justifyContent: 'center'}}>
-            <Image
-              source={Images.cross}
-              style={{
-                height: Metrics.ratio(15),
-                width: Metrics.ratio(15),
-              }}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.horizontalLine}></View>
+         {this.getRows('Name',`${object.payload.employee.firstName} ${object.payload.employee.lastName}`)}
+         {this.getRows('Service Name',object.payload.name)}
+         {this.getRows('Price',object.payload.price)}
+         {this.getRows('date',object.payload.date)}
+         {this.getRows('Check In',object.payload.checkIn)}
+         {this.getRows('Check Out',object.payload.checkOut)}
+        
+        </TouchableOpacity>
       </>
     );
   };
@@ -138,29 +131,61 @@ class Proceeding extends Component {
       </View>
     );
   };
+
+  getTotalPrice=  ()=>
+  {
+    const { cart } = this.state
+
+   let price = 0
+     for (let i = 0; i < cart.data.length; i++) {
+        console.log(cart.data[i].payload.price,'cart.data[i].payload.price')
+    
+        price = price + cart.data[i].payload.price
+      }
+
+      return  price.toString()
+
+  }
+
+  
   renderTotalServices = () => {
     const {totalServicesSum} = this.state;
+    console.log(this.getTotalPrice(),'price')
     return (
       <View>
-        <View style={[styles.servicehead, styles.containerForRow]}>
+        <View style={{width:'80%', flexDirection:'row', borderWidth:0}}>
           <Text style={styles.serviceheadfontRed}>TOTAL</Text>
-          <Text style={styles.serviceheadfontRed}>{totalServicesSum}</Text>
+          <Text style={styles.serviceheadfontRed}>{this.getTotalPrice()}</Text>
         </View>
       </View>
     );
   };
+
+  booKNow = () =>
+  {
+    if(token == null)
+    {
+      this.props.navigation.navigate('Login')
+    }
+
+    else 
+    {
+      this.props.navigation.navigate('BookingForm', {
+        companyId: companyId,
+        serviceId: serviceId,
+      })
+    }
+   
+  }
+
+
 
   renderPayNowButton = () => {
     const {serviceId, companyId} = this.props.route.params;
     return (
       <View style={[styles.containerForRow, {alignItems: 'center'}]}>
         <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate('BookingForm', {
-              companyId: companyId,
-              serviceId: serviceId,
-            })
-          }
+          onPress={() =>this.booKNow()}
           style={styles.submitBtn2}>
           <Text style={styles.submitBtnText2}>Book Now</Text>
         </TouchableOpacity>
@@ -180,10 +205,7 @@ class Proceeding extends Component {
         />
         <ScrollView>
           <View>
-            <Text style={styles.orderSummmerytext}>Order summery</Text>
-            {this.renderServiceHead()}
-            {this.renderService()}
-            {services && services.length != 0 && this.renderServicesRow()}
+            {this.renderServicesRow()}
             {this.renderTotalServices()}
             {this.renderPayNowButton()}
           </View>
@@ -197,6 +219,6 @@ const mapStateToProps = state => ({
   cart: state.cart,
 });
 
-const action = {};
+const action = {removeFromCard};
 
 export default connect(mapStateToProps, action)(Proceeding);

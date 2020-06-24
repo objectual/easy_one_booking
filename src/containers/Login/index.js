@@ -85,7 +85,15 @@ class Login extends Component {
           nextProps.login.data,
           ' nextProps.login.data nextProps.login.data',
         );
-        this.props.navigation.navigate('Home');
+        if(this.props.cart.data.length == 0)
+        {
+          this.props.navigation.navigate('Home');
+        }
+        else
+        {
+          this.props.navigation.navigate('BookingForm');
+        }
+        
       } else if (
         !nextProps.login.failure &&
         !nextProps.login.isFetching &&
@@ -158,7 +166,7 @@ class Login extends Component {
     this.props.userLogin(payload);
   };
 
-  onChangeEmail = async value => {
+  onChangeEmail = async (value) => {
     this.setState({email: value});
     this.setState({
       emailError: await validate(
@@ -168,7 +176,7 @@ class Login extends Component {
       ),
     });
   };
-  onChangePassword = async value => {
+  onChangePassword = async (value) => {
     this.setState({password: value});
     this.setState({
       passwordError: await validate(
@@ -179,7 +187,7 @@ class Login extends Component {
     });
   };
 
-  onSubmit = value => {
+  onSubmit = (value) => {
     if (value === 'onDone') {
       this.checkValidation();
     } else {
@@ -206,7 +214,7 @@ class Login extends Component {
         <TextInput
           style={[styles.textInput, CustomTextInput]}
           placeholderTextColor="#81788B"
-          ref={o => {
+          ref={(o) => {
             ref = o;
           }}
           returnKeyType={returnKeyType}
@@ -358,7 +366,7 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = state => ({login: state.login});
+const mapStateToProps = (state) => ({login: state.login, cart: state.cart});
 
 const action = {userLogin};
 

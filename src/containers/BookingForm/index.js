@@ -28,6 +28,8 @@ import {
   phoneNumberRegex,
   validate,
 } from '../../services/validation';
+import {initializeToken, token} from '../../config/WebServices'
+
 
 class BookingForm extends Component {
   constructor(props) {
@@ -43,7 +45,7 @@ class BookingForm extends Component {
       nameError: '',
       phoneNoError: '',
       postalCodeError: '',
-      loginData: this.props.login.data.data,
+      loginData: '',
       formErrors: {
         emailError: false,
         nameError: false,
@@ -271,20 +273,47 @@ class BookingForm extends Component {
       </View>
     );
   };
+  booKNow = () =>
+  {
+    if(token == null)
+    {
+      this.props.navigation.navigate('Login')
+    }
+    
+    this.createPayload()
+
+
+  }
+
+  createPayload = async (data,cart) =>
+  {
+    const {login} = this.props
+    const {cart} = this.props
+
+    
+  let services = []
+
+   for (let i = 0; i < cart.data.length; i++) {
+
+    payload ={
+      
+    }
+
+    
+     services.push()
+    
+   }
+   
+   
+
+  }
+
   renderSubmitBtn = () => {
     return (
       <View>
         <TouchableOpacity
           style={styles.submitBtn}
-          disabled={
-            this.state.nameError == null &&
-            this.state.emailError == null &&
-            this.state.postalCodeError == null &&
-            this.state.phoneNoError == null
-              ? false
-              : true
-          }
-          onPress={() => this.setState({showBookedModal: true})}>
+          onPress={() => this.booKNow()}>
           <Text style={styles.submitBtnText}>Book Now</Text>
         </TouchableOpacity>
       </View>
@@ -359,6 +388,7 @@ const mapStateToProps = state => {
   return {
     createBooking: state.createBooking,
     login: state.login,
+    cart: state.cart
   };
 };
 

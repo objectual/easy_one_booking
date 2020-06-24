@@ -20,7 +20,10 @@ export default StyleSheet.create({
   servicebody: {
     // justifyContent: 'space-between',
     width: '100%',
-    borderWidth: 1
+    borderWidth: 0,
+    marginBottom: 10,
+    marginTop: 20,
+    paddingLeft: 20
   },
   serviceheadfont: {
     fontSize: Metrics.ratio(15),
@@ -30,6 +33,7 @@ export default StyleSheet.create({
     fontSize: Metrics.ratio(16),
     fontWeight: 'bold',
     color: 'red',
+    paddingLeft: 20
   },
   servicebodyfont: {
     fontSize: Metrics.ratio(20),

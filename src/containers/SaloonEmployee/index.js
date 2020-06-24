@@ -310,6 +310,9 @@ class SaloonEmployee extends Component {
     );
   };
 
+
+   
+
    addToCard =async (e) => {
 
    
@@ -320,7 +323,49 @@ class SaloonEmployee extends Component {
     // console.log(categoryId, 'categoryId')
     console.log(services, 'services')
     let payload = {...e,...{categoryId},...{serviceId},...services}
-    await this.props.addToCard({payload})
+    // await this.props.addToCard({payload})
+
+
+    if(await this.vaidateService(payload) == false)
+    {
+
+
+      await this.props.navigation.navigate('Proceeding',{
+        companyId: companyId,
+        serviceId: serviceId,
+      }),
+      this.setState({showBookedModal: false});
+     
+      //  Alert.alert(
+      //   'Oops',
+      //   'This is service is already added',
+      //   [
+      //     {
+      //       text: 'Ok',
+      //       onPress: async() => {
+      //          await this.props.navigation.navigate('Proceeding',{
+      //           companyId: companyId,
+      //           serviceId: serviceId,
+      //         }),
+      //           this.setState({showBookedModal: false});
+      //       },
+      //     },
+      //   ],
+      //   {cancelable: false},
+      // );
+
+    }
+    else
+    {
+      await this.props.addToCard({payload})
+      this.props.navigation.navigate('Proceeding',{
+        companyId: companyId,
+        serviceId: serviceId,
+      }),
+      this.setState({showBookedModal: false});
+
+    }
+    
 
 
     Alert.alert(
@@ -349,6 +394,34 @@ class SaloonEmployee extends Component {
       {cancelable: false},
     );
   };
+
+
+  vaidateService = async (object) =>
+   {
+     const { cart } = this.props
+     
+ 
+     if(cart.data.length == 0)
+    {
+      return await true;
+    }
+
+    for (let i = 0; i < cart.data.length; i++) {
+
+      // console.log(JSON.stringify(cart.data[i].payload),'current object ')
+      // console.log(JSON.stringify(object),'added object')
+
+      
+      if (await JSON.stringify(cart.data[i].payload) === await JSON.stringify(object) ) {
+         return await false;
+      }
+    }
+    
+    
+      return await true;
+
+   }
+
 
   render() {
     const {getEmployeesList, setModalVisible} = this.state;
@@ -390,6 +463,7 @@ const mapStateToProps = state => ({
   getEmployeesBySaloonAndCategory: state.getEmployeesBySaloonAndCategory,
   createBooking: state.createBooking,
   login: state.login,
+  cart: state.cart
 });
 
 const action = {get_Employees_By_Saloon_And_Category, create_Booking, addToCard, removeFromCard};

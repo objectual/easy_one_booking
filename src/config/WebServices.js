@@ -31,7 +31,7 @@ export const place_Details_URL =
 
 
 import AsyncStorage from '@react-native-community/async-storage';
-export var token = ''
+export var token = null
 
 export async function  initializeToken  () {
   try {
