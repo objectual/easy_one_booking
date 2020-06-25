@@ -10,6 +10,10 @@ import getSaloonByCategory from './GetSaloonByCategory';
 import createBooking from './CreateBooking';
 import getEmployeesBySaloonAndCategory from './GetEmployeesBySaloonAndCategory';
 import cart from './Cart';
+import getServices from './GetServices';
+import getSaloonNearBy from './GetSaloonNearBy';
+
+
 
 // import forgotPassword from "./ForgotPassword";
 // import verifyResetCode from "./VerifyResetCode";
@@ -30,5 +34,7 @@ export const rootReducer = combineReducers({
   getSaloonByCategory,
   createBooking,
   getEmployeesBySaloonAndCategory,
-  cart
+  cart,
+  getServices,
+  getSaloonNearBy
 });

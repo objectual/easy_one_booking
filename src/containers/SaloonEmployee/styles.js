@@ -100,4 +100,7 @@ export default StyleSheet.create({
     marginBottom: 15,
     textAlign: 'center',
   },
+  text14 : {
+    fontSize: Metrics.ratio(14)
+  }
 });

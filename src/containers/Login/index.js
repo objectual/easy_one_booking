@@ -91,7 +91,7 @@ class Login extends Component {
         }
         else
         {
-          this.props.navigation.navigate('BookingForm');
+          this.props.navigation.navigate('Proceeding');
         }
         
       } else if (
@@ -357,7 +357,6 @@ class Login extends Component {
               this.state.passwordError,
             )}
             {this.renderSubmitBtn()}
-            {this.renderConnectCard()}
             {this._renderOverlaySpinner()}
           </View>
         </ScrollView>

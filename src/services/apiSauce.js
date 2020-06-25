@@ -50,11 +50,10 @@ class ApiSauce {
   }
 
   // for simple get request
-  async get(url, payload, headers) {
+  async get(url, payload={}, headers={}) {
     // const token = data && data.access_token && data.access_token;
     console.log(url,'url')
     console.log(payload,'payload')
-
 
 
 

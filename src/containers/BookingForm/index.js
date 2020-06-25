@@ -349,6 +349,7 @@ class BookingForm extends Component {
         {isFetching == false && failure == false && (
           <ScrollView>
             {this.renderHeaderLogo()}
+            {this.renderHeading()}
             <View>
               <CustomTextInput
                 placeholderText={'Enter Your Name'}

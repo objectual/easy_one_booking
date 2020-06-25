@@ -300,7 +300,6 @@ class Proceeding extends Component {
 
 
   renderPayNowButton = () => {
-    const {serviceId, companyId} = this.props.route.params;
     return (
       <View style={[styles.containerForRow, {alignItems: 'center'}]}>
         <TouchableOpacity

@@ -12,7 +12,7 @@ function callRequest(data) {
   // const access_token = data.access_token;
   // delete data.access_token;
   // return ApiSauce.postWithToken(get_Saloon_Api, data, access_token);
-  return ApiSauce.post(get_Saloon_Api, data);
+  return ApiSauce.get(get_Saloon_Api, {});
 
 }
 function* watchRequest() {

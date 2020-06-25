@@ -10,17 +10,19 @@ export const baseUrl = 'https://easy-one-staging.herokuapp.com/api/';
 
 export const login_Api = `${baseUrl}user/login`;
 export const register_Api = `${baseUrl}user/register`;
-export const forget_password_Api = `${baseUrl}forget-password`;
+export const forget_Saloon_NearApiget_password_Api = `${baseUrl}forget-password`;
 export const verify_reset_code_Api = `${baseUrl}verify-reset-code`;
 export const reset_password_Api = `${baseUrl}reset-password`;
 export const social_login_Api = `${baseUrl}social_login`;
-export const get_Saloon_Api = `${baseUrl}saloon/Nearby`;
-export const get_Categories_Api = `${baseUrl}saloon/getCategories`;
+export const get_Saloon_Api = `${baseUrl}saloon/getSaloon`;
+export const get_Saloon_NearApi= `${baseUrl}saloon/Nearby`;
+export const get_Categories_Api = `${baseUrl}saloon/getAllCategories`;
 export const get_Saloon_Categories_Api = `${baseUrl}saloon/getSaloonCategories`;
 export const get_Saloon_Services_By_Category_Api = `${baseUrl}saloon/getSaloonServicesByCategory`;
 export const get_Saloon_By_Category_Api = `${baseUrl}saloon/getSaloonsByCategory`;
 export const create_Booking_Api = `${baseUrl}booking/createBooking`;
 export const get_Employees_By_Saloon_And_Category_Api = `${baseUrl}saloon/getEmployeesBySaloonAndService`;
+export const get_Services_Api = `${baseUrl}service/getService`;
 
 
 export const secret_Key = 'AIzaSyCIGENLCfCwZwPaumiUQs21GfgMhgppa7s';

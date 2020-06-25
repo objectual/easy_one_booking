@@ -11,7 +11,7 @@ export default class CustomTextInput extends Component {
   render() {
     return (
       <View style={this.props.style}>
-        <Text style={styles.inputTitle}>{this.props.title}</Text>
+        {/* <Text style={styles.inputTitle}>{this.props.title}</Text> */}
         <TextInput
           placeholder={this.props.placeholderText}
           secureTextEntry={this.props.isSecure}

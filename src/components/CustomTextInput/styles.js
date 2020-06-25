@@ -19,7 +19,7 @@ export default StyleSheet.create({
     height: Metrics.ratio(40),
     backgroundColor: '#fff',
     paddingHorizontal: Metrics.ratio(10),
-    // marginBottom: Metrics.ratio(15),
+    marginVertical: Metrics.ratio(5),
     marginHorizontal: Metrics.ratio(15),
     borderRadius: Metrics.screenWidth * 0.5,
     borderWidth: 1,
