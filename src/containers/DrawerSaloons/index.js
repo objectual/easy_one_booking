@@ -289,6 +289,8 @@ class DrawerSaloons extends Component {
     const {isFetching, failure, data} = this.props.getSaloon;
     saloonsData = data.data;
     categoriesData = this.props.getCategories.data.data;
+    console.log(this.props.getSaloon,'this.props.getSaloon')
+    const getSaloon =  this.props.getSaloon
 
     return (
       <View style={styles.container}>
@@ -401,25 +403,28 @@ class DrawerSaloons extends Component {
             />
           )}
 
-          {isFetching == false &&
+          {getSaloon.isFetching == false &&
             this.state.searchTerm.length == 0 &&
-            failure == false &&
-            data &&
-            data.data.lenght != 0 && (
+            getSaloon.failure == false &&
+            getSaloon.data &&
+            getSaloon.data.data.lenght != 0 && (
               <FlatList
                 numColumns={2}
                 columnWrapperStyle={{
                   justifyContent: 'space-between',
                   paddingHorizontal: 10,
                 }}
-                data={this.props.getCategories.data.data}
+                data={getSaloon.data.data}
                 renderItem={({item, index}) => (
                   <Cards
                     item={item}
                     onPress={() =>
+                      {
+                      console.log(item,'mainDrawerSaloonsItem')
                       this.props.navigation.navigate('Categories', {
-                        id: item._id,
+                        id: item.saloon._id,
                       })
+                     }
                     }
                   />
                 )}

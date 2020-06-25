@@ -77,23 +77,24 @@ class Cards extends Component {
         }}>
         <View style={styles.servicebox}>
           <TouchableOpacity
+          style={{justifyContent:'center',alignItems:'center'}}
           onPress={this.props.onPress}
           >
             {image ? (
               image
             ) : (
               <Image
-                source={{uri:item.image}}
-                style={{height: Metrics.ratio(120)}}
+                source={{uri:item.saloon.companyLogo}}
+                style={{height: 100, width: 100}}
               />
             )}
             <View style={{paddingHorizontal: Metrics.ratio(10)}}>
               <Text numberOfLines={1} style={styles.titleText}>
-                {item.name}
+                {item.saloon.name}
               </Text>
-              {/* <Text numberOfLines={1} style={styles.descriptionText}>
-                {description ? description : 'Descriptsion'}
-              </Text> */}
+              <Text numberOfLines={6} style={styles.descriptionText}>
+              {item.saloon.companyShortDescription}
+              </Text>
             </View>
             <View
               style={{

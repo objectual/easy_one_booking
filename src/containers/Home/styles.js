@@ -84,7 +84,8 @@ export default StyleSheet.create({
     width: Metrics.ratio(150),
   },
   cardradius: {
-    padding: Metrics.ratio(7),
+    padding: Metrics.ratio(10),
+    
   },
   showcardradius: {
     borderWidth: Metrics.ratio(1),

@@ -271,6 +271,13 @@ class BookingForm extends Component {
       </View>
     );
   };
+  renderHeading = () => {
+    return (
+      <View style={styles.containerForRow}>
+        <Text style={styles.titleText}>Please enter your detail to conform the booking</Text>
+      </View>
+    );
+  };
   renderSubmitBtn = () => {
     return (
       <View>
@@ -317,6 +324,7 @@ class BookingForm extends Component {
         {isFetching == false && failure == false && (
           <ScrollView>
             {this.renderHeaderLogo()}
+            {this.renderHeading()}
             <View>
               <CustomTextInput
                 placeholderText={'Enter Your Name'}

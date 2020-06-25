@@ -1,13 +1,14 @@
 import { take, put, call, fork } from "redux-saga/effects";
 
 import ApiSauce from "../../services/apiSauce";
-import { login_Api } from "../../config/WebServices";
+import { login_Api, initializeToken } from "../../config/WebServices";
 import * as types from "../actions/ActionTypes";
 
 import { success, failure } from "../actions/Login";
 
 import { ErrorHelper } from "../../helpers";
 import AsyncStorage from '@react-native-community/async-storage';
+
 
 
 function callRequest(data) {
@@ -17,8 +18,9 @@ function callRequest(data) {
  async function storeToken(response) {
   try {
     await AsyncStorage.setItem('access_token', response.data.access_token)
+    await initializeToken()
   } catch (e) {
-    // saving error
+   
   }
 }
 function* watchRequest() {

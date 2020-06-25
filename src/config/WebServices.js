@@ -1,7 +1,10 @@
 // export const baseUrl = "http://itsolution24x7.com/request_form/";
 // export const register_API = `${baseUrl}/api/v1/register`;
 
-export const baseUrl = 'https://easy-one.herokuapp.com/api/';
+// export const baseUrl = 'https://easy-one.herokuapp.com/api/';
+export const baseUrl = 'https://easy-one-staging.herokuapp.com/api/';
+
+
 // export const baseUrl = "http://192.168.0.111/reactboilerplate/";
 // export const baseUrl = "http://192.168.18.68:3000/api/"; // H
 
@@ -25,3 +28,16 @@ export const place_Autocomplete_URL =
   'https://maps.googleapis.com/maps/api/place/autocomplete/json?';
 export const place_Details_URL =
   'https://maps.googleapis.com/maps/api/place/details/json?';
+
+
+import AsyncStorage from '@react-native-community/async-storage';
+export var token = ''
+
+export async function  initializeToken  () {
+  try {
+    token = await AsyncStorage.getItem('access_token')
+     
+  } catch(e) {
+    // error reading value
+  }
+}

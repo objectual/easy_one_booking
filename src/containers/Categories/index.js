@@ -1,5 +1,5 @@
-import {connect} from 'react-redux';
-import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -12,13 +12,14 @@ import {
   Linking,
   StyleSheet,
   FlatList,
+  ImageBackground
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
-import {Images, Metrics, Fonts} from '../../theme';
+import { Images, Metrics, Fonts } from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
-import {request as get_Saloon_Categories} from '../../redux/actions/SaloonCategories';
+import { request as get_Saloon_Categories } from '../../redux/actions/SaloonCategories';
 
 class Categories extends Component {
   constructor(props) {
@@ -50,7 +51,7 @@ class Categories extends Component {
         nextProps.getSaloonCategories.data &&
         !nextProps.getSaloonCategories.data.success
       ) {
-        this.setState({isloading: false}, () => {
+        this.setState({ isloading: false }, () => {
           setTimeout(() => {
             Alert.alert('Error', nextProps.getSaloonCategories.data.msg);
           }, 3000);
@@ -63,40 +64,60 @@ class Categories extends Component {
   };
 
   handleSaloonCategories = () => {
-    const {id} = this.props.route.params;
+    const { id } = this.props.route.params;
     console.log(id, 'ididididididididididid');
-    this.setState({isLoading: true});
+    this.setState({ isLoading: true });
     const payload = {
-      id,
+      companyId: id,
     };
     this.props.get_Saloon_Categories(payload);
   };
 
   _renderOverlaySpinner = () => {
-    const {isloading} = this.state;
+    const { isloading } = this.state;
     return <SpinnerLoader isloading={isloading} />;
   };
 
   renderCategory = (category, index) => {
-    const {id} = this.props.route.params;
+    const { id } = this.props.route.params;
     console.log(id, 'ididididid');
     return (
-      <View style={styles.containerForRow}>
-        <View style={[styles.servicebox, {flexDirection: 'row'}]}>
-          <View style={{width: Metrics.screenWidth * 0.3}}>
-            {category && category.image ? (
-              <Image
-                source={{uri: category.image}}
-                style={styles.servicesImage}
-              />
-            ) : (
-              <Image
+      <View >
+        <TouchableOpacity
+          style={
+            category && category._id == category._id
+              ? styles.showcardradius
+              : null
+          }
+          onPress={() =>
+            this.props.navigation.navigate('SaloonServicesByCategory', {
+              categoryId: category._id,
+              companyId: id,
+            })
+          }>
+          {category && category.image ? (
+            <ImageBackground
+              resizeMethod = 'auto'
+              resizeMode = "stretch"
+              source={{ uri: category.image }}
+              style={styles.servicebox}
+            >
+              {/* <Image
+                    source={Images.plus}
+                    style={styles.image}
+                  /> */}
+              <Text numberOfLines={1} style={styles.titleText}>
+                {category && category.name ? category.name : 'name'}
+              </Text>
+            </ImageBackground>
+          ) : (
+              <ImageBackground
                 source={Images.select_services}
-                style={styles.servicesImage}
-              />
+                style={styles.servicebox}
+              ></ImageBackground>
             )}
-          </View>
-          <View
+        </TouchableOpacity>
+        {/* <View
             style={{
               justifyContent: 'center',
               width: Metrics.screenWidth * 0.45,
@@ -104,8 +125,8 @@ class Categories extends Component {
             <Text numberOfLines={1} style={styles.titleText}>
               {category && category.name ? category.name : 'name'}
             </Text>
-          </View>
-          <TouchableOpacity
+          </View> */}
+        {/* <TouchableOpacity
             style={
               category && category._id == category._id
                 ? styles.showcardradius
@@ -120,14 +141,14 @@ class Categories extends Component {
             <View style={{width: Metrics.screenWidth * 0.1}}>
               <Image source={Images.arrow} style={styles.arrowImage} />
             </View>
-          </TouchableOpacity>
-        </View>
+          </TouchableOpacity> */}
       </View>
+
     );
   };
 
   renderCategoryRow = () => {
-    const {getSelectedCategory} = this.state;
+    const { getSelectedCategory } = this.state;
     if (getSelectedCategory.length == 0) {
       return (
         <View style={styles.textContainer}>
@@ -136,12 +157,16 @@ class Categories extends Component {
       );
     } else {
       return (
-        <View>
+        <View style={{
+          flexDirection: 'row',
+        }}>
           <FlatList
+            numColumns={2}
+            columnWrapperStyle={{
+              justifyContent: 'space-evenly',
+            }}
             data={getSelectedCategory}
-            renderItem={({item, index}) => this.renderCategory(item, index)}
-            // keyExtractor={item => item.id}
-            // extraData={selected}
+            renderItem={({ item, index }) => this.renderCategory(item, index)}
           />
         </View>
       );
@@ -149,9 +174,9 @@ class Categories extends Component {
   };
 
   render() {
-    const {getSelectedCategory} = this.state;
+    const { getSelectedCategory } = this.state;
 
-    const {isFetching, failure} = this.props.getSaloonCategories;
+    const { isFetching, failure } = this.props.getSaloonCategories;
     return (
       <View style={styles.container}>
         <Header
@@ -165,7 +190,6 @@ class Categories extends Component {
           <ScrollView>
             <View>
               {this.renderCategoryRow()}
-              {/* {this.renderCategory()} */}
             </View>
           </ScrollView>
         )}
@@ -181,6 +205,6 @@ const mapStateToProps = state => {
   };
 };
 
-const action = {get_Saloon_Categories};
+const action = { get_Saloon_Categories };
 
 export default connect(mapStateToProps, action)(Categories);

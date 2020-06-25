@@ -12,11 +12,8 @@ export default StyleSheet.create({
     textAlign : "center"
 },
 servicesImage: {
-  marginVertical: Metrics.ratio(15),
-  marginHorizontal: Metrics.ratio(15),
-  height: Metrics.ratio(80),
-  width: Metrics.ratio(80),
-  borderRadius : Metrics.ratio(80),
+  height: Metrics.ratio(180),
+  width: Metrics.ratio(170),
 },
 arrowImage: {
   width: Metrics.ratio(25),
@@ -28,6 +25,8 @@ containerForRow: {
   // marginTop: Metrics.ratio(20),
 },
 servicebox: {
+  // width: Metrics.screenWidth * 0.42,
+  // height: Metrics.screenHeight * 0.22,
   backgroundColor: '#fff',
   marginTop: Metrics.ratio(20),
   marginBottom: Metrics.ratio(7),
@@ -42,10 +41,13 @@ servicebox: {
   shadowRadius: 1.0,
 },
 titleText : {
-  width: Metrics.screenWidth * 0.42,
+  width: Metrics.screenWidth * 0.4,
   fontSize : Metrics.ratio(20),
-  // resizeMode: 'contain',
-
+  marginTop : Metrics.screenHeight * 0.19,
+  backgroundColor : '#FC7813',
+  color : "white",
+  paddingHorizontal : Metrics.ratio(20),
+  paddingVertical : Metrics.ratio(2),
 },
 textContainer:{
   alignItems: 'center',
@@ -53,5 +55,12 @@ textContainer:{
 },
 textNotFound:{
   fontSize: 22
+},
+image : {
+  height: Metrics.ratio(30),
+  width: Metrics.ratio(30),
+  marginHorizontal : Metrics.ratio(10),
+  marginVertical : Metrics.ratio(10),
+  alignSelf : 'flex-end',
 }
 });

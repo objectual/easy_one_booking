@@ -27,6 +27,8 @@ import {request as create_Booking} from '../../redux/actions/CreateBooking.js';
 import DatePicker from 'react-native-datepicker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import BookingModal from '../../components/BookingModal';
+import {add as addToCard,remove as removeFromCard } from '../../redux/actions/Cart';
+
 
 class SaloonEmployee extends Component {
   constructor(props) {
@@ -40,6 +42,7 @@ class SaloonEmployee extends Component {
       getEmployeesList: [],
       selectBookNow: 0,
       showBookedModal: false,
+      selectedEmployee:{},
     };
   }
 
@@ -155,29 +158,7 @@ class SaloonEmployee extends Component {
   //   this.props.create_Booking(payload);
   // };
 
-  onChange = (event, date) => {
-    date = date || this.state;
-    this.setState({
-      // show: Platform.OS === 'ios' ? true : false,
-      date,
-    });
-  };
-
-  showMode = mode => {
-    this.setState({
-      show: true,
-      mode,
-    });
-  };
-
-  showDatepicker = () => {
-    this.setState({showDatepicker: true});
-  };
-
-  // showTimepicker = () => {
-  //   this.setState({showTimepicker: true});
-  //   // this.showMode('time');
-  // };
+ 
 
   onStarRatingPress(rating) {
     this.setState({
@@ -199,28 +180,16 @@ class SaloonEmployee extends Component {
       </View>
     );
   };
-  renderNextStepButton = () => {
-    return (
-      <View>
-        <TouchableOpacity
-          style={styles.submitBtn}
-          onPress={() => this.setState({setModalVisible: true})}>
-          <Text style={styles.submitBtnText}>Show Date And Time</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
   renderEmoployee = (employees, index) => {
-    // console.log(employees, 'employeesemployeesemployeesemployeesemployees');
     return (
       <TouchableOpacity
-        onPress={() => this.setState({showBookedModal: true})}
+        onPress={() => this.setState({showBookedModal: true, selectedEmployee: employees })}
         style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
-          <View style={{width: Metrics.screenWidth * 0.3}}>
-            {employees && employees.image ? (
+          <View>
+            {employees && employees.employeeId.userId && employees.employeeId.userId.profile_img ? (
               <Image
-                source={{uri: employees.image}}
+                source={{uri : employees.employeeId.userId.profile_img}}
                 style={styles.servicesImage}
               />
             ) : (
@@ -233,36 +202,57 @@ class SaloonEmployee extends Component {
           <View
             style={{
               marginVertical: Metrics.ratio(15),
-              width: Metrics.screenWidth * 0.35,
+
             }}>
             <Text numberOfLines={1} style={{fontSize: Metrics.ratio(17)}}>
-              {employees && employees.createdDate && employees.createdDate
-                ? employees.createdDate
-                : 'created Date'}
+              {employees && employees.employeeId.userId && employees.employeeId.userId.firstName
+                ? employees.employeeId.userId.firstName
+                : 'Name'}
             </Text>
+            <View style={{flexDirection : 'row',
+              marginTop: Metrics.ratio(10),
+            }}>
+            <Text numberOfLines={1} style={styles.text14}>
+              {employees && employees.employeeId.weekPlans && employees.employeeId.weekPlans['0'].availableStatus==1
+                ? 'Mon'
+                : null}
+            </Text>
+            <Text numberOfLines={1} style={styles.text14}>
+              {employees && employees.employeeId.weekPlans && employees.employeeId.weekPlans['1'].availableStatus==1
+                ? '-Tue'
+                : null}
+            </Text>
+            <Text numberOfLines={1} style={styles.text14}>
+              {employees && employees.employeeId.weekPlans && employees.employeeId.weekPlans['2'].availableStatus==1
+                ? '-Wed'
+                : null}
+            </Text>
+            <Text numberOfLines={1} style={styles.text14}>
+              {employees && employees.employeeId.weekPlans && employees.employeeId.weekPlans['3'].availableStatus==1
+                ? '-Thu'
+                : null}
+            </Text>
+            <Text numberOfLines={1} style={styles.text14}>
+              {employees && employees.employeeId.weekPlans && employees.employeeId.weekPlans['4'].availableStatus==1
+                ? '-Fri'
+                : null}
+            </Text>
+            <Text numberOfLines={1} style={styles.text14}>
+              {employees && employees.employeeId.weekPlans && employees.employeeId.weekPlans['5'].availableStatus==1
+                ? '-Sat'
+                : null}
+            </Text>
+            <Text numberOfLines={1} style={styles.text14}>
+              {employees && employees.employeeId.weekPlans && employees.employeeId.weekPlans['6'].availableStatus==1
+                ? 'Sun'
+                : null}
+            </Text>
+            </View>
           </View>
         </View>
       </TouchableOpacity>
     );
   };
-  // dateAndTimePicker() {
-  //   const {showDatepicker} = this.state;
-  //   return (
-  //     <View>
-  //       {showDatepicker ? (
-  //         <DateTimePicker
-  //           testID="dateTimePicker"
-  //           timeZoneOffsetInMinutes={0}
-  //           value={1591103986723}
-  //           mode="datetime"
-  //           is24Hour={false}
-  //           display="default"
-  //           onChange={this.onChange}
-  //         />
-  //       ) : null}
-  //     </View>
-  //   );
-  // }
   // renderBookNowButton = services => {
   //   const {selectBookNow} = this.state;
   //   return (
@@ -307,8 +297,13 @@ class SaloonEmployee extends Component {
     );
   };
 
-  addToCard = () => {
-    const {serviceId, companyId} = this.props.route.params;
+   addToCard =async (e) => {
+    const {serviceId, companyId, services,categoryId} = this.props.route.params;
+    console.log(services, 'services')
+    let payload = {...e,...{categoryId},...{serviceId},...services}
+    await this.props.addToCard({payload})
+
+
     Alert.alert(
       'Add Service',
       'Do you want to add another services?',
@@ -339,12 +334,13 @@ class SaloonEmployee extends Component {
   render() {
     const {getEmployeesList, setModalVisible} = this.state;
     const {isFetching, failure} = this.props.getEmployeesBySaloonAndCategory;
-
+    console.log(this.state.selectedEmployee,'this.state.selectedEmployee')
     return (
       <View style={styles.container}>
         {this.state.showBookedModal && (
           <BookingModal
-            addToCard={() => this.addToCard()}
+            data={this.state.selectedEmployee}
+            addToCard={(e) => this.addToCard(e)}
             onCancel={() => this.setState({showBookedModal: false})}
           />
         )}
@@ -376,6 +372,6 @@ const mapStateToProps = state => ({
   login: state.login,
 });
 
-const action = {get_Employees_By_Saloon_And_Category, create_Booking};
+const action = {get_Employees_By_Saloon_And_Category, create_Booking, addToCard, removeFromCard};
 
 export default connect(mapStateToProps, action)(SaloonEmployee);

@@ -80,7 +80,6 @@ class SaloonServicesByCategory extends Component {
 
   handleSaloonServicesByCategory = () => {
     // const {id, companyId} = this.props;
-    // console.log(companyId, 'selectCompanyIdselectCompanyIdselectCompanyId');
     // this.setState({isLoading: true});
     const {categoryId, companyId} = this.props.route.params;
 
@@ -88,35 +87,9 @@ class SaloonServicesByCategory extends Component {
       companyId: companyId,
       categoryId: categoryId,
     };
-
     console.log(payload, 'SaloonServicesByCategory');
-
     this.props.get_Saloon_Services_By_Category(payload);
   };
-
-  onChange = (event, date) => {
-    date = date || this.state;
-    this.setState({
-      // show: Platform.OS === 'ios' ? true : false,
-      date,
-    });
-  };
-
-  showMode = mode => {
-    this.setState({
-      show: true,
-      mode,
-    });
-  };
-
-  showDatepicker = () => {
-    this.setState({showDatepicker: true});
-  };
-
-  // showTimepicker = () => {
-  //   this.setState({showTimepicker: true});
-  //   // this.showMode('time');
-  // };
 
   onStarRatingPress(rating) {
     this.setState({
@@ -156,11 +129,13 @@ class SaloonServicesByCategory extends Component {
   };
   renderService = (services, index) => {
     const {id} = this.props;
-    const {companyId} = this.props.route.params;
+    const {companyId, categoryId } = this.props.route.params;
 
     const payload = {
       companyId: companyId,
-      serviceId: services._id,
+      serviceId: services.serviceId,
+      services: services,
+      categoryId: categoryId
     };
 
     return (
@@ -182,19 +157,17 @@ class SaloonServicesByCategory extends Component {
               width: Metrics.screenWidth * 0.45,
             }}>
             <Text numberOfLines={1} style={{fontSize: Metrics.ratio(17)}}>
-              {services && services.serviceName ? services.serviceName : 'name'}
+              {services && services.name ? services.name : 'name'}
             </Text>
             {/* <Text>{services && services._id ? services._id : 'id'}</Text> */}
-            <TouchableOpacity
-            //  onPress={() => this.showDatepicker()}
-            >
+           
               <View
                 style={{
                   flexDirection: 'row',
                   marginVertical: Metrics.ratio(5),
                 }}>
                 <Image
-                  source={Images.calendar}
+                  source={Images.human}
                   style={{
                     height: Metrics.ratio(17),
                     width: Metrics.ratio(17),
@@ -202,10 +175,9 @@ class SaloonServicesByCategory extends Component {
                   }}
                 />
                 <Text style={{fontSize: Metrics.ratio(14)}}>
-                  {'Select Date hh'}
+                  {'Select Employee'}
                 </Text>
               </View>
-            </TouchableOpacity>
             <View style={{flexDirection: 'row'}}>
               <Image
                 source={Images.tag_grey}
@@ -226,13 +198,11 @@ class SaloonServicesByCategory extends Component {
             }>
             <View
               style={{
-                justifyContent: 'center',
                 width: Metrics.screenWidth * 0.1,
               }}>
               <Image source={Images.arrow} style={styles.arrowImage} />
             </View>
           </TouchableOpacity>
-          {/* {this.renderBookNowButton()} */}
         </View>
       </View>
     );

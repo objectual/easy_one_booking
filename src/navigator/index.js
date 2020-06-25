@@ -33,37 +33,34 @@ import BookingForm from './../containers/BookingForm/index';
 import SaloonServicesByCategory from './../containers/SaloonServicesByCategory/index';
 import GiveFeedBack from './../containers/GiveFeedBack/index';
 import AsyncStorage from '@react-native-community/async-storage';
+import {token} from '../config/WebServices'
+import RNRestart from 'react-native-restart';
+
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 
-async function getToken() {
-  try {
-    return await AsyncStorage.getItem('access_token')
-  } catch (e) {
-    // error reading value
-  }
-}
 
-function CustomDrawerContent(props) {
-  const token = getToken()
+
+ function CustomDrawerContent(props) {
+
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
-
-      {token &&
-        (<DrawerItem
-          label="Logout"
-          onPress={() => AsyncStorage.clear()}
-          style={{ marginTop: 20 }}
-          icon={({ focused }) => (
-            <Image
-              source={Images.costumer_logout}
-              style={[getFocusedTabStyles(focused), styles.drawerIcon]}
-            />
-          )}
-        />)
+    
+      { token !=null  && 
+      (<DrawerItem
+        label="Logout"
+        onPress={async() => {await AsyncStorage.clear(),RNRestart.Restart()}}
+        style={{marginTop: 20}}
+        icon={({focused}) => (
+          <Image
+            source={Images.costumer_logout}
+            style={[getFocusedTabStyles(focused), styles.drawerIcon]}
+          />
+        )}
+      />) 
       }
     </DrawerContentScrollView>
   );
@@ -439,7 +436,7 @@ function getFocusedTabStyles(focused) {
 }
 
 function mainDrawer() {
-  const token = getToken()
+
 
   return (
     <Drawer.Navigator
@@ -596,7 +593,8 @@ function mainDrawer() {
   );
 }
 
-function mainStack({ navigation }) {
+function mainStack({navigation}) {
+
   return (
     <NavigationContainer>
       <Stack.Navigator>

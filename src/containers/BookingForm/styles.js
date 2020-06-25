@@ -42,9 +42,8 @@ export default StyleSheet.create({
     shadowRadius: 1.0,
   },
   titleText: {
-    width: Metrics.screenWidth * 0.42,
     fontSize: Metrics.ratio(20),
-    // resizeMode: 'contain',
+    marginBottom: Metrics.ratio(20),
   },
   textContainer: {
     alignItems: 'center',
