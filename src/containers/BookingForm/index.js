@@ -28,6 +28,8 @@ import {
   phoneNumberRegex,
   validate,
 } from '../../services/validation';
+import {initializeToken, token, getUserInfo} from '../../config/WebServices'
+
 
 class BookingForm extends Component {
   constructor(props) {
@@ -43,7 +45,7 @@ class BookingForm extends Component {
       nameError: '',
       phoneNoError: '',
       postalCodeError: '',
-      loginData: this.props.login.data.data,
+      loginData: '',
       formErrors: {
         emailError: false,
         nameError: false,
@@ -271,27 +273,50 @@ class BookingForm extends Component {
       </View>
     );
   };
-  renderHeading = () => {
-    return (
-      <View style={styles.containerForRow}>
-        <Text style={styles.titleText}>Please enter your detail to conform the booking</Text>
-      </View>
-    );
-  };
+  booKNow = async () =>
+  {
+    if(token == null)
+    {
+      this.props.navigation.navigate('Login')
+    }
+    
+    await this.createPayload()
+
+
+  }
+
+  createPayload = async () =>
+  {
+    const {login} = this.props
+    const {cart} = this.props
+    console.log(login.data,'login.data')
+    let userInfo = JSON.parse(await getUserInfo())
+    console.log(userInfo,'userInfo')
+
+    
+  // let services = []
+
+  //  for (let i = 0; i < cart.data.length; i++) {
+
+  //   payload ={
+      
+  //   }
+
+    
+  //    services.push()
+    
+  //  }
+   
+   
+
+  }
+
   renderSubmitBtn = () => {
     return (
       <View>
         <TouchableOpacity
           style={styles.submitBtn}
-          disabled={
-            this.state.nameError == null &&
-            this.state.emailError == null &&
-            this.state.postalCodeError == null &&
-            this.state.phoneNoError == null
-              ? false
-              : true
-          }
-          onPress={() => this.setState({showBookedModal: true})}>
+          onPress={() => this.booKNow()}>
           <Text style={styles.submitBtnText}>Book Now</Text>
         </TouchableOpacity>
       </View>
@@ -367,6 +392,7 @@ const mapStateToProps = state => {
   return {
     createBooking: state.createBooking,
     login: state.login,
+    cart: state.cart
   };
 };
 

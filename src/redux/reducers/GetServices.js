@@ -1,42 +1,34 @@
 // @flow
-import Immutable from 'seamless-immutable';
-import * as types from '../actions/ActionTypes';
+import Immutable from "seamless-immutable";
+import * as types from "../actions/ActionTypes";
 
 const initialState = Immutable({
   failure: false,
   isFetching: false,
-  errorMessage: '',
-  data: {},
-  success: false
+  errorMessage: "",
+  data: {}
 });
 
 export default (state: Object = initialState, action: Object) => {
   switch (action.type) {
-    case types.CREATE_BOOKING.REQUEST:
+    case types.GET_SERVICES.REQUEST:
+
       return Immutable.merge(state, {
-        isFetching: true,
+        isFetching: true
       });
-    case types.CREATE_BOOKING.SUCCESS:
+    case types.GET_SERVICES.SUCCESS:
       return Immutable.merge(state, {
         failure: false,
         isFetching: false,
-        errorMessage: '',
-        data: action.data,
-        success: true
+        errorMessage: "",
+        data: action.data
       });
-    case types.CREATE_BOOKING.FAILURE:
+    case types.GET_SERVICES.FAILURE:
       return Immutable.merge(state, {
         failure: true,
         isFetching: false,
-        errorMessage: action.errorMessage,
+        errorMessage: action.errorMessage
       });
-
-      case types.HIDE_MODAL:
-      return Immutable.merge(state, {
-        success: false,
-      });
-
-      
     case types.LOGOUT:
       return initialState;
     default:

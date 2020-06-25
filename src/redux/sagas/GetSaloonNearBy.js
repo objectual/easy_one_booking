@@ -1,52 +1,29 @@
 import { take, put, call, fork } from "redux-saga/effects";
 
 import ApiSauce from "../../services/apiSauce";
-import { login_Api, initializeToken } from "../../config/WebServices";
+import { get_Saloon_NearApi } from "../../config/WebServices";
 import * as types from "../actions/ActionTypes";
 
-import { success, failure } from "../actions/Login";
+import { success, failure } from "../actions/GetSaloonNearBy";
 
 import { ErrorHelper } from "../../helpers";
-import AsyncStorage from '@react-native-community/async-storage';
-
-
 
 function callRequest(data) {
-  return ApiSauce.post(login_Api, data);
+  // const access_token = data.access_token;
+  // delete data.access_token;
+  return ApiSauce.post(get_Saloon_NearApi, data);
+
+
 }
-
- async function storeToken(response) {
-  try {
-    await AsyncStorage.setItem('access_token', response.data.access_token)
-    await initializeToken()
-  } catch (e) {
-   
-  }
-}
-
-async function storeLoginResponce(response) {
-  try {
-    await AsyncStorage.setItem('loginResponce', JSON.stringify(response))
-  } catch (e) {
-   
-  }
-}
-
-
 function* watchRequest() {
   while (true) {
-    const { payload } = yield take(types.LOGIN.REQUEST);
-
+    const { payload } = yield take(types.GET_SALOON_NEARBY.REQUEST);
     // const { targetView } = payload;
     // delete payload.targetView;
     try {
       const response = yield call(callRequest, payload);
-      console.log(response, "loginresponce");
-      yield call(storeToken,response)
-      yield call(storeLoginResponce,response)
-
       yield put(success(response));
-     
+
       //   setTimeout(() => {
       //     Actions.verify({
       //       phoneNumber: JSON.stringify(payload.phoneNumber).replace(/\"/g, ""),
@@ -57,10 +34,13 @@ function* watchRequest() {
       //   }, 800);
     } catch (err) {
       yield put(failure(err));
-      ErrorHelper.handleErrors(err, true);
+      // ErrorHelper.handleErrors(err, true);
     }
   }
 }
+
+
+
 
 export default function* root() {
   yield fork(watchRequest);

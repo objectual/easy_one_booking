@@ -11,6 +11,7 @@ import { ErrorHelper } from '../../helpers';
 function callRequest(data) {
   const access_token = data.access_token;
   delete data.access_token;
+  console.log(data,'data')
   return ApiSauce.postWithToken(create_Booking_Api, data, access_token);
   // return ApiSauce.post(create_Booking_Api, data);
 }
@@ -25,7 +26,12 @@ function* watchRequest() {
       //   response,
       //   'responseresponseresponseresponseresponseresponseresponseresponse',
       // );
+      console.log(
+        response,
+        'bookingSuccesss',
+      );
       yield put(success(response));
+      
 
       //   setTimeout(() => {
       //     Actions.verify({

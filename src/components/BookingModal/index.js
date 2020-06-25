@@ -57,7 +57,7 @@ export default class BookingModal extends Component {
       for (let i = 0; i < props.data.employeeId.weekPlans.length; i++) {
         let object = Immutable.asMutable(props.data.employeeId.weekPlans[i]);
         object.timeSlotsLabel = `${object.checkIn} ${object.checkOut}`;
-        object.timeSlotsValue = `${object.checkIn}/${object.checkOut}`;
+        object.timeSlotsValue = `${object.checkIn}${object.checkOut}`;
         dateSlots.push(object);
       }
 
@@ -126,8 +126,8 @@ export default class BookingModal extends Component {
     console.log( data, 'dataEmployee')
 
     let  selectedEmployeePayload = {
-      checkIn: timeSlot.split('/')[0],
-      checkOut: timeSlot.split('/')[1],
+      checkIn: timeSlot.split(' ')[0],
+      checkOut: timeSlot.split(' ')[1],
       date: this.state.date,
       employee: data.employeeId.userId,
       price:'',

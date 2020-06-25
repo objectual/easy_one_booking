@@ -22,8 +22,9 @@ import Header from '../../components/Header/index';
 import Rating from './../../components/Rating/index';
 // import Icon from 'react-native-vector-icons/MaterialIcons';
 import {request as get_Saloon} from '../../redux/actions/GetSaloon';
-import {request as Get_Categories} from '../../redux/actions/GetCategories';
-import {request as get_Saloon_By_Category} from '../../redux/actions/GetSaloonByCategory';
+import {request as Get_Categories,} from '../../redux/actions/GetCategories';
+
+import {request as get_Services } from '../../redux/actions/GetServices';
 import Geolocation from '@react-native-community/geolocation';
 import {initializeToken, token} from '../../config/WebServices'
 
@@ -37,7 +38,7 @@ class Home extends Component {
       selectCard: null,
       selectSaloon: null,
       GetSaloonData: [],
-      GetSaloonCategories: [],
+      getServices: [],
       dayandtime: [
         {
           day: 'Mon',
@@ -84,10 +85,9 @@ class Home extends Component {
   componentDidMount = async () => {
 
     await initializeToken()
-    
+    await this.props.get_Services();
 
     await this.getLocationHandler();
-    await this.getCategoriesApi();
   };
 
   // componentWillUnmount()
@@ -95,9 +95,7 @@ class Home extends Component {
   //   this.didFocusListener.remove();
   // }
 
-  getCategoriesApi = () => {
-    this.props.Get_Categories();
-  };
+ 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.getSaloon) {
       if (
@@ -125,27 +123,27 @@ class Home extends Component {
       }
     }
 
-    if (nextProps.getCategories) {
+    if (nextProps.getServices) {
       if (
-        !nextProps.getCategories.failure &&
-        !nextProps.getCategories.isFetching &&
-        nextProps.getCategories.data &&
-        nextProps.getCategories.data.success
+        !nextProps.getServices.failure &&
+        !nextProps.getServices.isFetching &&
+        nextProps.getServices.data &&
+        nextProps.getServices.data.success
       ) {
-        this.setState({GetSaloonCategories: nextProps.getCategories.data.data});
+        this.setState({getServices: nextProps.getServices.data.data});
         console.log(
-          nextProps.getCategories.data.data,
+          nextProps.getServices.data.data,
           'getCategoriesgetCategoriesgetCategoriesgetCategoriesgetCategories',
         );
       } else if (
-        !nextProps.getCategories.failure &&
-        !nextProps.getCategories.isFetching &&
-        nextProps.getCategories.data &&
-        !nextProps.getCategories.data.success
+        !nextProps.getServices.failure &&
+        !nextProps.getServices.isFetching &&
+        nextProps.getServices.data &&
+        !nextProps.getServices.data.success
       ) {
         this.setState({isloading: false}, () => {
           setTimeout(() => {
-            Alert.alert('Error', nextProps.getCategories.data.msg);
+            Alert.alert('Error', nextProps.getServices.data.msg);
           }, 3000);
         });
       }
@@ -340,8 +338,8 @@ class Home extends Component {
     );
   };
   renderSaloonCategoriesCard = () => {
-    const {GetSaloonCategories} = this.state;
-    const {isFetching, failure} = this.props.getCategories;
+    const {getServices} = this.state;
+    const {isFetching, failure} = this.props.getServices;
 
     return (
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -356,7 +354,7 @@ class Home extends Component {
             {isFetching == false && failure == false ? (
               <FlatList
                 horizontal
-                data={GetSaloonCategories}
+                data={getServices}
                 renderItem={({item, index}) =>
                   this.renderSaloonCategories(item, index)
                 }
@@ -444,7 +442,7 @@ class Home extends Component {
   };
 
   render() {
-    const {showdescription, GetSaloonData, GetSaloonCategories} = this.state;
+    const {showdescription, GetSaloonData, getServices} = this.state;
 
     return (
       <View style={styles.container}>
@@ -452,7 +450,7 @@ class Home extends Component {
           {this.renderScreenHeadImg()}
           {this.renderHeading()}
           {this.renderOurServices()}
-          {/* {this.renderSaloonCategoriesCard()} */}
+          {this.renderSaloonCategoriesCard()}
           {this.renderRatedSaloon()}
           {this.renderTopRatedSaloonCard()}
           {showdescription ? this.renderDescription() : null}
@@ -465,10 +463,10 @@ class Home extends Component {
 const mapStateToProps = state => {
   return {
     getSaloon: state.getSaloon,
-    getCategories: state.getCategories,
+    getServices: state.getServices,
   };
 };
 
-const action = {get_Saloon, Get_Categories};
+const action = {get_Saloon, get_Services};
 
 export default connect(mapStateToProps, action)(Home);
