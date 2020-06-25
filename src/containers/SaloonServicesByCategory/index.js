@@ -228,14 +228,8 @@ class SaloonServicesByCategory extends Component {
   render() {
     const {getSelectedServices} = this.state;
     const {isFetching, failure} = this.props.getSaloonServicesByCategory;
-
-
     return (
       <View style={styles.container}>
-
-
-     
-
         <Header
           headerText={'Saloon Services'}
           leftIcon={Images.pagination_back}
