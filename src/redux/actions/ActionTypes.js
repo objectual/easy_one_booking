@@ -39,3 +39,7 @@ export const DRAWAR_MENU_SWITCHED = 'DRAWAR_MENU_SWITCHED';
 export const STACK_NAVIGATOR = 'STACK_NAVIGATOR';
 export const ADD_TO_CART = 'ADD_CART';
 export const REMOVE__FROM_CART = 'REMOVE_CART';
+export const HIDE_MODAL = 'HIDE_MODAL';
+export const REMOVE_ALL = 'REMOVE_ALL';
+
+

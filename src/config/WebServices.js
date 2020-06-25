@@ -41,3 +41,12 @@ export async function  initializeToken  () {
     // error reading value
   }
 }
+
+
+export async function  getUserInfo  () {
+  try {
+    return await AsyncStorage.getItem('loginResponce')
+  } catch(e) {
+    // error reading value
+  }
+}

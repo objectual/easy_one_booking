@@ -1,6 +1,6 @@
 // @flow
 
-import {CREATE_BOOKING, LOGOUT} from './ActionTypes';
+import {CREATE_BOOKING, LOGOUT, HIDE_MODAL } from './ActionTypes';
 
 export function request(payload) {
   return {
@@ -22,6 +22,14 @@ export function failure(errorMessage: Object) {
     type: CREATE_BOOKING.FAILURE,
   };
 }
+
+
+export function hideModal(errorMessage: Object) {
+  return {
+    type: HIDE_MODAL,
+  };
+}
+
 
 export function logout() {
   return {

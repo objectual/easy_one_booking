@@ -32,11 +32,15 @@ class ApiSauce {
       headers: {
         // "Content-Type": "application/x-www-form-urlencoded",
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `${token}`
       }
     };
 
     console.log(url,'url')
+    console.log(token,'token')
+
+    console.log(payload,'payload')
+
 
     const response = await api.post(url, payload, Header);
 

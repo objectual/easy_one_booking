@@ -23,6 +23,16 @@ function callRequest(data) {
    
   }
 }
+
+async function storeLoginResponce(response) {
+  try {
+    await AsyncStorage.setItem('loginResponce', JSON.stringify(response))
+  } catch (e) {
+   
+  }
+}
+
+
 function* watchRequest() {
   while (true) {
     const { payload } = yield take(types.LOGIN.REQUEST);
@@ -33,6 +43,8 @@ function* watchRequest() {
       const response = yield call(callRequest, payload);
       console.log(response, "loginresponce");
       yield call(storeToken,response)
+      yield call(storeLoginResponce,response)
+
       yield put(success(response));
      
       //   setTimeout(() => {

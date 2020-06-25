@@ -28,7 +28,7 @@ import {
   phoneNumberRegex,
   validate,
 } from '../../services/validation';
-import {initializeToken, token} from '../../config/WebServices'
+import {initializeToken, token, getUserInfo} from '../../config/WebServices'
 
 
 class BookingForm extends Component {
@@ -273,36 +273,39 @@ class BookingForm extends Component {
       </View>
     );
   };
-  booKNow = () =>
+  booKNow = async () =>
   {
     if(token == null)
     {
       this.props.navigation.navigate('Login')
     }
     
-    this.createPayload()
+    await this.createPayload()
 
 
   }
 
-  createPayload = async (data,cart) =>
+  createPayload = async () =>
   {
     const {login} = this.props
     const {cart} = this.props
+    console.log(login.data,'login.data')
+    let userInfo = JSON.parse(await getUserInfo())
+    console.log(userInfo,'userInfo')
 
     
-  let services = []
+  // let services = []
 
-   for (let i = 0; i < cart.data.length; i++) {
+  //  for (let i = 0; i < cart.data.length; i++) {
 
-    payload ={
+  //   payload ={
       
-    }
+  //   }
 
     
-     services.push()
+  //    services.push()
     
-   }
+  //  }
    
    
 

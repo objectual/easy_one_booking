@@ -22,7 +22,7 @@ export default StyleSheet.create({
     width: '100%',
     borderWidth: 0,
     marginBottom: 10,
-    marginTop: 20,
+    marginTop: 10,
     paddingLeft: 20
   },
   serviceheadfont: {
