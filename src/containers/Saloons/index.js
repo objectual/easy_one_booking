@@ -87,7 +87,7 @@ class Saloons extends Component {
       }
       style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
-          <View style={{width: Metrics.screenWidth * 0.3}}>
+          <View>
             {saloons && saloons.image ? (
               <Image
                 source={{uri: saloons.image}}
@@ -101,30 +101,20 @@ class Saloons extends Component {
             )}
           </View>
           <View
-            style={{
-              marginVertical: Metrics.ratio(15),
-              width: Metrics.screenWidth * 0.35,
-            }}>
-            <Text numberOfLines={1} style={{fontSize: Metrics.ratio(17)}}>
+            style={styles.dataContainer}>
+            <Text numberOfLines={1} style={styles.textsize18}>
               {saloons && saloons.name ? saloons.name : 'name'}
             </Text>
-
-            <Text style={{fontSize: Metrics.ratio(14)}}>
-              {saloons && saloons.createdDate
-                ? saloons.createdDate
-                : 'created Date'}
+            <Text numberOfLines={1} style={styles.textsize15}>
+              City : {saloons && saloons.city
+                ? saloons.city
+                : 'City'}
             </Text>
-
-            <Text style={{fontSize: Metrics.ratio(14)}}>
-              {saloons && saloons.name ? saloons.name : 'name'}
+            <Text numberOfLines={2} style={styles.textsize15}>
+              Adress : {saloons && saloons.address
+                ? saloons.address
+                : null}
             </Text>
-          </View>
-          <View
-            style={{
-              justifyContent: 'center',
-              width: Metrics.screenWidth * 0.2,
-            }}>
-            {/* {this.renderBookNowButton()} */}
           </View>
         </View>
       </TouchableOpacity>

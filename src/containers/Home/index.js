@@ -184,7 +184,7 @@ class Home extends Component {
         <Text style={styles.mainheading2}>
           Description
         </Text>
-        <Text style={styles.mainheading2}>
+        <Text style={styles.mainheading3}>
           {selectCard && selectCard.saloon.companyShortDescription ? selectCard.saloon.companyShortDescription : null}
         </Text>
         <TouchableOpacity
@@ -402,19 +402,13 @@ class Home extends Component {
   renderDayAndTime = (day, time) => {
     return (
       <View>
-        <View style={{marginVertical: Metrics.ratio(3), flexDirection: 'row'}}>
+        <View style={styles.timeContainer}>
           <Text
-            style={{
-              fontSize: Metrics.ratio(15),
-              width: Metrics.screenWidth * 0.2,
-            }}>
+            style={styles.timeContainerTextday}>
             {day}
           </Text>
           <Text
-            style={{
-              fontSize: Metrics.ratio(15),
-              width: Metrics.screenWidth * 0.8,
-            }}>
+            style={styles.timeContainerTextTime}>
             {time}
           </Text>
         </View>

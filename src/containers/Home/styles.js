@@ -1,6 +1,6 @@
 // @flow
-import {StyleSheet, ListViewBase} from 'react-native';
-import {Images, Metrics, Fonts} from '../../theme';
+import { StyleSheet, ListViewBase } from 'react-native';
+import { Images, Metrics, Fonts } from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -27,14 +27,14 @@ export default StyleSheet.create({
   mainheading2: {
     color: '#5c0000',
     fontSize: Metrics.ratio(18),
-    marginTop: Metrics.ratio(20),
+    marginTop: Metrics.ratio(5),
     marginBottom: Metrics.ratio(10),
     fontFamily: Fonts.type.bold,
   },
   mainheading3: {
     color: '#5c0000',
     fontSize: Metrics.ratio(15),
-    marginBottom: Metrics.ratio(30),
+    marginBottom: Metrics.ratio(10),
   },
   submitBtn: {
     backgroundColor: '#FF3600',
@@ -85,7 +85,7 @@ export default StyleSheet.create({
   },
   cardradius: {
     padding: Metrics.ratio(10),
-    
+
   },
   showcardradius: {
     borderWidth: Metrics.ratio(1),
@@ -108,5 +108,16 @@ export default StyleSheet.create({
     fontSize: 11,
     marginLeft: 3,
     color: '#d2d2d2',
+  },
+  timeContainer: {
+    marginVertical: Metrics.ratio(3), flexDirection: 'row'
+  },
+  timeContainerTextday: {
+    fontSize: Metrics.ratio(15),
+              width: Metrics.screenWidth * 0.2,
+  },
+  timeContainerTextTime: {
+    fontSize: Metrics.ratio(15),
+    width: Metrics.screenWidth * 0.8,
   },
 });

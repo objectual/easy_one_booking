@@ -42,4 +42,20 @@ export default StyleSheet.create({
     resizeMode: 'contain',
     marginBottom : Metrics.ratio(-15),
   },
+  containerImage : {
+    width: Metrics.screenWidth * 0.3
+  },
+  containertext : {
+    marginVertical: Metrics.ratio(15),
+    width: Metrics.screenWidth * 0.45,
+  },
+  containertitle : {
+    height: Metrics.ratio(17),
+    width: Metrics.ratio(17),
+    marginRight: Metrics.ratio(5),
+  },
+  containerAeroImage : {
+    width: Metrics.screenWidth * 0.1,
+  }
+
 });
