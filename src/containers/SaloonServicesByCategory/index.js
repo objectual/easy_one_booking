@@ -32,8 +32,6 @@ class SaloonServicesByCategory extends Component {
     super(props);
     this.state = {
       starCount: 5,
-      date: new Date(1598051730000),
-      mode: 'date',
       show: false,
       selectCompanyId: this.props.getSaloon.data.data.saloon,
       getSelectedServices: [],
@@ -114,19 +112,6 @@ class SaloonServicesByCategory extends Component {
       </View>
     );
   };
-  renderNextStepButton = () => {
-    return (
-      <View
-        style={[
-          styles.containerForRow,
-          {marginVertical: Metrics.ratio(10), alignItems: 'flex-end'},
-        ]}>
-        <TouchableOpacity style={styles.submitBtn}>
-          <Text style={styles.submitBtnText}>Next Step</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
   renderService = (services, index) => {
     const {id} = this.props;
     const {companyId, categoryId } = this.props.route.params;
@@ -141,7 +126,7 @@ class SaloonServicesByCategory extends Component {
     return (
       <View style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
-          <View style={{width: Metrics.screenWidth * 0.3}}>
+          <View style={styles.containerImage}>
             {services && services.image ? (
               <Image
                 source={{uri: services.image}}
@@ -152,10 +137,7 @@ class SaloonServicesByCategory extends Component {
             )}
           </View>
           <View
-            style={{
-              marginVertical: Metrics.ratio(15),
-              width: Metrics.screenWidth * 0.45,
-            }}>
+            style={styles.containertext}>
             <Text numberOfLines={1} style={{fontSize: Metrics.ratio(17)}}>
               {services && services.name ? services.name : 'name'}
             </Text>
@@ -168,27 +150,19 @@ class SaloonServicesByCategory extends Component {
                 }}>
                 <Image
                   source={Images.human}
-                  style={{
-                    height: Metrics.ratio(17),
-                    width: Metrics.ratio(17),
-                    marginRight: Metrics.ratio(5),
-                  }}
+                  style={styles.containertitle}
                 />
-                <Text style={{fontSize: Metrics.ratio(14)}}>
+                <Text>
                   {'Select Employee'}
                 </Text>
               </View>
             <View style={{flexDirection: 'row'}}>
               <Image
                 source={Images.tag_grey}
-                style={{
-                  height: Metrics.ratio(17),
-                  width: Metrics.ratio(17),
-                  marginRight: Metrics.ratio(5),
-                }}
+                style={styles.containertitle}
               />
-              <Text style={{fontSize: Metrics.ratio(14)}}>
-                {services && services.price ? services.price : 'name'}
+              <Text>
+                $ {services && services.price ? services.price : 'name'}
               </Text>
             </View>
           </View>
@@ -197,9 +171,7 @@ class SaloonServicesByCategory extends Component {
               this.props.navigation.navigate('SaloonEmployee', payload)
             }>
             <View
-              style={{
-                width: Metrics.screenWidth * 0.1,
-              }}>
+              style={styles.containerAeroImage}>
               <Image source={Images.arrow} style={styles.arrowImage} />
             </View>
           </TouchableOpacity>
@@ -207,37 +179,14 @@ class SaloonServicesByCategory extends Component {
       </View>
     );
   };
-  dateAndTimePicker() {
-    const {showDatepicker} = this.state;
-    return (
-      <View>
-        {showDatepicker ? (
-          <DateTimePicker
-            testID="dateTimePicker"
-            timeZoneOffsetInMinutes={0}
-            value={1591103986723}
-            mode="datetime"
-            is24Hour={false}
-            display="default"
-            onChange={this.onChange}
-          />
-        ) : null}
-      </View>
-    );
-  }
+ 
   render() {
     const {getSelectedServices} = this.state;
     const {isFetching, failure} = this.props.getSaloonServicesByCategory;
-
-
     return (
       <View style={styles.container}>
-
-
-     
-
         <Header
-          headerText={'Saloon Services'}
+          headerText={'Salon Services'}
           leftIcon={Images.pagination_back}
           leftBtnPress={() => this.props.navigation.goBack()}
         />
@@ -248,7 +197,6 @@ class SaloonServicesByCategory extends Component {
               {getSelectedServices &&
                 getSelectedServices.length != 0 &&
                 this.renderRow()}
-              {this.dateAndTimePicker()}
             </View>
           </ScrollView>
         )}

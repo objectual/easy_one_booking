@@ -20,7 +20,7 @@ import Home from './../containers/Home/index';
 import { Images, Metrics, Fonts, Colors } from '../theme';
 import Services from './../containers/Services/index';
 import ChartBox from './../containers/ChartBox/index';
-import AvailableServices from './../containers/AvailableServices/index';
+import BookingHistory from '../containers/BookingHistory/index';
 import Proceeding from './../containers/Proceeding/index';
 import Login from './../containers/Login/index';
 import Categories from './../containers/Categories/index';
@@ -299,14 +299,14 @@ function bookingFormStack({ navigation }) {
   );
 }
 
-function availableServicesStack({ navigation }) {
+function bookingHistoryStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="AvailableServices"
-        component={AvailableServices}
+        name="BookingHistory"
+        component={BookingHistory}
         options={{
-          title: 'Available Services',
+          title: 'Booking History',
           headerTitleStyle: {
             marginLeft: '15%',
           },
@@ -483,7 +483,7 @@ function mainDrawer() {
           title: 'Saloon',
           drawerIcon: ({ focused }) => (
             <Image
-              source={Images.costumer_choose_a_templates}
+              source={Images.costumer_saloon}
               style={[getFocusedTabStyles(focused), styles.drawerIcon]}
             />
           ),
@@ -505,12 +505,12 @@ function mainDrawer() {
         />*/}
 
       <Drawer.Screen
-        name="Available Services"
-        component={availableServicesStack}
+        name="Booking History"
+        component={bookingHistoryStack}
         options={{
           drawerIcon: ({ focused }) => (
             <Image
-              source={Images.costumer_available_services}
+              source={Images.costumer_booking}
               style={[getFocusedTabStyles(focused), styles.drawerIcon]}
             />
           ),

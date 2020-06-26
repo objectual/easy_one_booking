@@ -21,7 +21,9 @@ const pagination_back = require('../assets/Images/Icons/pagination_back.png');
 const cart_payment = require('../assets/Images/Icons/cart_payment.png');
 const cross = require('../assets/Images/Icons/cross.png');
 const arrow = require('../assets/Images/Icons/arrow.png');
+const costumer_saloon = require('../assets/Images/Icons/costumer_saloon.png');
 const human = require('../assets/Images/Icons/human.png');
+const costumer_booking = require('../assets/Images/Icons/costumer_booking.png');
 const saloon_card = require('../assets/Images/saloon_card.jpg');
 const select_services = require('../assets/Images/select_services.png');
 const saloon_form_american_express = require('../assets/Images/saloon_form_american_express.png');
@@ -65,5 +67,7 @@ export default {
   arrow,
   saloon_check_arrow,
   plus,
-  human
+  human,
+  costumer_booking,
+  costumer_saloon
 };
