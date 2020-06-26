@@ -126,8 +126,8 @@ class Proceeding extends Component {
   getCancelRow = (index) =>
   {
     return(
-      <TouchableOpacity onLongPress={()=>this.props.removeFromCard({index})} style={{ width: '90%',flexDirection:'row', justifyContent:'flex-end', marginBottom: 5,}}>
-          <View style={{width:'10%', borderWidth:0,justifyContent:'center',alignItems:'center'}}>
+      <TouchableOpacity onLongPress={async ()=> await this.props.removeFromCard({index})} style={{ width: '90%',flexDirection:'row', justifyContent:'flex-end', marginBottom: 5,}}>
+          <View style={{width:'14%', height:40, borderWidth:0, justifyContent:'center',alignItems:'center'}}>
             <Text  style={{ fontSize: 18 }}>
               x
             </Text>
@@ -166,7 +166,7 @@ class Proceeding extends Component {
          {this.getCancelRow(index)}
          {this.getRows('Name',`${object.payload.employee.firstName} ${object.payload.employee.lastName}`)}
          {this.getRows('Service Name',object.payload.name)}
-         {this.getRows('Price',`${object.payload.price}$`)}
+         {this.getRows('Price',`$${object.payload.price}`)}
          {this.getRows('Date',object.payload.date)}
          {this.getRows('Time',object.payload.checkIn)}
 
@@ -217,7 +217,7 @@ class Proceeding extends Component {
       <View>
         <View style={{width:'80%', flexDirection:'row', borderWidth:0}}>
           <Text style={styles.serviceheadfontRed}>TOTAL</Text>
-          <Text style={styles.serviceheadfontRed}> {this.getTotalPrice()}$</Text>
+          <Text style={styles.serviceheadfontRed}>${this.getTotalPrice()}</Text>
         </View>
       </View>
     );

@@ -159,11 +159,12 @@ class Categories extends Component {
       return (
         <View style={{
           flexDirection: 'row',
+          marginHorizontal: Metrics.screenWidth * 0.06
         }}>
           <FlatList
             numColumns={2}
             columnWrapperStyle={{
-              justifyContent: 'space-evenly',
+              justifyContent: 'space-between',
             }}
             data={getSelectedCategory}
             renderItem={({ item, index }) => this.renderCategory(item, index)}

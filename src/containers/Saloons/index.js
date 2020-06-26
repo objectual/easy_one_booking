@@ -149,7 +149,7 @@ class Saloons extends Component {
     return (
       <View style={styles.container}>
         <Header
-          headerText={'Saloons'}
+          headerText={'Salon'}
           leftIcon={Images.pagination_back}
           leftBtnPress={() => this.props.navigation.goBack()}
         />

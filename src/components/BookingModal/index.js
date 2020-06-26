@@ -20,8 +20,8 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 export default class BookingModal extends Component {
   state = {
     modalVisible: true,
-    date: 'Select Date',
-    time: 'Select Time',
+    date: 'Select Date Time',
+    time: '',
     dateData: [
       {value: '6/18/2020'},
       {value: '2/18/2020'},
@@ -176,7 +176,7 @@ export default class BookingModal extends Component {
 
   submit= async(object)=>
   {
-    if(this.state.date == 'Select Date' || this.state.time == 'Select Time' )
+    if(this.state.date == 'Select Date Time' || this.state.time == '' )
     {
       Alert.alert(
         'Date/Time',
@@ -189,13 +189,13 @@ export default class BookingModal extends Component {
   }
 
   renderShowCategoryButton = () => {
-    const {selectCard, timeSlot, data} = this.state;
+    const {selectCard, timeSlot, data, time} = this.state;
     console.log( timeSlot, 'timeSlot')
     console.log( data, 'dataEmployee')
 
     let  selectedEmployeePayload = {
-      checkIn: timeSlot.split(' ')[0],
-      checkOut: timeSlot.split(' ')[1],
+      checkIn: time,
+      checkOut: time,
       date: this.state.date,
       employee: data.employeeId.userId,
       price:'',
@@ -327,6 +327,7 @@ export default class BookingModal extends Component {
           console.log('Modal has been closed.');
         }}>
         <DateTimePickerModal
+          minimumDate={new Date()}
           isVisible={this.state.isDatePickerVisible}
           mode={'datetime'}
           onConfirm={(date) => this.handleConfirm(date)}
@@ -364,7 +365,7 @@ export default class BookingModal extends Component {
             <View style={styles.row}>
               <View style={styles.dateContainer}>
                 <View style={styles.datePickerLabelContainer}>
-                  <Text>Date</Text>
+                  <Text>Date Time</Text>
                 </View>
                 
 
@@ -372,7 +373,7 @@ export default class BookingModal extends Component {
                   <TouchableOpacity
                     onPress={() => this.showDatePicker()}
                     style={styles.dateValueContainer}>
-                    <Text style={{fontSize: 16}}>{this.state.date}</Text>
+                    <Text style={{fontSize: 16}}>{`${this.state.date} ${this.state.time}`}</Text>
                   </TouchableOpacity>
 
                   {/* <Dropdown
@@ -386,7 +387,7 @@ export default class BookingModal extends Component {
                 </View>
               </View>
 
-              <View style={styles.timeContainer}>
+              {/* <View style={styles.timeContainer}>
                 <View style={styles.datePickerLabelContainer}>
                   <Text>Time</Text>
                 </View>
@@ -397,7 +398,7 @@ export default class BookingModal extends Component {
                     <Text style={{fontSize: 16}}>{this.state.time}</Text>
                   </View>
                 </View>
-              </View>
+              </View> */}
             </View>
 
             <View style={[styles.row, {marginTop: 20}]}>
