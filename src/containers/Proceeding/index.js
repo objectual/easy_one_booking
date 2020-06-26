@@ -217,7 +217,7 @@ class Proceeding extends Component {
       <View>
         <View style={{width:'80%', flexDirection:'row', borderWidth:0}}>
           <Text style={styles.serviceheadfontRed}>TOTAL</Text>
-          <Text style={styles.serviceheadfontRed}>$ {this.getTotalPrice()}</Text>
+          <Text style={styles.serviceheadfontRed}> {this.getTotalPrice()}$</Text>
         </View>
       </View>
     );

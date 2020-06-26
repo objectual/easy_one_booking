@@ -380,6 +380,9 @@ class Home extends Component {
   // };
   renderDayAndTimeColumn = (saloonTime) => {
     console.log(saloonTime, "saloonTimesaloonTimesaloonTime")
+
+    if(saloonTime.schedule != undefined)
+    {
     return (
       <View>
         <View style={styles.timeContainer}>
@@ -510,6 +513,15 @@ class Home extends Component {
 
       </View>
     );
+    }
+    else
+    {
+      return(
+        <View>
+
+        </View>
+      )
+    }
   };
   renderDayAndTime = () => {
     const { GetSaloonData } = this.state;

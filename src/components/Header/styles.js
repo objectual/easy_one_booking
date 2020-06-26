@@ -25,6 +25,7 @@ export default StyleSheet.create({
     width: Metrics.ratio(40),
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth:0
   },
   headerTextView: {
     flexDirection: 'row',

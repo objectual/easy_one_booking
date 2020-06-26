@@ -580,7 +580,7 @@ class DrawerSaloons extends Component {
                 )}
               />
             )}
-          {((this.state.saloonNearBy == true ||
+          {/*((this.state.saloonNearBy == true ||
             this.state.selectedLocationSaloons == true) &&
             getSaloonNearBy.isFetching &&
             getSaloonNearBy.data && 
@@ -596,7 +596,7 @@ class DrawerSaloons extends Component {
                 }}>
                 <Text>No Saloons Found</Text>
               </View>
-            ))}
+            ))*/}
              
         </ScrollView>
       </View>

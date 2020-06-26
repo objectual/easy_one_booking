@@ -48,6 +48,8 @@ const Stack = createStackNavigator();
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
+
+      
     
       { token !=null  && 
       (<DrawerItem
@@ -464,7 +466,7 @@ function mainDrawer() {
         }}
       />
 
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="Chatbox"
         component={chatStack}
         options={{
@@ -475,7 +477,7 @@ function mainDrawer() {
             />
           ),
         }}
-      />
+      /> */}
       <Drawer.Screen
         name="DrawerSaloon"
         component={drawerSaloonsStack}
@@ -489,6 +491,7 @@ function mainDrawer() {
           ),
         }}
       />
+      
       {/*
         <Drawer.Screen
           name="Categories"
