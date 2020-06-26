@@ -114,7 +114,7 @@ export default StyleSheet.create({
   },
   timeContainerTextday: {
     fontSize: Metrics.ratio(15),
-              width: Metrics.screenWidth * 0.2,
+              width: Metrics.screenWidth * 0.15,
   },
   timeContainerTextTime: {
     fontSize: Metrics.ratio(15),

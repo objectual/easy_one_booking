@@ -162,7 +162,7 @@ class SaloonServicesByCategory extends Component {
                 style={styles.containertitle}
               />
               <Text>
-                {services && services.price ? services.price : 'name'}
+                $ {services && services.price ? services.price : 'name'}
               </Text>
             </View>
           </View>
@@ -186,7 +186,7 @@ class SaloonServicesByCategory extends Component {
     return (
       <View style={styles.container}>
         <Header
-          headerText={'Saloon Services'}
+          headerText={'Salon Services'}
           leftIcon={Images.pagination_back}
           leftBtnPress={() => this.props.navigation.goBack()}
         />
