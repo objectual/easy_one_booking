@@ -65,7 +65,7 @@ class Cards extends Component {
       item
     } = this.props;
 
-    console.log(item,'this.props.items')
+    console.log(item.companyLogo,'this.props.items')
 
     return (
       <View

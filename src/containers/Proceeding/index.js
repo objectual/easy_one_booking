@@ -127,9 +127,11 @@ class Proceeding extends Component {
   {
     return(
       <TouchableOpacity onLongPress={()=>this.props.removeFromCard({index})} style={{ width: '90%',flexDirection:'row', justifyContent:'flex-end', marginBottom: 5,}}>
-          <Text  style={{ fontSize: 18 }} >
-            x
-          </Text>
+          <View style={{width:'10%', borderWidth:0,justifyContent:'center',alignItems:'center'}}>
+            <Text  style={{ fontSize: 18 }}>
+              x
+            </Text>
+          </View>
     </TouchableOpacity>
     )
   
@@ -164,10 +166,9 @@ class Proceeding extends Component {
          {this.getCancelRow(index)}
          {this.getRows('Name',`${object.payload.employee.firstName} ${object.payload.employee.lastName}`)}
          {this.getRows('Service Name',object.payload.name)}
-         {this.getRows('Price',object.payload.price)}
-         {this.getRows('date',object.payload.date)}
-         {this.getRows('Check In',object.payload.checkIn)}
-         {this.getRows('Check Out',object.payload.checkOut)}
+         {this.getRows('Price',`${object.payload.price}$`)}
+         {this.getRows('Date',object.payload.date)}
+         {this.getRows('Time',object.payload.checkIn)}
 
          <View style={{ width: '90%',borderBottomWidth:1, marginTop: 35, borderColor:'#dedede' }}/>
         

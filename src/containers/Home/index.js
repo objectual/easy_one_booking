@@ -264,7 +264,7 @@ class Home extends Component {
       latitude,
       radius,
     };
-    this.props.get_Saloon(payload);
+    this.props.get_Saloon();
   };
 
   renderSaloonCard = salon => {
