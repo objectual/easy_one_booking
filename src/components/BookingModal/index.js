@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Modal,
   Text,
@@ -12,8 +12,8 @@ import {
   Alert,
 } from 'react-native';
 import styles from './styles';
-import {Images, Metrics, Fonts, Colors} from '../../theme';
-import {Dropdown} from 'react-native-material-dropdown';
+import { Images, Metrics, Fonts, Colors } from '../../theme';
+import { Dropdown } from 'react-native-material-dropdown';
 import Immutable from 'seamless-immutable';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
@@ -23,11 +23,11 @@ export default class BookingModal extends Component {
     date: 'Select Date Time',
     time: '',
     dateData: [
-      {value: '6/18/2020'},
-      {value: '2/18/2020'},
-      {value: '5/28/2020'},
+      { value: '6/18/2020' },
+      { value: '2/18/2020' },
+      { value: '5/28/2020' },
     ],
-    timeData: [{value: '12:00 PM'}, {value: '3:00 PM'}, {value: '5:00 PM'}],
+    timeData: [{ value: '12:00 PM' }, { value: '3:00 PM' }, { value: '5:00 PM' }],
     isloading: false,
     selectedEmployee: {},
     timeSlot: '',
@@ -38,8 +38,8 @@ export default class BookingModal extends Component {
 
   async componentDidMount() {
 
-        // this.setState({buttonDisable: true});
-       
+    // this.setState({buttonDisable: true});
+
     // if ((await this.validateDate(this.state.date)) == false) {
     //   Alert.alert(
     //     'We are Sorry',
@@ -50,7 +50,7 @@ export default class BookingModal extends Component {
     //   this.setState({buttonDisable: true});
     // } else {
     //   this.setState({buttonDisable: false});
-   // }
+    // }
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -73,11 +73,11 @@ export default class BookingModal extends Component {
   }
 
   showDatePicker = () => {
-    this.setState({isDatePickerVisible: true});
+    this.setState({ isDatePickerVisible: true });
   };
 
   hideDatePicker = () => {
-    this.setState({isDatePickerVisible: false});
+    this.setState({ isDatePickerVisible: false });
   };
 
   validateDate = async (date) => {
@@ -92,7 +92,7 @@ export default class BookingModal extends Component {
         this.state.data.employeeId.weekPlans[i].availableStatus == '1'
       ) {
         // return true;
-        return await this.validateTime(this.state.data.employeeId.weekPlans[i],date);
+        return await this.validateTime(this.state.data.employeeId.weekPlans[i], date);
 
       }
     }
@@ -100,51 +100,50 @@ export default class BookingModal extends Component {
     await Alert.alert(
       'We are Sorry',
       'This employee is not available on this date',
-      [{text: 'OK', onPress: () => console.log('OK Pressed')}],
-      {cancelable: false},
+      [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+      { cancelable: false },
     );
 
     return await false
 
-    
+
   };
 
-  validateTime = async (object,date) => {
-    
+  validateTime = async (object, date) => {
+
     let currentHourArray = new Date(date).toTimeString().split(' ')[0]
     let startHourArray = object.checkIn.split(':')
-    let endHourArray =  object.checkOut.split(':')
+    let endHourArray = object.checkOut.split(':')
     let formatHour = currentHourArray.split(':')
 
-    console.log(formatHour,'currentHourArray')
-    console.log(startHourArray,'startHourArray')
-    console.log(endHourArray,'endHourArray')
+    console.log(formatHour, 'currentHourArray')
+    console.log(startHourArray, 'startHourArray')
+    console.log(endHourArray, 'endHourArray')
 
     var currentHour = new Date();
-        currentHour.setHours(formatHour[0],formatHour[1],0);
+    currentHour.setHours(formatHour[0], formatHour[1], 0);
     var startHour = new Date();
-        startHour.setHours(startHourArray[0],startHourArray[1],0);
+    startHour.setHours(startHourArray[0], startHourArray[1], 0);
     var endHour = new Date();
-        endHour.setHours(endHourArray[0],endHourArray[1],0);
+    endHour.setHours(endHourArray[0], endHourArray[1], 0);
 
-    if(currentHour >= startHour && currentHour < endHour )
-    {
-      
+    if (currentHour >= startHour && currentHour < endHour) {
+
       return await true
 
-    }   
+    }
     else {
 
       Alert.alert(
         'We are Sorry',
         'This employee is not available on this time',
-        [{text: 'OK', onPress: () => console.log('OK Pressed')}],
-        {cancelable: false},
+        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+        { cancelable: false },
       );
 
 
       return await false
-   }
+    }
 
   };
 
@@ -156,59 +155,58 @@ export default class BookingModal extends Component {
     let localFormat = d.toLocaleDateString();
     console.warn('A date has been picked: ', this.state.date);
     if ((await this.validateDate(date)) == false) {
-     
+
       this.setState({
         date: localFormat,
         isDatePickerVisible: false,
         buttonDisable: true,
-        time:`${formatHour[0]}:${formatHour[1]}`
+        time: `${formatHour[0]}:${formatHour[1]}`
       });
     } else {
       this.setState({
         date: localFormat,
         isDatePickerVisible: false,
         buttonDisable: false,
-        time:`${formatHour[0]}:${formatHour[1]}`
+        time: `${formatHour[0]}:${formatHour[1]}`
 
       });
     }
   };
 
-  submit= async(object)=>
-  {
-    if(this.state.date == 'Select Date Time' || this.state.time == '' )
-    {
+  submit = async (object) => {
+    if (this.state.date == 'Select Date Time' || this.state.time == '') {
       Alert.alert(
         'Date/Time',
         'Please select date and time',
-        [{text: 'OK', onPress: () => console.log('OK Pressed')}],
-        {cancelable: false},
-      );
-    }
+        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+        { cancelable: false },
+        );
+      }
     else await this.props.addToCard(object)
   }
 
   renderShowCategoryButton = () => {
-    const {selectCard, timeSlot, data, time} = this.state;
-    console.log( timeSlot, 'timeSlot')
-    console.log( data, 'dataEmployee')
+    const { selectCard, timeSlot, data, time } = this.state;
+    console.log(timeSlot, 'timeSlot')
+    console.log(data, 'dataEmployee')
 
-    let  selectedEmployeePayload = {
+    let selectedEmployeePayload = {
       checkIn: time,
       checkOut: time,
       date: this.state.date,
-      employee: data.employeeId.userId,
-      price:'',
-      servicesName:'',
-      serviceId:''    
+      // employee: data.employeeId.userId,
+      employee: data.employeeId,
+      price: '',
+      servicesName: '',
+      serviceId: ''
     };
-    console.log( selectedEmployeePayload, 'bookingpayload')
+    console.log(selectedEmployeePayload, 'bookingpayload')
 
     return (
       <TouchableOpacity
         disabled={this.state.buttonDisable}
         style={styles.submitBtn}
-        onPress={()=>this.submit(selectedEmployeePayload)}>
+        onPress={() => this.submit(selectedEmployeePayload)}>
         <Text style={styles.submitBtnText}>Add To Cart</Text>
       </TouchableOpacity>
     );
@@ -243,7 +241,7 @@ export default class BookingModal extends Component {
           {this.state.isloading && (
             <ActivityIndicator
               size="small"
-              style={{marginVertical: 20}}
+              style={{ marginVertical: 20 }}
               color={Colors.darkStaleBlue}
             />
           )}
@@ -266,8 +264,8 @@ export default class BookingModal extends Component {
                   height: Metrics.ratio(40),
                 }}
                 onPress={() => {
-                  this.setState({date: el.date});
-                }}> 
+                  this.setState({ date: el.date });
+                }}>
                 <Text
                   style={{
                     fontSize: Metrics.ratio(16),
@@ -367,13 +365,13 @@ export default class BookingModal extends Component {
                 <View style={styles.datePickerLabelContainer}>
                   <Text>Date Time</Text>
                 </View>
-                
+
 
                 <View style={styles.datePickerRow}>
                   <TouchableOpacity
                     onPress={() => this.showDatePicker()}
                     style={styles.dateValueContainer}>
-                    <Text style={{fontSize: 16}}>{`${this.state.date} ${this.state.time}`}</Text>
+                    <Text style={{ fontSize: 16 }}>{`${this.state.date} ${this.state.time}`}</Text>
                   </TouchableOpacity>
 
                   {/* <Dropdown
@@ -401,7 +399,7 @@ export default class BookingModal extends Component {
               </View> */}
             </View>
 
-            <View style={[styles.row, {marginTop: 20}]}>
+            <View style={[styles.row, { marginTop: 20 }]}>
               {this.renderShowCategoryButton()}
             </View>
           </View>
