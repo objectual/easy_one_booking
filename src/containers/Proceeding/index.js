@@ -262,7 +262,7 @@ class Proceeding extends Component {
 
 
     let object = {
-        companyId: cart.data[i].payload.companyId,
+        // companyId: cart.data[i].payload.companyId,
         serviceId: cart.data[i].payload.serviceId,
         employeeId: cart.data[i].payload.employee._id,
         categoryId:  cart.data[i].payload.categoryId,
@@ -280,9 +280,10 @@ class Proceeding extends Component {
 
    let payload = {
     services:services,
-    userName: "Test", 
+    // userName: "Test", 
     postalCode: "021",
     email: userInfo.data.email,
+    companyId: cart.data[0].payload.companyId,
     phoneNo: "090078601",
     status: "1",
     access_token:userInfo.data.access_token

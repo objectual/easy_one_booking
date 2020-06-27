@@ -95,10 +95,10 @@ class Categories extends Component {
               companyId: id,
             })
           }>
-          {category && category.image ? (
+          {category && category.image && category.image &&
             <ImageBackground
-              resizeMethod = 'auto'
-              resizeMode = "stretch"
+              resizeMethod='auto'
+              resizeMode="stretch"
               source={{ uri: category.image }}
               style={styles.servicebox}
             >
@@ -110,12 +110,11 @@ class Categories extends Component {
                 {category && category.name ? category.name : 'name'}
               </Text>
             </ImageBackground>
-          ) : (
-              <ImageBackground
-                source={Images.select_services}
-                style={styles.servicebox}
-              ></ImageBackground>
-            )}
+            // (<ImageBackground
+            //       source={Images.select_services}
+            //       style={styles.servicebox}
+            //     ></ImageBackground>)
+          }
         </TouchableOpacity>
         {/* <View
             style={{

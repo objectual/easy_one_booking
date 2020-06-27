@@ -249,7 +249,8 @@ class Home extends Component {
           salon.template.coverImage &&
           salon.template.coverImage.url ? ( */}
           <Image
-            source={{ uri: salon.saloon.companyLogo }}
+            // source={{ uri: salon.saloon.companyLogo }}
+            source={{ uri: salon.template.coverImage.url }}
             style={styles.cardImage}
           />
           {/* ) : (
@@ -273,6 +274,7 @@ class Home extends Component {
   };
   renderSaloonCategories = category => {
     const { selectSaloon } = this.state;
+    console.log(category.image, "asasdasddadasdasdasdasdsfsdgasffwer")
     return (
       <TouchableOpacity
         style={
@@ -286,11 +288,13 @@ class Home extends Component {
       // onPress={() => this.props.navigation.navigate('BookingForm')}
       >
         <View style={styles.cardradius}>
-          {category && category.image && category.image ? (
-            <Image source={{ uri: category.image }} style={styles.cardImage} />
-          ) : (
-              <Image source={Images.saloon_card} style={styles.cardImage} />
-            )}
+          {category && category.image && category.image &&
+            <Image
+              source={{ uri: category.image }}
+              style={{...styles.cardImage, borderColor: '#5c0000', borderWidth: 1,}}
+            />
+            //( <Image source={Images.saloon_card} style={styles.cardImage} />)
+          }
           <View>
             <Text numberOfLines={1} style={styles.titleText}>
               {category && category.name}
@@ -381,142 +385,140 @@ class Home extends Component {
   renderDayAndTimeColumn = (saloonTime) => {
     console.log(saloonTime, "saloonTimesaloonTimesaloonTime")
 
-    if(saloonTime.schedule != undefined)
-    {
-    return (
-      <View>
-        <View style={styles.timeContainer}>
-          <Text
-            style={styles.timeContainerTextday}>
-            {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['0'].availableStatus == 1
-              ? 'Mon'
-              : 'Mon'}
-          </Text>
-          <Text
-            style={styles.timeContainerTextTime}>
-            {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['0'].checkIn
-              ? saloonTime.schedule.weekPlans['0'].checkIn
-              : <Text style={{color: 'red'}}>OFF</Text>}{'  '}
-                {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['0'].checkOut
-              ? saloonTime.schedule.weekPlans['0'].checkOut
-              : null}
-          </Text>
-        </View>
+    if (saloonTime.schedule != undefined) {
+      return (
+        <View>
+          <View style={styles.timeContainer}>
+            <Text
+              style={styles.timeContainerTextday}>
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['0'].availableStatus == 1
+                ? 'Mon'
+                : 'Mon'}
+            </Text>
+            <Text
+              style={styles.timeContainerTextTime}>
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['0'].checkIn
+                ? saloonTime.schedule.weekPlans['0'].checkIn
+                : <Text style={{ color: 'red' }}>OFF</Text>}{'  '}
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['0'].checkOut
+                ? saloonTime.schedule.weekPlans['0'].checkOut
+                : null}
+            </Text>
+          </View>
 
-        <View style={styles.timeContainer}>
-          <Text
-            style={styles.timeContainerTextday}>
-            {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['1'].availableStatus == 1
-              ? 'Tue'
-              : 'Tue'}
-          </Text>
-          <Text
-            style={styles.timeContainerTextTime}>
-            {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['1'].checkIn
-              ? saloonTime.schedule.weekPlans['1'].checkIn
-              : <Text style={{color: 'red'}}>OFF</Text>}{'  '}
-                {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['1'].checkOut
-              ? saloonTime.schedule.weekPlans['1'].checkOut
-              : null}
-          </Text>
-        </View>
+          <View style={styles.timeContainer}>
+            <Text
+              style={styles.timeContainerTextday}>
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['1'].availableStatus == 1
+                ? 'Tue'
+                : 'Tue'}
+            </Text>
+            <Text
+              style={styles.timeContainerTextTime}>
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['1'].checkIn
+                ? saloonTime.schedule.weekPlans['1'].checkIn
+                : <Text style={{ color: 'red' }}>OFF</Text>}{'  '}
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['1'].checkOut
+                ? saloonTime.schedule.weekPlans['1'].checkOut
+                : null}
+            </Text>
+          </View>
 
-        <View style={styles.timeContainer}>
-          <Text
-            style={styles.timeContainerTextday}>
-            {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['2'].availableStatus == 1
-              ? 'Wed'
-              : 'Wed'}
-          </Text>
-          <Text
-            style={styles.timeContainerTextTime}>
-            {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['2'].checkIn
-              ? saloonTime.schedule.weekPlans['2'].checkIn
-              : <Text style={{color: 'red'}}>OFF</Text>}{'  '}
-                {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['2'].checkOut
-              ? saloonTime.schedule.weekPlans['2'].checkOut
-              : null}
-          </Text>
-        </View>
+          <View style={styles.timeContainer}>
+            <Text
+              style={styles.timeContainerTextday}>
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['2'].availableStatus == 1
+                ? 'Wed'
+                : 'Wed'}
+            </Text>
+            <Text
+              style={styles.timeContainerTextTime}>
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['2'].checkIn
+                ? saloonTime.schedule.weekPlans['2'].checkIn
+                : <Text style={{ color: 'red' }}>OFF</Text>}{'  '}
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['2'].checkOut
+                ? saloonTime.schedule.weekPlans['2'].checkOut
+                : null}
+            </Text>
+          </View>
 
-        <View style={styles.timeContainer}>
-          <Text
-            style={styles.timeContainerTextday}>
-            {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['3'].availableStatus == 1
-              ? 'Thu'
-              : 'Thu'}
-          </Text>
-          <Text
-            style={styles.timeContainerTextTime}>
-            {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['3'].checkIn
-              ? saloonTime.schedule.weekPlans['3'].checkIn
-              : <Text style={{color: 'red'}}>OFF</Text>}{'  '}
-                {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['3'].checkOut
-              ? saloonTime.schedule.weekPlans['3'].checkOut
-              : null}
-          </Text>
-        </View>
+          <View style={styles.timeContainer}>
+            <Text
+              style={styles.timeContainerTextday}>
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['3'].availableStatus == 1
+                ? 'Thu'
+                : 'Thu'}
+            </Text>
+            <Text
+              style={styles.timeContainerTextTime}>
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['3'].checkIn
+                ? saloonTime.schedule.weekPlans['3'].checkIn
+                : <Text style={{ color: 'red' }}>OFF</Text>}{'  '}
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['3'].checkOut
+                ? saloonTime.schedule.weekPlans['3'].checkOut
+                : null}
+            </Text>
+          </View>
 
-        <View style={styles.timeContainer}>
-          <Text
-            style={styles.timeContainerTextday}>
-            {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['4'].availableStatus == 1
-              ? 'Fri'
-              : 'Fri'}
-          </Text>
-          <Text
-            style={styles.timeContainerTextTime}>
-            {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['4'].checkIn
-              ? saloonTime.schedule.weekPlans['4'].checkIn
-              : <Text style={{color: 'red'}}>OFF</Text>}{'  '}
-                {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['4'].checkOut
-              ? saloonTime.schedule.weekPlans['4'].checkOut
-              : null}
-          </Text>
-        </View>
+          <View style={styles.timeContainer}>
+            <Text
+              style={styles.timeContainerTextday}>
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['4'].availableStatus == 1
+                ? 'Fri'
+                : 'Fri'}
+            </Text>
+            <Text
+              style={styles.timeContainerTextTime}>
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['4'].checkIn
+                ? saloonTime.schedule.weekPlans['4'].checkIn
+                : <Text style={{ color: 'red' }}>OFF</Text>}{'  '}
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['4'].checkOut
+                ? saloonTime.schedule.weekPlans['4'].checkOut
+                : null}
+            </Text>
+          </View>
 
-        <View style={styles.timeContainer}>
-          <Text
-            style={styles.timeContainerTextday}>
-            {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['5'].availableStatus == 1
-              ? 'Sat'
-              : 'Sat'}
-          </Text>
-          <Text
-            style={styles.timeContainerTextTime}>
-            {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['5'].checkIn
-              ? saloonTime.schedule.weekPlans['5'].checkIn
-              : <Text style={{color: 'red'}}>OFF</Text>}{'  '}
-                {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['5'].checkOut
-              ? saloonTime.schedule.weekPlans['5'].checkOut
-              : null}
-          </Text>
-        </View>
+          <View style={styles.timeContainer}>
+            <Text
+              style={styles.timeContainerTextday}>
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['5'].availableStatus == 1
+                ? 'Sat'
+                : 'Sat'}
+            </Text>
+            <Text
+              style={styles.timeContainerTextTime}>
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['5'].checkIn
+                ? saloonTime.schedule.weekPlans['5'].checkIn
+                : <Text style={{ color: 'red' }}>OFF</Text>}{'  '}
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['5'].checkOut
+                ? saloonTime.schedule.weekPlans['5'].checkOut
+                : null}
+            </Text>
+          </View>
 
-        <View style={styles.timeContainer}>
-          <Text
-            style={styles.timeContainerTextday}>
-            {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['6'].availableStatus == 1
-              ? 'Sun'
-              : 'Sun'}
-          </Text>
-          <Text
-            style={styles.timeContainerTextTime}>
-            {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['6'].checkIn
-              ? saloonTime.schedule.weekPlans['6'].checkIn
-              : <Text style={{color: 'red'}}>OFF</Text>} {'  '}
-                {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['6'].checkOut
-              ? saloonTime.schedule.weekPlans['6'].checkOut
-              : null}
-          </Text>
-        </View>
+          <View style={styles.timeContainer}>
+            <Text
+              style={styles.timeContainerTextday}>
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['6'].availableStatus == 1
+                ? 'Sun'
+                : 'Sun'}
+            </Text>
+            <Text
+              style={styles.timeContainerTextTime}>
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['6'].checkIn
+                ? saloonTime.schedule.weekPlans['6'].checkIn
+                : <Text style={{ color: 'red' }}>OFF</Text>} {'  '}
+              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['6'].checkOut
+                ? saloonTime.schedule.weekPlans['6'].checkOut
+                : null}
+            </Text>
+          </View>
 
-      </View>
-    );
+        </View>
+      );
     }
-    else
-    {
-      return(
+    else {
+      return (
         <View>
 
         </View>

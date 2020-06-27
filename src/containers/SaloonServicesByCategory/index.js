@@ -118,7 +118,7 @@ class SaloonServicesByCategory extends Component {
 
     const payload = {
       companyId: companyId,
-      serviceId: services.serviceId,
+      serviceId: services._id,
       services: services,
       categoryId: categoryId
     };
@@ -127,14 +127,13 @@ class SaloonServicesByCategory extends Component {
       <View style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
           <View style={styles.containerImage}>
-            {services && services.image ? (
+            {services && services.image && services.image && 
               <Image
                 source={{uri: services.image}}
                 style={styles.servicesImage}
               />
-            ) : (
-              <Image source={image} style={styles.servicesImage} />
-            )}
+              // <Image source={image} style={styles.servicesImage} />
+            }
           </View>
           <View
             style={styles.containertext}>

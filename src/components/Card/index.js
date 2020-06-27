@@ -65,7 +65,7 @@ class Cards extends Component {
       item
     } = this.props;
 
-    console.log(item.companyLogo,'this.props.items')
+    console.log(item.template.coverImage.url,'this.props.items')
 
     return (
       <View
@@ -84,7 +84,8 @@ class Cards extends Component {
               image
             ) : (
               <Image
-                source={{uri:item.saloon.companyLogo}}
+                // source={{uri:item.saloon.companyLogo}}
+                source={{uri:item.template.coverImage.url}}
                 style={{height: 100, width: 100}}
               />
             )}
