@@ -248,11 +248,26 @@ class Home extends Component {
           salon.template &&
           salon.template.coverImage &&
           salon.template.coverImage.url ? ( */}
+          <View style = {{ 
+            overflow: 'hidden',
+            borderRadius: Metrics.ratio(10),
+            borderWidth: Metrics.ratio(2),
+            borderColor: '#FF3600',
+            shadowColor: Colors.black,
+            shadowOffset: {
+              width: 0,
+              height: 1
+            },
+            shadowOpacity: 0.18,
+            shadowRadius: 1.0}}
+              >
           <Image
             // source={{ uri: salon.saloon.companyLogo }}
             source={{ uri: salon.template.coverImage.url }}
             style={styles.cardImage}
           />
+    </View>
+          
           {/* ) : (
             <Image source={Images.saloon_card} style={styles.cardImage} />
           )} */}
@@ -277,30 +292,32 @@ class Home extends Component {
     console.log(category.image, "asasdasddadasdasdasdasdsfsdgasffwer")
     return (
       <TouchableOpacity
-        style={
-          selectSaloon && selectSaloon._id == category._id
-            ? styles.showcardradius
-            : null
-        }
+        style={{
+         }}
         onPress={() =>
           this.props.navigation.navigate('Saloons', { id: category._id })
         }
       // onPress={() => this.props.navigation.navigate('BookingForm')}
       >
-        <View style={styles.cardradius}>
+          <View style  = {styles.categoriesCardContainer}> 
           {category && category.image && category.image &&
             <Image
+              resizeMethod = "auto"
+              resizeMode = "stretch"
               source={{ uri: category.image }}
-              style={{...styles.cardImage, borderColor: '#5c0000', borderWidth: 1,}}
+              style={{ 
+                 height: Metrics.ratio(120),
+                 width: Metrics.ratio(110),
+                 }}
             />
             //( <Image source={Images.saloon_card} style={styles.cardImage} />)
           }
+          </View>
           <View>
             <Text numberOfLines={1} style={styles.titleText}>
               {category && category.name}
             </Text>
           </View>
-        </View>
       </TouchableOpacity>
     );
   };

@@ -124,58 +124,56 @@ class SaloonServicesByCategory extends Component {
     };
 
     return (
-      <View style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
-          <View style={styles.containerImage}>
             {services && services.image && services.image && 
               <Image
+              resizeMethod = "auto"
+              resizeMode = "contain"
                 source={{uri: services.image}}
                 style={styles.servicesImage}
               />
               // <Image source={image} style={styles.servicesImage} />
             }
-          </View>
-          <View
-            style={styles.containertext}>
-            <Text numberOfLines={1} style={{fontSize: Metrics.ratio(17)}}>
-              {services && services.name ? services.name : 'name'}
-            </Text>
-            {/* <Text>{services && services._id ? services._id : 'id'}</Text> */}
-           
+            <View style = {{ flexDirection: 'row', marginHorizontal : Metrics.ratio(5)}}>
               <View
-                style={{
-                  flexDirection: 'row',
-                  marginVertical: Metrics.ratio(5),
-                }}>
+              style={styles.containertext}>
+              <Text numberOfLines={1} style={{fontSize: Metrics.ratio(17)}}>
+                {services && services.name ? services.name : 'name'}
+              </Text>
+              {/* <Text>{services && services._id ? services._id : 'id'}</Text> */}
+            
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    marginVertical: Metrics.ratio(5),
+                  }}>
+                  <Image
+                    source={Images.human}
+                    style={styles.containertitle}
+                  />
+                  <Text>
+                    {'Select Employee'}
+                  </Text>
+                </View>
+              <View style={{flexDirection: 'row'}}>
                 <Image
-                  source={Images.human}
+                  source={Images.tag_grey}
                   style={styles.containertitle}
                 />
                 <Text>
-                  {'Select Employee'}
+                  $ {services && services.price ? services.price : 'name'}
                 </Text>
               </View>
-            <View style={{flexDirection: 'row'}}>
-              <Image
-                source={Images.tag_grey}
-                style={styles.containertitle}
-              />
-              <Text>
-                $ {services && services.price ? services.price : 'name'}
-              </Text>
             </View>
-          </View>
-          <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate('SaloonEmployee', payload)
-            }>
-            <View
-              style={styles.containerAeroImage}>
-              <Image source={Images.arrow} style={styles.arrowImage} />
+            <TouchableOpacity
+              style = {styles.containerAeroImage}
+              onPress={() =>
+                this.props.navigation.navigate('SaloonEmployee', payload)
+              }>
+                <Image resizeMode = "contain" resizeMethod = "auto"  source={Images.arrow} style={styles.arrowImage} />
+            </TouchableOpacity>
             </View>
-          </TouchableOpacity>
         </View>
-      </View>
     );
   };
  

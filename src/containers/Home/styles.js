@@ -1,10 +1,10 @@
 // @flow
 import { StyleSheet, ListViewBase } from 'react-native';
-import { Images, Metrics, Fonts } from '../../theme';
+import { Images, Metrics, Fonts, Colors } from '../../theme';
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: '#FDFFFC',
+    backgroundColor: Colors.Glitter,
     flex: 1,
   },
   HeadImg: {
@@ -30,6 +30,14 @@ export default StyleSheet.create({
     marginTop: Metrics.ratio(5),
     marginBottom: Metrics.ratio(10),
     fontFamily: Fonts.type.bold,
+    elevation: 4,
+    shadowColor: Colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.0,
   },
   mainheading3: {
     color: '#5c0000',
@@ -85,19 +93,41 @@ export default StyleSheet.create({
   },
   cardradius: {
     padding: Metrics.ratio(10),
-
   },
   showcardradius: {
     borderWidth: Metrics.ratio(1),
     borderColor: '#5c0000',
     borderRadius: Metrics.ratio(5),
+    shadowColor: Colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.0
   },
-  cardImage: {
+  categoriesCardContainer: {
     height: Metrics.ratio(190),
     width: Metrics.ratio(180),
     borderRadius: Metrics.ratio(10),
     borderWidth: Metrics.ratio(2),
-    borderColor: '#EEEEEE',
+    borderColor: '#FF3600',
+    marginRight: Metrics.ratio(20),
+    backgroundColor: "#FFF3EB",
+    justifyContent: 'center',
+    alignItems: "center",
+    shadowColor: Colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.0
+  },
+  cardImage: {
+    height: Metrics.ratio(190),
+    width: Metrics.ratio(180),
+   
   },
   StarImage: {
     width: 12,

@@ -1,10 +1,10 @@
 // @flow
 import {StyleSheet, ListViewBase} from 'react-native';
-import {Images, Metrics, Fonts} from '../../theme';
+import {Images, Metrics, Fonts, Colors} from '../../theme';
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: '#FDFFFC',
+    backgroundColor: Colors.Glitter,
     flex: 1,
     //  justifyContent: "center"
   },

@@ -202,17 +202,17 @@ class DrawerSaloons extends Component {
     );
   };
   renderTextInputWithLableRow = (
-    lable,
-    ref,
-    returnKeyType,
+    // lable,
+    // ref,
+    // returnKeyType,
     onChangeText,
-    icon,
-    value,
+    // icon,
+    // value,
     placeholder,
-    keyboardType,
-    onSubmitEditing,
+    // keyboardType,
+    // onSubmitEditing,
     secureTextEntry,
-    CustomTextInput,
+    // CustomTextInput,
   ) => {
     return (
       <View>
@@ -222,14 +222,14 @@ class DrawerSaloons extends Component {
             ref={(o) => {
               ref = o;
             }}
-            returnKeyType={returnKeyType}
+            // returnKeyType={returnKeyType}
             onChangeText={onChangeText}
-            icon={icon}
-            value={this.state.value}
+            // icon={icon}
+            // value={this.state.value}
             placeholder={placeholder}
-            rightIcon={Images.arrow}
-            autoCompleteType="off"
-            keyboardType={keyboardType}
+            // rightIcon={Images.arrow}
+            // autoCompleteType="off"
+            // keyboardType={keyboardType}
             // onSubmitEditing={() => {
             //   this.onSubmit(onSubmitEditing);
             // }}
@@ -264,14 +264,14 @@ class DrawerSaloons extends Component {
   };
 
   renderTextInputWithLable = (
-    lable,
-    ref,
-    returnKeyType,
+    // lable,
+    // ref,
+    // returnKeyType,
     onChangeText,
     value,
     placeholder,
-    keyboardType,
-    onSubmitEditing,
+    // keyboardType,
+    // onSubmitEditing,
     secureTextEntry,
     CustomTextInput,
   ) => {
@@ -284,12 +284,12 @@ class DrawerSaloons extends Component {
           ref={(o) => {
             ref = o;
           }}
-          returnKeyType={returnKeyType}
+          // returnKeyType={returnKeyType}
           onChangeText={onChangeText}
           value={value}
           placeholder={placeholder}
           autoCompleteType="off"
-          keyboardType={keyboardType}
+          // keyboardType={keyboardType}
           // onSubmitEditing={() => {
           //   this.onSubmit(onSubmitEditing);
           // }}
@@ -391,14 +391,14 @@ class DrawerSaloons extends Component {
         <ScrollView>
           <View style={{marginHorizontal: Metrics.ratio(15)}}>
             {this.renderTextInputWithLableRow(
-              '',
-              'inputName',
-              'next',
+              // '',
+              // 'inputName',
+              // 'next',
               this.onChangeSearchBar,
-              searchByCategory,
-              '',
+              // searchByCategory,
+              // '',
               'Search Category',
-              'inputPostalCode',
+              // 'numeric',
               false,
             )}
 
@@ -441,14 +441,11 @@ class DrawerSaloons extends Component {
                 justifyContent: 'space-between',
               }}>
               {this.renderTextInputWithLable(
-                '',
-                'inputName',
-                'next',
                 this.onChangeSearchByLocation,
                 searchByLocation,
                 'Search By Location',
-                'text',
-                'inputPostalCode',
+                // 'text',
+                // 'numeric',
                 false,
               )}
               {this.renderFilter()}
