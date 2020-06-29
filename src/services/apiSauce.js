@@ -49,6 +49,24 @@ class ApiSauce {
     });
   }
 
+
+  async getWithToken(url, token) {
+     // const token = data && data.access_token && data.access_token;
+     console.log(url,'url')
+     console.log(token,'token')
+
+ 
+     api.setHeaders({
+       // "Content-Type": "application/x-www-form-urlencoded",
+       "Content-Type": "application/json",
+       "Authorization": `${token}`
+     });
+     const response = await api.get(url);
+     return new Promise((resolve, reject) => {
+       this.handlePromise(resolve, reject, response);
+     });
+  }
+
   // for simple get request
   async get(url, payload={}, headers={}) {
     // const token = data && data.access_token && data.access_token;
