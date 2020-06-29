@@ -96,20 +96,19 @@ class Categories extends Component {
             })
           }>
           {category && category.image && category.image &&
-            <ImageBackground
-              resizeMethod='auto'
-              resizeMode="stretch"
-              source={{ uri: category.image }}
+            <View
+              
               style={styles.servicebox}
             >
-              {/* <Image
-                    source={Images.plus}
-                    style={styles.image}
-                  /> */}
+              <Image
+                    resizeMethod='auto'
+                    resizeMode="stretch"
+                    source={{ uri: category.image }}
+                  />
               <Text numberOfLines={1} style={styles.titleText}>
                 {category && category.name ? category.name : 'name'}
               </Text>
-            </ImageBackground>
+            </View>
             // (<ImageBackground
             //       source={Images.select_services}
             //       style={styles.servicebox}

@@ -59,62 +59,47 @@ class Cards extends Component {
       totalRating,
       rating,
       touchControl,
-      rightIconSize,
-      rightBtnPress,
-      itemQuantity,
-      item
     } = this.props;
 
-    console.log(item,'this.props.items')
 
     return (
-      <View
-        style={{
-          paddingVertical: Metrics.ratio(15),
-          flexDirection: 'row',
-          justifyContent: 'space-evenly',
-          flexWrap: 'wrap',
-        }}>
-        <View style={styles.servicebox}>
+      
+        // <View style={styles.servicebox}>
           <TouchableOpacity
-          style={{justifyContent:'center',alignItems:'center'}}
+          style={styles.servicebox}
           onPress={this.props.onPress}
           >
-            {image ? (
-              image
-            ) : (
-              <Image
-                // source={{uri:item.saloon.companyLogo}}
-                source={{uri:item.saloon.companyLogo}}
-                style={{height: 100, width: 100}}
-              />
-            )}
-            <View style={{paddingHorizontal: Metrics.ratio(10)}}>
+            {image &&
+               <Image
+               // source={{uri:item.saloon.companyLogo}}
+               resizeMode = "cover"
+               resizeMethod = "auto"
+               source={{uri:image}}
+               style={{height: 100, width: Metrics.screenWidth * 0.45,  borderTopLeftRadius: Metrics.ratio(15),borderTopRightRadius: Metrics.ratio(15)}}
+             />
+            }
               <Text numberOfLines={1} style={styles.titleText}>
-                {item.saloon.name}
+                {title}
               </Text>
               <Text numberOfLines={6} style={styles.descriptionText}>
-              {item.saloon.companyShortDescription}
+              {description}
               </Text>
-            </View>
             <View
               style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginHorizontal: Metrics.ratio(10),
                 marginVertical: Metrics.ratio(10),
               }}>
-              <Rating
-                totalRating={totalRating ? totalRating : '(2.2k)'}
-                StarImage={styles.StarImage}
-                totalRatingtext={styles.totalRatingtext}
-                Default_Rating={rating ? rating : 5}
-                disabled={touchControl ? touchControl : true}
-              />
+              <View style = {{alignItems: "center"}}>
+                <Rating
+                  totalRating={totalRating ? totalRating : '(2.2k)'}
+                  StarImage={styles.StarImage}
+                  totalRatingtext={styles.totalRatingtext}
+                  Default_Rating={rating ? rating : 5}
+                  disabled={touchControl ? touchControl : true}
+                />
+              </View>
             </View>
           </TouchableOpacity>
-        </View>
-      </View>
+        // </View>
     );
   }
 }

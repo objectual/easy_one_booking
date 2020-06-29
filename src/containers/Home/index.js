@@ -251,17 +251,17 @@ class Home extends Component {
           salon.template.coverImage &&
           salon.template.coverImage.url ? ( */}
           <View style = {{ 
-            overflow: 'hidden',
+            // overflow: 'hidden',
             borderRadius: Metrics.ratio(10),
             borderWidth: Metrics.ratio(2),
             borderColor: '#FF3600',
-            shadowColor: Colors.black,
+            shadowColor: "#000",
             shadowOffset: {
               width: 0,
-              height: 1
+              height: 4,
             },
-            shadowOpacity: 0.18,
-            shadowRadius: 1.0}}
+            shadowOpacity: 0.32,
+            shadowRadius: 5.46,}}
               >
           <Image
             // source={{ uri: salon.saloon.companyLogo }}
