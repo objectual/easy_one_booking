@@ -15,7 +15,7 @@ class BookingHistoryCard extends Component {
   };
 
   render() {
-    const {item} = this.props;
+    const {date, time, employee, saloon, price } = this.props;
     return (
       <View style={styles.containerForRow}>
         <View style={styles.servicebox}>
@@ -23,20 +23,20 @@ class BookingHistoryCard extends Component {
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
-            <Text style={styles.titlesize}>Date : {item ? item : "22-22-2020"}</Text>
-            <Text style={styles.titlesize}>Time : {item ? item : "13:00"}</Text>
+            <Text style={styles.titlesize}>Date : {date}</Text>
+            <Text style={styles.titlesize}>Time : {time}</Text>
           </View>
           <View>
-            <Text style={styles.nametext}>Name : {item ? item : "Arsalan"}</Text>
-            <Text style={styles.titlesize}>Employee : {item ? item : ""}</Text>
-            <Text style={styles.titlesize}>Saloon : {item ? item : ""}</Text>
+            {/* <Text style={styles.nametext}>Name : {}</Text> */}
+            <Text style={styles.titlesize}>Employee : {employee}</Text>
+            <Text style={styles.titlesize}>Saloon : {saloon}</Text>
           </View>
           <View style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
-            <Text style={styles.titlesize}>Payment Process : {item ? item : ""}</Text>
-            <Text style={styles.titleTotal}>Total : {item ? item : ""}</Text>
+            {/* <Text style={styles.titlesize}>Payment Process : {item ? item : ""}</Text> */}
+            <Text style={styles.titleTotal}>Price : {price}</Text>
           </View>
         </View>
       </View>

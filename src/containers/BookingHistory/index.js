@@ -20,6 +20,10 @@ import SpinnerLoader from '../../components/SpinnerLoader';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import BookingHistoryCard from '../../components/BookingHistory/index';
+import Pending from '../Pending/index';
+import Completed from '../Completed/index';
+
+
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -102,9 +106,9 @@ class BookingHistory extends Component {
           }}
 
         >
-          <Tab.Screen name="Current" component={CurrentScreen}
+          <Tab.Screen name="Pending" component={Pending}
           />
-          <Tab.Screen name="Previous" component={PreviousScreen}
+          <Tab.Screen name="Completed" component={Completed}
           />
         </Tab.Navigator>
       </NavigationContainer>

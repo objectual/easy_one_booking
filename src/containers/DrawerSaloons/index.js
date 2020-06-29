@@ -246,7 +246,7 @@ class DrawerSaloons extends Component {
     return (
      
           <TextInput
-            style = {styles.textInputWithLabel}
+            style = {[styles.textInputWithLabel, value.length != 0 && { borderRadius:0 } ]}
             placeholderTextColor="#81788B"
             // ref={(o) => {
             //   ref = o;
@@ -286,7 +286,7 @@ class DrawerSaloons extends Component {
       <View>
         {/* <Text style={styles.labelText}>{lable}</Text> */}
         <TextInput
-          style={[styles.textInput]}
+          style={[styles.textInput,value.length != 0 && { borderRadius:0 }]}
           placeholderTextColor="#81788B"
           // ref={(o) => {
           //   ref = o;
@@ -348,7 +348,7 @@ class DrawerSaloons extends Component {
       latitude,
       // radius:saloonRadius
     };
-    console.log(payload, 'payloadDrawerSaloon');
+    console.log(payload, 'get_Saloon_By_Category_NearBy');
     this.props.get_Saloon_By_Category_NearBy(payload);
     this.setState({selectedLocationSaloons: true, predictionsData:[] });
   };
@@ -446,14 +446,17 @@ class DrawerSaloons extends Component {
               //   onChangeText={(value) => this.onChangeTextSelectedValue(value)}
               // />
               <FlatList
-                style={{marginBottom: 10}}
+                style={{marginBottom: 10,  marginTop: -20,}}
                 data={this.state.suggestion}
                 renderItem={({item, index}) => (
                   <TouchableOpacity
                     onPress={() => this.onChangeTextSelectedValue(item)}
                     style={{
-                      width: '90%',
+                      width: '100%',
+                      borderRadius: 3,
                       borderWidth: 0,
+                      paddingLeft: Metrics.screenWidth * 0.03,
+                      backgroundColor:'#FFFF',
                       height: 40,
                       justifyContent: 'center',
                     }}>
@@ -477,7 +480,6 @@ class DrawerSaloons extends Component {
                 // 'numeric',
                 // false,
               )}
-              {this.renderFilter()}
             </View>
 
             {this.state.predictionsData.length != 0 && (
@@ -498,15 +500,18 @@ class DrawerSaloons extends Component {
               //   onChangeText={(value) => this.onSelectedLocation(value)}
               // />
               <FlatList
-                style={{marginBottom: 10}}
+                style={{ marginBottom: 10, marginTop: -20 }}
                 data={this.state.predictionsData}
                 renderItem={({item, index}) => (
                   <TouchableOpacity
                     onPress={() => this.onSelectedLocation(item)}
                     style={{
-                      width: '90%',
+                      width: '100%',
+                      borderRadius: 3,
                       borderWidth: 0,
-                      minHeight: 40,
+                      paddingLeft: Metrics.screenWidth * 0.03,
+                      backgroundColor:'#FFFF',
+                      height: 40,
                       justifyContent: 'center',
                     }}>
                     <Text style={{color: Colors.taupeGrey}}>
@@ -516,6 +521,9 @@ class DrawerSaloons extends Component {
                 )}
               />
             )}
+
+             {this.renderFilter()}
+
 
             {/* {this.renderShowCategoryButton()} */}
           </View>

@@ -12,6 +12,8 @@ import getEmployeesBySaloonAndCategory from './GetEmployeesBySaloonAndCategory';
 import cart from './Cart';
 import getServices from './GetServices';
 import getSaloonNearBy from './GetSaloonNearBy';
+import getBooking from './GetBooking';
+
 
 
 
@@ -36,5 +38,6 @@ export const rootReducer = combineReducers({
   getEmployeesBySaloonAndCategory,
   cart,
   getServices,
-  getSaloonNearBy
+  getSaloonNearBy,
+  getBooking
 });
