@@ -65,7 +65,7 @@ class Proceeding extends Component {
 
     console.log(JSON.stringify(props.createBooking.data),'props.createBooking.data')
 
-    if (props.createBooking.success) {
+    if (props.createBooking.success == true) {
       return {showBookedModal: true}
     }
     
@@ -126,7 +126,7 @@ class Proceeding extends Component {
   getCancelRow = (index) =>
   {
     return(
-      <TouchableOpacity onLongPress={async ()=> await this.props.removeFromCard({index})} style={{ width: '90%',flexDirection:'row', justifyContent:'flex-end', marginBottom: 5,}}>
+      <TouchableOpacity onPress={async ()=> await this.props.removeFromCard({index})} style={{ width: '90%',flexDirection:'row', justifyContent:'flex-end', marginBottom: 5,}}>
           <View style={{width:'14%', height:40, borderWidth:0, justifyContent:'center',alignItems:'center'}}>
             <Text  style={{ fontSize: 18 }}>
               x
@@ -164,9 +164,9 @@ class Proceeding extends Component {
       <>
         <View style={[styles.servicebody,]}>
          {this.getCancelRow(index)}
-         {this.getRows('Name',`${object.payload.employee.firstName} ${object.payload.employee.lastName}`)}
-         {this.getRows('Service Name',object.payload.name)}
-         {this.getRows('Price',`$${object.payload.price}`)}
+         {this.getRows('Name',`${object.payload.employee.userId.firstName} ${object.payload.employee.userId.lastName}`)}
+         {this.getRows('Service Name',object.payload.services.name)}
+         {this.getRows('Price',`$${object.payload.services.price}`)}
          {this.getRows('Date',object.payload.date)}
          {this.getRows('Time',object.payload.checkIn)}
 
@@ -202,7 +202,7 @@ class Proceeding extends Component {
      for (let i = 0; i < cart.data.length; i++) {
         console.log(cart.data[i].payload.price,'cart.data[i].payload.price')
     
-        price = price + cart.data[i].payload.price
+        price = price + cart.data[i].payload.services.price
       }
 
       return  price.toString()
@@ -263,9 +263,9 @@ class Proceeding extends Component {
 
     let object = {
         // companyId: cart.data[i].payload.companyId,
-        serviceId: cart.data[i].payload.serviceId,
-        employeeId: cart.data[i].payload.employee._id,
-        categoryId:  cart.data[i].payload.categoryId,
+        serviceId: cart.data[i].payload.services._id,
+        employeeId: cart.data[i].payload.employee.userId._id,
+        categoryId:  cart.data[i].payload.services.serviceId,
         date: dateArray,
         time: timeArray
     }
@@ -332,7 +332,7 @@ class Proceeding extends Component {
         <SpinnerLoader isloading={true} />
         }
 
-        {this.state.showBookedModal && (
+        {createBooking.success && (
           <BookedSuccessModal
             onPress={() => {
               this.props.removeAll()

@@ -301,10 +301,17 @@ class SaloonEmployee extends Component {
 
 
   addToCard = async (e) => {
-    const { serviceId, companyId, services, categoryId } = this.props.route.params;
+    let { serviceId, companyId, services, categoryId } = this.props.route.params;
     console.log(services, 'services')
-    let payload = { ...e, ...{ categoryId }, ...{ serviceId }, ...services }
-    // await this.props.addToCard({payload})
+    console.log(categoryId, 'categoryId')
+    console.log(serviceId, 'serviceId')
+  
+
+
+    let payload = { ...e,...{companyId},...{services} }
+
+
+    console.log(JSON.stringify(payload), 'proceedingpayload')
 
 
     if (await this.vaidateService(payload) == false) {

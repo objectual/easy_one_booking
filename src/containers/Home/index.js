@@ -49,8 +49,10 @@ class Home extends Component {
 
     await initializeToken()
     await this.props.get_Services();
+    await this.props.get_Saloon();
 
-    await this.getLocationHandler();
+
+    // await this.getLocationHandler();
   };
 
   // componentWillUnmount()
@@ -200,35 +202,35 @@ class Home extends Component {
     );
   };
 
-  getLocationHandler = () => {
-    this.setState({ isLoading: true });
-    Geolocation.getCurrentPosition(
-      pos => {
-        this.setState(
-          {
-            longitude: pos.coords.longitude,
-            latitude: pos.coords.latitude,
-            radius: 5000,
-          },
-          () => this.handleGetSaloon(),
-        );
-        console.log('latitude: ', pos.coords.longitude);
-        console.log('longitude: ', pos.coords.latitude);
-      },
-      error => this.setState({ error: error.message }),
-      { enableHighAccuracy: false, timeout: 5000, maximumAge: 10000 },
-    );
-  };
-  handleGetSaloon = () => {
-    this.setState({ isLoading: true });
-    const { longitude, latitude, radius } = this.state;
-    const payload = {
-      longitude,
-      latitude,
-      radius,
-    };
-    this.props.get_Saloon();
-  };
+  // getLocationHandler = () => {
+  //   this.setState({ isLoading: true });
+  //   Geolocation.getCurrentPosition(
+  //     pos => {
+  //       this.setState(
+  //         {
+  //           longitude: pos.coords.longitude,
+  //           latitude: pos.coords.latitude,
+  //           radius: 5000,
+  //         },
+  //         () => this.handleGetSaloon(),
+  //       );
+  //       console.log('latitude: ', pos.coords.longitude);
+  //       console.log('longitude: ', pos.coords.latitude);
+  //     },
+  //     error => this.setState({ error: error.message }),
+  //     { enableHighAccuracy: false, timeout: 5000, maximumAge: 10000 },
+  //   );
+  // };
+  // handleGetSaloon = () => {
+  //   this.setState({ isLoading: true });
+  //   const { longitude, latitude, radius } = this.state;
+  //   const payload = {
+  //     longitude,
+  //     latitude,
+  //     radius,
+  //   };
+  //   this.props.get_Saloon();
+  // };
 
   renderSaloonCard = salon => {
     const { selectCard } = this.state;

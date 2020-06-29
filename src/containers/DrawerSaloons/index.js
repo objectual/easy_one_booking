@@ -12,6 +12,7 @@ import {
   Linking,
   StyleSheet,
   FlatList,
+  PermissionsAndroid
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
@@ -59,8 +60,11 @@ class DrawerSaloons extends Component {
       saloonNearBy: false,
       saloonsNearByData: [],
       selectedLocationSaloons: false,
+      permission: false
     };
   }
+
+ 
 
   static getDerivedStateFromProps(props, state) {
     console.log(props.getSaloonNearBy.data, 'props.getSaloonNearBy.data.data');
@@ -89,8 +93,8 @@ class DrawerSaloons extends Component {
   onChangeByServices = (value) => this.setState({byServices: value});
   onChangeTextSelectedValue = async (value) => {
     // this.setState({categoryId: value});
-    await this.props.get_Saloon_By_Category({serviceId: value});
-    this.setState({suggestion:[]})
+    await this.props.get_Saloon_By_Category({serviceId: value._id});
+    this.setState({suggestion:[],searchTerm:value.name})
   };
 
   onChangeSearchBar = async (searchTerm) => {
@@ -146,27 +150,48 @@ class DrawerSaloons extends Component {
     // }
   };
 
-  componentDidMount() {
-    this.getLocationHandler();
+
+  requestLocationPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          this.getLocationHandler()
+      } else {
+        console.log("Location permission denied");
+      }
+    } catch (err) {
+      alert(err)
+      console.warn(err);
+    }
+  };
+
+  async componentDidMount() {
+    await this.requestLocationPermission();
     this.props.get_Services();
+    this.props.get_Saloon();
+
   }
 
-  getLocationHandler = () => {
-    this.setState({isLoading: true});
+  getLocationHandler = async () => {
+    // this.setState({isLoading: true});
     Geolocation.getCurrentPosition(
       (pos) => {
+
+        console.log(pos,'getCurrentPosition')
         this.setState(
           {
             longitude: pos.coords.longitude,
             latitude: pos.coords.latitude,
+            permission: true
             // radius: 5000,
           },
-          () => this.handleGetSaloon(),
+          async () => await this.handleGetSaloon(),
         );
         console.log('latitude: ', pos.coords.longitude);
         console.log('longitude: ', pos.coords.latitude);
       },
-      (error) => this.setState({error: error.message}),
+      (error) => console.log(error,'sdsdsdadjkhsajkdsjkdsjkdjksdjkshdjksdh') ,
       {enableHighAccuracy: false, timeout: 5000, maximumAge: 10000},
     );
   };
@@ -177,8 +202,6 @@ class DrawerSaloons extends Component {
       latitude,
       radius: saloonRadius,
     };
-    console.log(payload, 'payloadDrawerSaloon');
-    this.props.get_Saloon();
   };
 
   _renderOverlaySpinner = () => {
@@ -225,7 +248,7 @@ class DrawerSaloons extends Component {
             returnKeyType={returnKeyType}
             onChangeText={onChangeText}
             icon={icon}
-            value={this.state.value}
+            value={value}
             placeholder={placeholder}
             rightIcon={Images.arrow}
             autoCompleteType="off"
@@ -299,19 +322,38 @@ class DrawerSaloons extends Component {
     );
   };
 
-  getSaloonNearBy = () => {
+  getSaloonNearBy = async () => {
     if (this.state.saloonNearBy) {
       this.setState({saloonNearBy: false});
     } else {
-      const {longitude, latitude, saloonRadius} = this.state;
-      const payload = {
-        longitude,
-        latitude,
-        // radius:saloonRadius
-      };
-      console.log(payload, 'payloadDrawerSaloon');
-      this.props.get_Saloon_By_Category_NearBy(payload);
-      this.setState({saloonNearBy: true});
+
+      if(this.state.permission)
+      {
+        const {longitude, latitude, saloonRadius} = this.state;
+        const payload = {
+          longitude,
+          latitude,
+          // radius:saloonRadius
+        };
+        console.log(payload, 'payloadDrawerSaloon');
+        this.props.get_Saloon_By_Category_NearBy(payload);
+        this.setState({saloonNearBy: true});
+     }
+     else
+     {
+      await this.requestLocationPermission()
+      // const {longitude, latitude, saloonRadius} = this.state;
+      // const payload = {
+      //   longitude,
+      //   latitude,
+      //   // radius:saloonRadius
+      // };
+      // // const payload =  {"longitude": "67.0560109", "latitude": "24.8723881"}
+      // console.log(payload, 'payloadDrawerSaloon');
+      // await this.props.get_Saloon_By_Category_NearBy(payload);
+      // this.setState({saloonNearBy: true});
+
+     }
     }
   };
 
@@ -341,8 +383,7 @@ class DrawerSaloons extends Component {
   }
 
   onSelectedLocation = async (value) => {
-    this.setState({selectedLocation: value});
-
+    this.setState({selectedLocation: value.place_id, searchByLocation: value.description });
     try {
       let response = await fetch(
         `${place_reverse_Geocoding_URL}place_id=${value}&key=${secret_Key}`,
@@ -396,7 +437,7 @@ class DrawerSaloons extends Component {
               'next',
               this.onChangeSearchBar,
               searchByCategory,
-              '',
+              this.state.searchTerm,
               'Search Category',
               'inputPostalCode',
               false,
@@ -423,7 +464,7 @@ class DrawerSaloons extends Component {
                 data={this.state.suggestion}
                 renderItem={({item, index}) => (
                   <TouchableOpacity
-                    onPress={() => this.onChangeTextSelectedValue(item._id)}
+                    onPress={() => this.onChangeTextSelectedValue(item)}
                     style={{
                       width: '90%',
                       borderWidth: 0,
@@ -447,7 +488,7 @@ class DrawerSaloons extends Component {
                 this.onChangeSearchByLocation,
                 searchByLocation,
                 'Search By Location',
-                'text',
+                this.state.searchByLocation,
                 'inputPostalCode',
                 false,
               )}
@@ -476,7 +517,7 @@ class DrawerSaloons extends Component {
                 data={this.state.predictionsData}
                 renderItem={({item, index}) => (
                   <TouchableOpacity
-                    onPress={() => this.onSelectedLocation(item.place_id)}
+                    onPress={() => this.onSelectedLocation(item)}
                     style={{
                       width: '90%',
                       borderWidth: 0,
@@ -566,7 +607,7 @@ class DrawerSaloons extends Component {
                 }}
                 data={getSaloonNearBy.data.data}
                 renderItem={({item, index}) => (
-                  console.log(item, 'item'),
+                  console.log(item, 'this.state.saloonNearBy == true'),
                   (
                     <Cards
                       item={item}
