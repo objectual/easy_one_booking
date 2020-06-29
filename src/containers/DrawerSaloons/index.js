@@ -152,18 +152,24 @@ class DrawerSaloons extends Component {
 
 
   requestLocationPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          this.getLocationHandler()
-      } else {
-        console.log("Location permission denied");
+    if(Platform.OS == 'android')
+    {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            this.getLocationHandler()
+        } else {
+          console.log("Location permission denied");
+        }
+      } catch (err) {
+        console.warn(err);
       }
-    } catch (err) {
-      alert(err)
-      console.warn(err);
-    }
+   }
+   else
+   {
+     this.getLocationHandler()
+   }
   };
 
   async componentDidMount() {
@@ -191,7 +197,7 @@ class DrawerSaloons extends Component {
         console.log('latitude: ', pos.coords.longitude);
         console.log('longitude: ', pos.coords.latitude);
       },
-      (error) => console.log(error,'sdsdsdadjkhsajkdsjkdsjkdjksdjkshdjksdh') ,
+      (error) => console.log(error,'error') ,
       {enableHighAccuracy: false, timeout: 5000, maximumAge: 10000},
     );
   };
@@ -225,38 +231,40 @@ class DrawerSaloons extends Component {
     );
   };
   renderTextInputWithLableRow = (
-    lable,
-    ref,
-    returnKeyType,
+    // lable,
+    // ref,
+    // returnKeyType,
     onChangeText,
-    icon,
+    // icon,
     value,
     placeholder,
-    keyboardType,
-    onSubmitEditing,
-    secureTextEntry,
-    CustomTextInput,
+    // keyboardType,
+    // onSubmitEditing,
+    // secureTextEntry,
+    // CustomTextInput,
   ) => {
     return (
       <View>
         <View style={styles.textInputRow}>
           <TextInput
             placeholderTextColor="#81788B"
-            ref={(o) => {
-              ref = o;
-            }}
-            returnKeyType={returnKeyType}
+            // ref={(o) => {
+            //   ref = o;
+            // }}
+            // returnKeyType={returnKeyType}
             onChangeText={onChangeText}
-            icon={icon}
+            // icon={icon}
             value={value}
+            // icon={icon}
+            // value={this.state.value}
             placeholder={placeholder}
-            rightIcon={Images.arrow}
-            autoCompleteType="off"
-            keyboardType={keyboardType}
+            // rightIcon={Images.arrow}
+            // autoCompleteType="off"
+            // keyboardType={keyboardType}
             // onSubmitEditing={() => {
             //   this.onSubmit(onSubmitEditing);
             // }}
-            secureTextEntry={secureTextEntry}
+            // secureTextEntry={secureTextEntry}
           />
           <Image
             source={Images.arrow} //Change your icon image here
@@ -287,36 +295,36 @@ class DrawerSaloons extends Component {
   };
 
   renderTextInputWithLable = (
-    lable,
-    ref,
-    returnKeyType,
+    // lable,
+    // ref,
+    // returnKeyType,
     onChangeText,
-    value,
     placeholder,
-    keyboardType,
-    onSubmitEditing,
-    secureTextEntry,
-    CustomTextInput,
+    value,
+    // keyboardType,
+    // onSubmitEditing,
+    // secureTextEntry,
+    // CustomTextInput,
   ) => {
     return (
       <View>
         {/* <Text style={styles.labelText}>{lable}</Text> */}
         <TextInput
-          style={[styles.textInput, CustomTextInput]}
+          style={[styles.textInput]}
           placeholderTextColor="#81788B"
-          ref={(o) => {
-            ref = o;
-          }}
-          returnKeyType={returnKeyType}
+          // ref={(o) => {
+          //   ref = o;
+          // }}
+          // returnKeyType={returnKeyType}
           onChangeText={onChangeText}
           value={value}
           placeholder={placeholder}
-          autoCompleteType="off"
-          keyboardType={keyboardType}
+          // autoCompleteType="off"
+          // keyboardType={keyboardType}
           // onSubmitEditing={() => {
           //   this.onSubmit(onSubmitEditing);
           // }}
-          secureTextEntry={secureTextEntry}
+          // secureTextEntry={secureTextEntry}
         />
       </View>
     );
@@ -386,7 +394,7 @@ class DrawerSaloons extends Component {
     this.setState({selectedLocation: value.place_id, searchByLocation: value.description });
     try {
       let response = await fetch(
-        `${place_reverse_Geocoding_URL}place_id=${value}&key=${secret_Key}`,
+        `${place_reverse_Geocoding_URL}place_id=${value.place_id}&key=${secret_Key}`,
       );
 
       let statusCode = response.status;
@@ -432,15 +440,17 @@ class DrawerSaloons extends Component {
         <ScrollView>
           <View style={{marginHorizontal: Metrics.ratio(15)}}>
             {this.renderTextInputWithLableRow(
-              '',
-              'inputName',
-              'next',
+              // '',
+              // 'inputName',
+              // 'next',
               this.onChangeSearchBar,
-              searchByCategory,
+              // searchByCategory,
               this.state.searchTerm,
+              // searchByCategory,
+              // '',
               'Search Category',
-              'inputPostalCode',
-              false,
+              // 'numeric',
+              // false,
             )}
 
             {this.state.suggestion.length != 0 && (
@@ -482,15 +492,14 @@ class DrawerSaloons extends Component {
                 justifyContent: 'space-between',
               }}>
               {this.renderTextInputWithLable(
-                '',
-                'inputName',
-                'next',
                 this.onChangeSearchByLocation,
-                searchByLocation,
+                // searchByLocation,
                 'Search By Location',
                 this.state.searchByLocation,
-                'inputPostalCode',
-                false,
+                // 'inputPostalCode',
+                // 'text',
+                // 'numeric',
+                // false,
               )}
               {this.renderFilter()}
             </View>

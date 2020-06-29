@@ -57,8 +57,8 @@ export default StyleSheet.create({
     width: 35,
   },
   headerIcon: {
-    height: Metrics.ratio(50),
-    width: Metrics.ratio(37),
+    height: Metrics.ratio(30),
+    width: Metrics.ratio(25),
     marginLeft: Metrics.ratio(15),
   },
 });

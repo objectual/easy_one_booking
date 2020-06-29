@@ -1,10 +1,10 @@
 // @flow
 import { StyleSheet, ListViewBase } from "react-native";
-import { Images, Metrics, Fonts } from '../../theme';
+import { Images, Metrics, Fonts, Colors } from '../../theme';
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: "#FDFFFC",
+    backgroundColor: Colors.Glitter,
     flex: 1,
     //  justifyContent: "center"
   },
@@ -16,6 +16,7 @@ export default StyleSheet.create({
     paddingHorizontal: Metrics.ratio(15),
     borderRadius: Metrics.ratio(15),
     elevation: 5,
+    shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
       height: 1
@@ -27,7 +28,7 @@ export default StyleSheet.create({
     textAlign: "center"
   },
   containerForRow: {
-    paddingHorizontal: Metrics.ratio(20),
+    paddingHorizontal: Metrics.screenWidth * 0.05,
     // marginTop: Metrics.ratio(20),
   },
   submitBtn: {
@@ -37,6 +38,7 @@ export default StyleSheet.create({
     borderRadius: Metrics.screenWidth * 0.35,
     backgroundColor: '#fff',
     elevation: 5,
+    shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
       height: 1
@@ -80,17 +82,18 @@ export default StyleSheet.create({
     textAlign: 'center'
   },
   servicebox: {
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     marginTop: Metrics.ratio(20),
     marginBottom: Metrics.ratio(7),
     borderRadius: Metrics.ratio(15),
     overflow: 'hidden',
-    elevation: 5,
+    elevation: 4,
+    shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 1
     },
-    shadowOpacity: 0.15,
+    shadowOpacity: 0.18,
     shadowRadius: 1.0,
   },
   servicesImage: {

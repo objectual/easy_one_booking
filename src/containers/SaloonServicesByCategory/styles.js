@@ -1,10 +1,10 @@
 // @flow
 import {StyleSheet, ListViewBase} from 'react-native';
-import {Images, Metrics, Fonts} from '../../theme';
+import {Images, Metrics, Fonts, Colors} from '../../theme';
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: '#FDFFFC',
+    backgroundColor: Colors.Glitter,
     flex: 1,
   },
 
@@ -12,10 +12,12 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   servicebox: {
+    marginHorizontal: Metrics.screenWidth * 0.05,
     backgroundColor: '#fff',
     marginTop: Metrics.ratio(20),
     marginBottom: Metrics.ratio(7),
     borderRadius: Metrics.ratio(15),
+    alignItems: "center",
     overflow: 'hidden',
     elevation: 5,
     shadowOffset: {
@@ -27,26 +29,24 @@ export default StyleSheet.create({
   },
   servicesImage: {
     marginVertical: Metrics.ratio(15),
-    marginHorizontal: Metrics.ratio(15),
+    marginLeft: Metrics.ratio(5),
     height: Metrics.ratio(80),
     width: Metrics.ratio(80),
     borderRadius: Metrics.ratio(80),
   },
   containerForRow: {
-    paddingHorizontal: Metrics.ratio(20),
+    // paddingHorizontal: Metrics.ratio(20),
     // marginTop: Metrics.ratio(20),
   },
   arrowImage: {
-    width: Metrics.ratio(35),
+    width: Metrics.ratio(20),
     // height : Metrics.ratio(25),
-    resizeMode: 'contain',
-    marginBottom : Metrics.ratio(-15),
+    // marginBottom : Metrics.ratio(-15),
   },
-  containerImage : {
-    width: Metrics.screenWidth * 0.3
-  },
+  
   containertext : {
-    marginVertical: Metrics.ratio(15),
+    justifyContent: "center",
+    // marginVertical: Metrics.ratio(15),
     width: Metrics.screenWidth * 0.45,
   },
   containertitle : {
@@ -55,7 +55,8 @@ export default StyleSheet.create({
     marginRight: Metrics.ratio(5),
   },
   containerAeroImage : {
-    width: Metrics.screenWidth * 0.1,
+    width: Metrics.screenWidth * 0.05,
+    marginLeft: Metrics.ratio(15),
   }
 
 });

@@ -186,7 +186,6 @@ class SaloonEmployee extends Component {
         onPress={() => this.setState({ showBookedModal: true, selectedEmployee: employees })}
         style={styles.containerForRow}>
         <View style={[styles.servicebox, { flexDirection: 'row' }]}>
-          <View>
             {employees && employees.employeeId.userId && employees.employeeId.userId.profile_img &&
               <Image
                 source={{uri : employees.employeeId.userId.profile_img}}
@@ -197,11 +196,12 @@ class SaloonEmployee extends Component {
               //   style={styles.servicesImage}
               // />
             }
-          </View>
           <View
             style={{
               marginVertical: Metrics.ratio(15),
-
+              marginHorizontal: Metrics.ratio(5),
+              flexWrap: "wrap",
+              justifyContent: "center",
             }}>
             <Text numberOfLines={1} style={{ fontSize: Metrics.ratio(17) }}>
               {employees && employees.employeeId.userId && employees.employeeId.userId.firstName
