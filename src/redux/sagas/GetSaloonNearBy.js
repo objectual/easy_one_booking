@@ -22,6 +22,8 @@ function* watchRequest() {
     // delete payload.targetView;
     try {
       const response = yield call(callRequest, payload);
+      console.log(response, 'get_Saloon_By_Category_NearBy');
+
       yield put(success(response));
 
       //   setTimeout(() => {

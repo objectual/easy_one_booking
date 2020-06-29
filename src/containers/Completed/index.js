@@ -93,7 +93,7 @@ class Current extends Component {
   async componentDidMount() {
     let payload = JSON.parse(await getUserInfo());
     console.log(payload, 'payload');
-    // this.props.get_Booking({payload})
+    this.props.get_Booking({payload})
     this.props.navigation.addListener('focus', () =>
       this.props.get_Booking({payload}),
     );
