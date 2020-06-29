@@ -67,7 +67,7 @@ class DrawerSaloons extends Component {
  
 
   static getDerivedStateFromProps(props, state) {
-    console.log(props.getSaloonNearBy.data, 'props.getSaloonNearBy.data.data');
+    console.log(props.getSaloonByCategory.data.data, 'props.getSaloonByCategory.data.data');
 
     if (
       JSON.stringify(props.getSaloonByCategory.data.data) !==
@@ -244,9 +244,9 @@ class DrawerSaloons extends Component {
     // CustomTextInput,
   ) => {
     return (
-      <View>
-        <View style={styles.textInputRow}>
+     
           <TextInput
+            style = {styles.textInputWithLabel}
             placeholderTextColor="#81788B"
             // ref={(o) => {
             //   ref = o;
@@ -266,31 +266,7 @@ class DrawerSaloons extends Component {
             // }}
             // secureTextEntry={secureTextEntry}
           />
-          <Image
-            source={Images.arrow} //Change your icon image here
-            style={styles.ImageStyle}
-          />
-        </View>
-        {/* <TextInput
-          style={[styles.textInputRow, CustomTextInput]}
-          placeholderTextColor="#81788B"
-          ref={o => {
-            ref = o;
-          }}
-          returnKeyType={returnKeyType}
-          onChangeText={onChangeText}
-          icon={icon}
-          value={value}
-          placeholder={placeholder}
-          rightIcon={Images.arrow}
-          autoCompleteType="off"
-          keyboardType={keyboardType}
-          // onSubmitEditing={() => {
-          //   this.onSubmit(onSubmitEditing);
-          // }}
-          secureTextEntry={secureTextEntry}
-        /> */}
-      </View>
+       
     );
   };
 
@@ -385,7 +361,7 @@ class DrawerSaloons extends Component {
           styles.textInput,
           this.state.saloonNearBy == true && {backgroundColor: '#FF3600'},
         ]}>
-        <Text style={{color: Colors.taupeGrey}}> Saloon within 2km</Text>
+        <Text style={[this.state.saloonNearBy == true ? {color: Colors.white} : {color: Colors.taupeGrey} ]}> Saloon within 2km</Text>
       </TouchableOpacity>
     );
   }
@@ -488,8 +464,8 @@ class DrawerSaloons extends Component {
             )}
             <View
               style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
+                // flexDirection: 'row',
+                // justifyContent: 'space-between',
               }}>
               {this.renderTextInputWithLable(
                 this.onChangeSearchByLocation,
@@ -559,16 +535,22 @@ class DrawerSaloons extends Component {
                 paddingHorizontal: 10,
               }}
               data={this.state.saloonsData}
-              renderItem={({item, index}) => (
-                <Cards
-                  item={{saloon: item}}
+              renderItem={({item, index}) => {
+                console.log(item,'////oooooo')
+                return(
+                  <Cards
+                  // item={{saloon: item}}
+                  title = {item.company.name}
+                  description = {item.company.companyShortDescription}
+                  image = {item.template.coverImage.url}
                   onPress={() =>
                     this.props.navigation.navigate('Categories', {
-                      id: item._id,
+                      id: item.company._id,
                     })
                   }
                 />
-              )}
+                )
+              }}
             />
           )}
 
@@ -588,7 +570,9 @@ class DrawerSaloons extends Component {
                 data={getSaloon.data.data}
                 renderItem={({item, index}) => (
                   <Cards
-                    item={item}
+                  title = {item.saloon.name}
+                  description = {item.saloon.companyShortDescription}
+                  image = {item.template.coverImage.url}
                     onPress={() => {
                       console.log(item, 'mainDrawerSaloonsItem');
                       this.props.navigation.navigate('Categories', {
@@ -619,10 +603,12 @@ class DrawerSaloons extends Component {
                   console.log(item, 'this.state.saloonNearBy == true'),
                   (
                     <Cards
-                      item={item}
+                    title = {item.saloon.name}
+                    description = {item.saloon.companyShortDescription}
+                    image = {item.template.coverImage.url}
                       onPress={() =>
                         this.props.navigation.navigate('Categories', {
-                          id: item._id,
+                          id: item.saloon._id,
                         })
                       }
                     />
