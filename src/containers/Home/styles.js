@@ -116,18 +116,18 @@ export default StyleSheet.create({
     backgroundColor: "#FFF3EB",
     justifyContent: 'center',
     alignItems: "center",
-    shadowColor: Colors.black,
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 1
+      height: 4,
     },
-    shadowOpacity: 0.18,
-    shadowRadius: 1.0
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
   },
   cardImage: {
     height: Metrics.ratio(190),
     width: Metrics.ratio(180),
-   
+    borderRadius: Metrics.ratio(10)
   },
   StarImage: {
     width: 12,

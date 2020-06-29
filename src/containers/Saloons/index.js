@@ -79,7 +79,7 @@ class Saloons extends Component {
   renderService = (saloons, index) => {
     const {getSelectedSaloon} = this.state;
     const {id} = this.props.route.params;
-
+    console.log(saloons,'jjdsjakj')
     return (
       <TouchableOpacity 
       onPress={() =>
@@ -103,16 +103,16 @@ class Saloons extends Component {
           <View
             style={styles.dataContainer}>
             <Text numberOfLines={1} style={styles.textsize18}>
-              {saloons && saloons.name ? saloons.name : 'name'}
+              {saloons && saloons.company.name ? saloons.company.name : 'name'}
             </Text>
             <Text numberOfLines={1} style={styles.textsize15}>
-              City : {saloons && saloons.city
-                ? saloons.city
+              City : {saloons && saloons.company.city
+                ? saloons.company.city
                 : 'City'}
             </Text>
             <Text numberOfLines={2} style={styles.textsize15}>
-              Adress : {saloons && saloons.address
-                ? saloons.address
+              Adress : {saloons && saloons.company.address
+                ? saloons.company.address
                 : null}
             </Text>
           </View>

@@ -82,19 +82,19 @@ export default StyleSheet.create({
     textAlign: 'center'
   },
   servicebox: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     marginTop: Metrics.ratio(20),
     marginBottom: Metrics.ratio(7),
     borderRadius: Metrics.ratio(15),
-    overflow: 'hidden',
+    // overflow: 'hidden',
     elevation: 4,
-    shadowColor: Colors.black,
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 1
+      height: 4,
     },
-    shadowOpacity: 0.18,
-    shadowRadius: 1.0,
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
   },
   servicesImage: {
     marginVertical: Metrics.ratio(15),
