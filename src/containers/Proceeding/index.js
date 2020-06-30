@@ -286,7 +286,9 @@ class Proceeding extends Component {
     companyId: cart.data[0].payload.companyId,
     phoneNo: "090078601",
     status: "1",
-    access_token:userInfo.data.access_token
+    access_token:userInfo.data.access_token,
+    totalAmount: parseInt(this.getTotalPrice()),
+    paymentMethod: "Cash"
 
    }
 

@@ -30,7 +30,9 @@ function* watchRequest() {
         response,
         'bookingSuccesss',
       );
+      if(response.success)
       yield put(success(response));
+      else yield put(failure(err)); 
       
 
       //   setTimeout(() => {
