@@ -99,17 +99,29 @@ class Categories extends Component {
           }>
           {category && category.image && category.image &&
             <View
-              
               style={styles.servicebox}
             >
               <Image
-                    resizeMethod='auto'
-                    resizeMode="stretch"
-                    source={{ uri: category.image }}
-                  />
-              <Text numberOfLines={1} style={styles.titleText}>
-                {category && category.name ? category.name : 'name'}
-              </Text>
+               style = {{ 
+                  marginTop: Metrics.ratio(10),
+                  width: Metrics.ratio(120),
+                  height: Metrics.ratio(100)
+                 }}
+               resizeMethod='auto'
+               resizeMode= "contain"
+               source={{ uri: category.image }}
+              />
+              <View style = {{
+                      marginTop : Metrics.ratio(10),
+                      borderBottomLeftRadius: Metrics.ratio(10),
+                      borderBottomRightRadius:  Metrics.ratio(10),
+                      // paddingVertical: Metrics.ratio(10),
+                      overflow: "hidden"
+              }}>
+                <Text numberOfLines={1} style={styles.titleText}>
+                  {category && category.name ? category.name : 'name'}
+                </Text>
+              </View>
             </View>
             // (<ImageBackground
             //       source={Images.select_services}

@@ -352,7 +352,7 @@ class Login extends Component {
               this.onChangePassword,
               password,
               'Enter your password',
-              'text',
+              null,
               'onDone',
               true,
               styles.CustomTextInput,

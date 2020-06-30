@@ -529,6 +529,7 @@ class DrawerSaloons extends Component {
               //   onChangeText={(value) => this.onChangeTextSelectedValue(value)}
               // />
               <FlatList
+              showsVerticalScrollIndicator={false}
                 style={{marginBottom: 10,  marginTop: -20,}}
                 data={this.state.suggestion}
                 renderItem={({item, index}) => (
@@ -585,6 +586,7 @@ class DrawerSaloons extends Component {
               //   onChangeText={(value) => this.onSelectedLocation(value)}
               // />
               <FlatList
+                showsVerticalScrollIndicator={false}
                 style={{ marginBottom: 10, marginTop: -20 }}
                 data={this.state.predictionsData}
                 renderItem={({item, index}) => (
@@ -625,6 +627,7 @@ class DrawerSaloons extends Component {
 
           {this.state.searchTerm.length != 0 && this.state.saloonsData != 0 && (
             <FlatList
+              showsVerticalScrollIndicator={false}
               numColumns={2}
               columnWrapperStyle={{
                 justifyContent: 'space-between',
@@ -658,6 +661,7 @@ class DrawerSaloons extends Component {
             getSaloon.data != undefined &&
             getSaloon.data.data.length != 0 && (
               <FlatList
+                showsVerticalScrollIndicator={false}
                 numColumns={2}
                 columnWrapperStyle={{
                   justifyContent: 'space-between',
@@ -689,6 +693,7 @@ class DrawerSaloons extends Component {
             getSaloonNearBy.data &&
            (
               <FlatList
+                showsVerticalScrollIndicator={false}
                 numColumns={2}
                 columnWrapperStyle={{
                   justifyContent: 'space-between',

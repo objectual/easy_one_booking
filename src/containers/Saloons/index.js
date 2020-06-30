@@ -85,14 +85,14 @@ class Saloons extends Component {
     return (
       <TouchableOpacity 
       onPress={() =>
-        this.props.navigation.navigate('SaloonServicesByCategory', {categoryId:id, companyId:saloons._id})
+        this.props.navigation.navigate('SaloonServicesByCategory', {categoryId:id, companyId:saloons.company._id})
       }
       style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
           <View>
-            {saloons && saloons.image ? (
+            {saloons && saloons.template && saloons.template.coverImage.url ? (
               <Image
-                source={{uri: saloons.image}}
+                source={{uri: saloons.template.coverImage.url}}
                 style={styles.servicesImage}
               />
             ) : (
