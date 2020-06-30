@@ -14,6 +14,7 @@ export default (state: Object = initialState, action: Object) => {
     case types.GET_SALOON.REQUEST:
       return Immutable.merge(state, {
         isFetching: true,
+        success : false
         
       });
     case types.GET_SALOON.SUCCESS:
@@ -21,13 +22,17 @@ export default (state: Object = initialState, action: Object) => {
         failure: false,
         isFetching: false,
         errorMessage: "",
-        data: action.data
+        data: action.data,
+        success : true
+
       });
     case types.GET_SALOON.FAILURE:
       return Immutable.merge(state, {
         failure: true,
         isFetching: false,
         errorMessage: action.errorMessage,
+        success : false
+
 
       });
     case types.LOGOUT:

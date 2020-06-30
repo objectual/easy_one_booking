@@ -14,20 +14,26 @@ export default (state: Object = initialState, action: Object) => {
     case types.GET_SERVICES.REQUEST:
 
       return Immutable.merge(state, {
+        success: false,
         isFetching: true
+
       });
     case types.GET_SERVICES.SUCCESS:
       return Immutable.merge(state, {
+        success: true,
         failure: false,
         isFetching: false,
         errorMessage: "",
-        data: action.data
+        data: action.data,
+
       });
     case types.GET_SERVICES.FAILURE:
       return Immutable.merge(state, {
+        success: false,
         failure: true,
         isFetching: false,
-        errorMessage: action.errorMessage
+        errorMessage: action.errorMessage,
+
       });
     case types.LOGOUT:
       return initialState;

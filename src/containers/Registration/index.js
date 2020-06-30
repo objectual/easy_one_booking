@@ -313,7 +313,8 @@ class Register extends Component {
         <TouchableOpacity
           onPress={() => this.checkValidation()}
           disabled={this.state.nameError==null && this.state.passwordError==null && this.state.postalCodeError==null && this.state.emailError==null && this.state.confirmPasswordError==null ? false : true }
-          style={styles.submitBtn}>
+          style={[styles.submitBtn, this.state.nameError==null && this.state.passwordError==null && this.state.postalCodeError==null && this.state.emailError==null && this.state.confirmPasswordError==null ? { backgroundColor: '#FF3600' } : { backgroundColor: '#DEDEDE' } ]}>
+
           <Text style={styles.submitBtnText}>Register Now</Text>
         </TouchableOpacity>
         <TouchableOpacity

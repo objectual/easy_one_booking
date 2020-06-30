@@ -251,7 +251,7 @@ class Login extends Component {
     return (
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <TouchableOpacity
-          style={styles.submitBtn}
+          style={[styles.submitBtn, this.state.passwordError == null && this.state.emailError == null ? { backgroundColor: '#FF3600' } : { backgroundColor: '#DEDEDE' } ]}
           disabled={
             this.state.passwordError == null && this.state.emailError == null
               ? false

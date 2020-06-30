@@ -50,8 +50,6 @@ class DrawerSaloons extends Component {
       longitude: '',
       latitude: '',
       selectCard: null,
-      saloonsData: [],
-      categoriesData: [],
       searchTerm: '',
       suggestion: [],
       categoryId: '',
@@ -60,30 +58,93 @@ class DrawerSaloons extends Component {
       saloonNearBy: false,
       saloonsNearByData: [],
       selectedLocationSaloons: false,
-      permission: false
+      permission: false,
+      showData: [],
+      saloonsBycategoriesData:[],
+      saloonsData: [],
+      categoriesData: [],
+      saloonsSuccess: false,
+      categoriesSuccess: false,
+      saloonsBycategoriesDataSuccess: false,
+      saloonsNearByData:[],
+      saloonsNearByDataSuccess: false,
+      expandSearchByCategory: false,
+      expandSearchByLocation: false,
+
+
     };
   }
 
  
 
   static getDerivedStateFromProps(props, state) {
-    console.log(props.getSaloonByCategory.data.data, 'props.getSaloonByCategory.data.data');
+    console.log(props.getSaloonByCategory, 'props.getSaloonByCategory.data.data');
+    console.log(props.getServices, 'props.getServices.data.data');
 
-    if (
-      JSON.stringify(props.getSaloonByCategory.data.data) !==
-      JSON.stringify(state.saloonsData)
-    ) {
-      return {
-        saloonsData: props.getSaloonByCategory.data.data,
-      };
-    }
-    if (state.suggestion.length == 0) {
-      return {saloonsData: []};
+
+    let object = {}
+
+
+
+
+    if(props.getSaloon.success != state.saloonsSuccess)
+    {
+        object = {
+            saloonsSuccess:props.getSaloon.success,
+            saloonsData: props.getSaloon.data.data,
+            showData:  props.getSaloon.data.data
+          };
     }
 
-    if (props.getSaloonNearBy.data != undefined) {
-      return {saloonsNearByData: props.getSaloonNearBy.data.data};
+    if(props.getServices.success != state.categoriesSuccess)
+    {
+          object = {
+            categoriesSuccess:props.getServices.success,
+            categoriesData: props.getServices.data.data,
+          };
     }
+    // alert(props.getServices.success)
+
+
+
+    if(props.getSaloonByCategory.success != state.saloonsBycategoriesDataSuccess && props.getSaloonByCategory.success != undefined )
+    {
+          object = {
+            saloonsBycategoriesDataSuccess: props.getSaloonByCategory.success,
+            saloonsBycategoriesData: props.getSaloonByCategory.data.data,
+            showData: props.getSaloonByCategory.data.data,
+          };
+    }
+    // // console.log(props.getSaloonNearBy.success,'props.getSaloonNearBy.successdsdsdsds')
+
+    if(props.getSaloonNearBy.success != state.saloonsNearByDataSuccess  && props.getSaloonNearBy.success != undefined )
+    {
+          object = {
+            saloonsBycategoriesDataSuccess: props.getSaloonNearBy.success,
+            saloonsNearByData: props.getSaloonNearBy.data.data,
+            showData: props.getSaloonNearBy.data.data,
+          };
+    }
+
+
+           console.log(object,'object')
+    return object
+
+    // if (
+    //   JSON.stringify(props.getSaloonByCategory.data.data) !==
+    //   JSON.stringify(state.saloonsData)
+    // ) {
+    //   return {
+    //     saloonsData: props.getSaloonByCategory.data.data,
+    //   };
+    // }
+    // if (state.suggestion.length == 0) {
+    //   return {saloonsData: []};
+    // }
+
+    // if (props.getSaloonNearBy.data != undefined) {
+    //   return {saloonsNearByData: props.getSaloonNearBy.data.data};
+    // }
   }
 
   // onChangeSearchBar = (value) => this.setState({searchByCategory: value});
@@ -98,16 +159,16 @@ class DrawerSaloons extends Component {
   };
 
   onChangeSearchBar = async (searchTerm) => {
+    console.log(this.state.categoriesData,'this.state.categoriesData')
     this.setState({searchTerm, saloonNearBy: false});
     try {
-      if (searchTerm.trim().length >= 1 && categoriesData.length != 0) {
-        var suggestion = await Immutable.asMutable(categoriesData).filter(
+      if (searchTerm.trim().length >= 1 && this.state.categoriesData.length != 0) {
+        var suggestion = await Immutable.asMutable(this.state.categoriesData).filter(
           (x) => {
             return new RegExp(searchTerm, 'i').test(x.name);
           },
-        );
-
-        console.log(categoriesData, 'suggestion');
+        )
+       
 
         if (suggestion.length == 0) {
           this.setState({suggestion: []});
@@ -115,10 +176,11 @@ class DrawerSaloons extends Component {
           this.setState({suggestion: suggestion});
         }
       } else {
-        this.setState({suggestion: []});
+        this.setState((state)=>({suggestion: [], showData: state.saloonsData }));
+
       }
     } catch (e) {
-      this.setState({suggestion: []});
+      this.setState({suggestion: [], });
     }
   };
 
@@ -173,6 +235,8 @@ class DrawerSaloons extends Component {
   };
 
   async componentDidMount() {
+
+  
     await this.requestLocationPermission();
     this.props.get_Services();
     this.props.get_Saloon();
@@ -246,8 +310,14 @@ class DrawerSaloons extends Component {
     return (
      
           <TextInput
-            style = {[styles.textInputWithLabel, value.length != 0 && { borderRadius:0 } ]}
+            style = {[styles.textInputWithLabel, this.state.suggestion.length != 0  && { borderBottomLeftRadius: 0 ,  borderBottomRightRadius: 0, } ]}
             placeholderTextColor="#81788B"
+             onSubmitEditing={() => {
+              this.setState({expandSearchByCategory: false })
+            }}
+            onFocus={()=>this.setState({expandSearchByCategory: true })}
+            ref={input => this.searchInput = input}
+
             // ref={(o) => {
             //   ref = o;
             // }}
@@ -286,8 +356,10 @@ class DrawerSaloons extends Component {
       <View>
         {/* <Text style={styles.labelText}>{lable}</Text> */}
         <TextInput
-          style={[styles.textInput,value.length != 0 && { borderRadius:0 }]}
+          style={[styles.textInput,this.state.predictionsData.length != 0 && { borderBottomLeftRadius: 0 ,  borderBottomRightRadius: 0, } ]}
           placeholderTextColor="#81788B"
+          // onFocus={()=>this.setState({expandSearchByLocation: true })}
+
           // ref={(o) => {
           //   ref = o;
           // }}
@@ -308,8 +380,11 @@ class DrawerSaloons extends Component {
 
   getSaloonNearBy = async () => {
     if (this.state.saloonNearBy) {
-      this.setState({saloonNearBy: false});
+      // this.setState({saloonNearBy: false});
+      this.setState((state)=>({ showData: state.saloonsData, saloonNearBy: false  }));
+
     } else {
+
 
       if(this.state.permission)
       {
@@ -402,14 +477,16 @@ class DrawerSaloons extends Component {
       saloonRadius,
       byRating,
     } = this.state;
-    const {isFetching, failure, data} = this.props.getSaloon;
-    saloonsData = data.data;
-    categoriesData = this.props.getServices.data.data;
-    console.log(this.props.getSaloon, 'this.props.getSaloon');
-    console.log(this.state.saloonsNearByData, 'this.state.getSaloonNearBy');
 
-    const getSaloon = this.props.getSaloon;
-    const getSaloonNearBy = this.props.getSaloonNearBy;
+    const {getSaloon,getSaloonNearBy,getSaloonByCategory} = this.props
+    // const {isFetching, failure, data} = this.props.getSaloon;
+    // saloonsData = data.data;
+    // categoriesData = this.props.getServices.data.data;
+    // console.log(this.props.getSaloon, 'this.props.getSaloon');
+    // console.log(this.state.saloonsNearByData, 'this.state.getSaloonNearBy');
+
+    // const getSaloon = this.props.getSaloon;
+    // const getSaloonNearBy = this.props.getSaloonNearBy;
 
     return (
       <View style={styles.container}>
@@ -459,6 +536,8 @@ class DrawerSaloons extends Component {
                       backgroundColor:'#FFFF',
                       height: 40,
                       justifyContent: 'center',
+                      borderBottomLeftRadius: this.state.suggestion.length == index + 1 ? 15 : 0,
+                      borderBottomRightRadius: this.state.suggestion.length == index + 1 ? 15: 0
                     }}>
                     <Text style={{color: Colors.taupeGrey}}>{item.name}</Text>
                   </TouchableOpacity>
@@ -513,6 +592,8 @@ class DrawerSaloons extends Component {
                       backgroundColor:'#FFFF',
                       height: 40,
                       justifyContent: 'center',
+                      borderBottomLeftRadius: this.state.predictionsData.length == index + 1 ? 15 : 0,
+                      borderBottomRightRadius: this.state.predictionsData.length == index + 1 ? 15: 0
                     }}>
                     <Text style={{color: Colors.taupeGrey}}>
                       {item.description}
@@ -528,12 +609,13 @@ class DrawerSaloons extends Component {
             {/* {this.renderShowCategoryButton()} */}
           </View>
 
-          {(this.props.getSaloonByCategory.isFetching ||
-            this.props.getSaloon.isFetching) &&
+           { (getSaloon.isFetching || getSaloonNearBy.isFetching || getSaloonByCategory.isFetching ) &&
             this._renderOverlaySpinner()}
 
-          {(getSaloonNearBy.isFetching || this.props.getSaloon.isFetching) &&
-            this._renderOverlaySpinner()}
+          {/* {(getSaloonNearBy.isFetching || this.props.getSaloon.isFetching) &&
+            this._renderOverlaySpinner()} */}
+
+            {/*
 
           {this.state.searchTerm.length != 0 && this.state.saloonsData != 0 && (
             <FlatList
@@ -624,7 +706,7 @@ class DrawerSaloons extends Component {
                 )}
               />
             )}
-          {/*((this.state.saloonNearBy == true ||
+            ((this.state.saloonNearBy == true ||
             this.state.selectedLocationSaloons == true) &&
             getSaloonNearBy.isFetching &&
             getSaloonNearBy.data && 
@@ -641,6 +723,33 @@ class DrawerSaloons extends Component {
                 <Text>No Saloons Found</Text>
               </View>
             ))*/}
+
+              <FlatList
+                numColumns={2}
+                columnWrapperStyle={{
+                  justifyContent: 'space-between',
+                  paddingHorizontal: 10,
+                }}
+                data={this.state.showData}
+                renderItem={({item, index}) => 
+
+
+                  
+                    <Cards
+                    title ={item.saloon == undefined ? item.name : item.saloon.name}
+                    description = {item.saloon  == undefined ? item.companyShortDescription : item.saloon.companyShortDescription  }
+                    image = {item.template.coverImage.url}
+                      onPress={() =>
+                        this.props.navigation.navigate('Categories', {
+                          id: item.saloon._id,
+                        })
+                      }
+                    />
+                  
+                }
+              />
+
+            
              
         </ScrollView>
       </View>

@@ -13,20 +13,25 @@ export default (state: Object = initialState, action: Object) => {
   switch (action.type) {
     case types.GET_CATEGORIES.REQUEST:
       return Immutable.merge(state, {
-        isFetching: true
+        isFetching: true,
+        success: false
       });
     case types.GET_CATEGORIES.SUCCESS:
       return Immutable.merge(state, {
         failure: false,
         isFetching: false,
         errorMessage: "",
-        data: action.data
+        data: action.data,
+        success: true
+
       });
     case types.GET_CATEGORIES.FAILURE:
       return Immutable.merge(state, {
         failure: true,
         isFetching: false,
-        errorMessage: action.errorMessage
+        errorMessage: action.errorMessage,
+        success: false
+
       });
     case types.LOGOUT:
       return initialState;
