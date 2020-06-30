@@ -507,6 +507,8 @@ function mainDrawer() {
           }}
         />*/}
 
+
+      {token != null &&
       <Drawer.Screen
         name="Booking History"
         component={bookingHistoryStack}
@@ -519,6 +521,7 @@ function mainDrawer() {
           ),
         }}
       />
+      }
       {token == null &&
         <>
           <Drawer.Screen

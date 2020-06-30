@@ -127,7 +127,7 @@ export default StyleSheet.create({
     backgroundColor: '#FF3600',
     paddingVertical: Metrics.ratio(10),
     alignItems: 'center',
-    width: Metrics.screenWidth * 0.4,
+    width: '90%',
     borderRadius: Metrics.screenWidth * 0.35,
   },
   submitBtnText2: {

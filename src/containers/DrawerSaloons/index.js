@@ -77,7 +77,7 @@ class DrawerSaloons extends Component {
 
  
 
-  static getDerivedStateFromProps(props, state) {
+  static  getDerivedStateFromProps(props, state) {
     console.log(props.getSaloonByCategory, 'props.getSaloonByCategory.data.data');
     console.log(props.getServices, 'props.getServices.data.data');
 
@@ -87,18 +87,18 @@ class DrawerSaloons extends Component {
 
 
 
-    if(props.getSaloon.success != state.saloonsSuccess)
+    if(props.getSaloon.success !== state.saloonsSuccess)
     {
-        object = {
+        object =  {
             saloonsSuccess:props.getSaloon.success,
             saloonsData: props.getSaloon.data.data,
             showData:  props.getSaloon.data.data
           };
     }
 
-    if(props.getServices.success != state.categoriesSuccess)
+    if(props.getServices.success !== state.categoriesSuccess)
     {
-          object = {
+          object =  {
             categoriesSuccess:props.getServices.success,
             categoriesData: props.getServices.data.data,
           };
@@ -107,27 +107,32 @@ class DrawerSaloons extends Component {
 
 
 
-    if(props.getSaloonByCategory.success != state.saloonsBycategoriesDataSuccess && props.getSaloonByCategory.success != undefined )
-    {
-          object = {
-            saloonsBycategoriesDataSuccess: props.getSaloonByCategory.success,
-            saloonsBycategoriesData: props.getSaloonByCategory.data.data,
-            showData: props.getSaloonByCategory.data.data,
-          };
-    }
+   
     // // console.log(props.getSaloonNearBy.success,'props.getSaloonNearBy.successdsdsdsds')
 
-    if(props.getSaloonNearBy.success != state.saloonsNearByDataSuccess  && props.getSaloonNearBy.success != undefined )
+    if(  props.getSaloonNearBy.success !== undefined  && props.getSaloonNearBy.success !== state.saloonsNearByDataSuccess )
     {
           object = {
-            saloonsBycategoriesDataSuccess: props.getSaloonNearBy.success,
+            saloonsNearByDataSuccess: props.getSaloonNearBy.success,
             saloonsNearByData: props.getSaloonNearBy.data.data,
             showData: props.getSaloonNearBy.data.data,
           };
     }
 
+    if(props.getSaloonByCategory.success !== undefined && props.getSaloonByCategory.success !== state.saloonsBycategoriesDataSuccess  )
+    {
 
-           console.log(object,'object')
+          object =  {
+            saloonsBycategoriesDataSuccess: props.getSaloonByCategory.success,
+            saloonsBycategoriesData: props.getSaloonByCategory.data.data,
+            showData: [...props.getSaloonByCategory.data.data],
+            // showData: [],
+
+          };
+    }
+
+
+           console.log(object,'xccxcccccccccccccccccccccccxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
     return object
 
     // if (
@@ -479,6 +484,7 @@ class DrawerSaloons extends Component {
     } = this.state;
 
     const {getSaloon,getSaloonNearBy,getSaloonByCategory} = this.props
+    console.log(this.state.showData,'skhdjskdhakjhdjshdjshdkjshdhshdkjshdjkhkjshjksdhsd')
     // const {isFetching, failure, data} = this.props.getSaloon;
     // saloonsData = data.data;
     // categoriesData = this.props.getServices.data.data;

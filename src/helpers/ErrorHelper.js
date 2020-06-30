@@ -5,7 +5,7 @@ class ErrorHelper {
   handleErrors(err, doAlert) {
     if (doAlert) {
       if (err) {
-        Alert.alert("Error", err);
+        // Alert.alert("Error", err);
         // utils.showAlertWithDelay("Error", err, 1000);
       }
     }

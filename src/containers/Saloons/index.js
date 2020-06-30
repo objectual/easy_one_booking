@@ -49,11 +49,13 @@ class Saloons extends Component {
         nextProps.getSaloonByCategory.data &&
         !nextProps.getSaloonByCategory.data.success
       ) {
-        this.setState({isloading: false}, () => {
-          setTimeout(() => {
-            Alert.alert('Error', nextProps.getSaloonByCategory.data.msg);
-          }, 3000);
-        });
+        // this.setState({isloading: false}, () => {
+        //   setTimeout(() => {
+        //     Alert.alert('Error', nextProps.getSaloonByCategory.data.msg);
+        //   }, 3000);
+        // });
+        this.setState({isloading: false});
+
       }
     }
   }

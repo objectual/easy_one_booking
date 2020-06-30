@@ -46,10 +46,13 @@ export default StyleSheet.create({
   descriptionValue: {
     color: Colors.taupeGrey,
   },
+  errorValue: {
+    color: Colors.red,
+  },
   submitBtn: {
     backgroundColor: '#FF3600',
     paddingVertical: Metrics.ratio(10),
-    width: Metrics.screenWidth * 0.4,
+    width: '100%',
     borderRadius: Metrics.screenWidth * 0.35,
   },
   submitBtnText: {

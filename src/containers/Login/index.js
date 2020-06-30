@@ -104,11 +104,13 @@ class Login extends Component {
           nextProps.login.data.msg,
           'nextProps.login.data.data.msgnextProps.login.data.data.msg',
         );
-        this.setState({isloading: false}, () => {
-          setTimeout(() => {
-            Alert.alert('Error', nextProps.login.data.msg);
-          }, 3000);
-        });
+        // this.setState({isloading: false}, () => {
+        //   setTimeout(() => {
+        //     Alert.alert('Error', nextProps.login.data.msg);
+        //   }, 3000);
+        // });
+        this.setState({isloading: false});
+
       }
     }
   }

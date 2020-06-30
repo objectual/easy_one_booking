@@ -104,11 +104,7 @@ class BookingForm extends Component {
           nextProps.createBooking.data.msg,
           'nextProps.createBooking.data.data.msgnextProps.createBooking.data.data.msg',
         );
-        this.setState({isloading: false}, () => {
-          setTimeout(() => {
-            Alert.alert('Error', nextProps.createBooking.data.msg);
-          }, 3000);
-        });
+        this.setState({isloading: false});
       }
     }
   }

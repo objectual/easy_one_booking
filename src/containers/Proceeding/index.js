@@ -349,9 +349,10 @@ class Proceeding extends Component {
           <View>
             {this.renderServicesRow()}
             {this.renderTotalServices()}
-            {this.renderPayNowButton()}
           </View>
         </ScrollView>
+        {this.renderPayNowButton()}
+
       </View>
     );
   }

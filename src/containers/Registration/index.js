@@ -111,11 +111,13 @@ class Register extends Component {
             // !nextProps.register.data.success
             ) {
               // console.log(nextProps.register.data.error, 'nextProps.register.data.error._messagenextProps.register.data.error._message')
-              this.setState({isloading: false}, () => {
-                setTimeout(() => {
-                  Alert.alert('Error', nextProps.register.data.msg);
-                }, 3000);
-              });
+              // this.setState({isloading: false}, () => {
+              //   setTimeout(() => {
+              //     Alert.alert('Error', nextProps.register.data.msg);
+              //   }, 3000);
+              // });
+              this.setState({isloading: false});
+
             }
           }
         }

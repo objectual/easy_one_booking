@@ -51,11 +51,13 @@ class Categories extends Component {
         nextProps.getSaloonCategories.data &&
         !nextProps.getSaloonCategories.data.success
       ) {
-        this.setState({ isloading: false }, () => {
-          setTimeout(() => {
-            Alert.alert('Error', nextProps.getSaloonCategories.data.msg);
-          }, 3000);
-        });
+        // this.setState({ isloading: false }, () => {
+        //   setTimeout(() => {
+        //     Alert.alert('Error', nextProps.getSaloonCategories.data.msg);
+        //   }, 3000);
+        // });
+        this.setState({isloading: false});
+
       }
     }
   }

@@ -60,14 +60,16 @@ class Services extends Component {
         nextProps.getSaloonServicesByCategory.data.data &&
         !nextProps.getSaloonServicesByCategory.data.success
       ) {
-        this.setState({isloading: false}, () => {
-          setTimeout(() => {
-            Alert.alert(
-              'Error',
-              nextProps.getSaloonServicesByCategory.data.msg,
-            );
-          }, 3000);
-        });
+        // this.setState({isloading: false}, () => {
+        //   setTimeout(() => {
+        //     Alert.alert(
+        //       'Error',
+        //       nextProps.getSaloonServicesByCategory.data.msg,
+        //     );
+        //   }, 3000);
+        // });
+        this.setState({isloading: false});
+
       }
     }
   }
