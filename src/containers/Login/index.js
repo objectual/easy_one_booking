@@ -180,7 +180,7 @@ class Login extends Component {
       passwordError: await validate(
         value,
         passwordRegex,
-        'Password must be at least 6 characters, no more than 16 characters, and must include at least one upper case letter, one lower case letter, and one numeric digit',
+        'Password must be at least 6 characters.',
       ),
     });
   };
