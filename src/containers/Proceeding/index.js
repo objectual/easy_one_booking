@@ -260,11 +260,11 @@ class Proceeding extends Component {
     // await timeArray.push(cart.data.payload[i].checkIn)
     // await dateArray.push(`${dateFormat[0]}-${dateFormat[1]}-${dateFormat[2]}`)
 
-
+    console.log(cart.data[i].payload.employee,'cart.data[i].payload.employee')
     let object = {
         // companyId: cart.data[i].payload.companyId,
         serviceId: cart.data[i].payload.services._id,
-        employeeId: cart.data[i].payload.employee.userId._id,
+        employeeId: cart.data[i].payload.employee._id,
         categoryId:  cart.data[i].payload.services.serviceId,
         date: dateArray,
         time: timeArray

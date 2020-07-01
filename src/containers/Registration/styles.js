@@ -8,7 +8,7 @@ export default StyleSheet.create({
         color: 'red'
     },
     container: {
-        backgroundColor: "#FDFFFC",
+        backgroundColor: Colors.Glitter,
         justifyContent:'center',
         paddingHorizontal: 20
         },
@@ -38,8 +38,17 @@ export default StyleSheet.create({
         marginBottom: Metrics.ratio(15),
         borderRadius: Metrics.screenWidth * 0.5,
         borderWidth: 1,
-        borderColor: "#F3F4F8",
         color: "#81788B",
+        borderColor: "#FF3600",
+        color: "#81788B",
+        // justifyContent: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.32,
+        shadowRadius: 5.46,
     },
     submitBtn: {
         backgroundColor: '#FF3600',
@@ -47,6 +56,13 @@ export default StyleSheet.create({
         alignItems: 'center',
         width: Metrics.screenWidth * 0.35,
         borderRadius: Metrics.screenWidth * 0.35,
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.32,
+        shadowRadius: 5.46,
     },
     submitBtnText: {
         fontSize: Metrics.ratio(14),

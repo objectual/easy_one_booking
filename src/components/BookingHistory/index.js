@@ -15,20 +15,40 @@ class BookingHistoryCard extends Component {
   };
 
   render() {
-    const {date, time, employee, saloon, price } = this.props;
+    const {date, time, employee, saloon, price, orderNo, customerName, employeeName, paymentMethod, bookingStatus } = this.props;
     return (
       <View style={styles.containerForRow}>
         <View style={styles.servicebox}>
-          <View style={{
+        <View style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
             <Text style={styles.titlesize}>Date : {date}</Text>
             <Text style={styles.titlesize}>Time : {time}</Text>
           </View>
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+            <Text style={styles.titlesize}>Booking ID : {orderNo}</Text>
+          </View>
+          
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+            <Text style={styles.titlesize}>Customer Name : {customerName}</Text>
+          </View>
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+            <Text style={styles.titlesize}>Employee Name : {employeeName}</Text>
+          </View>
+        
           <View>
             {/* <Text style={styles.nametext}>Name : {}</Text> */}
-            <Text style={styles.titlesize}>Employee : {employee}</Text>
+            <Text style={styles.titlesize}>Service Name : {employee}</Text>
             <Text style={styles.titlesize}>Saloon : {saloon}</Text>
           </View>
           <View style={{
@@ -36,8 +56,17 @@ class BookingHistoryCard extends Component {
             justifyContent: 'space-between',
           }}>
             {/* <Text style={styles.titlesize}>Payment Process : {item ? item : ""}</Text> */}
-            <Text style={styles.titleTotal}>Price : {price}</Text>
+            <Text style={styles.titlesize}>Payment Method : {paymentMethod}</Text>
           </View>
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+            {/* <Text style={styles.titlesize}>Payment Process : {item ? item : ""}</Text> */}
+            <Text style={styles.titleTotal}>Total Amount : ${price}</Text>
+            <Text style={styles.titleTotal}>{bookingStatus}</Text>
+          </View>
+         
         </View>
       </View>
     );

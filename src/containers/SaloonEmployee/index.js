@@ -129,7 +129,7 @@ class SaloonEmployee extends Component {
       serviceId: serviceId,
     };
 
-    console.log(payload, 'SaloonEmployee');
+    console.log(payload, 'Saloo11111111111111111111111111111111nEmployee');
 
     this.props.get_Employees_By_Saloon_And_Category(payload);
   };
@@ -186,7 +186,7 @@ class SaloonEmployee extends Component {
         onPress={() => this.setState({ showBookedModal: true, selectedEmployee: employees })}
         style={styles.containerForRow}>
         <View style={[styles.servicebox, { flexDirection: 'row' }]}>
-            {employees && employees.employeeId.userId && employees.employeeId.userId.profile_img &&
+            {employees &&  employees.employeeId && employees.employeeId.userId && employees.employeeId.userId.profile_img &&
               <Image
                 source={{uri : employees.employeeId.userId.profile_img}}
                 style={styles.servicesImage}
@@ -204,7 +204,7 @@ class SaloonEmployee extends Component {
               justifyContent: "center",
             }}>
             <Text numberOfLines={1} style={{ fontSize: Metrics.ratio(17) }}>
-              {employees && employees.employeeId.userId && employees.employeeId.userId.firstName
+              {employees &&  employees.employeeId && employees.employeeId.userId && employees.employeeId.userId.firstName
                 ? employees.employeeId.userId.firstName
                 : 'Name'}
             </Text>
@@ -213,37 +213,37 @@ class SaloonEmployee extends Component {
               marginTop: Metrics.ratio(10),
             }}>
               <Text numberOfLines={1} style={styles.text14}>
-                {employees && employees.employeeId.weekPlans && employees.employeeId.weekPlans['0'].availableStatus == 1
+                {employees &&  employees.employeeId && employees.employeeId.weekPlans && employees.employeeId.weekPlans['0'].availableStatus == 1
                   ? 'Mon'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
-                {employees && employees.employeeId.weekPlans && employees.employeeId.weekPlans['1'].availableStatus == 1
+                {employees &&  employees.employeeId && employees.employeeId.weekPlans && employees.employeeId.weekPlans['1'].availableStatus == 1
                   ? '-Tue'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
-                {employees && employees.employeeId.weekPlans && employees.employeeId.weekPlans['2'].availableStatus == 1
+                {employees &&  employees.employeeId && employees.employeeId.weekPlans && employees.employeeId.weekPlans['2'].availableStatus == 1
                   ? '-Wed'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
-                {employees && employees.employeeId.weekPlans && employees.employeeId.weekPlans['3'].availableStatus == 1
+                {employees &&  employees.employeeId && employees.employeeId.weekPlans && employees.employeeId.weekPlans['3'].availableStatus == 1
                   ? '-Thu'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
-                {employees && employees.employeeId.weekPlans && employees.employeeId.weekPlans['4'].availableStatus == 1
+                {employees &&  employees.employeeId && employees.employeeId.weekPlans && employees.employeeId.weekPlans['4'].availableStatus == 1
                   ? '-Fri'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
-                {employees && employees.employeeId.weekPlans && employees.employeeId.weekPlans['5'].availableStatus == 1
+                {employees &&  employees.employeeId && employees.employeeId.weekPlans && employees.employeeId.weekPlans['5'].availableStatus == 1
                   ? '-Sat'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
-                {employees && employees.employeeId.weekPlans && employees.employeeId.weekPlans['6'].availableStatus == 1
+                {employees &&  employees.employeeId && employees.employeeId.weekPlans && employees.employeeId.weekPlans['6'].availableStatus == 1
                   ? 'Sun'
                   : null}
               </Text>

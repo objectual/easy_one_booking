@@ -101,6 +101,7 @@ class Categories extends Component {
             <View
               style={styles.servicebox}
             >
+              <View style = {{width: Metrics.screenWidth * 0.42, alignItems: "center"}}>
               <Image
                style = {{ 
                   marginTop: Metrics.ratio(10),
@@ -111,6 +112,7 @@ class Categories extends Component {
                resizeMode= "contain"
                source={{ uri: category.image }}
               />
+              </View>
               <View style = {{
                       marginTop : Metrics.ratio(10),
                       borderBottomLeftRadius: Metrics.ratio(10),

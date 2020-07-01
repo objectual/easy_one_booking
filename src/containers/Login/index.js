@@ -81,10 +81,6 @@ class Login extends Component {
             );
           }, 3000);
         });
-        console.log(
-          nextProps.login.data,
-          ' nextProps.login.data nextProps.login.data',
-        );
         if(this.props.cart.data.length == 0)
         {
           this.props.navigation.navigate('Home');
@@ -253,7 +249,7 @@ class Login extends Component {
     return (
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <TouchableOpacity
-          style={[styles.submitBtn, this.state.passwordError == null && this.state.emailError == null ? { backgroundColor: '#FF3600' } : { backgroundColor: '#DEDEDE' } ]}
+          style={[styles.submitBtn, this.state.passwordError == null && this.state.emailError == null ? { backgroundColor: '#FF3600' } : { backgroundColor: "#DEDEDE" } ]}
           disabled={
             this.state.passwordError == null && this.state.emailError == null
               ? false
@@ -327,8 +323,8 @@ class Login extends Component {
           <View
             style={{
               paddingHorizontal: Metrics.ratio(20),
-              height: Metrics.screenHeight,
-              justifyContent: 'center',
+              // height: Metrics.screenHeight,
+              // justifyContent: 'center',
             }}>
             {this.renderHeaderLogo()}
             {this.renderScreenHeading()}

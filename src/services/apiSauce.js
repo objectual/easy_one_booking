@@ -87,18 +87,13 @@ class ApiSauce {
   }
 
   handlePromise = (resolve, reject, response) => {
-    // console.log(response, "kkkkkkkkkkkkkkk");
-    if (response.ok && response.data && response.originalError === null) {
+    if (response.ok && response.data && response.originalError === null, response.data.success) {
       resolve(response.data);
     } else {
       if (
-        response.originalError &&
-        response.originalError.response &&
-        response.originalError.response.data &&
-        response.originalError.response.data.error_description &&
-        response.originalError.response.data.error_description
+        !response.data.success && response.data.msg
       ) {
-        reject(response.originalError.response.data.error_description);
+        reject(response.data.msg);
       } else if (
         response.status === 422 &&
         !response.ok &&

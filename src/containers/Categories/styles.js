@@ -31,6 +31,8 @@ servicebox: {
   marginTop: Metrics.ratio(20),
   marginBottom: Metrics.ratio(7),
   borderRadius: Metrics.ratio(15),
+  // alignItems: "center",
+  // justifyContent: "center",
   // overflow: 'hidden',
   elevation: 5,
   shadowColor: "#000",

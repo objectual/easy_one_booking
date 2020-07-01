@@ -41,7 +41,6 @@ function* watchRequest() {
     // delete payload.targetView;
     try {
       const response = yield call(callRequest, payload);
-      console.log(response, "loginresponce");
       yield call(storeToken,response)
       yield call(storeLoginResponce,response)
 

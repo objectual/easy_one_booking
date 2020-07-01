@@ -389,8 +389,6 @@ class DrawerSaloons extends Component {
       this.setState((state)=>({ showData: state.saloonsData, saloonNearBy: false  }));
 
     } else {
-
-
       if(this.state.permission)
       {
         const {longitude, latitude, saloonRadius} = this.state;
@@ -441,7 +439,7 @@ class DrawerSaloons extends Component {
           styles.textInput,
           this.state.saloonNearBy == true && {backgroundColor: '#FF3600'},
         ]}>
-        <Text style={[this.state.saloonNearBy == true ? {color: Colors.white} : {color: Colors.taupeGrey} ]}> Saloon within 2km</Text>
+        <Text style={[this.state.saloonNearBy == true ? {color: Colors.white} : {color: Colors.taupeGrey} ]}> Salon within 2km</Text>
       </TouchableOpacity>
     );
   }
@@ -743,19 +741,23 @@ class DrawerSaloons extends Component {
                 }}
                 data={this.state.showData}
                 renderItem={({item, index}) => 
-
-
-                  
-                    <Cards
-                    title ={item.saloon == undefined ? item.name : item.saloon.name}
-                    description = {item.saloon  == undefined ? item.companyShortDescription : item.saloon.companyShortDescription  }
-                    image = {item.template.coverImage.url}
-                      onPress={() =>
-                        this.props.navigation.navigate('Categories', {
-                          id: item.saloon._id,
-                        })
-                      }
-                    />
+                   {
+                     let title = item.saloon ? item.saloon.name : item.company.name;
+                     let description = item.saloon ? item.saloon.companyShortDescription : item.company.companyShortDescription;
+                     let salonId = item.saloon ? item.saloon._id : item.company._id;
+                     return(
+                      <Cards
+                      title ={title}
+                      description = {description}
+                      image = {item.template.coverImage.url}
+                        onPress={() =>
+                          this.props.navigation.navigate('Categories', {
+                            id: salonId
+                          })
+                        }
+                      />
+                     )
+                   }
                   
                 }
               />

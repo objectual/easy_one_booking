@@ -1,10 +1,10 @@
 // @flow
 import { StyleSheet, ListViewBase } from "react-native";
-import { Images, Metrics, Fonts } from '../../theme';
+import { Images, Metrics, Fonts, Colors } from '../../theme';
 
 export default StyleSheet.create({
     container: {
-        backgroundColor: "#FDFFFC",
+        backgroundColor: Colors.Glitter,
          flex: 1,
         //  justifyContent: "center"
     },
@@ -39,9 +39,16 @@ export default StyleSheet.create({
         marginBottom: Metrics.ratio(15),
         borderRadius: Metrics.screenWidth * 0.5,
         borderWidth: 1,
-        borderColor: "#F3F4F8",
+        borderColor: "#FF3600",
         color: "#81788B",
-        justifyContent: "center",
+        // justifyContent: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.32,
+        shadowRadius: 5.46,
     },
     submitBtn: {
         backgroundColor: '#FF3600',
@@ -49,6 +56,13 @@ export default StyleSheet.create({
         alignItems: 'center',
         width: Metrics.screenWidth * 0.35,
         borderRadius: Metrics.screenWidth * 0.35,
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.32,
+        shadowRadius: 5.46,
     },
     submitBtnText: {
         fontSize: Metrics.ratio(14),
@@ -68,7 +82,7 @@ export default StyleSheet.create({
         width: Metrics.screenWidth * 0.7,
         height: Metrics.ratio(40),
         alignItems: 'center',
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
     CustomTextInput: {
         paddingBottom: Metrics.ratio(7),

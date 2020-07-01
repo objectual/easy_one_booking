@@ -115,15 +115,27 @@ class Current extends Component {
             {data.success &&
             <FlatList
               data={data.data}
-              renderItem={({item, index}) => 
-              <BookingHistoryCard 
-              date={item.services[0].date[0]}
-              time={item.services[0].time[0]}
-              employee={item.services[0].serviceId.name}
-              saloon={item.companyId.name}
-              price={item.services[0].serviceId.price}
-
-              />}
+              renderItem={({item, index}) => {
+                let customerName = item.userId.firstName ? item.userId.firstName + " " + item.userId.lastName : item.userId.userName
+                let employeeName = item?.services[0].employeeId.userId.firstName + " " + item?.services[0].employeeId.userId.lastName
+                let bookingStatus = item?.status === 1 ? "Pending" : "Completed"
+                console.log(item,'llllllllllllllllllllllll')
+                return(
+                  <BookingHistoryCard 
+                  orderNo = {item._id}
+                  customerName = {customerName}
+                  employeeName = {employeeName}
+                  date={item.services[0].date[0]}
+                  time={item.services[0].time[0]}
+                  employee={item.services[0].serviceId.name}
+                  saloon={item.companyId.name}
+                  price={item.totalAmount}
+                  paymentMethod = {item.paymentMethod}  
+                  bookingStatus = {bookingStatus}
+                  />
+                )
+              }
+            }
             />
             }
       </ScrollView>
