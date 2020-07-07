@@ -1,5 +1,5 @@
-import { connect } from 'react-redux';
-import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import React, {Component} from 'react';
 import {
   Text,
   View,
@@ -16,18 +16,17 @@ import {
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
-import { Images, Metrics, Fonts, Colors } from '../../theme';
+import {Images, Metrics, Fonts, Colors} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
 import Rating from './../../components/Rating/index';
 // import Icon from 'react-native-vector-icons/MaterialIcons';
-import { request as get_Saloon } from '../../redux/actions/GetSaloon';
-import { request as Get_Categories, } from '../../redux/actions/GetCategories';
+import {request as get_Saloon} from '../../redux/actions/GetSaloon';
+import {request as Get_Categories} from '../../redux/actions/GetCategories';
 
-import { request as get_Services } from '../../redux/actions/GetServices';
+import {request as get_Services} from '../../redux/actions/GetServices';
 import Geolocation from '@react-native-community/geolocation';
-import { initializeToken, token } from '../../config/WebServices'
-
+import {initializeToken, token} from '../../config/WebServices';
 
 class Home extends Component {
   constructor(props) {
@@ -42,15 +41,10 @@ class Home extends Component {
     };
   }
 
-
-
-
   componentDidMount = async () => {
-
-    await initializeToken()
+    await initializeToken();
     await this.props.get_Services();
     await this.props.get_Saloon();
-
 
     // await this.getLocationHandler();
   };
@@ -60,7 +54,6 @@ class Home extends Component {
   //   this.didFocusListener.remove();
   // }
 
-
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.getSaloon) {
       if (
@@ -69,7 +62,7 @@ class Home extends Component {
         nextProps.getSaloon.data.data &&
         nextProps.getSaloon.data.success
       ) {
-        this.setState({ GetSaloonData: nextProps.getSaloon.data.data });
+        this.setState({GetSaloonData: nextProps.getSaloon.data.data});
         // console.log(
         //   nextProps.getSaloon.data.data,
         //   'GetSaloonDataGetSaloonDataGetSaloonDataGetSaloonData',
@@ -86,7 +79,6 @@ class Home extends Component {
         //   }, 3000);
         // });
         this.setState({isloading: false});
-
       }
     }
 
@@ -97,7 +89,7 @@ class Home extends Component {
         nextProps.getServices.data &&
         nextProps.getServices.data.success
       ) {
-        this.setState({ getServices: nextProps.getServices.data.data });
+        this.setState({getServices: nextProps.getServices.data.data});
         console.log(
           nextProps.getServices.data.data,
           'getCategoriesgetCategoriesgetCategoriesgetCategoriesgetCategories',
@@ -108,7 +100,7 @@ class Home extends Component {
         nextProps.getServices.data &&
         !nextProps.getServices.data.success
       ) {
-        this.setState({ isloading: false }, () => {
+        this.setState({isloading: false}, () => {
           setTimeout(() => {
             Alert.alert('Error', nextProps.getServices.data.msg);
           }, 3000);
@@ -117,7 +109,7 @@ class Home extends Component {
     }
   }
   _renderOverlaySpinner = () => {
-    const { isloading } = this.state;
+    const {isloading} = this.state;
     return <ActivityIndicator size="large" color={Colors.violetBlue} />;
   };
 
@@ -130,7 +122,7 @@ class Home extends Component {
     return (
       <View style={styles.containerForRow}>
         <Text style={styles.mainheading}>About Easy1</Text>
-        <Text style={{ marginTop: Metrics.ratio(20) }}>
+        <Text style={{marginTop: Metrics.ratio(20)}}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eget
           nisi ex. Integer est enim, hendrerit at enim in, feugiat efficitur
           massa. Maecenas dictum feugiat magna, in tincidunt orci aliquet
@@ -141,18 +133,17 @@ class Home extends Component {
   };
 
   renderShowCategoryButton = () => {
-    const { selectCard } = this.state;
-    console.log(selectCard, 'selectCardselectCardselectCardselectCard');
+    const {selectCard} = this.state;
     return (
       <View>
         <Text style={styles.mainheading2}>
           {selectCard && selectCard.saloon.name ? selectCard.saloon.name : null}
         </Text>
-        <Text style={styles.mainheading2}>
-          Description
-        </Text>
+        <Text style={styles.mainheading2}>Description</Text>
         <Text style={styles.mainheading3}>
-          {selectCard && selectCard.saloon.companyShortDescription ? selectCard.saloon.companyShortDescription : null}
+          {selectCard && selectCard.saloon.companyShortDescription
+            ? selectCard.saloon.companyShortDescription
+            : null}
         </Text>
         <TouchableOpacity
           style={styles.submitBtn}
@@ -177,7 +168,7 @@ class Home extends Component {
               width: Metrics.screenWidth * 0.32,
             },
           ]}>
-          <Text style={[styles.submitBtnText, { fontSize: Metrics.ratio(12) }]}>
+          <Text style={[styles.submitBtnText, {fontSize: Metrics.ratio(12)}]}>
             Show With Radius
           </Text>
         </TouchableOpacity>
@@ -189,7 +180,7 @@ class Home extends Component {
       <View
         style={[
           styles.containerForRow,
-          { flexDirection: 'row', justifyContent: 'space-between' },
+          {flexDirection: 'row', justifyContent: 'space-between'},
         ]}>
         <Text style={styles.mainheading}>Top Rated Salon</Text>
         {/* {this.renderShowWithRadiusButton()} */}
@@ -234,9 +225,8 @@ class Home extends Component {
   //   this.props.get_Saloon();
   // };
 
-  renderSaloonCard = salon => {
-    const { selectCard } = this.state;
-    // console.log(salon,'llllllllllllll')
+  renderSaloonCard = (salon) => {
+    const {selectCard} = this.state;
     return (
       <TouchableOpacity
         style={
@@ -245,94 +235,125 @@ class Home extends Component {
             : null
         }
         onPress={() =>
-          this.setState({ showdescription: true, selectCard: salon })
+          this.setState({showdescription: true, selectCard: salon})
         }>
         <View style={styles.cardradius}>
           {/* {salon &&
           salon.template &&
           salon.template.coverImage &&
           salon.template.coverImage.url ? ( */}
-          <View style = {{ 
-            // overflow: 'hidden',
-            borderRadius: Metrics.ratio(10),
-            borderWidth: Metrics.ratio(2),
-            borderColor: '#FF3600',
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 4,
-            },
-            shadowOpacity: 0.32,
-            shadowRadius: 5.46,}}
-              >
-          <Image
-            // source={{ uri: salon.saloon.companyLogo }}
-            source={{ uri: salon.template.coverImage.url }}
-            style={styles.cardImage}
-          />
-    </View>
-          
+          <View
+            style={{
+              // overflow: 'hidden',
+              borderRadius: Metrics.ratio(10),
+              // borderWidth: Metrics.ratio(2),
+              // borderColor: '#FF3600',
+              backgroundColor: 'white',
+              elevation: 9,
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 4,
+              },
+              shadowOpacity: 0.32,
+              shadowRadius: 5.46,
+            }}>
+            <Image
+              // source={{ uri: salon.saloon.companyLogo }}
+              source={{uri: salon.template.coverImage.url}}
+              style={styles.cardImage}
+            />
+            <Text
+              numberOfLines={1}
+              style={[styles.titleText, {marginHorizontal: Metrics.ratio(3)}]}>
+              {salon && salon.saloon && salon.saloon.name}
+            </Text>
+            <Text
+              numberOfLines={3}
+              style={[
+                styles.titleText,
+                {
+                  fontSize: Metrics.ratio(14),
+                  marginHorizontal: Metrics.ratio(3),
+                  marginVertical: Metrics.ratio(3),
+                },
+              ]}>
+              {salon && salon.saloon && salon.saloon.companyShortDescription}
+            </Text>
+            <View
+              style={{
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+                marginVertical: Metrics.ratio(5),
+                paddingHorizontal: Metrics.ratio(5),
+              }}>
+              <View></View>
+              <Rating
+                totalRating={'(2.2k)'}
+                Default_Rating={5}
+                disabled={true}
+                StarImage={styles.StarImage}
+                totalRatingtext={styles.totalRatingtext}
+              />
+            </View>
+          </View>
+
           {/* ) : (
             <Image source={Images.saloon_card} style={styles.cardImage} />
           )} */}
-          <View>
-            <Text numberOfLines={1} style={styles.titleText}>
-              {salon && salon.saloon && salon.saloon.name}
-            </Text>
-            <Rating
-              totalRating={'(2.2k)'}
-              Default_Rating={5}
-              disabled={true}
-              StarImage={styles.StarImage}
-              totalRatingtext={styles.totalRatingtext}
-            />
-          </View>
         </View>
       </TouchableOpacity>
     );
   };
-  renderSaloonCategories = category => {
-    const { selectSaloon } = this.state;
-    console.log(category.image, "asasdasddadasdasdasdasdsfsdgasffwer")
+
+  renderSaloonCategories = (category) => {
+    const {selectSaloon} = this.state;
     return (
       <TouchableOpacity
-        style={{
-         }}
+        style={{}}
         onPress={() =>
-          this.props.navigation.navigate('Saloons', { id: category._id })
+          this.props.navigation.navigate('Saloons', {id: category._id})
         }
-      // onPress={() => this.props.navigation.navigate('BookingForm')}
+        // onPress={() => this.props.navigation.navigate('BookingForm')}
       >
-          <View style  = {styles.categoriesCardContainer}> 
-          {category && category.image && category.image &&
-            <Image
-              resizeMethod = "auto"
-              resizeMode = "stretch"
-              source={{ uri: category.image }}
-              style={{ 
-                 height: Metrics.ratio(120),
-                 width: Metrics.ratio(110),
-                 }}
-            />
+        <View style={styles.categoriesCardContainer}>
+          {
+            category && category.image && category.image && (
+              <Image
+                resizeMethod="auto"
+                resizeMode="stretch"
+                source={{uri: category.image}}
+                style={{
+                  height: Metrics.ratio(90),
+                  width: Metrics.ratio(80),
+                }}
+              />
+            )
             //( <Image source={Images.saloon_card} style={styles.cardImage} />)
           }
-          </View>
-          <View>
-            <Text numberOfLines={1} style={styles.titleText}>
-              {category && category.name}
-            </Text>
-          </View>
+        </View>
+        <View>
+          <Text
+            numberOfLines={1}
+            style={[
+              styles.titleText,
+              {textAlign: 'center', marginVertical: Metrics.ratio(5)},
+            ]}>
+            {category && category.name}
+          </Text>
+        </View>
       </TouchableOpacity>
     );
   };
+
   renderSaloonCategoriesCard = () => {
-    const { getServices } = this.state;
-    const { isFetching, failure } = this.props.getServices;
+    const {getServices} = this.state;
+    const {isFetching, failure} = this.props.getServices;
 
     return (
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         <View
-          style={[styles.containerForRow, { marginBottom: Metrics.ratio(30) }]}>
+          style={[styles.containerForRow, {marginBottom: Metrics.ratio(30)}]}>
           <View
             style={{
               flexDirection: 'row',
@@ -343,28 +364,28 @@ class Home extends Component {
               <FlatList
                 horizontal
                 data={getServices}
-                renderItem={({ item, index }) =>
+                renderItem={({item, index}) =>
                   this.renderSaloonCategories(item, index)
                 }
-              // keyExtractor={item => item.id}
-              // extraData={selected}
+                // keyExtractor={item => item.id}
+                // extraData={selected}
               />
             ) : (
-                this._renderOverlaySpinner()
-              )}
+              this._renderOverlaySpinner()
+            )}
           </View>
         </View>
       </ScrollView>
     );
   };
   renderTopRatedSaloonCard = () => {
-    const { GetSaloonData } = this.state;
-    const { isFetching, failure } = this.props.getSaloon;
+    const {GetSaloonData} = this.state;
+    const {isFetching, failure} = this.props.getSaloon;
 
     return (
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         <View
-          style={[styles.containerForRow, { marginBottom: Metrics.ratio(30) }]}>
+          style={[styles.containerForRow, {marginBottom: Metrics.ratio(30)}]}>
           <View
             style={{
               flexDirection: 'row',
@@ -375,13 +396,13 @@ class Home extends Component {
               <FlatList
                 horizontal
                 data={GetSaloonData}
-                renderItem={({ item, index }) =>
+                renderItem={({item, index}) =>
                   this.renderSaloonCard(item, index)
                 }
               />
             ) : (
-                this._renderOverlaySpinner()
-              )}
+              this._renderOverlaySpinner()
+            )}
           </View>
         </View>
       </ScrollView>
@@ -404,165 +425,193 @@ class Home extends Component {
   //   );
   // };
   renderDayAndTimeColumn = (saloonTime) => {
-    console.log(saloonTime, "saloonTimesaloonTimesaloonTime")
+    console.log(saloonTime, 'saloonTimesal111oonTimesaloonTime');
 
-    if (saloonTime.schedule != undefined) {
-      return (
-        <View>
-          <View style={styles.timeContainer}>
-            <Text
-              style={styles.timeContainerTextday}>
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['0'].availableStatus == 1
-                ? 'Mon'
-                : 'Mon'}
-            </Text>
-            <Text
-              style={styles.timeContainerTextTime}>
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['0'].checkIn
-                ? saloonTime.schedule.weekPlans['0'].checkIn
-                : <Text style={{ color: 'red' }}>OFF</Text>}{'  '}
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['0'].checkOut
-                ? saloonTime.schedule.weekPlans['0'].checkOut
-                : null}
-            </Text>
-          </View>
-
-          <View style={styles.timeContainer}>
-            <Text
-              style={styles.timeContainerTextday}>
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['1'].availableStatus == 1
-                ? 'Tue'
-                : 'Tue'}
-            </Text>
-            <Text
-              style={styles.timeContainerTextTime}>
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['1'].checkIn
-                ? saloonTime.schedule.weekPlans['1'].checkIn
-                : <Text style={{ color: 'red' }}>OFF</Text>}{'  '}
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['1'].checkOut
-                ? saloonTime.schedule.weekPlans['1'].checkOut
-                : null}
-            </Text>
-          </View>
-
-          <View style={styles.timeContainer}>
-            <Text
-              style={styles.timeContainerTextday}>
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['2'].availableStatus == 1
-                ? 'Wed'
-                : 'Wed'}
-            </Text>
-            <Text
-              style={styles.timeContainerTextTime}>
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['2'].checkIn
-                ? saloonTime.schedule.weekPlans['2'].checkIn
-                : <Text style={{ color: 'red' }}>OFF</Text>}{'  '}
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['2'].checkOut
-                ? saloonTime.schedule.weekPlans['2'].checkOut
-                : null}
-            </Text>
-          </View>
-
-          <View style={styles.timeContainer}>
-            <Text
-              style={styles.timeContainerTextday}>
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['3'].availableStatus == 1
-                ? 'Thu'
-                : 'Thu'}
-            </Text>
-            <Text
-              style={styles.timeContainerTextTime}>
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['3'].checkIn
-                ? saloonTime.schedule.weekPlans['3'].checkIn
-                : <Text style={{ color: 'red' }}>OFF</Text>}{'  '}
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['3'].checkOut
-                ? saloonTime.schedule.weekPlans['3'].checkOut
-                : null}
-            </Text>
-          </View>
-
-          <View style={styles.timeContainer}>
-            <Text
-              style={styles.timeContainerTextday}>
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['4'].availableStatus == 1
-                ? 'Fri'
-                : 'Fri'}
-            </Text>
-            <Text
-              style={styles.timeContainerTextTime}>
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['4'].checkIn
-                ? saloonTime.schedule.weekPlans['4'].checkIn
-                : <Text style={{ color: 'red' }}>OFF</Text>}{'  '}
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['4'].checkOut
-                ? saloonTime.schedule.weekPlans['4'].checkOut
-                : null}
-            </Text>
-          </View>
-
-          <View style={styles.timeContainer}>
-            <Text
-              style={styles.timeContainerTextday}>
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['5'].availableStatus == 1
-                ? 'Sat'
-                : 'Sat'}
-            </Text>
-            <Text
-              style={styles.timeContainerTextTime}>
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['5'].checkIn
-                ? saloonTime.schedule.weekPlans['5'].checkIn
-                : <Text style={{ color: 'red' }}>OFF</Text>}{'  '}
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['5'].checkOut
-                ? saloonTime.schedule.weekPlans['5'].checkOut
-                : null}
-            </Text>
-          </View>
-
-          <View style={styles.timeContainer}>
-            <Text
-              style={styles.timeContainerTextday}>
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['6'].availableStatus == 1
-                ? 'Sun'
-                : 'Sun'}
-            </Text>
-            <Text
-              style={styles.timeContainerTextTime}>
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['6'].checkIn
-                ? saloonTime.schedule.weekPlans['6'].checkIn
-                : <Text style={{ color: 'red' }}>OFF</Text>} {'  '}
-              {saloonTime && saloonTime.schedule.weekPlans && saloonTime.schedule.weekPlans['6'].checkOut
-                ? saloonTime.schedule.weekPlans['6'].checkOut
-                : null}
-            </Text>
-          </View>
-
-        </View>
-      );
-    }
-    else {
-      return (
-        <View>
-
-        </View>
-      )
-    }
-  };
-  renderDayAndTime = () => {
-    const { GetSaloonData } = this.state;
-    console.log(GetSaloonData, "GetSaloonDataGetSaloonDataGetSaloonData")
-    const { isFetching, failure } = this.props.getSaloon;
     return (
       <View>
-        <FlatList
-          // horizontal
-          data={GetSaloonData}
-          renderItem={({ item, index }) => this.renderDayAndTimeColumn(item, index)}
-        />
+        <View style={styles.timeContainer}>
+          <Text style={styles.timeContainerTextday}>
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['0'].availableStatus == 1
+              ? 'Mon'
+              : 'Mon'}
+          </Text>
+          <Text style={styles.timeContainerTextTime}>
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['0'].checkIn ? (
+              saloonTime.schedule.weekPlans['0'].checkIn
+            ) : (
+              <Text style={{color: 'red'}}>OFF</Text>
+            )}
+            {'  '}
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['0'].checkOut
+              ? saloonTime.schedule.weekPlans['0'].checkOut
+              : null}
+          </Text>
+        </View>
+
+        <View style={styles.timeContainer}>
+          <Text style={styles.timeContainerTextday}>
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['1'].availableStatus == 1
+              ? 'Tue'
+              : 'Tue'}
+          </Text>
+          <Text style={styles.timeContainerTextTime}>
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['1'].checkIn ? (
+              saloonTime.schedule.weekPlans['1'].checkIn
+            ) : (
+              <Text style={{color: 'red'}}>OFF</Text>
+            )}
+            {'  '}
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['1'].checkOut
+              ? saloonTime.schedule.weekPlans['1'].checkOut
+              : null}
+          </Text>
+        </View>
+
+        <View style={styles.timeContainer}>
+          <Text style={styles.timeContainerTextday}>
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['2'].availableStatus == 1
+              ? 'Wed'
+              : 'Wed'}
+          </Text>
+          <Text style={styles.timeContainerTextTime}>
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['2'].checkIn ? (
+              saloonTime.schedule.weekPlans['2'].checkIn
+            ) : (
+              <Text style={{color: 'red'}}>OFF</Text>
+            )}
+            {'  '}
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['2'].checkOut
+              ? saloonTime.schedule.weekPlans['2'].checkOut
+              : null}
+          </Text>
+        </View>
+
+        <View style={styles.timeContainer}>
+          <Text style={styles.timeContainerTextday}>
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['3'].availableStatus == 1
+              ? 'Thu'
+              : 'Thu'}
+          </Text>
+          <Text style={styles.timeContainerTextTime}>
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['3'].checkIn ? (
+              saloonTime.schedule.weekPlans['3'].checkIn
+            ) : (
+              <Text style={{color: 'red'}}>OFF</Text>
+            )}
+            {'  '}
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['3'].checkOut
+              ? saloonTime.schedule.weekPlans['3'].checkOut
+              : null}
+          </Text>
+        </View>
+
+        <View style={styles.timeContainer}>
+          <Text style={styles.timeContainerTextday}>
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['4'].availableStatus == 1
+              ? 'Fri'
+              : 'Fri'}
+          </Text>
+          <Text style={styles.timeContainerTextTime}>
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['4'].checkIn ? (
+              saloonTime.schedule.weekPlans['4'].checkIn
+            ) : (
+              <Text style={{color: 'red'}}>OFF</Text>
+            )}
+            {'  '}
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['4'].checkOut
+              ? saloonTime.schedule.weekPlans['4'].checkOut
+              : null}
+          </Text>
+        </View>
+
+        <View style={styles.timeContainer}>
+          <Text style={styles.timeContainerTextday}>
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['5'].availableStatus == 1
+              ? 'Sat'
+              : 'Sat'}
+          </Text>
+          <Text style={styles.timeContainerTextTime}>
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['5'].checkIn ? (
+              saloonTime.schedule.weekPlans['5'].checkIn
+            ) : (
+              <Text style={{color: 'red'}}>OFF</Text>
+            )}
+            {'  '}
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['5'].checkOut
+              ? saloonTime.schedule.weekPlans['5'].checkOut
+              : null}
+          </Text>
+        </View>
+
+        <View style={styles.timeContainer}>
+          <Text style={styles.timeContainerTextday}>
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['6'].availableStatus == 1
+              ? 'Sun'
+              : 'Sun'}
+          </Text>
+          <Text style={styles.timeContainerTextTime}>
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['6'].checkIn ? (
+              saloonTime.schedule.weekPlans['6'].checkIn
+            ) : (
+              <Text style={{color: 'red'}}>OFF</Text>
+            )}{' '}
+            {'  '}
+            {saloonTime &&
+            saloonTime.schedule.weekPlans &&
+            saloonTime.schedule.weekPlans['6'].checkOut
+              ? saloonTime.schedule.weekPlans['6'].checkOut
+              : null}
+          </Text>
+        </View>
       </View>
     );
   };
+  renderDayAndTime = (selectCard) => {
+    return <View>{this.renderDayAndTimeColumn(selectCard)}</View>;
+  };
 
   renderDescription = () => {
-    const { dayandtime, selectCard, GetSaloonData } = this.state;
+    const {dayandtime, selectCard, GetSaloonData} = this.state;
     return (
       <View style={styles.containerForRow}>
         <Text style={styles.mainheading1}>Name</Text>
@@ -571,9 +620,7 @@ class Home extends Component {
         {/* {dayandtime.map((val, index) => {
           return <View>{this.renderDayAndTime(val.day, val.time, index)}</View>;
         })} */}
-        {GetSaloonData &&
-          GetSaloonData.length != 0 &&
-          this.renderDayAndTime()}
+        {selectCard && selectCard.schedule && this.renderDayAndTime(selectCard)}
         <Text style={styles.mainheading2}>Address</Text>
         <Text style={styles.mainheading3}>
           {selectCard && selectCard.saloon.address
@@ -585,7 +632,7 @@ class Home extends Component {
   };
 
   render() {
-    const { showdescription, GetSaloonData, getServices } = this.state;
+    const {showdescription, GetSaloonData, getServices} = this.state;
 
     return (
       <View style={styles.container}>
@@ -603,13 +650,13 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     getSaloon: state.getSaloon,
     getServices: state.getServices,
   };
 };
 
-const action = { get_Saloon, get_Services };
+const action = {get_Saloon, get_Services};
 
 export default connect(mapStateToProps, action)(Home);

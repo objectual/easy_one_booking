@@ -1,6 +1,6 @@
 // @flow
-import { StyleSheet, ListViewBase } from 'react-native';
-import { Images, Metrics, Fonts, Colors } from '../../theme';
+import {StyleSheet, ListViewBase} from 'react-native';
+import {Images, Metrics, Fonts, Colors} from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -88,7 +88,6 @@ export default StyleSheet.create({
   },
   titleText: {
     fontSize: Metrics.ratio(18),
-    marginVertical: Metrics.ratio(5),
     width: Metrics.ratio(150),
   },
   cardradius: {
@@ -101,22 +100,23 @@ export default StyleSheet.create({
     shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
-      height: 1
+      height: 1,
     },
     shadowOpacity: 0.18,
-    shadowRadius: 1.0
+    shadowRadius: 1.0,
   },
   categoriesCardContainer: {
-    height: Metrics.ratio(190),
-    width: Metrics.ratio(180),
-    borderRadius: Metrics.ratio(10),
+    height: Metrics.ratio(140),
+    width: Metrics.ratio(140),
+    borderRadius: 100,
     borderWidth: Metrics.ratio(2),
-    borderColor: '#FF3600',
+    // borderColor: '#FF3600',
     marginRight: Metrics.ratio(20),
-    backgroundColor: "#FFF3EB",
+    backgroundColor: '#000',
     justifyContent: 'center',
-    alignItems: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    elevation: 9,
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 4,
@@ -127,7 +127,7 @@ export default StyleSheet.create({
   cardImage: {
     height: Metrics.ratio(190),
     width: Metrics.ratio(180),
-    borderRadius: Metrics.ratio(10)
+    borderRadius: Metrics.ratio(10),
   },
   StarImage: {
     width: 12,
@@ -140,11 +140,12 @@ export default StyleSheet.create({
     color: '#d2d2d2',
   },
   timeContainer: {
-    marginVertical: Metrics.ratio(3), flexDirection: 'row'
+    marginVertical: Metrics.ratio(3),
+    flexDirection: 'row',
   },
   timeContainerTextday: {
     fontSize: Metrics.ratio(15),
-              width: Metrics.screenWidth * 0.15,
+    width: Metrics.screenWidth * 0.15,
   },
   timeContainerTextTime: {
     fontSize: Metrics.ratio(15),
