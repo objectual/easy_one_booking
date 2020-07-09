@@ -112,7 +112,7 @@ export default StyleSheet.create({
     borderWidth: Metrics.ratio(2),
     // borderColor: '#FF3600',
     marginRight: Metrics.ratio(20),
-    backgroundColor: '#000',
+    backgroundColor: '#2B3439',
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 9,

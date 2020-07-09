@@ -25,8 +25,6 @@ import {request as get_Saloon_Services_By_Category} from '../../redux/actions/Ge
 import DatePicker from 'react-native-datepicker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-
-
 class SaloonServicesByCategory extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +34,7 @@ class SaloonServicesByCategory extends Component {
       selectCompanyId: this.props.getSaloon.data.data.saloon,
       getSelectedServices: [],
       selectBookNow: 0,
-      showBookedModal: false
+      showBookedModal: false,
     };
   }
 
@@ -114,69 +112,68 @@ class SaloonServicesByCategory extends Component {
   };
   renderService = (services, index) => {
     const {id} = this.props;
-    const {companyId, categoryId } = this.props.route.params;
+    const {companyId, categoryId} = this.props.route.params;
 
     const payload = {
       companyId: companyId,
       serviceId: services._id,
       services: services,
-      categoryId: categoryId
+      categoryId: categoryId,
     };
 
     return (
-        <View style={[styles.servicebox, {flexDirection: 'row'}]}>
-            {services && services.image && services.image && 
-              <Image
-              resizeMethod = "auto"
-              resizeMode = "contain"
-                source={{uri: services.image}}
-                style={styles.servicesImage}
-              />
-              // <Image source={image} style={styles.servicesImage} />
-            }
-            <View style = {{ flexDirection: 'row', marginHorizontal : Metrics.ratio(5)}}>
-              <View
-              style={styles.containertext}>
-              <Text numberOfLines={1} style={{fontSize: Metrics.ratio(17)}}>
-                {services && services.name ? services.name : 'name'}
+      <View style={[styles.servicebox, {flexDirection: 'row'}]}>
+        {
+          services && services.image && services.image && (
+            <Image
+              resizeMethod="auto"
+              resizeMode="contain"
+              source={{uri: services.image}}
+              style={styles.servicesImage}
+            />
+          )
+          // <Image source={image} style={styles.servicesImage} />
+        }
+        <View
+          style={{flexDirection: 'row', marginHorizontal: Metrics.ratio(5)}}>
+          <View style={styles.containertext}>
+            <Text numberOfLines={1} style={{fontSize: Metrics.ratio(17)}}>
+              {services && services.name ? services.name : 'name'}
+            </Text>
+            {/* <Text>{services && services._id ? services._id : 'id'}</Text> */}
+
+            <View
+              style={{
+                flexDirection: 'row',
+                marginVertical: Metrics.ratio(5),
+              }}>
+              <Image source={Images.human} style={styles.containertitle} />
+              <Text>{'Select Employee'}</Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <Image source={Images.tag_grey} style={styles.containertitle} />
+              <Text>
+                $ {services && services.price ? services.price : 'name'}
               </Text>
-              {/* <Text>{services && services._id ? services._id : 'id'}</Text> */}
-            
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    marginVertical: Metrics.ratio(5),
-                  }}>
-                  <Image
-                    source={Images.human}
-                    style={styles.containertitle}
-                  />
-                  <Text>
-                    {'Select Employee'}
-                  </Text>
-                </View>
-              <View style={{flexDirection: 'row'}}>
-                <Image
-                  source={Images.tag_grey}
-                  style={styles.containertitle}
-                />
-                <Text>
-                  $ {services && services.price ? services.price : 'name'}
-                </Text>
-              </View>
             </View>
-            <TouchableOpacity
-              style = {styles.containerAeroImage}
-              onPress={() =>
-                this.props.navigation.navigate('SaloonEmployee', payload)
-              }>
-                <Image resizeMode = "contain" resizeMethod = "auto"  source={Images.arrow} style={styles.arrowImage} />
-            </TouchableOpacity>
-            </View>
+          </View>
+          <TouchableOpacity
+            style={styles.containerAeroImage}
+            onPress={() =>
+              this.props.navigation.navigate('SaloonEmployee', payload)
+            }>
+            <Image
+              resizeMode="contain"
+              resizeMethod="auto"
+              source={Images.arrow}
+              style={styles.arrowImage}
+            />
+          </TouchableOpacity>
         </View>
+      </View>
     );
   };
- 
+
   render() {
     const {getSelectedServices} = this.state;
     const {isFetching, failure} = this.props.getSaloonServicesByCategory;
@@ -202,7 +199,7 @@ class SaloonServicesByCategory extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   getSaloonServicesByCategory: state.getSaloonServicesByCategory,
   getSaloon: state.getSaloon,
   login: state.login,

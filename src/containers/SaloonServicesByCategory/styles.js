@@ -17,10 +17,10 @@ export default StyleSheet.create({
     marginTop: Metrics.ratio(20),
     marginBottom: Metrics.ratio(7),
     borderRadius: Metrics.ratio(15),
-    alignItems: "center",
+    alignItems: 'center',
     // overflow: 'hidden',
     elevation: 5,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 4,
@@ -29,12 +29,11 @@ export default StyleSheet.create({
     shadowRadius: 5.46,
   },
   servicesImage: {
-    backgroundColor: '#FFF3EB',
     marginVertical: Metrics.ratio(15),
     marginLeft: Metrics.ratio(5),
     height: Metrics.ratio(80),
     width: Metrics.ratio(80),
-    borderRadius: Metrics.ratio(80),
+    borderRadius: 100,
   },
   containerForRow: {
     // paddingHorizontal: Metrics.ratio(20),
@@ -45,20 +44,19 @@ export default StyleSheet.create({
     // height : Metrics.ratio(25),
     // marginBottom : Metrics.ratio(-15),
   },
-  
-  containertext : {
-    justifyContent: "center",
+
+  containertext: {
+    justifyContent: 'center',
     // marginVertical: Metrics.ratio(15),
     width: Metrics.screenWidth * 0.45,
   },
-  containertitle : {
+  containertitle: {
     height: Metrics.ratio(17),
     width: Metrics.ratio(17),
     marginRight: Metrics.ratio(5),
   },
-  containerAeroImage : {
+  containerAeroImage: {
     width: Metrics.screenWidth * 0.05,
     marginLeft: Metrics.ratio(15),
-  }
-
+  },
 });

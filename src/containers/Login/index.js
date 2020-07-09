@@ -81,15 +81,11 @@ class Login extends Component {
             );
           }, 3000);
         });
-        if(this.props.cart.data.length == 0)
-        {
+        if (this.props.cart.data.length == 0) {
           this.props.navigation.navigate('Home');
-        }
-        else
-        {
+        } else {
           this.props.navigation.navigate('Proceeding');
         }
-        
       } else if (
         !nextProps.login.failure &&
         !nextProps.login.isFetching &&
@@ -106,7 +102,6 @@ class Login extends Component {
         //   }, 3000);
         // });
         this.setState({isloading: false});
-
       }
     }
   }
@@ -249,7 +244,12 @@ class Login extends Component {
     return (
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <TouchableOpacity
-          style={[styles.submitBtn, this.state.passwordError == null && this.state.emailError == null ? { backgroundColor: '#FF3600' } : { backgroundColor: "#DEDEDE" } ]}
+          style={[
+            styles.submitBtn,
+            this.state.passwordError == null && this.state.emailError == null
+              ? {backgroundColor: '#FF3600'}
+              : {backgroundColor: '#DEDEDE'},
+          ]}
           disabled={
             this.state.passwordError == null && this.state.emailError == null
               ? false

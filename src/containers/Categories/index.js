@@ -1,5 +1,5 @@
-import { connect } from 'react-redux';
-import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import React, {Component} from 'react';
 import {
   Text,
   View,
@@ -12,14 +12,14 @@ import {
   Linking,
   StyleSheet,
   FlatList,
-  ImageBackground
+  ImageBackground,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
-import { Images, Metrics, Fonts } from '../../theme';
+import {Images, Metrics, Fonts} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
-import { request as get_Saloon_Categories } from '../../redux/actions/SaloonCategories';
+import {request as get_Saloon_Categories} from '../../redux/actions/SaloonCategories';
 
 class Categories extends Component {
   constructor(props) {
@@ -57,7 +57,6 @@ class Categories extends Component {
         //   }, 3000);
         // });
         this.setState({isloading: false});
-
       }
     }
   }
@@ -66,9 +65,9 @@ class Categories extends Component {
   };
 
   handleSaloonCategories = () => {
-    const { id } = this.props.route.params;
+    const {id} = this.props.route.params;
     console.log(id, 'ididididididididididid');
-    this.setState({ isLoading: true });
+    this.setState({isLoading: true});
     const payload = {
       companyId: id,
     };
@@ -76,15 +75,15 @@ class Categories extends Component {
   };
 
   _renderOverlaySpinner = () => {
-    const { isloading } = this.state;
+    const {isloading} = this.state;
     return <SpinnerLoader isloading={isloading} />;
   };
 
   renderCategory = (category, index) => {
-    const { id } = this.props.route.params;
+    const {id} = this.props.route.params;
     console.log(id, 'ididididid');
     return (
-      <View >
+      <View>
         <TouchableOpacity
           style={
             category && category._id == category._id
@@ -97,34 +96,40 @@ class Categories extends Component {
               companyId: id,
             })
           }>
-          {category && category.image && category.image &&
-            <View
-              style={styles.servicebox}
-            >
-              <View style = {{width: Metrics.screenWidth * 0.42, alignItems: "center"}}>
-              <Image
-               style = {{ 
-                  marginTop: Metrics.ratio(10),
-                  width: Metrics.ratio(120),
-                  height: Metrics.ratio(100)
-                 }}
-               resizeMethod='auto'
-               resizeMode= "contain"
-               source={{ uri: category.image }}
-              />
+          {
+            category && category.image && category.image && (
+              <View style={styles.servicebox}>
+                <View
+                  style={{
+                    height: Metrics.screenHeight * 0.2,
+                    width: Metrics.screenWidth * 0.42,
+                    alignItems: 'center',
+                  }}>
+                  <Image
+                    style={{
+                      marginTop: Metrics.ratio(10),
+                      width: Metrics.ratio(120),
+                      height: Metrics.ratio(100),
+                    }}
+                    resizeMethod="auto"
+                    resizeMode="contain"
+                    source={{uri: category.image}}
+                  />
+                </View>
+                <View
+                  style={{
+                    marginTop: Metrics.ratio(10),
+                    borderBottomLeftRadius: Metrics.ratio(10),
+                    borderBottomRightRadius: Metrics.ratio(10),
+                    // paddingVertical: Metrics.ratio(10),
+                    overflow: 'hidden',
+                  }}>
+                  <Text numberOfLines={1} style={styles.titleText}>
+                    {category && category.name ? category.name : 'name'}
+                  </Text>
+                </View>
               </View>
-              <View style = {{
-                      marginTop : Metrics.ratio(10),
-                      borderBottomLeftRadius: Metrics.ratio(10),
-                      borderBottomRightRadius:  Metrics.ratio(10),
-                      // paddingVertical: Metrics.ratio(10),
-                      overflow: "hidden"
-              }}>
-                <Text numberOfLines={1} style={styles.titleText}>
-                  {category && category.name ? category.name : 'name'}
-                </Text>
-              </View>
-            </View>
+            )
             // (<ImageBackground
             //       source={Images.select_services}
             //       style={styles.servicebox}
@@ -157,12 +162,11 @@ class Categories extends Component {
             </View>
           </TouchableOpacity> */}
       </View>
-
     );
   };
 
   renderCategoryRow = () => {
-    const { getSelectedCategory } = this.state;
+    const {getSelectedCategory} = this.state;
     if (getSelectedCategory.length == 0) {
       return (
         <View style={styles.textContainer}>
@@ -171,17 +175,18 @@ class Categories extends Component {
       );
     } else {
       return (
-        <View style={{
-          flexDirection: 'row',
-          marginHorizontal: Metrics.screenWidth * 0.06
-        }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginHorizontal: Metrics.screenWidth * 0.06,
+          }}>
           <FlatList
             numColumns={2}
             columnWrapperStyle={{
               justifyContent: 'space-between',
             }}
             data={getSelectedCategory}
-            renderItem={({ item, index }) => this.renderCategory(item, index)}
+            renderItem={({item, index}) => this.renderCategory(item, index)}
           />
         </View>
       );
@@ -189,9 +194,9 @@ class Categories extends Component {
   };
 
   render() {
-    const { getSelectedCategory } = this.state;
+    const {getSelectedCategory} = this.state;
 
-    const { isFetching, failure } = this.props.getSaloonCategories;
+    const {isFetching, failure} = this.props.getSaloonCategories;
     return (
       <View style={styles.container}>
         <Header
@@ -203,9 +208,7 @@ class Categories extends Component {
 
         {isFetching == false && failure == false && (
           <ScrollView>
-            <View>
-              {this.renderCategoryRow()}
-            </View>
+            <View>{this.renderCategoryRow()}</View>
           </ScrollView>
         )}
       </View>
@@ -213,13 +216,13 @@ class Categories extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   // console.log(state, 'sssaaaaaaaaaafffffffffffffffffffsssssssssssss');
   return {
     getSaloonCategories: state.getSaloonCategories,
   };
 };
 
-const action = { get_Saloon_Categories };
+const action = {get_Saloon_Categories};
 
 export default connect(mapStateToProps, action)(Categories);
