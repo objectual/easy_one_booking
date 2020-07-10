@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,11 +12,14 @@ import {
   BackHandler,
 } from 'react-native';
 
-import { Images, Metrics } from '../../theme';
+import {Images, Metrics} from '../../theme';
 
-import { Footer } from './../../components';
+import {Footer} from './../../components';
 
 import Wallet_Icon from 'react-native-vector-icons/dist/SimpleLineIcons';
+
+import AsyncStorage from '@react-native-community/async-storage';
+
 import Booking_Icon from 'react-native-vector-icons/dist/EvilIcons';
 import User_Icon from 'react-native-vector-icons/dist/Feather';
 import Logout_Icon from 'react-native-vector-icons/dist/AntDesign';
@@ -82,17 +85,28 @@ export default class Menu extends Component {
     });
   };
 
+  async removeItemValue(key) {
+    try {
+      await AsyncStorage.removeItem('access_token');
+      await AsyncStorage.removeItem('loginResponce');
+      this.props.navigation.navigate('Login');
+      return true;
+    } catch (exception) {
+      return false;
+    }
+  }
+
   removeAndroidBackButtonHandler = () => {
     BackHandler.removeEventListener('hardwareBackPress', () => {});
   };
 
   onClickListener = (item, viewId) => {
-    console.log(token, ';;;;;;;;;;;;;;;;;;;;')
     item.title == 'Booking History' && token
       ? this.props.navigation.navigate('BookingHistory')
       : null;
     item.title == 'Login' && this.props.navigation.navigate('Login');
     item.title == 'Register' && this.props.navigation.navigate('Register');
+    item.title == 'Logout' && this.removeItemValue();
   };
 
   componentWillUnmount() {
@@ -127,19 +141,18 @@ export default class Menu extends Component {
             style={{
               paddingLeft: Metrics.ratio(20),
             }}>
-            <Text style={{ fontSize: Metrics.ratio(22) }}>Lorem Ispum</Text>
-            <Text style={{ fontSize: Metrics.ratio(17) }}>Lorem Ispum</Text>
+            <Text style={{fontSize: Metrics.ratio(22)}}>Lorem Ispum</Text>
+            <Text style={{fontSize: Metrics.ratio(17)}}>Lorem Ispum</Text>
           </View>
         </View>
       </View>
     );
   };
 
-  renderList = (item, index) => {
-    return (
-      <View style={styles.container}>
-        {
-          // token
+  renderItemList = (item, index) => {
+    if (item.title == 'Logout' && token) {
+      return (
+        <View style={styles.container}>
           <View style={styles.servicebox}>
             <TouchableOpacity onPress={() => this.onClickListener(item, index)}>
               <View
@@ -152,72 +165,50 @@ export default class Menu extends Component {
               </View>
             </TouchableOpacity>
           </View>
-        }
-      </View>
-    );
-  };
-
-  renderItemList = (item, index) => {
-   if(item.title == "Logout" && token){
-    return (
-      <View style={styles.container}>
-        <View style={styles.servicebox}>
-          <TouchableOpacity onPress={() => this.onClickListener(item, index)}>
-            <View
-              style={[
-                styles.navigationInsideContainer,
-                {backgroundColor: this.state.bgColor},
-              ]}>
-              <item.iconUrl name={item.icon} size={30} />
-              <Text style={styles.navigationContainerText}>{item.title}</Text>
-            </View>
-          </TouchableOpacity>
         </View>
-      </View>
-    );
-   }else if ((item.title == "Login" || item.title == "Register") && !token){
-    return (
-      <View style={styles.container}>
-        <View style={styles.servicebox}>
-          <TouchableOpacity onPress={() => this.onClickListener(item, index)}>
-            <View
-              style={[
-                styles.navigationInsideContainer,
-                {backgroundColor: this.state.bgColor},
-              ]}>
-              <item.iconUrl name={item.icon} size={30} />
-              <Text style={styles.navigationContainerText}>{item.title}</Text>
-            </View>
-          </TouchableOpacity>
+      );
+    } else if ((item.title == 'Login' || item.title == 'Register') && !token) {
+      return (
+        <View style={styles.container}>
+          <View style={styles.servicebox}>
+            <TouchableOpacity onPress={() => this.onClickListener(item, index)}>
+              <View
+                style={[
+                  styles.navigationInsideContainer,
+                  {backgroundColor: this.state.bgColor},
+                ]}>
+                <item.iconUrl name={item.icon} size={30} />
+                <Text style={styles.navigationContainerText}>{item.title}</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    );
-   }
-   else if (item.title == "Booking History" || item.title == "Wallet"){
-    return (
-      <View style={styles.container}>
-        <View style={styles.servicebox}>
-          <TouchableOpacity onPress={() => this.onClickListener(item, index)}>
-            <View
-              style={[
-                styles.navigationInsideContainer,
-                { backgroundColor: this.state.bgColor },
-              ]}>
-              <item.iconUrl name={item.icon} size={30} />
-              <Text style={styles.navigationContainerText}>{item.title}</Text>
-            </View>
-          </TouchableOpacity>
+      );
+    } else if (item.title == 'Booking History' || item.title == 'Wallet') {
+      return (
+        <View style={styles.container}>
+          <View style={styles.servicebox}>
+            <TouchableOpacity onPress={() => this.onClickListener(item, index)}>
+              <View
+                style={[
+                  styles.navigationInsideContainer,
+                  {backgroundColor: this.state.bgColor},
+                ]}>
+                <item.iconUrl name={item.icon} size={30} />
+                <Text style={styles.navigationContainerText}>{item.title}</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    );
-   }
+      );
+    }
   };
 
   render() {
     return (
       <Footer navigation={this.props.navigation.navigate} screen={'navbar'}>
         <ScrollView>
-          {this.renderHeader()}
+          {/* {this.renderHeader()} */}
           <View style={styles.formContent}></View>
 
           <FlatList
