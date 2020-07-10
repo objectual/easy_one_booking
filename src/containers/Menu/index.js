@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,16 +11,16 @@ import {
   FlatList,
 } from 'react-native';
 
-import {Images, Metrics} from '../../theme';
+import { Images, Metrics } from '../../theme';
 
-import {Footer} from './../../components';
+import { Footer } from './../../components';
 
 import Wallet_Icon from 'react-native-vector-icons/dist/SimpleLineIcons';
 import Booking_Icon from 'react-native-vector-icons/dist/EvilIcons';
 import User_Icon from 'react-native-vector-icons/dist/Feather';
 import Logout_Icon from 'react-native-vector-icons/dist/AntDesign';
 
-import {token} from '../../config/WebServices';
+import { token } from '../../config/WebServices';
 
 export default class Menu extends Component {
   constructor(props) {
@@ -58,11 +58,14 @@ export default class Menu extends Component {
   }
 
   onClickListener = (item, viewId) => {
+    console.log(token, ';;;;;;;;;;;;;;;;;;;;')
     item.title == 'Booking History' && token
       ? this.props.navigation.navigate('BookingHistory')
-      : this.props.navigation.navigate('Login');
-    item.title == 'Login' && this.props.navigation.navigate('Login');
-    item.title == 'Register' && this.props.navigation.navigate('Register');
+      : null
+    token && item.title == 'Login' && this.props.navigation.navigate('Login');
+    token && item.title == 'Register' && this.props.navigation.navigate('Register');
+    item.title == "Logout" && this.props.navigation.navigate('Login');
+    item.title == "Wallet" && Alert.alert("Message", "Under Development")
   };
 
   renderHeader = () => {
@@ -89,8 +92,8 @@ export default class Menu extends Component {
             style={{
               paddingLeft: Metrics.ratio(20),
             }}>
-            <Text style={{fontSize: Metrics.ratio(22)}}>Lorem Ispum</Text>
-            <Text style={{fontSize: Metrics.ratio(17)}}>Lorem Ispum</Text>
+            <Text style={{ fontSize: Metrics.ratio(22) }}>Lorem Ispum</Text>
+            <Text style={{ fontSize: Metrics.ratio(17) }}>Lorem Ispum</Text>
           </View>
         </View>
       </View>
@@ -105,7 +108,7 @@ export default class Menu extends Component {
             <View
               style={[
                 styles.navigationInsideContainer,
-                {backgroundColor: this.state.bgColor},
+                { backgroundColor: this.state.bgColor },
               ]}>
               <item.iconUrl name={item.icon} size={30} />
               <Text style={styles.navigationContainerText}>{item.title}</Text>
@@ -125,7 +128,7 @@ export default class Menu extends Component {
 
           <FlatList
             data={this.state.dataSource}
-            renderItem={({item, index}) => this.renderList(item, index)}
+            renderItem={({ item, index }) => this.renderList(item, index)}
           />
         </ScrollView>
       </Footer>

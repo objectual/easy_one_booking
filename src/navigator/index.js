@@ -8,8 +8,8 @@ import {
   ImageBackground,
   Image,
 } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -17,7 +17,7 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import Home from './../containers/Home/index';
-import {Images, Metrics, Fonts, Colors} from '../theme';
+import { Images, Metrics, Fonts, Colors } from '../theme';
 import Services from './../containers/Services/index';
 import ChartBox from './../containers/ChartBox/index';
 import BookingHistory from '../containers/BookingHistory/index';
@@ -34,37 +34,37 @@ import SaloonServicesByCategory from './../containers/SaloonServicesByCategory/i
 import Menu from './../containers/Menu';
 import GiveFeedBack from './../containers/GiveFeedBack/index';
 import AsyncStorage from '@react-native-community/async-storage';
-import {token} from '../config/WebServices';
+import { token } from '../config/WebServices';
 import RNRestart from 'react-native-restart';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-function CustomDrawerContent(props) {
-  return (
-    <DrawerContentScrollView {...props}>
-      <DrawerItemList {...props} />
+// function CustomDrawerContent(props) {
+//   return (
+//     <DrawerContentScrollView {...props}>
+//       <DrawerItemList {...props} />
 
-      {token != null && (
-        <DrawerItem
-          label="Logout"
-          onPress={async () => {
-            await AsyncStorage.clear(), RNRestart.Restart();
-          }}
-          style={{marginTop: 20}}
-          icon={({focused}) => (
-            <Image
-              source={Images.costumer_logout}
-              style={[getFocusedTabStyles(focused), styles.drawerIcon]}
-            />
-          )}
-        />
-      )}
-    </DrawerContentScrollView>
-  );
-}
+//       {token != null && (
+//         <DrawerItem
+//           label="Logout"
+//           onPress={async () => {
+//             await AsyncStorage.clear(), RNRestart.Restart();
+//           }}
+//           style={{ marginTop: 20 }}
+//           icon={({ focused }) => (
+//             <Image
+//               source={Images.costumer_logout}
+//               style={[getFocusedTabStyles(focused), styles.drawerIcon]}
+//             />
+//           )}
+//         />
+//       )}
+//     </DrawerContentScrollView>
+//   );
+// }
 
-function homeStack({navigation}) {
+function homeStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -81,7 +81,7 @@ function homeStack({navigation}) {
   );
 }
 
-function menuStack({navigation}) {
+function menuStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -107,7 +107,7 @@ function menuStack({navigation}) {
   );
 }
 
-function serviceStack({navigation}) {
+function serviceStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -133,7 +133,7 @@ function serviceStack({navigation}) {
   );
 }
 
-function chatStack({navigation}) {
+function chatStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -150,7 +150,7 @@ function chatStack({navigation}) {
   );
 }
 
-function drawerSaloonsStack({navigation}) {
+function drawerSaloonsStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -176,7 +176,7 @@ function drawerSaloonsStack({navigation}) {
   );
 }
 
-function categoriesStack({navigation}) {
+function categoriesStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -202,7 +202,7 @@ function categoriesStack({navigation}) {
   );
 }
 
-function saloonStack({navigation}) {
+function saloonStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -228,7 +228,7 @@ function saloonStack({navigation}) {
   );
 }
 
-function employeeStack({navigation}) {
+function employeeStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -253,7 +253,7 @@ function employeeStack({navigation}) {
     </Stack.Navigator>
   );
 }
-function SaloonsStack({navigation}) {
+function SaloonsStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -281,7 +281,7 @@ function SaloonsStack({navigation}) {
 
 // drawerSaloonsStack
 
-function bookingFormStack({navigation}) {
+function bookingFormStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -307,7 +307,7 @@ function bookingFormStack({navigation}) {
   );
 }
 
-function bookingHistoryStack({navigation}) {
+function bookingHistoryStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -333,7 +333,7 @@ function bookingHistoryStack({navigation}) {
   );
 }
 
-function loginStack({navigation}) {
+function loginStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -350,7 +350,7 @@ function loginStack({navigation}) {
   );
 }
 
-function historyStack({navigation}) {
+function historyStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -367,7 +367,7 @@ function historyStack({navigation}) {
   );
 }
 
-function registerStack({navigation}) {
+function registerStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -384,7 +384,7 @@ function registerStack({navigation}) {
   );
 }
 
-function proceedingStack({navigation}) {
+function proceedingStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -410,7 +410,7 @@ function proceedingStack({navigation}) {
   );
 }
 
-function giveFeedBackStack({navigation}) {
+function giveFeedBackStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -438,11 +438,11 @@ function giveFeedBackStack({navigation}) {
 
 function getFocusedTabStyles(focused) {
   if (focused) {
-    return {tintColor: Colors.red};
+    return { tintColor: Colors.red };
   }
 }
 
-function mainStack({navigation}) {
+function mainStack({ navigation }) {
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -459,113 +459,110 @@ function mainStack({navigation}) {
         <Stack.Screen
           name="Home"
           component={homeStack}
-          // options={{
-          //   headerShown: false,
-          //   headerTitleStyle: {
-          //     marginLeft: '30%',
-          //   },
-          // }}
+        // options={{
+        //   headerShown: false,
+        //   headerTitleStyle: {
+        //     marginLeft: '30%',
+        //   },
+        // }}
         />
 
         <Stack.Screen
           name="Saloons"
           component={Saloons}
-          // options={{
-          //   headerShown: false,
-          //   headerTitleStyle: {
-          //     marginLeft: '30%',
-          //   },
-          // }}
+        // options={{
+        //   headerShown: false,
+        //   headerTitleStyle: {
+        //     marginLeft: '30%',
+        //   },
+        // }}
         />
 
         <Stack.Screen
           name="DrawerSaloons"
           component={DrawerSaloons}
-          // options={{
-          //   headerShown: false,
-          //   headerTitleStyle: {
-          //     marginLeft: '30%',
-          //   },
-          // }}
+        // options={{
+        //   headerShown: false,
+        //   headerTitleStyle: {
+        //     marginLeft: '30%',
+        //   },
+        // }}
         />
 
-        {token != null && (
-          <Stack.Screen
-            name="BookingHistory"
-            component={historyStack}
-            options={{
-              headerShown: false,
-              headerTitleStyle: {
-                marginLeft: '30%',
-              },
-            }}
-          />
-          // ) : (
-          //   alert('Please Login')
-        )}
+
+        <Stack.Screen
+          name="BookingHistory"
+          component={historyStack}
+          options={{
+            headerShown: false,
+            headerTitleStyle: {
+              marginLeft: '30%',
+            },
+          }}
+        />
 
         <Stack.Screen
           name="Available Services"
           component={Services}
-          // options={{
-          //   headerShown: false,
-          //   headerTitleStyle: {
-          //     marginLeft: '30%',
-          //   },
-          // }}
+        // options={{
+        //   headerShown: false,
+        //   headerTitleStyle: {
+        //     marginLeft: '30%',
+        //   },
+        // }}
         />
 
         <Stack.Screen
           name="Register"
           component={registerStack}
-          // options={{
-          //   headerShown: false,
-          //   headerTitleStyle: {
-          //     marginLeft: '30%',
-          //   },
-          // }}
+        // options={{
+        //   headerShown: false,
+        //   headerTitleStyle: {
+        //     marginLeft: '30%',
+        //   },
+        // }}
         />
 
         <Stack.Screen
           name="Chatbox"
           component={chatStack}
-          // options={{
-          //   headerShown: false,
-          //   headerTitleStyle: {
-          //     marginLeft: '30%',
-          //   },
-          // }}
+        // options={{
+        //   headerShown: false,
+        //   headerTitleStyle: {
+        //     marginLeft: '30%',
+        //   },
+        // }}
         />
         <Stack.Screen
           name="Login"
           component={loginStack}
-          // options={{
-          //   headerShown: false,
-          //   headerTitleStyle: {
-          //     marginLeft: '30%',
-          //   },
-          // }}
+        // options={{
+        //   headerShown: false,
+        //   headerTitleStyle: {
+        //     marginLeft: '30%',
+        //   },
+        // }}
         />
         <Stack.Screen
           name="Menu"
           component={Menu}
-          // options={{
-          //   headerShown: false,
-          //   headerTitleStyle: {
-          //     marginLeft: '30%',
-          //   },
-          // }}
+        // options={{
+        //   headerShown: false,
+        //   headerTitleStyle: {
+        //     marginLeft: '30%',
+        //   },
+        // }}
         />
 
         <Stack.Screen
           name="Categories"
           component={Categories}
-          // options={{
-          //   headerShown: false,
-          //   headerTitleStyle: {
-          //     marginLeft: '30%',
-          //   },
-          // }}
+        // options={{
+        //   headerShown: false,
+        //   headerTitleStyle: {
+        //     marginLeft: '30%',
+        //   },
+        // }}
         />
         <Stack.Screen
           name="BookingForm"
@@ -581,24 +578,24 @@ function mainStack({navigation}) {
         <Stack.Screen
           name="SaloonEmployee"
           component={SaloonEmployee}
-          // options={{
-          //   headerShown: false,
-          //   headerTitleStyle: {
-          //     marginLeft: '30%',
-          //   },
-          // }}
+        // options={{
+        //   headerShown: false,
+        //   headerTitleStyle: {
+        //     marginLeft: '30%',
+        //   },
+        // }}
         />
         {/* <Stack.Screen name="ServicesPage" component={Services} /> */}
 
         <Stack.Screen
           name="SaloonServicesByCategory"
           component={SaloonServicesByCategory}
-          // options={{
-          //   headerShown: false,
-          //   headerTitleStyle: {
-          //     marginLeft: '30%',
-          //   },
-          // }}
+        // options={{
+        //   headerShown: false,
+        //   headerTitleStyle: {
+        //     marginLeft: '30%',
+        //   },
+        // }}
         />
       </Stack.Navigator>
     </NavigationContainer>
