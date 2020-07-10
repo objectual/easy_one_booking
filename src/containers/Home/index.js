@@ -230,7 +230,7 @@ class Home extends Component {
     console.log('selectCardselectCardselectCard', selectCard);
 
     return (
-      <TouchableOpacity
+      <TouchableWithoutFeedback
         style={
           selectCard && selectCard.saloon._id == salon.saloon._id
             ? styles.showcardradius
@@ -304,7 +304,7 @@ class Home extends Component {
             <Image source={Images.saloon_card} style={styles.cardImage} />
           )} */}
         </View>
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
     );
   };
   renderSaloonCategories = (category) => {

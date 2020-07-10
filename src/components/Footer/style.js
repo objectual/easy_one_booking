@@ -31,7 +31,7 @@ export default StyleSheet.create({
   },
 
   footerContainer: {
-    flex: 0.9,
+    flex: 0.7,
     backgroundColor: Colors.primary,
     borderTopColor: '#E3E5E9',
     borderTopWidth: 2,

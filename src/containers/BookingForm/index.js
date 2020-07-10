@@ -28,8 +28,7 @@ import {
   phoneNumberRegex,
   validate,
 } from '../../services/validation';
-import {initializeToken, token, getUserInfo} from '../../config/WebServices'
-
+import {initializeToken, token, getUserInfo} from '../../config/WebServices';
 
 class BookingForm extends Component {
   constructor(props) {
@@ -213,7 +212,7 @@ class BookingForm extends Component {
     this.props.create_Booking(payload);
   };
 
-  onChangeEmail = async value => {
+  onChangeEmail = async (value) => {
     this.setState({email: value});
     this.setState({
       emailError: await validate(
@@ -223,7 +222,7 @@ class BookingForm extends Component {
       ),
     });
   };
-  onChangename = async value => {
+  onChangename = async (value) => {
     this.setState({name: value});
     this.setState({
       nameError: await validate(
@@ -233,7 +232,7 @@ class BookingForm extends Component {
       ),
     });
   };
-  onChangePhoneNo = async value => {
+  onChangePhoneNo = async (value) => {
     this.setState({phoneNo: value});
     this.setState({
       phoneNoError: await validate(
@@ -243,7 +242,7 @@ class BookingForm extends Component {
       ),
     });
   };
-  onChangePostalCode = async value => {
+  onChangePostalCode = async (value) => {
     this.setState({postalCode: value});
     this.setState({
       postalCodeError: await validate(
@@ -254,7 +253,7 @@ class BookingForm extends Component {
     });
   };
 
-  onSubmit = value => {
+  onSubmit = (value) => {
     if (value === 'onDone') {
       this.checkValidation();
     } else {
@@ -269,43 +268,33 @@ class BookingForm extends Component {
       </View>
     );
   };
-  booKNow = async () =>
-  {
-    if(token == null)
-    {
-      this.props.navigation.navigate('Login')
+  booKNow = async () => {
+    if (token == null) {
+      this.props.navigation.navigate('Login');
     }
-    
-    await this.createPayload()
 
+    await this.createPayload();
+  };
 
-  }
+  createPayload = async () => {
+    const {login} = this.props;
+    const {cart} = this.props;
+    console.log(login.data, 'login.data');
+    let userInfo = JSON.parse(await getUserInfo());
+    console.log(userInfo, 'userInfo');
 
-  createPayload = async () =>
-  {
-    const {login} = this.props
-    const {cart} = this.props
-    console.log(login.data,'login.data')
-    let userInfo = JSON.parse(await getUserInfo())
-    console.log(userInfo,'userInfo')
+    // let services = []
 
-    
-  // let services = []
+    //  for (let i = 0; i < cart.data.length; i++) {
 
-  //  for (let i = 0; i < cart.data.length; i++) {
+    //   payload ={
 
-  //   payload ={
-      
-  //   }
+    //   }
 
-    
-  //    services.push()
-    
-  //  }
-   
-   
+    //    services.push()
 
-  }
+    //  }
+  };
 
   renderSubmitBtn = () => {
     return (
@@ -324,12 +313,6 @@ class BookingForm extends Component {
     const {isFetching, failure} = this.props.createBooking;
     return (
       <View style={styles.container}>
-        <Header
-          headerText={'Booking Form'}
-          leftIcon={Images.pagination_back}
-          leftBtnPress={() => this.props.navigation.goBack()}
-        />
-
         {this.state.showBookedModal && (
           <BookedSuccessModal
             onPress={() => {
@@ -384,11 +367,11 @@ class BookingForm extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     createBooking: state.createBooking,
     login: state.login,
-    cart: state.cart
+    cart: state.cart,
   };
 };
 

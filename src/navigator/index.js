@@ -70,12 +70,10 @@ function homeStack({ navigation }) {
       <Stack.Screen
         name="Home"
         component={Home}
-        options={{
-          title: 'Home',
-          headerTitleStyle: {
-            marginLeft: '40%',
-          },
-        }}
+      // options={{
+      //   title: 'Home',
+      //   headerTitleStyle: {flex: 1, textAlign: 'center'},
+      // }}
       />
     </Stack.Navigator>
   );
@@ -376,7 +374,14 @@ function registerStack({ navigation }) {
         options={{
           title: 'Register',
           headerTitleStyle: {
-            marginLeft: '30%',
+            textAlign: 'center',
+            justifyContent: 'center',
+            // marginLeft: '30%',
+          },
+          header: {
+            style: {
+              textAlign: 'center',
+            },
           },
         }}
       />
@@ -445,49 +450,12 @@ function getFocusedTabStyles(focused) {
 function mainStack({ navigation }) {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        {/* <Stack.Screen
-          name="mainDrawer"
-          component={mainDrawer}
-          // options={{
-          //   headerShown: false,
-          //   headerTitleStyle: {
-          //     marginLeft: '30%',
-          //   },
-          // }}
-        /> */}
-        <Stack.Screen
-          name="Home"
-          component={homeStack}
-        // options={{
-        //   headerShown: false,
-        //   headerTitleStyle: {
-        //     marginLeft: '30%',
-        //   },
-        // }}
-        />
+      <Stack.Navigator screenOptions={{ headerTitleAlign: 'center' }}>
+        <Stack.Screen name="Home" component={homeStack} />
 
-        <Stack.Screen
-          name="Saloons"
-          component={Saloons}
-        // options={{
-        //   headerShown: false,
-        //   headerTitleStyle: {
-        //     marginLeft: '30%',
-        //   },
-        // }}
-        />
+        <Stack.Screen name="Saloons" component={Saloons} />
 
-        <Stack.Screen
-          name="DrawerSaloons"
-          component={DrawerSaloons}
-        // options={{
-        //   headerShown: false,
-        //   headerTitleStyle: {
-        //     marginLeft: '30%',
-        //   },
-        // }}
-        />
+        <Stack.Screen name="DrawerSaloons" component={DrawerSaloons} />
 
 
         <Stack.Screen
@@ -501,101 +469,23 @@ function mainStack({ navigation }) {
           }}
         />
 
-        <Stack.Screen
-          name="Available Services"
-          component={Services}
-        // options={{
-        //   headerShown: false,
-        //   headerTitleStyle: {
-        //     marginLeft: '30%',
-        //   },
-        // }}
-        />
+        <Stack.Screen name="Available Services" component={Services} />
 
-        <Stack.Screen
-          name="Register"
-          component={registerStack}
-        // options={{
-        //   headerShown: false,
-        //   headerTitleStyle: {
-        //     marginLeft: '30%',
-        //   },
-        // }}
-        />
+        <Stack.Screen name="Register" component={registerStack} />
 
-        <Stack.Screen
-          name="Chatbox"
-          component={chatStack}
-        // options={{
-        //   headerShown: false,
-        //   headerTitleStyle: {
-        //     marginLeft: '30%',
-        //   },
-        // }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={loginStack}
-        // options={{
-        //   headerShown: false,
-        //   headerTitleStyle: {
-        //     marginLeft: '30%',
-        //   },
-        // }}
-        />
-        <Stack.Screen
-          name="Menu"
-          component={Menu}
-        // options={{
-        //   headerShown: false,
-        //   headerTitleStyle: {
-        //     marginLeft: '30%',
-        //   },
-        // }}
-        />
+        <Stack.Screen name="Chatbox" component={chatStack} />
+        <Stack.Screen name="Login" component={loginStack} />
+        <Stack.Screen name="Menu" component={Menu} />
 
-        <Stack.Screen
-          name="Categories"
-          component={Categories}
-        // options={{
-        //   headerShown: false,
-        //   headerTitleStyle: {
-        //     marginLeft: '30%',
-        //   },
-        // }}
-        />
-        <Stack.Screen
-          name="BookingForm"
-          // options={{
-          //   headerShown: false,
-          //   headerTitleStyle: {
-          //     marginLeft: '30%',
-          //   },
-          // }}
-          component={BookingForm}
-        />
+        <Stack.Screen name="Categories" component={Categories} />
+        <Stack.Screen name="BookingForm" component={BookingForm} />
 
-        <Stack.Screen
-          name="SaloonEmployee"
-          component={SaloonEmployee}
-        // options={{
-        //   headerShown: false,
-        //   headerTitleStyle: {
-        //     marginLeft: '30%',
-        //   },
-        // }}
-        />
+        <Stack.Screen name="SaloonEmployee" component={SaloonEmployee} />
         {/* <Stack.Screen name="ServicesPage" component={Services} /> */}
 
         <Stack.Screen
           name="SaloonServicesByCategory"
           component={SaloonServicesByCategory}
-        // options={{
-        //   headerShown: false,
-        //   headerTitleStyle: {
-        //     marginLeft: '30%',
-        //   },
-        // }}
         />
       </Stack.Navigator>
     </NavigationContainer>
