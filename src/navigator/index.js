@@ -449,44 +449,44 @@ function mainStack({navigation}) {
         {/* <Stack.Screen
           name="mainDrawer"
           component={mainDrawer}
-          options={{
-            headerShown: false,
-            headerTitleStyle: {
-              marginLeft: '30%',
-            },
-          }}
+          // options={{
+          //   headerShown: false,
+          //   headerTitleStyle: {
+          //     marginLeft: '30%',
+          //   },
+          // }}
         /> */}
         <Stack.Screen
           name="Home"
           component={homeStack}
-          options={{
-            headerShown: false,
-            headerTitleStyle: {
-              marginLeft: '30%',
-            },
-          }}
+          // options={{
+          //   headerShown: false,
+          //   headerTitleStyle: {
+          //     marginLeft: '30%',
+          //   },
+          // }}
         />
 
         <Stack.Screen
           name="Saloons"
           component={Saloons}
-          options={{
-            headerShown: false,
-            headerTitleStyle: {
-              marginLeft: '30%',
-            },
-          }}
+          // options={{
+          //   headerShown: false,
+          //   headerTitleStyle: {
+          //     marginLeft: '30%',
+          //   },
+          // }}
         />
 
         <Stack.Screen
           name="DrawerSaloons"
           component={DrawerSaloons}
-          options={{
-            headerShown: false,
-            headerTitleStyle: {
-              marginLeft: '30%',
-            },
-          }}
+          // options={{
+          //   headerShown: false,
+          //   headerTitleStyle: {
+          //     marginLeft: '30%',
+          //   },
+          // }}
         />
 
         {token != null && (
@@ -507,98 +507,98 @@ function mainStack({navigation}) {
         <Stack.Screen
           name="Available Services"
           component={Services}
-          options={{
-            headerShown: false,
-            headerTitleStyle: {
-              marginLeft: '30%',
-            },
-          }}
+          // options={{
+          //   headerShown: false,
+          //   headerTitleStyle: {
+          //     marginLeft: '30%',
+          //   },
+          // }}
         />
 
         <Stack.Screen
           name="Register"
           component={registerStack}
-          options={{
-            headerShown: false,
-            headerTitleStyle: {
-              marginLeft: '30%',
-            },
-          }}
+          // options={{
+          //   headerShown: false,
+          //   headerTitleStyle: {
+          //     marginLeft: '30%',
+          //   },
+          // }}
         />
 
         <Stack.Screen
           name="Chatbox"
           component={chatStack}
-          options={{
-            headerShown: false,
-            headerTitleStyle: {
-              marginLeft: '30%',
-            },
-          }}
+          // options={{
+          //   headerShown: false,
+          //   headerTitleStyle: {
+          //     marginLeft: '30%',
+          //   },
+          // }}
         />
         <Stack.Screen
           name="Login"
           component={loginStack}
-          options={{
-            headerShown: false,
-            headerTitleStyle: {
-              marginLeft: '30%',
-            },
-          }}
+          // options={{
+          //   headerShown: false,
+          //   headerTitleStyle: {
+          //     marginLeft: '30%',
+          //   },
+          // }}
         />
         <Stack.Screen
           name="Menu"
           component={Menu}
-          options={{
-            headerShown: false,
-            headerTitleStyle: {
-              marginLeft: '30%',
-            },
-          }}
+          // options={{
+          //   headerShown: false,
+          //   headerTitleStyle: {
+          //     marginLeft: '30%',
+          //   },
+          // }}
         />
 
         <Stack.Screen
           name="Categories"
           component={Categories}
-          options={{
-            headerShown: false,
-            headerTitleStyle: {
-              marginLeft: '30%',
-            },
-          }}
+          // options={{
+          //   headerShown: false,
+          //   headerTitleStyle: {
+          //     marginLeft: '30%',
+          //   },
+          // }}
         />
         <Stack.Screen
           name="BookingForm"
-          options={{
-            headerShown: false,
-            headerTitleStyle: {
-              marginLeft: '30%',
-            },
-          }}
+          // options={{
+          //   headerShown: false,
+          //   headerTitleStyle: {
+          //     marginLeft: '30%',
+          //   },
+          // }}
           component={BookingForm}
         />
 
         <Stack.Screen
           name="SaloonEmployee"
           component={SaloonEmployee}
-          options={{
-            headerShown: false,
-            headerTitleStyle: {
-              marginLeft: '30%',
-            },
-          }}
+          // options={{
+          //   headerShown: false,
+          //   headerTitleStyle: {
+          //     marginLeft: '30%',
+          //   },
+          // }}
         />
         {/* <Stack.Screen name="ServicesPage" component={Services} /> */}
 
         <Stack.Screen
           name="SaloonServicesByCategory"
           component={SaloonServicesByCategory}
-          options={{
-            headerShown: false,
-            headerTitleStyle: {
-              marginLeft: '30%',
-            },
-          }}
+          // options={{
+          //   headerShown: false,
+          //   headerTitleStyle: {
+          //     marginLeft: '30%',
+          //   },
+          // }}
         />
       </Stack.Navigator>
     </NavigationContainer>
