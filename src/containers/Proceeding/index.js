@@ -159,12 +159,12 @@ class Proceeding extends Component {
           {this.getCancelRow(index)}
           {this.getRows(
             'Name',
-            `${object.payload.employee.userId.firstName} ${object.payload.employee.userId.lastName}`,
+            `${object.payload?.employee?.userId.firstName} ${object.payload?.employee?.userId.lastName}`,
           )}
-          {this.getRows('Service Name', object.payload.services.name)}
-          {this.getRows('Price', `$${object.payload.services.price}`)}
-          {this.getRows('Date', object.payload.date)}
-          {this.getRows('Time', object.payload.checkIn)}
+          {this.getRows('Service Name', object.payload?.services.name)}
+          {this.getRows('Price', `$${object.payload?.services.price}`)}
+          {this.getRows('Date', object.payload?.date)}
+          {this.getRows('Time', object.payload?.checkIn)}
 
           <View
             style={{

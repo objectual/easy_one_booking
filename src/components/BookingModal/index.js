@@ -17,6 +17,8 @@ import {Dropdown} from 'react-native-material-dropdown';
 import Immutable from 'seamless-immutable';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
+import {token} from './../../config/WebServices';
+
 export default class BookingModal extends Component {
   state = {
     modalVisible: true,
@@ -200,15 +202,23 @@ export default class BookingModal extends Component {
   };
 
   submit = async (object) => {
-    if (this.state.date == 'Select Date Time' || this.state.time == '') {
-      Alert.alert(
-        'Date/Time',
-        'Please select date and time',
-        [{text: 'OK', onPress: () => console.log('OK Pressed')}],
-        {cancelable: false},
-      );
-    }
-    // await this.props.addToCard(object);
+    // if (this.state.date == 'Select Date Time' || this.state.time == '') {
+    //   Alert.alert(
+    //     'Date/Time',
+    //     'Please select date and time',
+    //     [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+    //     {cancelable: false},
+    //   );
+    // } else {
+    //   Alert.alert('Booking Added Successfully');
+    // }
+
+    this.props.addToCard(object);
+    // alert('Sfd');
+    // token
+    //   ?
+    //   : this.props.navigation.navigate('Login');
+    // console.log('objectobjectobjectobjectobject', object);
   };
 
   renderShowCategoryButton = () => {

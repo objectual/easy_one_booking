@@ -277,60 +277,6 @@ function SaloonsStack({navigation}) {
   );
 }
 
-// drawerSaloonsStack
-
-function bookingFormStack({navigation}) {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="BookingForm"
-        component={BookingForm}
-        options={{
-          title: 'Booking Form',
-          headerTitleStyle: {
-            marginLeft: '15%',
-          },
-
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <Image
-                source={Images.costumer_header_menu}
-                style={styles.headerIcon}
-              />
-            </TouchableOpacity>
-          ),
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
-
-function bookingHistoryStack({navigation}) {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="BookingHistory"
-        component={BookingHistory}
-        options={{
-          title: 'Booking History',
-          headerTitleStyle: {
-            marginLeft: '15%',
-          },
-
-          // headerLeft: () => (
-          //   <TouchableOpacity onPress={() => navigation.openDrawer()}>
-          //     <Image
-          //       source={Images.costumer_header_menu}
-          //       style={styles.headerIcon}
-          //     />
-          //   </TouchableOpacity>
-          // ),
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
-
 function loginStack({navigation}) {
   return (
     <Stack.Navigator>
@@ -351,16 +297,7 @@ function loginStack({navigation}) {
 function historyStack({navigation}) {
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="Booking History"
-        component={BookingHistory}
-        options={{
-          title: 'Booking History',
-          headerTitleStyle: {
-            marginLeft: '30%',
-          },
-        }}
-      />
+      <Stack.Screen name="Booking History" component={BookingHistory} />
     </Stack.Navigator>
   );
 }
@@ -453,42 +390,54 @@ function mainStack({navigation}) {
       <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
         <Stack.Screen name="Home" component={homeStack} />
 
-        <Stack.Screen name="Saloons" component={Saloons} />
+        <Stack.Screen
+          name="Saloons"
+          component={Saloons}
+          options={{title: 'Salons'}}
+        />
 
-        <Stack.Screen name="DrawerSaloons" component={DrawerSaloons} />
+        <Stack.Screen
+          name="DrawerSaloons"
+          component={DrawerSaloons}
+          options={{title: 'Drawer Saloon'}}
+        />
 
-        {token != null && (
-          <Stack.Screen
-            name="BookingHistory"
-            component={historyStack}
-            options={{
-              headerShown: false,
-              headerTitleStyle: {
-                marginLeft: '30%',
-              },
-            }}
-          />
-          // ) : (
-          //   alert('Please Login')
-        )}
+        <Stack.Screen
+          name="BookingHistory"
+          component={BookingHistory}
+          options={{title: 'Booking History'}}
+        />
 
         <Stack.Screen name="Available Services" component={Services} />
 
         <Stack.Screen name="Register" component={registerStack} />
 
-        <Stack.Screen name="Chatbox" component={chatStack} />
+        <Stack.Screen
+          name="Chatbox"
+          component={chatStack}
+          options={{title: 'Chat Box'}}
+        />
         <Stack.Screen name="Login" component={loginStack} />
         <Stack.Screen name="Menu" component={Menu} />
 
         <Stack.Screen name="Categories" component={Categories} />
-        <Stack.Screen name="BookingForm" component={BookingForm} />
-
-        <Stack.Screen name="SaloonEmployee" component={SaloonEmployee} />
+        <Stack.Screen
+          name="BookingForm"
+          component={BookingForm}
+          options={{title: 'Booking Form'}}
+        />
+        <Stack.Screen name="Proceeding" component={Proceeding} />
+        <Stack.Screen
+          name="SaloonEmployee"
+          component={SaloonEmployee}
+          options={{title: 'Saloon Employee'}}
+        />
         {/* <Stack.Screen name="ServicesPage" component={Services} /> */}
 
         <Stack.Screen
           name="SaloonServicesByCategory"
           component={SaloonServicesByCategory}
+          options={{title: 'Saloons Service'}}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -20,12 +20,14 @@ import {Images, Metrics, Fonts, Colors} from '../../theme';
 
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Cards from '../..//components/Card';
+import {Footer} from '../../components';
 import {Icon} from 'react-native-vector-icons/MaterialIcons';
 import {request as get_Saloon} from '../../redux/actions/GetSaloon';
 import Geolocation from '@react-native-community/geolocation';
 // import {request as ge} from '../../redux/actions/GetCategories';
 import {Dropdown} from 'react-native-material-dropdown';
 import Immutable from 'seamless-immutable';
+
 import {request as get_Saloon_By_Category} from '../../redux/actions/GetSaloonByCategory';
 import {request as get_Saloon_By_Category_NearBy} from '../../redux/actions/GetSaloonNearBy';
 import {
@@ -505,7 +507,7 @@ class DrawerSaloons extends Component {
     // const getSaloonNearBy = this.props.getSaloonNearBy;
 
     return (
-      <View style={styles.container}>
+      <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
         <ScrollView>
           <View style={{marginHorizontal: Metrics.ratio(15)}}>
             {this.renderTextInputWithLableRow(
@@ -780,7 +782,7 @@ class DrawerSaloons extends Component {
             }}
           />
         </ScrollView>
-      </View>
+      </Footer>
     );
   }
 }

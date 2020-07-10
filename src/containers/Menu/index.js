@@ -9,6 +9,7 @@ import {
   ScrollView,
   TextInput,
   FlatList,
+  BackHandler,
 } from 'react-native';
 
 import {Images, Metrics} from '../../theme';
@@ -20,7 +21,7 @@ import Booking_Icon from 'react-native-vector-icons/dist/EvilIcons';
 import User_Icon from 'react-native-vector-icons/dist/Feather';
 import Logout_Icon from 'react-native-vector-icons/dist/AntDesign';
 
-import {token} from '../../config/WebServices';
+import {token} from './../../config/WebServices';
 
 export default class Menu extends Component {
   constructor(props) {
@@ -54,16 +55,52 @@ export default class Menu extends Component {
           title: 'Logout',
         },
       ],
+      list: [
+        {
+          iconUrl: User_Icon,
+          icon: 'user-plus',
+          title: 'Register',
+        },
+        {
+          iconUrl: User_Icon,
+          icon: 'user-minus',
+          title: 'Login',
+        },
+        {
+          iconUrl: Logout_Icon,
+          icon: 'logout',
+          title: 'Logout',
+        },
+      ],
     };
   }
+
+  handleAndroidBackButton = (callback) => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      callback;
+      return true;
+    });
+  };
+
+  removeAndroidBackButtonHandler = () => {
+    BackHandler.removeEventListener('hardwareBackPress', () => {});
+  };
 
   onClickListener = (item, viewId) => {
     item.title == 'Booking History' && token
       ? this.props.navigation.navigate('BookingHistory')
-      : this.props.navigation.navigate('Login');
+      : null;
     item.title == 'Login' && this.props.navigation.navigate('Login');
     item.title == 'Register' && this.props.navigation.navigate('Register');
   };
+
+  componentWillUnmount() {
+    this.removeAndroidBackButtonHandler();
+  }
+
+  // componentDidMount() {
+  //   this.handleAndroidBackButton(this.props.navigation.goBack());
+  // }
 
   renderHeader = () => {
     return (
@@ -100,6 +137,29 @@ export default class Menu extends Component {
   renderList = (item, index) => {
     return (
       <View style={styles.container}>
+        {
+          // token
+          <View style={styles.servicebox}>
+            <TouchableOpacity onPress={() => this.onClickListener(item, index)}>
+              <View
+                style={[
+                  styles.navigationInsideContainer,
+                  {backgroundColor: this.state.bgColor},
+                ]}>
+                <item.iconUrl name={item.icon} size={30} />
+                <Text style={styles.navigationContainerText}>{item.title}</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        }
+      </View>
+    );
+  };
+
+  renderItemList = (item, index) => {
+   if(item.title == "Logout" && token){
+    return (
+      <View style={styles.container}>
         <View style={styles.servicebox}>
           <TouchableOpacity onPress={() => this.onClickListener(item, index)}>
             <View
@@ -114,6 +174,42 @@ export default class Menu extends Component {
         </View>
       </View>
     );
+   }else if ((item.title == "Login" || item.title == "Register") && !token){
+    return (
+      <View style={styles.container}>
+        <View style={styles.servicebox}>
+          <TouchableOpacity onPress={() => this.onClickListener(item, index)}>
+            <View
+              style={[
+                styles.navigationInsideContainer,
+                {backgroundColor: this.state.bgColor},
+              ]}>
+              <item.iconUrl name={item.icon} size={30} />
+              <Text style={styles.navigationContainerText}>{item.title}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+   }
+   else if (item.title == "Booking History" || item.title == "Wallet"){
+    return (
+      <View style={styles.container}>
+        <View style={styles.servicebox}>
+          <TouchableOpacity onPress={() => this.onClickListener(item, index)}>
+            <View
+              style={[
+                styles.navigationInsideContainer,
+                {backgroundColor: this.state.bgColor},
+              ]}>
+              <item.iconUrl name={item.icon} size={30} />
+              <Text style={styles.navigationContainerText}>{item.title}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+   }
   };
 
   render() {
@@ -125,8 +221,12 @@ export default class Menu extends Component {
 
           <FlatList
             data={this.state.dataSource}
-            renderItem={({item, index}) => this.renderList(item, index)}
+            renderItem={({item, index}) => this.renderItemList(item, index)}
           />
+          {/* <FlatList
+            data={this.state.list}
+            renderItem={({item, index}) => this.renderItemList(item, index)}
+          /> */}
         </ScrollView>
       </Footer>
     );

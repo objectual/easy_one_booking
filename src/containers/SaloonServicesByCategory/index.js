@@ -123,17 +123,16 @@ class SaloonServicesByCategory extends Component {
 
     return (
       <View style={[styles.servicebox, {flexDirection: 'row'}]}>
-        {
-          services && services.image && services.image && (
-            <Image
-              resizeMethod="auto"
-              resizeMode="contain"
-              source={{uri: services.image}}
-              style={styles.servicesImage}
-            />
-          )
-          // <Image source={image} style={styles.servicesImage} />
-        }
+        {services && services.image && services.image ? (
+          <Image
+            resizeMethod="auto"
+            resizeMode="contain"
+            source={{uri: services.image}}
+            style={styles.servicesImage}
+          />
+        ) : (
+          <Image source={Images.human} style={styles.servicesImage} />
+        )}
         <View
           style={{flexDirection: 'row', marginHorizontal: Metrics.ratio(5)}}>
           <View style={styles.containertext}>
