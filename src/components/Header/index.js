@@ -58,7 +58,7 @@ class Header extends Component {
           style={{...styles.TouchableMenu}}
           onPress={leftBtnPress}>
           <Image
-            source={leftIcon}
+            // source={leftIcon}
             style={{
               width: Metrics.ratio(25),
               height: Metrics.ratio(25),

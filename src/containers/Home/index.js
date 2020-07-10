@@ -12,14 +12,16 @@ import {
   Linking,
   FlatList,
   StyleSheet,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
-import {Images, Metrics, Fonts,Colors} from '../../theme';
+import {Images, Metrics, Fonts, Colors} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
 import Rating from './../../components/Rating/index';
+import {Footer} from './../../components';
+
 // import Icon from 'react-native-vector-icons/MaterialIcons';
 import {request as get_Saloon} from '../../redux/actions/GetSaloon';
 import {request as Get_Categories} from '../../redux/actions/GetCategories';
@@ -76,12 +78,11 @@ class Home extends Component {
   }
 
   componentDidMount = () => {
-
     this.didFocusListener = this.props.navigation.addListener('focus', () => {
       this.getLocationHandler();
       this.getCategoriesApi();
     });
-    
+
     this.getLocationHandler();
     this.getCategoriesApi();
   };
@@ -103,10 +104,7 @@ class Home extends Component {
         nextProps.getSaloon.data.success
       ) {
         this.setState({GetSaloonData: nextProps.getSaloon.data.data});
-        // console.log(
-        //   nextProps.getSaloon.data.data,
-        //   'GetSaloonDataGetSaloonDataGetSaloonDataGetSaloonData',
-        // );
+        
       } else if (
         !nextProps.getSaloon.failure &&
         !nextProps.getSaloon.isFetching &&
@@ -114,6 +112,7 @@ class Home extends Component {
         !nextProps.getSaloon.data.success
       ) {
         this.setState({isloading: false}, () => {
+          console.log(nextProps.getSaloon,'/////////////////ppppppp')
           setTimeout(() => {
             Alert.alert('Error', nextProps.getSaloon.data.msg);
           }, 3000);
@@ -122,6 +121,10 @@ class Home extends Component {
     }
 
     if (nextProps.getCategories) {
+      console.log(
+        nextProps.getCategories   ,
+        'getCategoriesgetCategoriesgetCategoriesgetCategoriesgetCategories',
+      );
       if (
         !nextProps.getCategories.failure &&
         !nextProps.getCategories.isFetching &&
@@ -129,10 +132,7 @@ class Home extends Component {
         nextProps.getCategories.data.success
       ) {
         this.setState({GetSaloonCategories: nextProps.getCategories.data.data});
-        // console.log(
-        //   nextProps.getCategories.data.data,
-        //   'getCategoriesgetCategoriesgetCategoriesgetCategoriesgetCategories',
-        // );
+       
       } else if (
         !nextProps.getCategories.failure &&
         !nextProps.getCategories.isFetching &&
@@ -149,9 +149,7 @@ class Home extends Component {
   }
   _renderOverlaySpinner = () => {
     const {isloading} = this.state;
-    return  <ActivityIndicator size="large" color={Colors.violetBlue} />
-
-
+    return <ActivityIndicator size="large" color={Colors.violetBlue} />;
   };
 
   renderScreenHeadImg = () => {
@@ -234,7 +232,7 @@ class Home extends Component {
   getLocationHandler = () => {
     this.setState({isLoading: true});
     Geolocation.getCurrentPosition(
-      pos => {
+      (pos) => {
         this.setState(
           {
             longitude: pos.coords.longitude,
@@ -246,7 +244,7 @@ class Home extends Component {
         console.log('latitude: ', pos.coords.longitude);
         console.log('longitude: ', pos.coords.latitude);
       },
-      error => this.setState({error: error.message}),
+      (error) => this.setState({error: error.message}),
       {enableHighAccuracy: false, timeout: 5000, maximumAge: 10000},
     );
   };
@@ -256,14 +254,13 @@ class Home extends Component {
     const payload = {
       longitude,
       latitude,
-      radius,
     };
     this.props.get_Saloon(payload);
   };
 
-  renderSaloonCard = salon => {
+  renderSaloonCard = (salon) => {
     const {selectCard} = this.state;
-    // console.log(salon,'llllllllllllll')
+    console.log(salon,'llllllllllllll')
     return (
       <TouchableOpacity
         style={
@@ -276,11 +273,11 @@ class Home extends Component {
         }>
         <View style={styles.cardradius}>
           {salon &&
-          salon.template &&
-          salon.template.coverImage &&
-          salon.template.coverImage.url ? (
+          salon.templateID &&
+          salon.templateID.coverImage &&
+          salon.templateID.coverImage.url ? (
             <Image
-              source={{uri: salon.template.coverImage.url}}
+              source={{uri: salon.templateID.coverImage.url}}
               style={styles.cardImage}
             />
           ) : (
@@ -288,7 +285,7 @@ class Home extends Component {
           )}
           <View>
             <Text numberOfLines={1} style={styles.titleText}>
-              {salon && salon.saloon && salon.saloon.name}
+              {salon && salon.name && salon.name}
             </Text>
             <Rating totalRating={'(2.2k)'} Default_Rating={5} disabled={true} />
           </View>
@@ -296,7 +293,7 @@ class Home extends Component {
       </TouchableOpacity>
     );
   };
-  renderSaloonCategories = category => {
+  renderSaloonCategories = (category) => {
     const {selectSaloon} = this.state;
     return (
       <TouchableOpacity
@@ -325,61 +322,61 @@ class Home extends Component {
   };
   renderSaloonCategoriesCard = () => {
     const {GetSaloonCategories} = this.state;
-    const {isFetching, failure} = this.props.getCategories
-
+    const {isFetching, failure} = this.props.getCategories;
 
     return (
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-      
         <View
           style={[styles.containerForRow, {marginBottom: Metrics.ratio(30)}]}>
-          <View style={{flexDirection: 'row', justifyContent:'center', alignItems:"center"}}>
-
-          {isFetching == false && failure == false ?
-
-            <FlatList
-              horizontal
-              data={GetSaloonCategories}
-              renderItem={({item, index}) =>
-                this.renderSaloonCategories(item, index)
-              }
-              // keyExtractor={item => item.id}
-              // extraData={selected}
-            />
-
-          :
-            
-            this._renderOverlaySpinner()
-
-        }
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            {isFetching == false && failure == false ? (
+              <FlatList
+                horizontal
+                data={GetSaloonCategories}
+                renderItem={({item, index}) =>
+                  this.renderSaloonCategories(item, index)
+                }
+                // keyExtractor={item => item.id}
+                // extraData={selected}
+              />
+            ) : (
+              this._renderOverlaySpinner()
+            )}
           </View>
         </View>
-      
       </ScrollView>
     );
   };
   renderTopRatedSaloonCard = () => {
     const {GetSaloonData} = this.state;
-    const {isFetching, failure} = this.props.getSaloon
+    const {isFetching, failure} = this.props.getSaloon;
 
     return (
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         <View
           style={[styles.containerForRow, {marginBottom: Metrics.ratio(30)}]}>
-          <View style={{ flexDirection: 'row', justifyContent:'center', alignItems:"center" }}>
-          {isFetching == false && failure == false ?
-
-            <FlatList
-              horizontal
-              data={GetSaloonData}
-              renderItem={({item, index}) => this.renderSaloonCard(item, index)}
-            />
-            
-            :
-            
-            this._renderOverlaySpinner()
-
-          }
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            {isFetching == false && failure == false ? (
+              <FlatList
+                horizontal
+                data={GetSaloonData}
+                renderItem={({item, index}) =>
+                  this.renderSaloonCard(item, index)
+                }
+              />
+            ) : (
+              this._renderOverlaySpinner()
+            )}
           </View>
         </View>
       </ScrollView>
@@ -431,7 +428,9 @@ class Home extends Component {
     const {showdescription, GetSaloonData, GetSaloonCategories} = this.state;
 
     return (
-      <View style={styles.container}>
+      <Footer navigation={this.props.navigation.navigate} screen={"home"}>
+        {/* // <View style={styles.container}>
+         */}
         <ScrollView>
           {this.renderScreenHeadImg()}
           {this.renderHeading()}
@@ -441,12 +440,13 @@ class Home extends Component {
           {this.renderTopRatedSaloonCard()}
           {showdescription ? this.renderDescription() : null}
         </ScrollView>
-      </View>
+        {/* </View> */}
+      </Footer>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     getSaloon: state.getSaloon,
     getCategories: state.getCategories,

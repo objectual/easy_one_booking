@@ -19,6 +19,7 @@ import {Images, Metrics, Fonts} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
 import {request as get_Saloon_By_Category} from '../../redux/actions/GetSaloonByCategory';
+import {Footer} from './../../components';
 
 class Saloons extends Component {
   constructor(props) {
@@ -28,42 +29,42 @@ class Saloons extends Component {
     };
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.getSaloonByCategory) {
-      if (
-        //   !nextProps.getSaloonByCategory.failure &&
-        //   !nextProps.getSaloonByCategory.isFetching &&
-        nextProps.getSaloonByCategory.data
-        // nextProps.getSaloonByCategory.data.success
-      ) {
-        this.setState({
-          getSelectedSaloon: nextProps.getSaloonByCategory.data.data,
-        });
-        console.log(
-          nextProps.getSaloonByCategory.data.data,
-          'getSaloonByCategoryDatagetSaloonByCategoryDatagetSaloonByCategoryDatagetSaloonByCategoryData',
-        );
-      } else if (
-        !nextProps.getSaloonByCategory.failure &&
-        !nextProps.getSaloonByCategory.isFetching &&
-        nextProps.getSaloonByCategory.data &&
-        !nextProps.getSaloonByCategory.data.success
-      ) {
-        this.setState({isloading: false}, () => {
-          setTimeout(() => {
-            Alert.alert('Error', nextProps.getSaloonByCategory.data.msg);
-          }, 3000);
-        });
-      }
-    }
-  }
+  // UNSAFE_componentWillReceiveProps(nextProps) {
+  //   if (nextProps.getSaloonByCategory) {
+  //     if (
+  //       //   !nextProps.getSaloonByCategory.failure &&
+  //       //   !nextProps.getSaloonByCategory.isFetching &&
+  //       nextProps.getSaloonByCategory.data
+  //       // nextProps.getSaloonByCategory.data.success
+  //     ) {
+  //       this.setState({
+  //         getSelectedSaloon: nextProps.getSaloonByCategory.data.data,
+  //       });
+  //       console.log(
+  //         nextProps.getSaloonByCategory.data.data,
+  //         'getSaloonByCategoryDatagetSaloonByCategoryDatagetSaloonByCategoryDatagetSaloonByCategoryData',
+  //       );
+  //     } else if (
+  //       !nextProps.getSaloonByCategory.failure &&
+  //       !nextProps.getSaloonByCategory.isFetching &&
+  //       nextProps.getSaloonByCategory.data &&
+  //       !nextProps.getSaloonByCategory.data.success
+  //     ) {
+  //       this.setState({isloading: false}, () => {
+  //         setTimeout(() => {
+  //           Alert.alert('Error', nextProps.getSaloonByCategory.data.msg);
+  //         }, 3000);
+  //       });
+  //     }
+  //   }
+  // }
 
   _renderOverlaySpinner = () => {
     const {isloading} = this.state;
     return <SpinnerLoader isloading={isloading} />;
   };
   componentDidMount = () => {
-    this.handleGetSaloonByCategory();
+    // this.handleGetSaloonByCategory();
   };
 
   handleGetSaloonByCategory = () => {
@@ -81,11 +82,14 @@ class Saloons extends Component {
     const {id} = this.props.route.params;
 
     return (
-      <TouchableOpacity 
-      onPress={() =>
-        this.props.navigation.navigate('SaloonServicesByCategory', {categoryId:id, companyId:saloons._id})
-      }
-      style={styles.containerForRow}>
+      <TouchableOpacity
+        onPress={() =>
+          this.props.navigation.navigate('SaloonServicesByCategory', {
+            categoryId: id,
+            companyId: saloons._id,
+          })
+        }
+        style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
           <View style={{width: Metrics.screenWidth * 0.3}}>
             {saloons && saloons.image ? (
@@ -157,7 +161,7 @@ class Saloons extends Component {
     const {getSelectedSaloon} = this.state;
     const {isFetching, failure} = this.props.getSaloonByCategory;
     return (
-      <View style={styles.container}>
+      <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
         <Header
           headerText={'Saloons'}
           leftIcon={Images.pagination_back}
@@ -170,12 +174,12 @@ class Saloons extends Component {
             <View>{this.renderRow()}</View>
           </ScrollView>
         )}
-      </View>
+      </Footer>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   getSaloonByCategory: state.getSaloonByCategory,
 });
 

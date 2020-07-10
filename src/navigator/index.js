@@ -30,8 +30,7 @@ import SaloonEmployee from './../containers/SaloonEmployee/index';
 import styles from './styles';
 import DrawerSaloons from './../containers/DrawerSaloons/index';
 import SaloonServicesByCategory from './../containers/SaloonServicesByCategory/index';
-
-
+import Menu from './../containers/Menu';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -63,6 +62,23 @@ function homeStack({navigation}) {
         component={Home}
         options={{
           title: 'Home',
+          headerTitleStyle: {
+            marginLeft: '40%',
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function menuStack({navigation}) {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Menu"
+        component={Menu}
+        options={{
+          title: 'Menu',
           headerTitleStyle: {
             marginLeft: '30%',
           },
@@ -116,17 +132,17 @@ function chatStack({navigation}) {
         options={{
           title: 'Live Chat',
           headerTitleStyle: {
-            marginLeft: '30%',
+            marginLeft: '40%',
           },
 
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <Image
-                source={Images.costumer_header_menu}
-                style={styles.headerIcon}
-              />
-            </TouchableOpacity>
-          ),
+          // headerLeft: () => (
+          //   <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          //     <Image
+          //       source={Images.costumer_header_menu}
+          //       style={styles.headerIcon}
+          //     />
+          //   </TouchableOpacity>
+          // ),
         }}
       />
     </Stack.Navigator>
@@ -334,8 +350,8 @@ function mainDrawer() {
         activeBackgroundColor: Colors.red,
       }}
       drawerType={'slide'}
-      drawerContent={props => <CustomDrawerContent {...props} />}>
-      <Drawer.Screen
+      drawerContent={(props) => <CustomDrawerContent {...props} />}>
+      {/* <Drawer.Screen
         name="Home"
         component={homeStack}
         options={{
@@ -346,9 +362,9 @@ function mainDrawer() {
             />
           ),
         }}
-      />
-   
-      <Drawer.Screen
+      /> */}
+
+      {/* <Drawer.Screen
         name="Chatbox"
         component={chatStack}
         options={{
@@ -359,7 +375,20 @@ function mainDrawer() {
             />
           ),
         }}
-      />
+      /> */}
+
+      {/* <Drawer.Screen
+        name="Menu"
+        component={menuStack}
+        options={{
+          drawerIcon: ({focused}) => (
+            <Image
+              source={Images.costumer_chart_box}
+              style={[getFocusedTabStyles(focused), styles.drawerIcon]}
+            />
+          ),
+        }}
+      /> */}
       <Drawer.Screen
         name="DrawerSaloon"
         component={drawerSaloonsStack}
@@ -476,7 +505,7 @@ function mainStack({navigation}) {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
+        {/* <Stack.Screen
           name="mainDrawer"
           component={mainDrawer}
           options={{
@@ -485,10 +514,73 @@ function mainStack({navigation}) {
               marginLeft: '30%',
             },
           }}
+        /> */}
+        <Stack.Screen
+          name="Home"
+          component={homeStack}
+          options={{
+            headerShown: false,
+            headerTitleStyle: {
+              marginLeft: '30%',
+            },
+          }}
         />
+
         <Stack.Screen
           name="Saloons"
           component={Saloons}
+          options={{
+            headerShown: false,
+            headerTitleStyle: {
+              marginLeft: '30%',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Available Services"
+          component={availableServicesStack}
+          options={{
+            headerShown: false,
+            headerTitleStyle: {
+              marginLeft: '30%',
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name="Register"
+          component={registerStack}
+          options={{
+            headerShown: false,
+            headerTitleStyle: {
+              marginLeft: '30%',
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name="Chatbox"
+          component={chatStack}
+          options={{
+            headerShown: false,
+            headerTitleStyle: {
+              marginLeft: '30%',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={loginStack}
+          options={{
+            headerShown: false,
+            headerTitleStyle: {
+              marginLeft: '30%',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Menu"
+          component={Menu}
           options={{
             headerShown: false,
             headerTitleStyle: {
@@ -528,8 +620,7 @@ function mainStack({navigation}) {
               marginLeft: '30%',
             },
           }}
-        /> 
-
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

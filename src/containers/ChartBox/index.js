@@ -17,6 +17,7 @@ import styles from './styles';
 import {Images, Metrics, Fonts} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
+import {Footer} from './../../components';
 
 class ChartBox extends Component {
   constructor(props) {
@@ -29,17 +30,15 @@ class ChartBox extends Component {
     return <SpinnerLoader isloading={isloading} />;
   };
 
-  
   render() {
     return (
-      <View style={styles.container}>
-      
+      // <View style={styles.container}>
+      <Footer navigation={this.props.navigation.navigate} screen={'chat'}>
         <ScrollView>
-          <View>
-            {/* {this.renderRow()} */}
-          </View>
+          <View>{/* {this.renderRow()} */}</View>
         </ScrollView>
-      </View>
+        {/* // </View> */}
+      </Footer>
     );
   }
 }
