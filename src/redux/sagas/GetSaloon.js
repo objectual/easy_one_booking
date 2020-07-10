@@ -1,23 +1,22 @@
-import { take, put, call, fork } from "redux-saga/effects";
+import {take, put, call, fork} from 'redux-saga/effects';
 
-import ApiSauce from "../../services/apiSauce";
-import { get_Saloon_Api } from "../../config/WebServices";
-import * as types from "../actions/ActionTypes";
+import ApiSauce from '../../services/apiSauce';
+import {get_Saloon_Api} from '../../config/WebServices';
+import * as types from '../actions/ActionTypes';
 
-import { success, failure } from "../actions/GetSaloon";
+import {success, failure} from '../actions/GetSaloon';
 
-import { ErrorHelper } from "../../helpers";
+import {ErrorHelper} from '../../helpers';
 
 function callRequest(data) {
   // const access_token = data.access_token;
   // delete data.access_token;
   // return ApiSauce.postWithToken(get_Saloon_Api, data, access_token);
   return ApiSauce.get(get_Saloon_Api, {});
-
 }
 function* watchRequest() {
   while (true) {
-    const { payload } = yield take(types.GET_SALOON.REQUEST);
+    const {payload} = yield take(types.GET_SALOON.REQUEST);
     // const { targetView } = payload;
     // delete payload.targetView;
     try {
@@ -39,9 +38,6 @@ function* watchRequest() {
     }
   }
 }
-
-
-
 
 export default function* root() {
   yield fork(watchRequest);

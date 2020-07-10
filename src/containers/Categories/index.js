@@ -199,11 +199,6 @@ class Categories extends Component {
     const {isFetching, failure} = this.props.getSaloonCategories;
     return (
       <View style={styles.container}>
-        <Header
-          headerText={'Categories'}
-          leftIcon={Images.pagination_back}
-          leftBtnPress={() => this.props.navigation.goBack()}
-        />
         {<SpinnerLoader isloading={isFetching} />}
 
         {isFetching == false && failure == false && (

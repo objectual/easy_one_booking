@@ -107,11 +107,6 @@ class GiveFeedBack extends Component {
     const {isFetching, failure} = this.props.getSaloonCategories;
     return (
       <View style={styles.container}>
-        <Header
-          headerText={'Feed Back'}
-          leftIcon={Images.pagination_back}
-          leftBtnPress={() => this.props.navigation.goBack()}
-        />
         {<SpinnerLoader isloading={isFetching} />}
 
         {isFetching == false && failure == false && (
@@ -131,7 +126,7 @@ class GiveFeedBack extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     getSaloonCategories: state.getSaloonCategories,
   };

@@ -304,11 +304,6 @@ class Proceeding extends Component {
     console.log(cart, 'cartarray');
     return (
       <View style={styles.container}>
-        <Header
-          headerText={'Proceeding'}
-          leftIcon={Images.pagination_back}
-          leftBtnPress={() => this.props.navigation.goBack()}
-        />
         {createBooking.isFetching && <SpinnerLoader isloading={true} />}
 
         {createBooking.success && (

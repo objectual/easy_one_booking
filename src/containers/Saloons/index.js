@@ -152,11 +152,6 @@ class Saloons extends Component {
     const {isFetching, failure} = this.props.getSaloonByCategory;
     return (
       <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
-        <Header
-          headerText={'Salon'}
-          leftIcon={Images.pagination_back}
-          leftBtnPress={() => this.props.navigation.goBack()}
-        />
         {<SpinnerLoader isloading={isFetching} />}
 
         {isFetching == false && failure == false && (

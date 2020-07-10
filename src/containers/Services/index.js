@@ -251,11 +251,6 @@ class Services extends Component {
     const {getSelectedServices} = this.state;
     return (
       <Footer navigation={this.props.navigation.navigate} screen={'services'}>
-        <Header
-          headerText={'Services'}
-          leftIcon={Images.pagination_back}
-          leftBtnPress={() => this.props.navigation.goBack()}
-        />
         <ScrollView>
           <View>
             {getSelectedServices &&
