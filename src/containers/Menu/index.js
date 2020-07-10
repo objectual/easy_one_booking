@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,9 +12,9 @@ import {
   BackHandler,
 } from 'react-native';
 
-import {Images, Metrics} from '../../theme';
+import { Images, Metrics } from '../../theme';
 
-import {Footer} from './../../components';
+import { Footer } from './../../components';
 
 import Wallet_Icon from 'react-native-vector-icons/dist/SimpleLineIcons';
 import Booking_Icon from 'react-native-vector-icons/dist/EvilIcons';
@@ -87,6 +87,7 @@ export default class Menu extends Component {
   };
 
   onClickListener = (item, viewId) => {
+    console.log(token, ';;;;;;;;;;;;;;;;;;;;')
     item.title == 'Booking History' && token
       ? this.props.navigation.navigate('BookingHistory')
       : null;
@@ -126,8 +127,8 @@ export default class Menu extends Component {
             style={{
               paddingLeft: Metrics.ratio(20),
             }}>
-            <Text style={{fontSize: Metrics.ratio(22)}}>Lorem Ispum</Text>
-            <Text style={{fontSize: Metrics.ratio(17)}}>Lorem Ispum</Text>
+            <Text style={{ fontSize: Metrics.ratio(22) }}>Lorem Ispum</Text>
+            <Text style={{ fontSize: Metrics.ratio(17) }}>Lorem Ispum</Text>
           </View>
         </View>
       </View>
@@ -200,7 +201,7 @@ export default class Menu extends Component {
             <View
               style={[
                 styles.navigationInsideContainer,
-                {backgroundColor: this.state.bgColor},
+                { backgroundColor: this.state.bgColor },
               ]}>
               <item.iconUrl name={item.icon} size={30} />
               <Text style={styles.navigationContainerText}>{item.title}</Text>
