@@ -18,16 +18,72 @@ import {Images, Metrics, Fonts} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
 import {Footer} from './../../components';
+import CustomTextInput from '../../components/CustomTextInput';
 
 class ChartBox extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      text: '',
+    };
   }
+  onChangeText = value => this.setState({text: value});
 
   _renderOverlaySpinner = () => {
     const {isloading} = this.state;
     return <SpinnerLoader isloading={isloading} />;
+  };
+  renderSender = () => {
+    return (
+      <View style={styles.containerForRow}>
+        <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+          <View>
+            <Image
+              source={Images.select_services}
+              style={styles.servicesImagesender}
+            />
+          </View>
+          <View style={styles.serviceboxsender}>
+            <Text style={styles.textmiddlesender}>
+              
+            </Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
+  renderReciver = () => {
+    return (
+      <View style={styles.containerForRow}>
+        <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+          <View style={styles.serviceboxreciver}>
+            <Text style={styles.textmiddlereciver}>
+            </Text>
+          </View>
+          <View>
+            <Image
+              source={Images.select_services}
+              style={styles.servicesImagereciver}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  renderSend = () => {
+    const {text} = this.state;
+    return (
+      <View style={[styles.containerForRow, {marginTop: Metrics.ratio(30)}]}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Image source={Images.select_services} style={styles.camera} />
+          <View style={{width: Metrics.screenWidth * 0.66}}></View>
+          <View>
+            <Image source={Images.select_services} style={styles.camera} />
+          </View>
+        </View>
+      </View>
+    );
   };
 
   render() {
@@ -43,7 +99,7 @@ class ChartBox extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = state => ({});
 
 const action = {};
 

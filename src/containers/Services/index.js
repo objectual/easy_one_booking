@@ -60,14 +60,16 @@ class Services extends Component {
         nextProps.getSaloonServicesByCategory.data.data &&
         !nextProps.getSaloonServicesByCategory.data.success
       ) {
-        this.setState({isloading: false}, () => {
-          setTimeout(() => {
-            Alert.alert(
-              'Error',
-              nextProps.getSaloonServicesByCategory.data.msg,
-            );
-          }, 3000);
-        });
+        // this.setState({isloading: false}, () => {
+        //   setTimeout(() => {
+        //     Alert.alert(
+        //       'Error',
+        //       nextProps.getSaloonServicesByCategory.data.msg,
+        //     );
+        //   }, 3000);
+        // });
+        this.setState({isloading: false});
+
       }
     }
   }
@@ -152,14 +154,13 @@ class Services extends Component {
       <View style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
           <View style={{width: Metrics.screenWidth * 0.3}}>
-            {services && services.image ? (
+            {services && services.image && services.image &&
               <Image
                 source={{uri: services.image}}
                 style={styles.servicesImage}
               />
-            ) : (
-              <Image source={image} style={styles.servicesImage} />
-            )}
+              // <Image source={image} style={styles.servicesImage} />
+            }
           </View>
           <View
             style={{
@@ -187,7 +188,7 @@ class Services extends Component {
                   }}
                 />
                 <Text style={{fontSize: Metrics.ratio(14)}}>
-                  {'Select Date hh'}
+                  {'Select Date'}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -206,12 +207,13 @@ class Services extends Component {
             </View>
           </View>
           <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate('SaloonEmployee', {
-                ID: id,
-                servicesId: services._id,
-              })
-            }>
+          // onPress={() =>
+          //   this.props.navigation.navigate('SaloonEmployee', {
+          //     ID: id,
+          //     servicesId: services._id,
+          //   })
+          // }
+          >
             <View
               style={{
                 justifyContent: 'center',
@@ -247,14 +249,18 @@ class Services extends Component {
     const {getSelectedServices} = this.state;
     return (
       <View style={styles.container}>
-       
+        <Header
+          headerText={'Services'}
+          leftIcon={Images.pagination_back}
+          leftBtnPress={() => this.props.navigation.goBack()}
+        />
         <ScrollView>
           <View>
             {getSelectedServices &&
               getSelectedServices.length != 0 &&
               this.renderRow()}
             {this.dateAndTimePicker()}
-            {this.renderNextStepButton()}
+            {/* {this.renderNextStepButton()} */}
           </View>
         </ScrollView>
       </View>

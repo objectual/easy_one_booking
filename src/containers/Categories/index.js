@@ -12,6 +12,7 @@ import {
   Linking,
   StyleSheet,
   FlatList,
+  ImageBackground,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
@@ -50,11 +51,12 @@ class Categories extends Component {
         nextProps.getSaloonCategories.data &&
         !nextProps.getSaloonCategories.data.success
       ) {
-        this.setState({isloading: false}, () => {
-          setTimeout(() => {
-            Alert.alert('Error', nextProps.getSaloonCategories.data.msg);
-          }, 3000);
-        });
+        // this.setState({ isloading: false }, () => {
+        //   setTimeout(() => {
+        //     Alert.alert('Error', nextProps.getSaloonCategories.data.msg);
+        //   }, 3000);
+        // });
+        this.setState({isloading: false});
       }
     }
   }
@@ -63,11 +65,11 @@ class Categories extends Component {
   };
 
   handleSaloonCategories = () => {
-    const {id} = this.props;
+    const {id} = this.props.route.params;
     console.log(id, 'ididididididididididid');
     this.setState({isLoading: true});
     const payload = {
-      id,
+      companyId: id,
     };
     this.props.get_Saloon_Categories(payload);
   };
@@ -78,24 +80,63 @@ class Categories extends Component {
   };
 
   renderCategory = (category, index) => {
-    const {id} = this.props;
+    const {id} = this.props.route.params;
+    console.log(id, 'ididididid');
     return (
-      <View style={styles.containerForRow}>
-        <View style={[styles.servicebox, {flexDirection: 'row'}]}>
-          <View style={{width: Metrics.screenWidth * 0.3}}>
-            {category && category.image ? (
-              <Image
-                source={{uri: category.image}}
-                style={styles.servicesImage}
-              />
-            ) : (
-              <Image
-                source={Images.select_services}
-                style={styles.servicesImage}
-              />
-            )}
-          </View>
-          <View
+      <View>
+        <TouchableOpacity
+          style={
+            category && category._id == category._id
+              ? styles.showcardradius
+              : null
+          }
+          onPress={() =>
+            this.props.navigation.navigate('SaloonServicesByCategory', {
+              categoryId: category._id,
+              companyId: id,
+            })
+          }>
+          {
+            category && category.image && category.image && (
+              <View style={styles.servicebox}>
+                <View
+                  style={{
+                    height: Metrics.screenHeight * 0.2,
+                    width: Metrics.screenWidth * 0.42,
+                    alignItems: 'center',
+                  }}>
+                  <Image
+                    style={{
+                      marginTop: Metrics.ratio(10),
+                      width: Metrics.ratio(120),
+                      height: Metrics.ratio(100),
+                    }}
+                    resizeMethod="auto"
+                    resizeMode="contain"
+                    source={{uri: category.image}}
+                  />
+                </View>
+                <View
+                  style={{
+                    marginTop: Metrics.ratio(10),
+                    borderBottomLeftRadius: Metrics.ratio(10),
+                    borderBottomRightRadius: Metrics.ratio(10),
+                    // paddingVertical: Metrics.ratio(10),
+                    overflow: 'hidden',
+                  }}>
+                  <Text numberOfLines={1} style={styles.titleText}>
+                    {category && category.name ? category.name : 'name'}
+                  </Text>
+                </View>
+              </View>
+            )
+            // (<ImageBackground
+            //       source={Images.select_services}
+            //       style={styles.servicebox}
+            //     ></ImageBackground>)
+          }
+        </TouchableOpacity>
+        {/* <View
             style={{
               justifyContent: 'center',
               width: Metrics.screenWidth * 0.45,
@@ -103,51 +144,52 @@ class Categories extends Component {
             <Text numberOfLines={1} style={styles.titleText}>
               {category && category.name ? category.name : 'name'}
             </Text>
-          </View>
-          <TouchableOpacity
+          </View> */}
+        {/* <TouchableOpacity
             style={
               category && category._id == category._id
                 ? styles.showcardradius
                 : null
             }
             onPress={() =>
-              this.props.navigation.navigate('ServicesPage', {
-                id: category._id,
+              this.props.navigation.navigate('SaloonServicesByCategory', {
+                categoryId: category._id,
                 companyId: id,
               })
             }>
             <View style={{width: Metrics.screenWidth * 0.1}}>
               <Image source={Images.arrow} style={styles.arrowImage} />
             </View>
-          </TouchableOpacity>
-        </View>
+          </TouchableOpacity> */}
       </View>
     );
   };
 
   renderCategoryRow = () => {
     const {getSelectedCategory} = this.state;
-    if(getSelectedCategory.length == 0)
-    {
+    if (getSelectedCategory.length == 0) {
       return (
         <View style={styles.textContainer}>
-           <Text style={styles.textNotFound}>No Categories Found</Text>
+          <Text style={styles.textNotFound}>No Categories Found</Text>
         </View>
-      )
-    }
-    else  
-    {
-
-    return (
-      <View>
-        <FlatList
-          data={getSelectedCategory}
-          renderItem={({item, index}) => this.renderCategory(item, index)}
-          // keyExtractor={item => item.id}
-          // extraData={selected}
-        />
-      </View>
-    );
+      );
+    } else {
+      return (
+        <View
+          style={{
+            flexDirection: 'row',
+            marginHorizontal: Metrics.screenWidth * 0.06,
+          }}>
+          <FlatList
+            numColumns={2}
+            columnWrapperStyle={{
+              justifyContent: 'space-between',
+            }}
+            data={getSelectedCategory}
+            renderItem={({item, index}) => this.renderCategory(item, index)}
+          />
+        </View>
+      );
     }
   };
 
@@ -162,15 +204,11 @@ class Categories extends Component {
           leftIcon={Images.pagination_back}
           leftBtnPress={() => this.props.navigation.goBack()}
         />
-
         {<SpinnerLoader isloading={isFetching} />}
 
         {isFetching == false && failure == false && (
           <ScrollView>
-            <View>
-              {this.renderCategoryRow()}
-              {/* {this.renderCategory()} */}
-            </View>
+            <View>{this.renderCategoryRow()}</View>
           </ScrollView>
         )}
       </View>

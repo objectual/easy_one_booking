@@ -60,8 +60,8 @@ class Header extends Component {
           <Image
             // source={leftIcon}
             style={{
-              width: Metrics.ratio(25),
-              height: Metrics.ratio(25),
+              width: Metrics.ratio(20),
+              height: Metrics.ratio(20),
               resizeMode: 'contain',
             }}
           />

@@ -8,8 +8,8 @@ import {
   ImageBackground,
   Image,
 } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -17,10 +17,10 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import Home from './../containers/Home/index';
-import {Images, Metrics, Fonts, Colors} from '../theme';
+import { Images, Metrics, Fonts, Colors } from '../theme';
 import Services from './../containers/Services/index';
 import ChartBox from './../containers/ChartBox/index';
-import AvailableServices from './../containers/AvailableServices/index';
+import BookingHistory from '../containers/BookingHistory/index';
 import Proceeding from './../containers/Proceeding/index';
 import Login from './../containers/Login/index';
 import Categories from './../containers/Categories/index';
@@ -29,19 +29,33 @@ import Saloons from './../containers/Saloons/index';
 import SaloonEmployee from './../containers/SaloonEmployee/index';
 import styles from './styles';
 import DrawerSaloons from './../containers/DrawerSaloons/index';
+import BookingForm from './../containers/BookingForm/index';
 import SaloonServicesByCategory from './../containers/SaloonServicesByCategory/index';
 import Menu from './../containers/Menu';
+import GiveFeedBack from './../containers/GiveFeedBack/index';
+import AsyncStorage from '@react-native-community/async-storage';
+import {token} from '../config/WebServices'
+import RNRestart from 'react-native-restart';
+
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-function CustomDrawerContent(props) {
+
+
+
+ function CustomDrawerContent(props) {
+
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
-      <DrawerItem
+
+      
+    
+      { token !=null  && 
+      (<DrawerItem
         label="Logout"
-        onPress={() => null}
+        onPress={async() => {await AsyncStorage.clear(),RNRestart.Restart()}}
         style={{marginTop: 20}}
         icon={({focused}) => (
           <Image
@@ -49,12 +63,13 @@ function CustomDrawerContent(props) {
             style={[getFocusedTabStyles(focused), styles.drawerIcon]}
           />
         )}
-      />
+      />) 
+      }
     </DrawerContentScrollView>
   );
 }
 
-function homeStack({navigation}) {
+function homeStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -97,7 +112,7 @@ function menuStack({navigation}) {
   );
 }
 
-function serviceStack({navigation}) {
+function serviceStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -123,7 +138,7 @@ function serviceStack({navigation}) {
   );
 }
 
-function chatStack({navigation}) {
+function chatStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -149,7 +164,7 @@ function chatStack({navigation}) {
   );
 }
 
-function drawerSaloonsStack({navigation}) {
+function drawerSaloonsStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -175,7 +190,7 @@ function drawerSaloonsStack({navigation}) {
   );
 }
 
-function categoriesStack({navigation}) {
+function categoriesStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -201,7 +216,7 @@ function categoriesStack({navigation}) {
   );
 }
 
-function saloonStack({navigation}) {
+function saloonStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -227,7 +242,7 @@ function saloonStack({navigation}) {
   );
 }
 
-function employeeStack({navigation}) {
+function employeeStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -252,15 +267,14 @@ function employeeStack({navigation}) {
     </Stack.Navigator>
   );
 }
-
-function availableServicesStack({navigation}) {
+function SaloonsStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="AvailableServices"
-        component={AvailableServices}
+        name="ServicesPage"
+        component={Services}
         options={{
-          title: 'Available Services',
+          title: 'ServicesPage',
           headerTitleStyle: {
             marginLeft: '15%',
           },
@@ -279,7 +293,59 @@ function availableServicesStack({navigation}) {
   );
 }
 
-function loginStack({navigation}) {
+function bookingFormStack({ navigation }) {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="BookingForm"
+        component={BookingForm}
+        options={{
+          title: 'Booking Form',
+          headerTitleStyle: {
+            marginLeft: '15%',
+          },
+
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <Image
+                source={Images.costumer_header_menu}
+                style={styles.headerIcon}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function bookingHistoryStack({ navigation }) {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="BookingHistory"
+        component={BookingHistory}
+        options={{
+          title: 'Booking History',
+          headerTitleStyle: {
+            marginLeft: '15%',
+          },
+
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <Image
+                source={Images.costumer_header_menu}
+                style={styles.headerIcon}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function loginStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -305,7 +371,7 @@ function loginStack({navigation}) {
   );
 }
 
-function registerStack({navigation}) {
+function registerStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -331,17 +397,71 @@ function registerStack({navigation}) {
   );
 }
 
+function proceedingStack({ navigation }) {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Proceeding"
+        component={Proceeding}
+        options={{
+          title: 'Proceeding',
+          headerTitleStyle: {
+            marginLeft: '30%',
+          },
+
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <Image
+                source={Images.costumer_header_menu}
+                style={styles.headerIcon}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function giveFeedBackStack({ navigation }) {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="GiveFeedBack"
+        component={GiveFeedBack}
+        options={{
+          title: 'GiveFeedBack',
+          headerTitleStyle: {
+            marginLeft: '30%',
+          },
+
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <Image
+                source={Images.costumer_header_menu}
+                style={styles.headerIcon}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function getFocusedTabStyles(focused) {
   if (focused) {
-    return {tintColor: Colors.red};
+    return { tintColor: Colors.red };
   }
 }
 
 function mainDrawer() {
+
+
   return (
     <Drawer.Navigator
       drawerContentOptions={{
-        itemStyle: {marginVertical: 10},
+        itemStyle: { marginVertical: 10 },
         activeTintColor: 'red',
       }}
       drawerStyle={{
@@ -355,7 +475,7 @@ function mainDrawer() {
         name="Home"
         component={homeStack}
         options={{
-          drawerIcon: ({focused}) => (
+          drawerIcon: ({ focused }) => (
             <Image
               source={Images.costumer_home}
               style={[getFocusedTabStyles(focused), styles.drawerIcon]}
@@ -368,7 +488,7 @@ function mainDrawer() {
         name="Chatbox"
         component={chatStack}
         options={{
-          drawerIcon: ({focused}) => (
+          drawerIcon: ({ focused }) => (
             <Image
               source={Images.costumer_chart_box}
               style={[getFocusedTabStyles(focused), styles.drawerIcon]}
@@ -394,14 +514,15 @@ function mainDrawer() {
         component={drawerSaloonsStack}
         options={{
           title: 'Saloon',
-          drawerIcon: ({focused}) => (
+          drawerIcon: ({ focused }) => (
             <Image
-              source={Images.costumer_choose_a_templates}
+              source={Images.costumer_saloon}
               style={[getFocusedTabStyles(focused), styles.drawerIcon]}
             />
           ),
         }}
       />
+      
       {/*
         <Drawer.Screen
           name="Categories"
@@ -417,43 +538,51 @@ function mainDrawer() {
           }}
         />*/}
 
-      <Drawer.Screen
-        name="Available Services"
-        component={availableServicesStack}
-        options={{
-          drawerIcon: ({focused}) => (
-            <Image
-              source={Images.costumer_available_services}
-              style={[getFocusedTabStyles(focused), styles.drawerIcon]}
-            />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Login"
-        component={loginStack}
-        options={{
-          drawerIcon: ({focused}) => (
-            <Image
-              source={Images.costumer_login}
-              style={[getFocusedTabStyles(focused), styles.drawerIcon]}
-            />
-          ),
-        }}
-      />
 
+      {token != null &&
       <Drawer.Screen
-        name="Register"
-        component={registerStack}
+        name="Booking History"
+        component={bookingHistoryStack}
         options={{
-          drawerIcon: ({focused}) => (
+          drawerIcon: ({ focused }) => (
             <Image
-              source={Images.costumer_register}
+              source={Images.costumer_booking}
               style={[getFocusedTabStyles(focused), styles.drawerIcon]}
             />
           ),
         }}
       />
+      }
+      {token == null &&
+        <>
+          <Drawer.Screen
+            name="Login"
+            component={loginStack}
+            options={{
+              drawerIcon: ({ focused }) => (
+                <Image
+                  source={Images.costumer_login}
+                  style={[getFocusedTabStyles(focused), styles.drawerIcon]}
+                />
+              ),
+            }}
+          />
+          <Drawer.Screen
+            name="Register"
+            component={registerStack}
+            options={{
+              drawerIcon: ({ focused }) => (
+                <Image
+                  source={Images.costumer_register}
+                  style={[getFocusedTabStyles(focused), styles.drawerIcon]}
+                />
+              ),
+            }}
+          />
+
+        </>
+      }
+
 
       {/*}
 
@@ -502,6 +631,7 @@ function mainDrawer() {
 }
 
 function mainStack({navigation}) {
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -599,6 +729,16 @@ function mainStack({navigation}) {
             },
           }}
         />
+        <Stack.Screen
+          name="BookingForm"
+          options={{
+            headerShown: false,
+            headerTitleStyle: {
+              marginLeft: '30%',
+            },
+          }}
+          component={BookingForm}
+        />
 
         <Stack.Screen
           name="SaloonEmployee"
@@ -610,6 +750,7 @@ function mainStack({navigation}) {
             },
           }}
         />
+        {/* <Stack.Screen name="ServicesPage" component={Services} /> */}
 
         <Stack.Screen
           name="SaloonServicesByCategory"

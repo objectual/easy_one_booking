@@ -29,35 +29,37 @@ class Saloons extends Component {
     };
   }
 
-  // UNSAFE_componentWillReceiveProps(nextProps) {
-  //   if (nextProps.getSaloonByCategory) {
-  //     if (
-  //       //   !nextProps.getSaloonByCategory.failure &&
-  //       //   !nextProps.getSaloonByCategory.isFetching &&
-  //       nextProps.getSaloonByCategory.data
-  //       // nextProps.getSaloonByCategory.data.success
-  //     ) {
-  //       this.setState({
-  //         getSelectedSaloon: nextProps.getSaloonByCategory.data.data,
-  //       });
-  //       console.log(
-  //         nextProps.getSaloonByCategory.data.data,
-  //         'getSaloonByCategoryDatagetSaloonByCategoryDatagetSaloonByCategoryDatagetSaloonByCategoryData',
-  //       );
-  //     } else if (
-  //       !nextProps.getSaloonByCategory.failure &&
-  //       !nextProps.getSaloonByCategory.isFetching &&
-  //       nextProps.getSaloonByCategory.data &&
-  //       !nextProps.getSaloonByCategory.data.success
-  //     ) {
-  //       this.setState({isloading: false}, () => {
-  //         setTimeout(() => {
-  //           Alert.alert('Error', nextProps.getSaloonByCategory.data.msg);
-  //         }, 3000);
-  //       });
-  //     }
-  //   }
-  // }
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.getSaloonByCategory) {
+      if (
+        //   !nextProps.getSaloonByCategory.failure &&
+        //   !nextProps.getSaloonByCategory.isFetching &&
+        nextProps.getSaloonByCategory.data
+        // nextProps.getSaloonByCategory.data.success
+      ) {
+        this.setState({
+          getSelectedSaloon: nextProps.getSaloonByCategory.data.data,
+        });
+        console.log(
+          nextProps.getSaloonByCategory.data.data,
+          'getSaloonByCategoryDatagetSaloonByCategoryDatagetSaloonByCategoryDatagetSaloonByCategoryData',
+        );
+      } else if (
+        !nextProps.getSaloonByCategory.failure &&
+        !nextProps.getSaloonByCategory.isFetching &&
+        nextProps.getSaloonByCategory.data &&
+        !nextProps.getSaloonByCategory.data.success
+      ) {
+        // this.setState({isloading: false}, () => {
+        //   setTimeout(() => {
+        //     Alert.alert('Error', nextProps.getSaloonByCategory.data.msg);
+        //   }, 3000);
+        // });
+        this.setState({isloading: false});
+
+      }
+    }
+  }
 
   _renderOverlaySpinner = () => {
     const {isloading} = this.state;
@@ -71,7 +73,7 @@ class Saloons extends Component {
     const {id} = this.props.route.params;
     this.setState({isLoading: true});
     const payload = {
-      categoryId: id,
+      serviceId: id,
     };
     console.log(payload, 'categoryID');
     this.props.get_Saloon_By_Category(payload);
@@ -80,21 +82,18 @@ class Saloons extends Component {
   renderService = (saloons, index) => {
     const {getSelectedSaloon} = this.state;
     const {id} = this.props.route.params;
-
+    console.log(saloons,'jjdsjakj')
     return (
-      <TouchableOpacity
-        onPress={() =>
-          this.props.navigation.navigate('SaloonServicesByCategory', {
-            categoryId: id,
-            companyId: saloons._id,
-          })
-        }
-        style={styles.containerForRow}>
+      <TouchableOpacity 
+      onPress={() =>
+        this.props.navigation.navigate('SaloonServicesByCategory', {categoryId:id, companyId:saloons.company._id})
+      }
+      style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
-          <View style={{width: Metrics.screenWidth * 0.3}}>
-            {saloons && saloons.image ? (
+          <View>
+            {saloons && saloons.template && saloons.template.coverImage.url ? (
               <Image
-                source={{uri: saloons.image}}
+                source={{uri: saloons.template.coverImage.url}}
                 style={styles.servicesImage}
               />
             ) : (
@@ -105,30 +104,20 @@ class Saloons extends Component {
             )}
           </View>
           <View
-            style={{
-              marginVertical: Metrics.ratio(15),
-              width: Metrics.screenWidth * 0.35,
-            }}>
-            <Text numberOfLines={1} style={{fontSize: Metrics.ratio(17)}}>
-              {saloons && saloons.name ? saloons.name : 'name'}
+            style={styles.dataContainer}>
+            <Text numberOfLines={1} style={styles.textsize18}>
+              {saloons && saloons.company.name ? saloons.company.name : 'name'}
             </Text>
-
-            <Text style={{fontSize: Metrics.ratio(14)}}>
-              {saloons && saloons.createdDate
-                ? saloons.createdDate
-                : 'created Date'}
+            <Text numberOfLines={1} style={styles.textsize15}>
+              City : {saloons && saloons.company.city
+                ? saloons.company.city
+                : 'City'}
             </Text>
-
-            <Text style={{fontSize: Metrics.ratio(14)}}>
-              {saloons && saloons.name ? saloons.name : 'name'}
+            <Text numberOfLines={2} style={styles.textsize15}>
+              Adress : {saloons && saloons.company.address
+                ? saloons.company.address
+                : null}
             </Text>
-          </View>
-          <View
-            style={{
-              justifyContent: 'center',
-              width: Metrics.screenWidth * 0.2,
-            }}>
-            {/* {this.renderBookNowButton()} */}
           </View>
         </View>
       </TouchableOpacity>
@@ -163,7 +152,7 @@ class Saloons extends Component {
     return (
       <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
         <Header
-          headerText={'Saloons'}
+          headerText={'Salon'}
           leftIcon={Images.pagination_back}
           leftBtnPress={() => this.props.navigation.goBack()}
         />

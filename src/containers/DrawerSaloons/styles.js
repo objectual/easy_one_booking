@@ -1,10 +1,10 @@
 // @flow
 import {StyleSheet, ListViewBase} from 'react-native';
-import {Images, Metrics, Fonts} from '../../theme';
+import {Images, Metrics, Fonts, Colors} from '../../theme';
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: '#FDFFFC',
+    backgroundColor: Colors.Glitter,
     flex: 1,
     //  justifyContent: "center"
   },
@@ -40,24 +40,30 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   textInput: {
-    height: Metrics.ratio(40),
-    backgroundColor: '#fff',
-    width: Metrics.screenWidth * 0.45,
+    // height: Metrics.ratio(40),
+    paddingVertical: Metrics.ratio(10),
+    // marginTop: Metrics.ratio(25),
     paddingHorizontal: Metrics.ratio(10),
-    marginBottom: Metrics.ratio(15),
-    borderRadius: Metrics.screenWidth * 0.5,
+    marginBottom: Metrics.ratio(10),
+    borderRadius: 20,
     borderWidth: 1,
     borderColor: '#F3F4F8',
     color: '#81788B',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
   },
   textInputRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: Metrics.ratio(10),
     marginTop: Metrics.ratio(25),
-    marginBottom: Metrics.ratio(15),
+    marginBottom: 20,
     borderRadius: Metrics.screenWidth * 0.5,
     borderWidth: 1,
     borderColor: '#F3F4F8',
@@ -71,4 +77,21 @@ export default StyleSheet.create({
     resizeMode: 'stretch',
     alignItems: 'center',
   },
+  textInputWithLabel:{
+    paddingHorizontal: Metrics.ratio(10),
+    // paddingVertical: Metrics.ratio(10),
+    marginTop: Metrics.ratio(25),
+    marginBottom: Metrics.ratio(10),
+    borderRadius: Metrics.ratio(20),
+    borderWidth: 1,
+    borderColor: '#F3F4F8',
+    color: '#81788B',
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,}
 });

@@ -11,13 +11,32 @@ import {
   TextInput,
   Linking,
   StyleSheet,
+  FlatList,
+  PermissionsAndroid
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
-import {Images, Metrics, Fonts} from '../../theme';
+import {Images, Metrics, Fonts, Colors} from '../../theme';
+
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Cards from '../..//components/Card';
 import {Icon} from 'react-native-vector-icons/MaterialIcons';
+import {request as get_Saloon} from '../../redux/actions/GetSaloon';
+import Geolocation from '@react-native-community/geolocation';
+// import {request as ge} from '../../redux/actions/GetCategories';
+import {Dropdown} from 'react-native-material-dropdown';
+import Immutable from 'seamless-immutable';
+import {request as get_Saloon_By_Category} from '../../redux/actions/GetSaloonByCategory';
+import {request as get_Saloon_By_Category_NearBy} from '../../redux/actions/GetSaloonNearBy';
+import {
+  place_reverse_Geocoding_URL,
+  place_Autocomplete_URL,
+  secret_Key,
+} from '../../config/WebServices';
+import {request as get_Services} from '../../redux/actions/GetServices';
+
+var saloonsData = [];
+var categoriesData = [];
 
 class DrawerSaloons extends Component {
   constructor(props) {
@@ -25,21 +44,243 @@ class DrawerSaloons extends Component {
     this.state = {
       searchByCategory: '',
       searchByLocation: '',
-      saloonRadius: '',
+      saloonRadius: 25000,
       byRating: '',
       byServices: '',
+      longitude: '',
+      latitude: '',
+      selectCard: null,
+      searchTerm: '',
+      suggestion: [],
+      categoryId: '',
+      predictionsData: [],
+      selectedLocation: '',
+      saloonNearBy: false,
+      saloonsNearByData: [],
+      selectedLocationSaloons: false,
+      permission: false,
+      showData: [],
+      saloonsBycategoriesData:[],
+      saloonsData: [],
+      categoriesData: [],
+      saloonsSuccess: false,
+      categoriesSuccess: false,
+      saloonsBycategoriesDataSuccess: false,
+      saloonsNearByData:[],
+      saloonsNearByDataSuccess: false,
+      expandSearchByCategory: false,
+      expandSearchByLocation: false,
+
+
     };
   }
 
-  onChangeSearchBar = value => this.setState({searchByCategory: value});
-  onChangeSearchByLocation = value => this.setState({searchByLocation: value});
-  onChangeSaloonRadius = value => this.setState({saloonRadius: value});
-  onChangeByRating = value => this.setState({byRating: value});
-  onChangeByServices = value => this.setState({byServices: value});
+ 
+
+  static  getDerivedStateFromProps(props, state) {
+    console.log(props.getSaloonByCategory, 'props.getSaloonByCategory.data.data');
+    console.log(props.getServices, 'props.getServices.data.data');
+
+
+    let object = {}
+
+
+
+
+    if(props.getSaloon.success !== state.saloonsSuccess)
+    {
+        object =  {
+            saloonsSuccess:props.getSaloon.success,
+            saloonsData: props.getSaloon.data.data,
+            showData:  props.getSaloon.data.data
+          };
+    }
+
+    if(props.getServices.success !== state.categoriesSuccess)
+    {
+          object =  {
+            categoriesSuccess:props.getServices.success,
+            categoriesData: props.getServices.data.data,
+          };
+    }
+    // alert(props.getServices.success)
+
+
+
+   
+    // // console.log(props.getSaloonNearBy.success,'props.getSaloonNearBy.successdsdsdsds')
+
+    if(  props.getSaloonNearBy.success !== undefined  && props.getSaloonNearBy.success !== state.saloonsNearByDataSuccess )
+    {
+          object = {
+            saloonsNearByDataSuccess: props.getSaloonNearBy.success,
+            saloonsNearByData: props.getSaloonNearBy.data.data,
+            showData: props.getSaloonNearBy.data.data,
+          };
+    }
+
+    if(props.getSaloonByCategory.success !== undefined && props.getSaloonByCategory.success !== state.saloonsBycategoriesDataSuccess  )
+    {
+
+          object =  {
+            saloonsBycategoriesDataSuccess: props.getSaloonByCategory.success,
+            saloonsBycategoriesData: props.getSaloonByCategory.data.data,
+            showData: [...props.getSaloonByCategory.data.data],
+            // showData: [],
+
+          };
+    }
+
+
+           console.log(object,'xccxcccccccccccccccccccccccxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+    return object
+
+    // if (
+    //   JSON.stringify(props.getSaloonByCategory.data.data) !==
+    //   JSON.stringify(state.saloonsData)
+    // ) {
+    //   return {
+    //     saloonsData: props.getSaloonByCategory.data.data,
+    //   };
+    // }
+    // if (state.suggestion.length == 0) {
+    //   return {saloonsData: []};
+    // }
+
+    // if (props.getSaloonNearBy.data != undefined) {
+    //   return {saloonsNearByData: props.getSaloonNearBy.data.data};
+    // }
+  }
+
+  // onChangeSearchBar = (value) => this.setState({searchByCategory: value});
+
+  onChangeSaloonRadius = (value) => this.setState({saloonRadius: value});
+  onChangeByRating = (value) => this.setState({byRating: value});
+  onChangeByServices = (value) => this.setState({byServices: value});
+  onChangeTextSelectedValue = async (value) => {
+    // this.setState({categoryId: value});
+    await this.props.get_Saloon_By_Category({serviceId: value._id});
+    this.setState({suggestion:[],searchTerm:value.name})
+  };
+
+  onChangeSearchBar = async (searchTerm) => {
+    console.log(this.state.categoriesData,'this.state.categoriesData')
+    this.setState({searchTerm, saloonNearBy: false});
+    try {
+      if (searchTerm.trim().length >= 1 && this.state.categoriesData.length != 0) {
+        var suggestion = await Immutable.asMutable(this.state.categoriesData).filter(
+          (x) => {
+            return new RegExp(searchTerm, 'i').test(x.name);
+          },
+        )
+       
+
+        if (suggestion.length == 0) {
+          this.setState({suggestion: []});
+        } else {
+          this.setState({suggestion: suggestion});
+        }
+      } else {
+        this.setState((state)=>({suggestion: [], showData: state.saloonsData }));
+
+      }
+    } catch (e) {
+      this.setState({suggestion: [], });
+    }
+  };
+
+  onChangeSearchByLocation = async (value) => {
+    this.setState({searchByLocation: value});
+
+    if (value.length == 0) {
+      this.setState({predictionsData: [], selectedLocationSaloons: false});
+    }
+    if (value.length > 1) {
+      let response = await fetch(
+        `${place_Autocomplete_URL}input=${value}&key=${secret_Key}`,
+      );
+
+      let prediction = await response.json();
+
+      console.log(prediction, 'prediction');
+
+      try {
+        if (prediction.predictions.length !== 0) {
+          this.setState({predictionsData: prediction.predictions});
+        }
+      } catch (e) {
+        this.setState({predictionsData: []});
+      }
+    }
+    // else {
+    //   await this.setState({predictionsData: [], selectedLocationSaloons: false});
+    // }
+  };
+
+
+  requestLocationPermission = async () => {
+    if(Platform.OS == 'android')
+    {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            this.getLocationHandler()
+        } else {
+          console.log("Location permission denied");
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+   }
+   else
+   {
+     this.getLocationHandler()
+   }
+  };
+
+  async componentDidMount() {
+
+  
+    await this.requestLocationPermission();
+    this.props.get_Services();
+    this.props.get_Saloon();
+
+  }
+
+  getLocationHandler = async () => {
+    // this.setState({isLoading: true});
+    Geolocation.getCurrentPosition(
+      (pos) => {
+
+        console.log(pos,'getCurrentPosition')
+        this.setState(
+          {
+            longitude: pos.coords.longitude,
+            latitude: pos.coords.latitude,
+            permission: true
+            // radius: 5000,
+          },
+          async () => await this.handleGetSaloon(),
+        );
+        console.log('latitude: ', pos.coords.longitude);
+        console.log('longitude: ', pos.coords.latitude);
+      },
+      (error) => console.log(error,'error') ,
+      {enableHighAccuracy: false, timeout: 5000, maximumAge: 10000},
+    );
+  };
+  handleGetSaloon = () => {
+    const {longitude, latitude, saloonRadius} = this.state;
+    const payload = {
+      longitude,
+      latitude,
+      radius: saloonRadius,
+    };
+  };
 
   _renderOverlaySpinner = () => {
-    const {isloading} = this.state;
-    return <SpinnerLoader isloading={isloading} />;
+    return <SpinnerLoader isloading={true} />;
   };
   renderShowCategoryButton = () => {
     const {selectCard} = this.state;
@@ -59,101 +300,176 @@ class DrawerSaloons extends Component {
     );
   };
   renderTextInputWithLableRow = (
-    lable,
-    ref,
-    returnKeyType,
+    // lable,
+    // ref,
+    // returnKeyType,
     onChangeText,
-    icon,
+    // icon,
     value,
     placeholder,
-    keyboardType,
-    onSubmitEditing,
-    secureTextEntry,
-    CustomTextInput,
+    // keyboardType,
+    // onSubmitEditing,
+    // secureTextEntry,
+    // CustomTextInput,
   ) => {
     return (
-      <View>
-        <View style={styles.textInputRow}>
+     
           <TextInput
+            style = {[styles.textInputWithLabel, this.state.suggestion.length != 0  && { borderBottomLeftRadius: 0 ,  borderBottomRightRadius: 0, } ]}
             placeholderTextColor="#81788B"
-            ref={o => {
-              ref = o;
+             onSubmitEditing={() => {
+              this.setState({expandSearchByCategory: false })
             }}
-            returnKeyType={returnKeyType}
+            onFocus={()=>this.setState({expandSearchByCategory: true })}
+            ref={input => this.searchInput = input}
+
+            // ref={(o) => {
+            //   ref = o;
+            // }}
+            // returnKeyType={returnKeyType}
             onChangeText={onChangeText}
-            icon={icon}
-            value={this.state.value}
+            // icon={icon}
+            value={value}
+            // icon={icon}
+            // value={this.state.value}
             placeholder={placeholder}
-            rightIcon={Images.arrow}
-            autoCompleteType="off"
-            keyboardType={keyboardType}
+            // rightIcon={Images.arrow}
+            // autoCompleteType="off"
+            // keyboardType={keyboardType}
             // onSubmitEditing={() => {
             //   this.onSubmit(onSubmitEditing);
             // }}
-            secureTextEntry={secureTextEntry}
+            // secureTextEntry={secureTextEntry}
           />
-          <Image
-            source={Images.arrow} //Change your icon image here
-            style={styles.ImageStyle}
-          />
-        </View>
-        {/* <TextInput
-          style={[styles.textInputRow, CustomTextInput]}
-          placeholderTextColor="#81788B"
-          ref={o => {
-            ref = o;
-          }}
-          returnKeyType={returnKeyType}
-          onChangeText={onChangeText}
-          icon={icon}
-          value={value}
-          placeholder={placeholder}
-          rightIcon={Images.arrow}
-          autoCompleteType="off"
-          keyboardType={keyboardType}
-          // onSubmitEditing={() => {
-          //   this.onSubmit(onSubmitEditing);
-          // }}
-          secureTextEntry={secureTextEntry}
-        /> */}
-      </View>
+       
     );
   };
 
   renderTextInputWithLable = (
-    lable,
-    ref,
-    returnKeyType,
+    // lable,
+    // ref,
+    // returnKeyType,
     onChangeText,
-    value,
     placeholder,
-    keyboardType,
-    onSubmitEditing,
-    secureTextEntry,
-    CustomTextInput,
+    value,
+    // keyboardType,
+    // onSubmitEditing,
+    // secureTextEntry,
+    // CustomTextInput,
   ) => {
     return (
       <View>
         {/* <Text style={styles.labelText}>{lable}</Text> */}
         <TextInput
-          style={[styles.textInput, CustomTextInput]}
+          style={[styles.textInput,this.state.predictionsData.length != 0 && { borderBottomLeftRadius: 0 ,  borderBottomRightRadius: 0, } ]}
           placeholderTextColor="#81788B"
-          ref={o => {
-            ref = o;
-          }}
-          returnKeyType={returnKeyType}
+          // onFocus={()=>this.setState({expandSearchByLocation: true })}
+
+          // ref={(o) => {
+          //   ref = o;
+          // }}
+          // returnKeyType={returnKeyType}
           onChangeText={onChangeText}
           value={value}
           placeholder={placeholder}
-          autoCompleteType="off"
-          keyboardType={keyboardType}
+          // autoCompleteType="off"
+          // keyboardType={keyboardType}
           // onSubmitEditing={() => {
           //   this.onSubmit(onSubmitEditing);
           // }}
-          secureTextEntry={secureTextEntry}
+          // secureTextEntry={secureTextEntry}
         />
       </View>
     );
+  };
+
+  getSaloonNearBy = async () => {
+    if (this.state.saloonNearBy) {
+      // this.setState({saloonNearBy: false});
+      this.setState((state)=>({ showData: state.saloonsData, saloonNearBy: false  }));
+
+    } else {
+      if(this.state.permission)
+      {
+        const {longitude, latitude, saloonRadius} = this.state;
+        const payload = {
+          longitude,
+          latitude,
+          // radius:saloonRadius
+        };
+        console.log(payload, 'payloadDrawerSaloon');
+        this.props.get_Saloon_By_Category_NearBy(payload);
+        this.setState({saloonNearBy: true});
+     }
+     else
+     {
+      await this.requestLocationPermission()
+      // const {longitude, latitude, saloonRadius} = this.state;
+      // const payload = {
+      //   longitude,
+      //   latitude,
+      //   // radius:saloonRadius
+      // };
+      // // const payload =  {"longitude": "67.0560109", "latitude": "24.8723881"}
+      // console.log(payload, 'payloadDrawerSaloon');
+      // await this.props.get_Saloon_By_Category_NearBy(payload);
+      // this.setState({saloonNearBy: true});
+
+     }
+    }
+  };
+
+  onSelectedLocationSaloons = () => {
+    const {longitude, latitude, saloonRadius} = this.state;
+    const payload = {
+      longitude,
+      latitude,
+      // radius:saloonRadius
+    };
+    console.log(payload, 'get_Saloon_By_Category_NearBy');
+    this.props.get_Saloon_By_Category_NearBy(payload);
+    this.setState({selectedLocationSaloons: true, predictionsData:[] });
+  };
+
+  renderFilter() {
+    return (
+      <TouchableOpacity
+        onPress={() => this.getSaloonNearBy()}
+        style={[
+          styles.textInput,
+          this.state.saloonNearBy == true && {backgroundColor: '#FF3600'},
+        ]}>
+        <Text style={[this.state.saloonNearBy == true ? {color: Colors.white} : {color: Colors.taupeGrey} ]}> Salon within 2km</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  onSelectedLocation = async (value) => {
+    this.setState({selectedLocation: value.place_id, searchByLocation: value.description });
+    try {
+      let response = await fetch(
+        `${place_reverse_Geocoding_URL}place_id=${value.place_id}&key=${secret_Key}`,
+      );
+
+      let statusCode = response.status;
+
+      let reverseGeocoding = await response.json();
+
+      console.log(response, 'response');
+
+      if (statusCode == 200) {
+        let object = reverseGeocoding.results.pop();
+        this.setState({
+          latitude: object.geometry.location.lat,
+          longitude: object.geometry.location.lng,
+        });
+        await this.onSelectedLocationSaloons();
+        // console.log(this.state.latitude, 'latitude');
+        // console.log(this.state.longitude, 'longitude');
+      }
+    } catch (e) {
+      console.log(e, 'reverseGeocodingFetch');
+    }
   };
 
   render() {
@@ -164,88 +480,311 @@ class DrawerSaloons extends Component {
       saloonRadius,
       byRating,
     } = this.state;
+
+    const {getSaloon,getSaloonNearBy,getSaloonByCategory} = this.props
+    console.log(this.state.showData,'skhdjskdhakjhdjshdjshdkjshdhshdkjshdjkhkjshjksdhsd')
+    // const {isFetching, failure, data} = this.props.getSaloon;
+    // saloonsData = data.data;
+    // categoriesData = this.props.getServices.data.data;
+    // console.log(this.props.getSaloon, 'this.props.getSaloon');
+    // console.log(this.state.saloonsNearByData, 'this.state.getSaloonNearBy');
+
+    // const getSaloon = this.props.getSaloon;
+    // const getSaloonNearBy = this.props.getSaloonNearBy;
+
     return (
       <View style={styles.container}>
         <ScrollView>
           <View style={{marginHorizontal: Metrics.ratio(15)}}>
             {this.renderTextInputWithLableRow(
-              '',
-              'inputName',
-              'next',
+              // '',
+              // 'inputName',
+              // 'next',
               this.onChangeSearchBar,
-              searchByCategory,
-              '',
+              // searchByCategory,
+              this.state.searchTerm,
+              // searchByCategory,
+              // '',
               'Search Category',
-              'inputPostalCode',
-              false,
+              // 'numeric',
+              // false,
+            )}
+
+            {this.state.suggestion.length != 0 && (
+              // <Dropdown
+              //   label={'Please select category'}
+              //   labelExtractor={(x) => x.name}
+              //   valueExtractor={(x) => x._id}
+              //   dropdownOffset={{top: 32, left: 10}}
+              //   containerStyle={{
+              //     width: '100%',
+              //     borderWidth: 0,
+              //     marginTop: -20,
+              //     marginBottom: 10,
+              //   }}
+              //   pickerStyle={{width: '95%'}}
+              //   data={this.state.suggestion}
+              //   onChangeText={(value) => this.onChangeTextSelectedValue(value)}
+              // />
+              <FlatList
+              showsVerticalScrollIndicator={false}
+                style={{marginBottom: 10,  marginTop: -20,}}
+                data={this.state.suggestion}
+                renderItem={({item, index}) => (
+                  <TouchableOpacity
+                    onPress={() => this.onChangeTextSelectedValue(item)}
+                    style={{
+                      width: '100%',
+                      borderRadius: 3,
+                      borderWidth: 0,
+                      paddingLeft: Metrics.screenWidth * 0.03,
+                      backgroundColor:'#FFFF',
+                      height: 40,
+                      justifyContent: 'center',
+                      borderBottomLeftRadius: this.state.suggestion.length == index + 1 ? 15 : 0,
+                      borderBottomRightRadius: this.state.suggestion.length == index + 1 ? 15: 0
+                    }}>
+                    <Text style={{color: Colors.taupeGrey}}>{item.name}</Text>
+                  </TouchableOpacity>
+                )}
+              />
             )}
             <View
               style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
+                // flexDirection: 'row',
+                // justifyContent: 'space-between',
               }}>
               {this.renderTextInputWithLable(
-                '',
-                'inputName',
-                'next',
                 this.onChangeSearchByLocation,
-                searchByLocation,
+                // searchByLocation,
                 'Search By Location',
-                'text',
-                'inputPostalCode',
-                false,
-              )}
-              {this.renderTextInputWithLable(
-                '',
-                'inputName',
-                'next',
-                this.onChangeSaloonRadius,
-                saloonRadius,
-                'Saloon within 25km Radius',
-                'text',
-                'inputPostalCode',
-                false,
+                this.state.searchByLocation,
+                // 'inputPostalCode',
+                // 'text',
+                // 'numeric',
+                // false,
               )}
             </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              {this.renderTextInputWithLable(
-                '',
-                'inputName',
-                'next',
-                this.onChangeByRating,
-                byRating,
-                'By Rating',
-                'text',
-                'inputPostalCode',
-                false,
-              )}
-              {this.renderTextInputWithLable(
-                '',
-                'inputName',
-                'next',
-                this.onChangeByServices,
-                byServices,
-                'By Services',
-                'text',
-                'inputPostalCode',
-                false,
-              )}
-            </View>
-            {this.renderShowCategoryButton()}
+
+            {this.state.predictionsData.length != 0 && (
+              // <Dropdown
+              //   value={this.state.selectedLocation}
+              //   label={'Please select location'}
+              //   labelExtractor={(x) => x.description}
+              //   valueExtractor={(x) => x.place_id}
+              //   dropdownOffset={{top: 32, left: 10}}
+              //   containerStyle={{
+              //     width: '100%',
+              //     borderWidth: 0,
+              //     marginTop: -20,
+              //     marginBottom: 10,
+              //   }}
+              //   pickerStyle={{width: '95%'}}
+              //   data={this.state.predictionsData}
+              //   onChangeText={(value) => this.onSelectedLocation(value)}
+              // />
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                style={{ marginBottom: 10, marginTop: -20 }}
+                data={this.state.predictionsData}
+                renderItem={({item, index}) => (
+                  <TouchableOpacity
+                    onPress={() => this.onSelectedLocation(item)}
+                    style={{
+                      width: '100%',
+                      borderRadius: 3,
+                      borderWidth: 0,
+                      paddingLeft: Metrics.screenWidth * 0.03,
+                      backgroundColor:'#FFFF',
+                      height: 40,
+                      justifyContent: 'center',
+                      borderBottomLeftRadius: this.state.predictionsData.length == index + 1 ? 15 : 0,
+                      borderBottomRightRadius: this.state.predictionsData.length == index + 1 ? 15: 0
+                    }}>
+                    <Text style={{color: Colors.taupeGrey}}>
+                      {item.description}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              />
+            )}
+
+             {this.renderFilter()}
+
+
+            {/* {this.renderShowCategoryButton()} */}
           </View>
-          <Cards />
+
+           { (getSaloon.isFetching || getSaloonNearBy.isFetching || getSaloonByCategory.isFetching ) &&
+            this._renderOverlaySpinner()}
+
+          {/* {(getSaloonNearBy.isFetching || this.props.getSaloon.isFetching) &&
+            this._renderOverlaySpinner()} */}
+
+            {/*
+
+          {this.state.searchTerm.length != 0 && this.state.saloonsData != 0 && (
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              numColumns={2}
+              columnWrapperStyle={{
+                justifyContent: 'space-between',
+                paddingHorizontal: 10,
+              }}
+              data={this.state.saloonsData}
+              renderItem={({item, index}) => {
+                console.log(item,'////oooooo')
+                return(
+                  <Cards
+                  // item={{saloon: item}}
+                  title = {item.company.name}
+                  description = {item.company.companyShortDescription}
+                  image = {item.template.coverImage.url}
+                  onPress={() =>
+                    this.props.navigation.navigate('Categories', {
+                      id: item.company._id,
+                    })
+                  }
+                />
+                )
+              }}
+            />
+          )}
+
+          {this.state.saloonNearBy == false &&
+            this.state.selectedLocationSaloons == false &&
+            getSaloon.isFetching == false &&
+            this.state.searchTerm.length == 0 &&
+            getSaloon.failure == false &&
+            getSaloon.data != undefined &&
+            getSaloon.data.data.length != 0 && (
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                numColumns={2}
+                columnWrapperStyle={{
+                  justifyContent: 'space-between',
+                  paddingHorizontal: 10,
+                }}
+                data={getSaloon.data.data}
+                renderItem={({item, index}) => (
+                  <Cards
+                  title = {item.saloon.name}
+                  description = {item.saloon.companyShortDescription}
+                  image = {item.template.coverImage.url}
+                    onPress={() => {
+                      console.log(item, 'mainDrawerSaloonsItem');
+                      this.props.navigation.navigate('Categories', {
+                        id: item.saloon._id,
+                      });
+                    }}
+                  />
+                )}
+              />
+            )}
+
+          {console.log(
+            getSaloonNearBy.data,
+            'this.props.getSaloonNearBy.data.data',
+          )}
+          {(this.state.saloonNearBy == true ||
+            this.state.selectedLocationSaloons == true) &&
+            getSaloonNearBy.data &&
+           (
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                numColumns={2}
+                columnWrapperStyle={{
+                  justifyContent: 'space-between',
+                  paddingHorizontal: 10,
+                }}
+                data={getSaloonNearBy.data.data}
+                renderItem={({item, index}) => (
+                  console.log(item, 'this.state.saloonNearBy == true'),
+                  (
+                    <Cards
+                    title = {item.saloon.name}
+                    description = {item.saloon.companyShortDescription}
+                    image = {item.template.coverImage.url}
+                      onPress={() =>
+                        this.props.navigation.navigate('Categories', {
+                          id: item.saloon._id,
+                        })
+                      }
+                    />
+                  )
+                )}
+              />
+            )}
+            ((this.state.saloonNearBy == true ||
+            this.state.selectedLocationSaloons == true) &&
+            getSaloonNearBy.isFetching &&
+            getSaloonNearBy.data && 
+            getSaloonNearBy.data.data && 
+            getSaloonNearBy.data.data.length == 0 && (
+              <View
+                style={{
+                  width: '100%',
+                  borderWidth: 0,
+                  height: 40,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text>No Saloons Found</Text>
+              </View>
+            ))*/}
+
+              <FlatList
+                numColumns={2}
+                columnWrapperStyle={{
+                  justifyContent: 'space-between',
+                  paddingHorizontal: 10,
+                }}
+                data={this.state.showData}
+                renderItem={({item, index}) => 
+                   {
+                     let title = item.saloon ? item.saloon.name : item.company.name;
+                     let description = item.saloon ? item.saloon.companyShortDescription : item.company.companyShortDescription;
+                     let salonId = item.saloon ? item.saloon._id : item.company._id;
+                     return(
+                      <Cards
+                      title ={title}
+                      description = {description}
+                      image = {item.template.coverImage.url}
+                        onPress={() =>
+                          this.props.navigation.navigate('Categories', {
+                            id: salonId
+                          })
+                        }
+                      />
+                     )
+                   }
+                  
+                }
+              />
+
+            
+             
         </ScrollView>
       </View>
     );
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = (state) => {
+  return {
+    getSaloon: state.getSaloon,
+    getSaloonNearBy: state.getSaloonNearBy,
+    getCategories: state.getCategories,
+    getSaloonByCategory: state.getSaloonByCategory,
+    getServices: state.getServices,
+  };
+};
 
-const action = {};
+const action = {
+  get_Saloon,
+  get_Services,
+  get_Saloon_By_Category,
+  get_Saloon_By_Category_NearBy,
+};
 
 export default connect(mapStateToProps, action)(DrawerSaloons);

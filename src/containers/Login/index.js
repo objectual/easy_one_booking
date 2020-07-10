@@ -17,6 +17,14 @@ import {request as userLogin, success} from '../../redux/actions/Login';
 import styles from './styles';
 import {Images, Metrics, Fonts} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
+import {
+  nameRegex,
+  emailRegex,
+  postalCodeRegex,
+  passwordRegex,
+  validate,
+} from '../../services/validation';
+
 // import GoogleSigninBtn from '../../components/GoogleSigninButton';
 // import FacebookSigninButton from '../../components/FacebookSigninButton';
 // import InstagramLoginButton from '../../components/InstagramLoginButton';
@@ -25,10 +33,12 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'Aahsan1000@gmail.com',
-      password: 'Ahsan123456',
+      email: '',
+      password: '',
       isloading: false,
       btnDisabled: false,
+      emailError: '',
+      passwordError: '',
       formErrors: {
         emailError: false,
         passwordError: false,
@@ -37,12 +47,9 @@ class Login extends Component {
   }
 
   _renderOverlaySpinner = () => {
-    const {isloading} = this.state;
-    console.log(
-      isloading,
-      'isloadingisloadingisloadingisloadingisloadingisloadingisloading',
-    );
-    return <SpinnerLoader isloading={isloading} />;
+    const {isFetching} = this.props.login;
+
+    return <SpinnerLoader isloading={isFetching} />;
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -74,11 +81,11 @@ class Login extends Component {
             );
           }, 3000);
         });
-        console.log(
-          nextProps.login.data,
-          ' nextProps.login.data nextProps.login.data',
-        );
-        this.props.navigation.navigate('HomePage');
+        if (this.props.cart.data.length == 0) {
+          this.props.navigation.navigate('Home');
+        } else {
+          this.props.navigation.navigate('Proceeding');
+        }
       } else if (
         !nextProps.login.failure &&
         !nextProps.login.isFetching &&
@@ -89,11 +96,12 @@ class Login extends Component {
           nextProps.login.data.msg,
           'nextProps.login.data.data.msgnextProps.login.data.data.msg',
         );
-        this.setState({isloading: false}, () => {
-          setTimeout(() => {
-            Alert.alert('Error', nextProps.login.data.msg);
-          }, 3000);
-        });
+        // this.setState({isloading: false}, () => {
+        //   setTimeout(() => {
+        //     Alert.alert('Error', nextProps.login.data.msg);
+        //   }, 3000);
+        // });
+        this.setState({isloading: false});
       }
     }
   }
@@ -151,8 +159,26 @@ class Login extends Component {
     this.props.userLogin(payload);
   };
 
-  onChangeEmail = (value) => this.setState({email: value});
-  onChangePassword = (value) => this.setState({password: value});
+  onChangeEmail = async (value) => {
+    this.setState({email: value});
+    this.setState({
+      emailError: await validate(
+        value,
+        emailRegex,
+        'Please enter a valid email',
+      ),
+    });
+  };
+  onChangePassword = async (value) => {
+    this.setState({password: value});
+    this.setState({
+      passwordError: await validate(
+        value,
+        passwordRegex,
+        'Password must be at least 6 characters.',
+      ),
+    });
+  };
 
   onSubmit = (value) => {
     if (value === 'onDone') {
@@ -173,6 +199,7 @@ class Login extends Component {
     onSubmitEditing,
     secureTextEntry,
     CustomTextInput,
+    errorMessage,
   ) => {
     return (
       <View>
@@ -194,6 +221,9 @@ class Login extends Component {
           // }}
           secureTextEntry={secureTextEntry}
         />
+        <View>
+          <Text style={styles.errorText}>{errorMessage}</Text>
+        </View>
       </View>
     );
   };
@@ -214,7 +244,17 @@ class Login extends Component {
     return (
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <TouchableOpacity
-          style={styles.submitBtn}
+          style={[
+            styles.submitBtn,
+            this.state.passwordError == null && this.state.emailError == null
+              ? {backgroundColor: '#FF3600'}
+              : {backgroundColor: '#DEDEDE'},
+          ]}
+          disabled={
+            this.state.passwordError == null && this.state.emailError == null
+              ? false
+              : true
+          }
           onPress={() => this.checkValidation()}>
           <Text style={styles.submitBtnText}>Login Now</Text>
         </TouchableOpacity>
@@ -283,8 +323,8 @@ class Login extends Component {
           <View
             style={{
               paddingHorizontal: Metrics.ratio(20),
-              height: Metrics.screenHeight,
-              justifyContent: 'center',
+              // height: Metrics.screenHeight,
+              // justifyContent: 'center',
             }}>
             {this.renderHeaderLogo()}
             {this.renderScreenHeading()}
@@ -298,6 +338,8 @@ class Login extends Component {
               'email-address',
               'inputPassword',
               false,
+              styles.CustomTextInput,
+              this.state.emailError,
             )}
             {this.renderTextInputWithLabel(
               'Password',
@@ -305,14 +347,14 @@ class Login extends Component {
               'done',
               this.onChangePassword,
               password,
-              '* * * * * * *',
-              'text',
+              'Enter your password',
+              null,
               'onDone',
               true,
               styles.CustomTextInput,
+              this.state.passwordError,
             )}
             {this.renderSubmitBtn()}
-            {this.renderConnectCard()}
             {this._renderOverlaySpinner()}
           </View>
         </ScrollView>
@@ -321,7 +363,7 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({login: state.login});
+const mapStateToProps = (state) => ({login: state.login, cart: state.cart});
 
 const action = {userLogin};
 

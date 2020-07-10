@@ -27,11 +27,11 @@ export default StyleSheet.create ({
        marginTop: 10
     },
     row:{
-    width:'70%',
-    flexDirection: 'row',
+    width:'80%',
     alignItems: 'center',
-    justifyContent:'flex-start',
-    marginVertical: 10
+    justifyContent: 'flex-start',
+    marginVertical: 10,
+    borderWidth:0
     },
     rowCancel:{
         width: '80%',
@@ -55,6 +55,16 @@ export default StyleSheet.create ({
       width: Metrics.screenWidth * 0.4,
       borderRadius: Metrics.screenWidth * 0.35,
     },
+    imageContainer:{
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 50,
+      height:80,
+      width:80,
+      backgroundColor: '#FF3600',
+
+
+    },
     submitBtnText: {
       fontSize: Metrics.ratio(14),
       color: '#fff',
@@ -65,6 +75,14 @@ export default StyleSheet.create ({
        width: '30%',
        backgroundColor:'black',
        marginTop: -10,
-    }
+    },
+    image:{
+       height: 60,
+       width: 60,
+       tintColor:Colors.white
+    },
+    onCancelText:{
+      fontSize:18,
+    },
 
  })

@@ -21,6 +21,9 @@ const pagination_back = require('../assets/Images/Icons/pagination_back.png');
 const cart_payment = require('../assets/Images/Icons/cart_payment.png');
 const cross = require('../assets/Images/Icons/cross.png');
 const arrow = require('../assets/Images/Icons/arrow.png');
+const costumer_saloon = require('../assets/Images/Icons/costumer_saloon.png');
+const human = require('../assets/Images/Icons/human.png');
+const costumer_booking = require('../assets/Images/Icons/costumer_booking.png');
 const saloon_card = require('../assets/Images/saloon_card.jpg');
 const select_services = require('../assets/Images/select_services.png');
 const saloon_form_american_express = require('../assets/Images/saloon_form_american_express.png');
@@ -39,6 +42,8 @@ const salon_active = require('../assets/Images/Icons/salon_active.png');
 const salon_unactive = require('../assets/Images/Icons/salon_unactive.png');
 
 // nav_bar_active
+const saloon_check_arrow = require('../assets/Images/saloon_check_arrow.png');
+const plus = require('../assets/Images/Icons/plus.png');
 
 export default {
   easy1_logo_800x300,
@@ -81,4 +86,9 @@ export default {
   nav_bar_active,
   salon_unactive,
   salon_active,
+  saloon_check_arrow,
+  plus,
+  human,
+  costumer_booking,
+  costumer_saloon
 };

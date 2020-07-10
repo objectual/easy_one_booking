@@ -1,10 +1,10 @@
 // @flow
 import {StyleSheet, ListViewBase} from 'react-native';
-import {Images, Metrics, Fonts} from '../../theme';
+import {Images, Metrics, Fonts, Colors} from '../../theme';
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: '#FDFFFC',
+    backgroundColor: Colors.Glitter,
     flex: 1,
     //  justifyContent: "center"
   },
@@ -19,22 +19,32 @@ export default StyleSheet.create({
     borderRadius: Metrics.ratio(15),
     overflow: 'hidden',
     elevation: 5,
+    shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 1
     },
-    shadowOpacity: 0.15,
+    shadowOpacity: 0.18,
     shadowRadius: 1.0,
   },
   servicesImage: {
+    marginHorizontal: Metrics.ratio(5),
     marginVertical: Metrics.ratio(15),
-    marginHorizontal: Metrics.ratio(15),
     height: Metrics.ratio(80),
     width: Metrics.ratio(80),
     borderRadius: Metrics.ratio(80),
   },
   containerForRow: {
-    paddingHorizontal: Metrics.ratio(20),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
+    elevation: 9,
+    marginHorizontal: Metrics.screenWidth * 0.05
+    // paddingHorizontal: Metrics.ratio(20),
     // marginTop: Metrics.ratio(20),
   },
 
@@ -100,4 +110,7 @@ export default StyleSheet.create({
     marginBottom: 15,
     textAlign: 'center',
   },
+  text14 : {
+    fontSize: Metrics.ratio(14)
+  }
 });

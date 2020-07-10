@@ -25,7 +25,10 @@ import {Footer} from './../../components';
 // import Icon from 'react-native-vector-icons/MaterialIcons';
 import {request as get_Saloon} from '../../redux/actions/GetSaloon';
 import {request as Get_Categories} from '../../redux/actions/GetCategories';
+
+import {request as get_Services} from '../../redux/actions/GetServices';
 import Geolocation from '@react-native-community/geolocation';
+import {initializeToken, token} from '../../config/WebServices';
 
 class Home extends Component {
   constructor(props) {
@@ -36,55 +39,16 @@ class Home extends Component {
       selectCard: null,
       selectSaloon: null,
       GetSaloonData: [],
-      GetSaloonCategories: [],
-      dayandtime: [
-        {
-          day: 'Mon',
-          time: '08:00-12:30 | 14:00- 17:00',
-        },
-        {
-          day: 'Tue',
-          time: '08:00-12:30 | 14:00- 17:00',
-        },
-        {
-          day: 'Wed',
-          time: '08:00-12:30 | 14:00- 17:00',
-        },
-        {
-          day: 'Thur',
-          time: '08:00-12:30 | 14:00- 17:00',
-        },
-        {
-          day: 'Fri',
-          time: '08:00-12:30 | 14:00- 17:00',
-        },
-        {
-          day: 'Sat',
-          time: 'Close',
-        },
-        {
-          day: 'Sun',
-          time: 'Close',
-        },
-        // {
-        //   cardImage: Images.saloon_card,
-        //   cardTtle: 'Lorem ipsum dolor',
-        //   cardDiscription: 'Lorem ipsum dolor sit amet, ctur adipiscing elit',
-        //   rating: 5,
-        //   totalRatingNo: '(2.2k)',
-        // },
-      ],
+      getServices: [],
     };
   }
 
-  componentDidMount = () => {
-    this.didFocusListener = this.props.navigation.addListener('focus', () => {
-      this.getLocationHandler();
-      this.getCategoriesApi();
-    });
+  componentDidMount = async () => {
+    await initializeToken();
+    await this.props.get_Services();
+    await this.props.get_Saloon();
 
-    this.getLocationHandler();
-    this.getCategoriesApi();
+    // await this.getLocationHandler();
   };
 
   // componentWillUnmount()
@@ -92,9 +56,6 @@ class Home extends Component {
   //   this.didFocusListener.remove();
   // }
 
-  getCategoriesApi = () => {
-    this.props.Get_Categories();
-  };
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.getSaloon) {
       if (
@@ -111,37 +72,36 @@ class Home extends Component {
         nextProps.getSaloon.data.data &&
         !nextProps.getSaloon.data.success
       ) {
-        this.setState({isloading: false}, () => {
-          console.log(nextProps.getSaloon,'/////////////////ppppppp')
-          setTimeout(() => {
-            Alert.alert('Error', nextProps.getSaloon.data.msg);
-          }, 3000);
-        });
+        // this.setState({ isloading: false }, () => {
+        //   setTimeout(() => {
+        //     Alert.alert('Error', nextProps.getSaloon.data.msg);
+        //   }, 3000);
+        // });
+        this.setState({isloading: false});
       }
     }
 
-    if (nextProps.getCategories) {
-      console.log(
-        nextProps.getCategories   ,
-        'getCategoriesgetCategoriesgetCategoriesgetCategoriesgetCategories',
-      );
+    if (nextProps.getServices) {
       if (
-        !nextProps.getCategories.failure &&
-        !nextProps.getCategories.isFetching &&
-        nextProps.getCategories.data &&
-        nextProps.getCategories.data.success
+        !nextProps.getServices.failure &&
+        !nextProps.getServices.isFetching &&
+        nextProps.getServices.data &&
+        nextProps.getServices.data.success
       ) {
-        this.setState({GetSaloonCategories: nextProps.getCategories.data.data});
-       
+        this.setState({getServices: nextProps.getServices.data.data});
+        console.log(
+          nextProps.getServices.data.data,
+          'getCategoriesgetCategoriesgetCategoriesgetCategoriesgetCategories',
+        );
       } else if (
-        !nextProps.getCategories.failure &&
-        !nextProps.getCategories.isFetching &&
-        nextProps.getCategories.data &&
-        !nextProps.getCategories.data.success
+        !nextProps.getServices.failure &&
+        !nextProps.getServices.isFetching &&
+        nextProps.getServices.data &&
+        !nextProps.getServices.data.success
       ) {
         this.setState({isloading: false}, () => {
           setTimeout(() => {
-            Alert.alert('Error', nextProps.getCategories.data.msg);
+            Alert.alert('Error', nextProps.getServices.data.msg);
           }, 3000);
         });
       }
@@ -173,11 +133,16 @@ class Home extends Component {
 
   renderShowCategoryButton = () => {
     const {selectCard} = this.state;
-    // console.log( selectCard, 'selectCardselectCardselectCardselectCard')
     return (
       <View>
         <Text style={styles.mainheading2}>
           {selectCard && selectCard.saloon.name ? selectCard.saloon.name : null}
+        </Text>
+        <Text style={styles.mainheading2}>Description</Text>
+        <Text style={styles.mainheading3}>
+          {selectCard && selectCard.saloon.companyShortDescription
+            ? selectCard.saloon.companyShortDescription
+            : null}
         </Text>
         <TouchableOpacity
           style={styles.submitBtn}
@@ -216,7 +181,7 @@ class Home extends Component {
           styles.containerForRow,
           {flexDirection: 'row', justifyContent: 'space-between'},
         ]}>
-        <Text style={styles.mainheading}>Top Rated Saloon</Text>
+        <Text style={styles.mainheading}>Top Rated Salon</Text>
         {/* {this.renderShowWithRadiusButton()} */}
       </View>
     );
@@ -229,38 +194,38 @@ class Home extends Component {
     );
   };
 
-  getLocationHandler = () => {
-    this.setState({isLoading: true});
-    Geolocation.getCurrentPosition(
-      (pos) => {
-        this.setState(
-          {
-            longitude: pos.coords.longitude,
-            latitude: pos.coords.latitude,
-            radius: 5000,
-          },
-          () => this.handleGetSaloon(),
-        );
-        console.log('latitude: ', pos.coords.longitude);
-        console.log('longitude: ', pos.coords.latitude);
-      },
-      (error) => this.setState({error: error.message}),
-      {enableHighAccuracy: false, timeout: 5000, maximumAge: 10000},
-    );
-  };
-  handleGetSaloon = () => {
-    this.setState({isLoading: true});
-    const {longitude, latitude, radius} = this.state;
-    const payload = {
-      longitude,
-      latitude,
-    };
-    this.props.get_Saloon(payload);
-  };
+  // getLocationHandler = () => {
+  //   this.setState({ isLoading: true });
+  //   Geolocation.getCurrentPosition(
+  //     pos => {
+  //       this.setState(
+  //         {
+  //           longitude: pos.coords.longitude,
+  //           latitude: pos.coords.latitude,
+  //           radius: 5000,
+  //         },
+  //         () => this.handleGetSaloon(),
+  //       );
+  //       console.log('latitude: ', pos.coords.longitude);
+  //       console.log('longitude: ', pos.coords.latitude);
+  //     },
+  //     error => this.setState({ error: error.message }),
+  //     { enableHighAccuracy: false, timeout: 5000, maximumAge: 10000 },
+  //   );
+  // };
+  // handleGetSaloon = () => {
+  //   this.setState({ isLoading: true });
+  //   const { longitude, latitude, radius } = this.state;
+  //   const payload = {
+  //     longitude,
+  //     latitude,
+  //     radius,
+  //   };
+  //   this.props.get_Saloon();
+  // };
 
   renderSaloonCard = (salon) => {
     const {selectCard} = this.state;
-    console.log(salon,'llllllllllllll')
     return (
       <TouchableOpacity
         style={
@@ -272,23 +237,69 @@ class Home extends Component {
           this.setState({showdescription: true, selectCard: salon})
         }>
         <View style={styles.cardradius}>
-          {salon &&
-          salon.templateID &&
-          salon.templateID.coverImage &&
-          salon.templateID.coverImage.url ? (
+          {/* {salon &&
+          salon.template &&
+          salon.template.coverImage &&
+          salon.template.coverImage.url ? ( */}
+          <View
+            style={{
+              // overflow: 'hidden',
+              borderRadius: Metrics.ratio(10),
+              // borderWidth: Metrics.ratio(2),
+              // borderColor: '#FF3600',
+              backgroundColor: 'white',
+              elevation: 9,
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 4,
+              },
+              shadowOpacity: 0.32,
+              shadowRadius: 5.46,
+            }}>
             <Image
-              source={{uri: salon.templateID.coverImage.url}}
+              // source={{ uri: salon.saloon.companyLogo }}
+              source={{uri: salon.template.coverImage.url}}
               style={styles.cardImage}
             />
-          ) : (
-            <Image source={Images.saloon_card} style={styles.cardImage} />
-          )}
-          <View>
-            <Text numberOfLines={1} style={styles.titleText}>
-              {salon && salon.name && salon.name}
+            <Text
+              numberOfLines={1}
+              style={[styles.titleText, {marginHorizontal: Metrics.ratio(3)}]}>
+              {salon && salon.saloon && salon.saloon.name}
             </Text>
-            <Rating totalRating={'(2.2k)'} Default_Rating={5} disabled={true} />
+            <Text
+              numberOfLines={3}
+              style={[
+                styles.titleText,
+                {
+                  fontSize: Metrics.ratio(14),
+                  marginHorizontal: Metrics.ratio(3),
+                  marginVertical: Metrics.ratio(3),
+                },
+              ]}>
+              {salon && salon.saloon && salon.saloon.companyShortDescription}
+            </Text>
+            <View
+              style={{
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+                marginVertical: Metrics.ratio(5),
+                paddingHorizontal: Metrics.ratio(5),
+              }}>
+              <View></View>
+              <Rating
+                totalRating={'(2.2k)'}
+                Default_Rating={5}
+                disabled={true}
+                StarImage={styles.StarImage}
+                totalRatingtext={styles.totalRatingtext}
+              />
+            </View>
           </View>
+
+          {/* ) : (
+            <Image source={Images.saloon_card} style={styles.cardImage} />
+          )} */}
         </View>
       </TouchableOpacity>
     );
@@ -297,32 +308,45 @@ class Home extends Component {
     const {selectSaloon} = this.state;
     return (
       <TouchableOpacity
-        style={
-          selectSaloon && selectSaloon._id == category._id
-            ? styles.showcardradius
-            : null
-        }
+        style={{}}
         onPress={() =>
           this.props.navigation.navigate('Saloons', {id: category._id})
-        }>
-        <View style={styles.cardradius}>
-          {category && category.image && category.image ? (
-            <Image source={{uri: category.image}} style={styles.cardImage} />
-          ) : (
-            <Image source={Images.saloon_card} style={styles.cardImage} />
-          )}
-          <View>
-            <Text numberOfLines={1} style={styles.titleText}>
-              {category && category.name}
-            </Text>
-          </View>
+        }
+        // onPress={() => this.props.navigation.navigate('BookingForm')}
+      >
+        <View style={styles.categoriesCardContainer}>
+          {
+            category && category.image && category.image && (
+              <Image
+                resizeMethod="auto"
+                resizeMode="stretch"
+                source={{uri: category.image}}
+                style={{
+                  height: Metrics.ratio(90),
+                  width: Metrics.ratio(80),
+                }}
+              />
+            )
+            //( <Image source={Images.saloon_card} style={styles.cardImage} />)
+          }
+        </View>
+        <View>
+          <Text
+            numberOfLines={1}
+            style={[
+              styles.titleText,
+              {textAlign: 'center', marginVertical: Metrics.ratio(5)},
+            ]}>
+            {category && category.name}
+          </Text>
         </View>
       </TouchableOpacity>
     );
   };
+
   renderSaloonCategoriesCard = () => {
-    const {GetSaloonCategories} = this.state;
-    const {isFetching, failure} = this.props.getCategories;
+    const {getServices} = this.state;
+    const {isFetching, failure} = this.props.getServices;
 
     return (
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -337,7 +361,7 @@ class Home extends Component {
             {isFetching == false && failure == false ? (
               <FlatList
                 horizontal
-                data={GetSaloonCategories}
+                data={getServices}
                 renderItem={({item, index}) =>
                   this.renderSaloonCategories(item, index)
                 }
@@ -382,38 +406,219 @@ class Home extends Component {
       </ScrollView>
     );
   };
-  renderDayAndTime = (day, time) => {
-    return (
-      <View>
-        <View style={{marginVertical: Metrics.ratio(3), flexDirection: 'row'}}>
-          <Text
-            style={{
-              fontSize: Metrics.ratio(15),
-              width: Metrics.screenWidth * 0.2,
-            }}>
-            {day}
-          </Text>
-          <Text
-            style={{
-              fontSize: Metrics.ratio(15),
-              width: Metrics.screenWidth * 0.8,
-            }}>
-            {time}
-          </Text>
-        </View>
-      </View>
-    );
+  // renderDayAndTime = (day, time) => {
+  //   return (
+  //     <View>
+  //       <View style={styles.timeContainer}>
+  //         <Text
+  //           style={styles.timeContainerTextday}>
+  //           {day}
+  //         </Text>
+  //         <Text
+  //           style={styles.timeContainerTextTime}>
+  //           {time}
+  //         </Text>
+  //       </View>
+  //     </View>
+  //   );
+  // };
+  renderDayAndTimeColumn = (saloonTime) => {
+    console.log(saloonTime, 'saloonTimesal111oonTimesaloonTime');
+
+    // return (
+    //   <View>
+    //     <View style={styles.timeContainer}>
+    //       <Text style={styles.timeContainerTextday}>
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['0'].availableStatus == 1
+    //           ? 'Mon'
+    //           : 'Mon'}
+    //       </Text>
+    //       <Text style={styles.timeContainerTextTime}>
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['0'].checkIn ? (
+    //           saloonTime.schedule.weekPlans['0'].checkIn
+    //         ) : (
+    //           <Text style={{color: 'red'}}>OFF</Text>
+    //         )}
+    //         {'  '}
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['0'].checkOut
+    //           ? saloonTime.schedule.weekPlans['0'].checkOut
+    //           : null}
+    //       </Text>
+    //     </View>
+
+    //     <View style={styles.timeContainer}>
+    //       <Text style={styles.timeContainerTextday}>
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['1'].availableStatus == 1
+    //           ? 'Tue'
+    //           : 'Tue'}
+    //       </Text>
+    //       <Text style={styles.timeContainerTextTime}>
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['1'].checkIn ? (
+    //           saloonTime.schedule.weekPlans['1'].checkIn
+    //         ) : (
+    //           <Text style={{color: 'red'}}>OFF</Text>
+    //         )}
+    //         {'  '}
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['1'].checkOut
+    //           ? saloonTime.schedule.weekPlans['1'].checkOut
+    //           : null}
+    //       </Text>
+    //     </View>
+
+    //     <View style={styles.timeContainer}>
+    //       <Text style={styles.timeContainerTextday}>
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['2'].availableStatus == 1
+    //           ? 'Wed'
+    //           : 'Wed'}
+    //       </Text>
+    //       <Text style={styles.timeContainerTextTime}>
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['2'].checkIn ? (
+    //           saloonTime.schedule.weekPlans['2'].checkIn
+    //         ) : (
+    //           <Text style={{color: 'red'}}>OFF</Text>
+    //         )}
+    //         {'  '}
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['2'].checkOut
+    //           ? saloonTime.schedule.weekPlans['2'].checkOut
+    //           : null}
+    //       </Text>
+    //     </View>
+
+    //     <View style={styles.timeContainer}>
+    //       <Text style={styles.timeContainerTextday}>
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['3'].availableStatus == 1
+    //           ? 'Thu'
+    //           : 'Thu'}
+    //       </Text>
+    //       <Text style={styles.timeContainerTextTime}>
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['3'].checkIn ? (
+    //           saloonTime.schedule.weekPlans['3'].checkIn
+    //         ) : (
+    //           <Text style={{color: 'red'}}>OFF</Text>
+    //         )}
+    //         {'  '}
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['3'].checkOut
+    //           ? saloonTime.schedule.weekPlans['3'].checkOut
+    //           : null}
+    //       </Text>
+    //     </View>
+
+    //     <View style={styles.timeContainer}>
+    //       <Text style={styles.timeContainerTextday}>
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['4'].availableStatus == 1
+    //           ? 'Fri'
+    //           : 'Fri'}
+    //       </Text>
+    //       <Text style={styles.timeContainerTextTime}>
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['4'].checkIn ? (
+    //           saloonTime.schedule.weekPlans['4'].checkIn
+    //         ) : (
+    //           <Text style={{color: 'red'}}>OFF</Text>
+    //         )}
+    //         {'  '}
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['4'].checkOut
+    //           ? saloonTime.schedule.weekPlans['4'].checkOut
+    //           : null}
+    //       </Text>
+    //     </View>
+
+    //     <View style={styles.timeContainer}>
+    //       <Text style={styles.timeContainerTextday}>
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['5'].availableStatus == 1
+    //           ? 'Sat'
+    //           : 'Sat'}
+    //       </Text>
+    //       <Text style={styles.timeContainerTextTime}>
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['5'].checkIn ? (
+    //           saloonTime.schedule.weekPlans['5'].checkIn
+    //         ) : (
+    //           <Text style={{color: 'red'}}>OFF</Text>
+    //         )}
+    //         {'  '}
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['5'].checkOut
+    //           ? saloonTime.schedule.weekPlans['5'].checkOut
+    //           : null}
+    //       </Text>
+    //     </View>
+
+    //     <View style={styles.timeContainer}>
+    //       <Text style={styles.timeContainerTextday}>
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['6'].availableStatus == 1
+    //           ? 'Sun'
+    //           : 'Sun'}
+    //       </Text>
+    //       <Text style={styles.timeContainerTextTime}>
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['6'].checkIn ? (
+    //           saloonTime.schedule.weekPlans['6'].checkIn
+    //         ) : (
+    //           <Text style={{color: 'red'}}>OFF</Text>
+    //         )}{' '}
+    //         {'  '}
+    //         {saloonTime &&
+    //         saloonTime.schedule.weekPlans &&
+    //         saloonTime.schedule.weekPlans['6'].checkOut
+    //           ? saloonTime.schedule.weekPlans['6'].checkOut
+    //           : null}
+    //       </Text>
+    //     </View>
+    //   </View>
+    // );
   };
+  renderDayAndTime = (selectCard) => {
+    return <View>{this.renderDayAndTimeColumn(selectCard)}</View>;
+  };
+
   renderDescription = () => {
-    const {dayandtime, selectCard} = this.state;
+    const {dayandtime, selectCard, GetSaloonData} = this.state;
     return (
       <View style={styles.containerForRow}>
-        <Text style={styles.mainheading1}>Description</Text>
+        <Text style={styles.mainheading1}>Name</Text>
         {this.renderShowCategoryButton()}
         <Text style={styles.mainheading2}>Opening Hours</Text>
-        {dayandtime.map((val, index) => {
+        {/* {dayandtime.map((val, index) => {
           return <View>{this.renderDayAndTime(val.day, val.time, index)}</View>;
-        })}
+        })} */}
+        {selectCard && selectCard.schedule && this.renderDayAndTime(selectCard)}
         <Text style={styles.mainheading2}>Address</Text>
         <Text style={styles.mainheading3}>
           {selectCard && selectCard.saloon.address
@@ -425,7 +630,7 @@ class Home extends Component {
   };
 
   render() {
-    const {showdescription, GetSaloonData, GetSaloonCategories} = this.state;
+    const {showdescription, GetSaloonData, getServices} = this.state;
 
     return (
       <Footer navigation={this.props.navigation.navigate} screen={"home"}>
@@ -449,10 +654,10 @@ class Home extends Component {
 const mapStateToProps = (state) => {
   return {
     getSaloon: state.getSaloon,
-    getCategories: state.getCategories,
+    getServices: state.getServices,
   };
 };
 
-const action = {get_Saloon, Get_Categories};
+const action = {get_Saloon, get_Services};
 
 export default connect(mapStateToProps, action)(Home);

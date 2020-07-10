@@ -3,20 +3,7 @@ import {StyleSheet, Platform} from 'react-native';
 import {Colors, Metrics, Fonts} from '../../theme';
 
 export default StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    height: Metrics.screenHeight * 0.08,
-    flexDirection: 'row',
-    shadowColor: Colors.black,
-    paddingHorizontal: Metrics.ratio(10),
-    elevation: 4,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.18,
-    shadowRadius: 1.0,
-  },
+  
   cardradius: {
     padding: Metrics.ratio(7),
   },
@@ -27,24 +14,31 @@ export default StyleSheet.create({
     width: Metrics.ratio(150),
   },
   servicebox: {
+    margin: Metrics.ratio(5),
     width: Metrics.screenWidth * 0.45,
     backgroundColor: '#fff',
     borderRadius: Metrics.ratio(15),
-    overflow: 'hidden',
+    // overflow: 'hidden',
     elevation: 5,
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 4,
     },
-    shadowOpacity: 0.15,
-    shadowRadius: 1.0,
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
+    marginVertical: Metrics.ratio(10)
   },
   titleText: {
     fontSize: Metrics.ratio(16),
+    marginVertical: Metrics.ratio(5),
+    marginHorizontal: Metrics.ratio(5),
     // marginVertical: Metrics.ratio(3),
   },
   descriptionText: {
     fontSize: Metrics.ratio(11),
+    marginVertical: Metrics.ratio(5),
+    marginHorizontal: Metrics.ratio(5),
     // marginVertical: Metrics.ratio(3),
   },
   submitBtn: {
@@ -60,5 +54,15 @@ export default StyleSheet.create({
     // justifyContent: "center",
     // textAlignVertical: "center"
     textAlign: 'center',
+  },
+  StarImage: {
+    width: 12,
+    height: 12,
+    resizeMode: 'cover',
+  },
+  totalRatingtext: {
+    fontSize: 11,
+    marginLeft: 3,
+    color: '#d2d2d2',
   },
 });
