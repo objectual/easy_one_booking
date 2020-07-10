@@ -24,9 +24,25 @@ class Footer extends React.Component {
         <View style={styles.footerContainer}>
           <View style={styles.footerSubContainer}>
             <TouchableOpacity
-              style={{justifyContent: 'center'}}
-              onPress={() => this.props.navigation('Home')}>
+              onPress={() => this.props.navigation('Home')}
+              style={{justifyContent: 'center'}}>
               {screen != 'home' ? (
+                <Image
+                  source={Images.home_unactive}
+                  style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
+                />
+              ) : (
+                <Image
+                  source={Images.home_active}
+                  style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
+                />
+              )}
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{justifyContent: 'center'}}
+              onPress={() => this.props.navigation('Available Services')}>
+              {screen != 'services' ? (
                 <Image
                   source={Images.service_unactive}
                   style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
@@ -38,22 +54,9 @@ class Footer extends React.Component {
                 />
               )}
             </TouchableOpacity>
+
             <TouchableOpacity
-              onPress={() => this.props.navigation('Chatbox')}
-              style={{justifyContent: 'center'}}>
-              {screen != 'chat' ? (
-                <Image
-                  source={Images.livechat_unactive}
-                  style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
-                />
-              ) : (
-                <Image
-                  source={Images.livechat_active}
-                  style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
-                />
-              )}
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.props.navigation('Saloons')}>
+              onPress={() => this.props.navigation('DrawerSaloons')}>
               {screen != 'saloon' ? (
                 <Image
                   source={Images.salon_unactive}

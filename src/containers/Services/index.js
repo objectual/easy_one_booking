@@ -24,6 +24,7 @@ import StarRating from 'react-native-star-rating';
 import {request as get_Saloon_Services_By_Category} from '../../redux/actions/GetSaloonServicesByCategory.js';
 import DatePicker from 'react-native-datepicker';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {Footer} from './../../components';
 
 class Services extends Component {
   constructor(props) {
@@ -69,12 +70,11 @@ class Services extends Component {
         //   }, 3000);
         // });
         this.setState({isloading: false});
-
       }
     }
   }
   componentDidMount = () => {
-    // this.handleSaloonServicesByCategory();
+    this.handleSaloonServicesByCategory();
   };
 
   handleSaloonServicesByCategory = () => {
@@ -96,7 +96,7 @@ class Services extends Component {
     });
   };
 
-  showMode = mode => {
+  showMode = (mode) => {
     this.setState({
       show: true,
       mode,
@@ -154,11 +154,13 @@ class Services extends Component {
       <View style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
           <View style={{width: Metrics.screenWidth * 0.3}}>
-            {services && services.image && services.image &&
-              <Image
-                source={{uri: services.image}}
-                style={styles.servicesImage}
-              />
+            {
+              services && services.image && services.image && (
+                <Image
+                  source={{uri: services.image}}
+                  style={styles.servicesImage}
+                />
+              )
               // <Image source={image} style={styles.servicesImage} />
             }
           </View>
@@ -248,7 +250,7 @@ class Services extends Component {
   render() {
     const {getSelectedServices} = this.state;
     return (
-      <View style={styles.container}>
+      <Footer navigation={this.props.navigation.navigate} screen={'services'}>
         <Header
           headerText={'Services'}
           leftIcon={Images.pagination_back}
@@ -263,12 +265,12 @@ class Services extends Component {
             {/* {this.renderNextStepButton()} */}
           </View>
         </ScrollView>
-      </View>
+      </Footer>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   getSaloonServicesByCategory: state.getSaloonServicesByCategory,
   getSaloon: state.getSaloon,
   login: state.login,

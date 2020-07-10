@@ -12,11 +12,17 @@ import Navigation from './navigator';
 import SplashScreen from 'react-native-splash-screen';
 import {Provider} from 'react-redux';
 
+import {Footer} from './components';
 import Store from './redux/store';
 
 const store = Store();
 
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   componentDidMount() {
     setTimeout(() => {
       SplashScreen.hide();

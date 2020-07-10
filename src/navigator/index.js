@@ -8,8 +8,8 @@ import {
   ImageBackground,
   Image,
 } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -17,7 +17,7 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import Home from './../containers/Home/index';
-import { Images, Metrics, Fonts, Colors } from '../theme';
+import {Images, Metrics, Fonts, Colors} from '../theme';
 import Services from './../containers/Services/index';
 import ChartBox from './../containers/ChartBox/index';
 import BookingHistory from '../containers/BookingHistory/index';
@@ -34,42 +34,37 @@ import SaloonServicesByCategory from './../containers/SaloonServicesByCategory/i
 import Menu from './../containers/Menu';
 import GiveFeedBack from './../containers/GiveFeedBack/index';
 import AsyncStorage from '@react-native-community/async-storage';
-import {token} from '../config/WebServices'
+import {token} from '../config/WebServices';
 import RNRestart from 'react-native-restart';
-
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-
-
-
- function CustomDrawerContent(props) {
-
+function CustomDrawerContent(props) {
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
 
-      
-    
-      { token !=null  && 
-      (<DrawerItem
-        label="Logout"
-        onPress={async() => {await AsyncStorage.clear(),RNRestart.Restart()}}
-        style={{marginTop: 20}}
-        icon={({focused}) => (
-          <Image
-            source={Images.costumer_logout}
-            style={[getFocusedTabStyles(focused), styles.drawerIcon]}
-          />
-        )}
-      />) 
-      }
+      {token != null && (
+        <DrawerItem
+          label="Logout"
+          onPress={async () => {
+            await AsyncStorage.clear(), RNRestart.Restart();
+          }}
+          style={{marginTop: 20}}
+          icon={({focused}) => (
+            <Image
+              source={Images.costumer_logout}
+              style={[getFocusedTabStyles(focused), styles.drawerIcon]}
+            />
+          )}
+        />
+      )}
     </DrawerContentScrollView>
   );
 }
 
-function homeStack({ navigation }) {
+function homeStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -112,7 +107,7 @@ function menuStack({navigation}) {
   );
 }
 
-function serviceStack({ navigation }) {
+function serviceStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -138,7 +133,7 @@ function serviceStack({ navigation }) {
   );
 }
 
-function chatStack({ navigation }) {
+function chatStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -149,22 +144,13 @@ function chatStack({ navigation }) {
           headerTitleStyle: {
             marginLeft: '40%',
           },
-
-          // headerLeft: () => (
-          //   <TouchableOpacity onPress={() => navigation.openDrawer()}>
-          //     <Image
-          //       source={Images.costumer_header_menu}
-          //       style={styles.headerIcon}
-          //     />
-          //   </TouchableOpacity>
-          // ),
         }}
       />
     </Stack.Navigator>
   );
 }
 
-function drawerSaloonsStack({ navigation }) {
+function drawerSaloonsStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -190,7 +176,7 @@ function drawerSaloonsStack({ navigation }) {
   );
 }
 
-function categoriesStack({ navigation }) {
+function categoriesStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -216,7 +202,7 @@ function categoriesStack({ navigation }) {
   );
 }
 
-function saloonStack({ navigation }) {
+function saloonStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -242,7 +228,7 @@ function saloonStack({ navigation }) {
   );
 }
 
-function employeeStack({ navigation }) {
+function employeeStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -267,7 +253,7 @@ function employeeStack({ navigation }) {
     </Stack.Navigator>
   );
 }
-function SaloonsStack({ navigation }) {
+function SaloonsStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -293,7 +279,9 @@ function SaloonsStack({ navigation }) {
   );
 }
 
-function bookingFormStack({ navigation }) {
+// drawerSaloonsStack
+
+function bookingFormStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -319,7 +307,7 @@ function bookingFormStack({ navigation }) {
   );
 }
 
-function bookingHistoryStack({ navigation }) {
+function bookingHistoryStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -331,21 +319,21 @@ function bookingHistoryStack({ navigation }) {
             marginLeft: '15%',
           },
 
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <Image
-                source={Images.costumer_header_menu}
-                style={styles.headerIcon}
-              />
-            </TouchableOpacity>
-          ),
+          // headerLeft: () => (
+          //   <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          //     <Image
+          //       source={Images.costumer_header_menu}
+          //       style={styles.headerIcon}
+          //     />
+          //   </TouchableOpacity>
+          // ),
         }}
       />
     </Stack.Navigator>
   );
 }
 
-function loginStack({ navigation }) {
+function loginStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -356,22 +344,30 @@ function loginStack({ navigation }) {
           headerTitleStyle: {
             marginLeft: '30%',
           },
-
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <Image
-                source={Images.costumer_header_menu}
-                style={styles.headerIcon}
-              />
-            </TouchableOpacity>
-          ),
         }}
       />
     </Stack.Navigator>
   );
 }
 
-function registerStack({ navigation }) {
+function historyStack({navigation}) {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Booking History"
+        component={BookingHistory}
+        options={{
+          title: 'Booking History',
+          headerTitleStyle: {
+            marginLeft: '30%',
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function registerStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -382,22 +378,13 @@ function registerStack({ navigation }) {
           headerTitleStyle: {
             marginLeft: '30%',
           },
-
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <Image
-                source={Images.costumer_header_menu}
-                style={styles.headerIcon}
-              />
-            </TouchableOpacity>
-          ),
         }}
       />
     </Stack.Navigator>
   );
 }
 
-function proceedingStack({ navigation }) {
+function proceedingStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -423,7 +410,7 @@ function proceedingStack({ navigation }) {
   );
 }
 
-function giveFeedBackStack({ navigation }) {
+function giveFeedBackStack({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -451,187 +438,11 @@ function giveFeedBackStack({ navigation }) {
 
 function getFocusedTabStyles(focused) {
   if (focused) {
-    return { tintColor: Colors.red };
+    return {tintColor: Colors.red};
   }
 }
 
-function mainDrawer() {
-
-
-  return (
-    <Drawer.Navigator
-      drawerContentOptions={{
-        itemStyle: { marginVertical: 10 },
-        activeTintColor: 'red',
-      }}
-      drawerStyle={{
-        width: '70%',
-        backgroundColor: Colors.white,
-        activeBackgroundColor: Colors.red,
-      }}
-      drawerType={'slide'}
-      drawerContent={(props) => <CustomDrawerContent {...props} />}>
-      {/* <Drawer.Screen
-        name="Home"
-        component={homeStack}
-        options={{
-          drawerIcon: ({ focused }) => (
-            <Image
-              source={Images.costumer_home}
-              style={[getFocusedTabStyles(focused), styles.drawerIcon]}
-            />
-          ),
-        }}
-      /> */}
-
-      {/* <Drawer.Screen
-        name="Chatbox"
-        component={chatStack}
-        options={{
-          drawerIcon: ({ focused }) => (
-            <Image
-              source={Images.costumer_chart_box}
-              style={[getFocusedTabStyles(focused), styles.drawerIcon]}
-            />
-          ),
-        }}
-      /> */}
-
-      {/* <Drawer.Screen
-        name="Menu"
-        component={menuStack}
-        options={{
-          drawerIcon: ({focused}) => (
-            <Image
-              source={Images.costumer_chart_box}
-              style={[getFocusedTabStyles(focused), styles.drawerIcon]}
-            />
-          ),
-        }}
-      /> */}
-      <Drawer.Screen
-        name="DrawerSaloon"
-        component={drawerSaloonsStack}
-        options={{
-          title: 'Saloon',
-          drawerIcon: ({ focused }) => (
-            <Image
-              source={Images.costumer_saloon}
-              style={[getFocusedTabStyles(focused), styles.drawerIcon]}
-            />
-          ),
-        }}
-      />
-      
-      {/*
-        <Drawer.Screen
-          name="Categories"
-          component={categoriesStack}
-          options={{
-            drawerIcon: ({focused}) => 
-            <Image
-              source={Images.costumer_services}
-              style={[getFocusedTabStyles(focused),styles.drawerIcon]}
-
-
-            />
-          }}
-        />*/}
-
-
-      {token != null &&
-      <Drawer.Screen
-        name="Booking History"
-        component={bookingHistoryStack}
-        options={{
-          drawerIcon: ({ focused }) => (
-            <Image
-              source={Images.costumer_booking}
-              style={[getFocusedTabStyles(focused), styles.drawerIcon]}
-            />
-          ),
-        }}
-      />
-      }
-      {token == null &&
-        <>
-          <Drawer.Screen
-            name="Login"
-            component={loginStack}
-            options={{
-              drawerIcon: ({ focused }) => (
-                <Image
-                  source={Images.costumer_login}
-                  style={[getFocusedTabStyles(focused), styles.drawerIcon]}
-                />
-              ),
-            }}
-          />
-          <Drawer.Screen
-            name="Register"
-            component={registerStack}
-            options={{
-              drawerIcon: ({ focused }) => (
-                <Image
-                  source={Images.costumer_register}
-                  style={[getFocusedTabStyles(focused), styles.drawerIcon]}
-                />
-              ),
-            }}
-          />
-
-        </>
-      }
-
-
-      {/*}
-
-        <Drawer.Screen
-          name="Saloons"
-          component={saloonStack}
-          options={{
-            drawerIcon: ({focused}) => 
-            <Image
-              source={Images.costumer_services}
-              style={[getFocusedTabStyles(focused),styles.drawerIcon]}
-
-            />
-          }}
-        />
-
-        {
-          // <Drawer.Screen
-          //   name="Saloons"
-          //   component={saloonStack}
-          //   options={{
-          //     drawerIcon: ({focused}) => (
-          //       <Image
-          //         source={Images.costumer_services}
-          //         style={[getFocusedTabStyles(focused), styles.drawerIcon]}
-          //       />
-          //     ),
-          //   }}
-          // />
-          /*}
-        <Drawer.Screen
-          name="Employee"
-          component={employeeStack}
-          options={{
-            drawerIcon: ({focused}) => 
-            <Image
-              source={Images.costumer_services}
-              style={[getFocusedTabStyles(focused),styles.drawerIcon]}
-
-
-            />
-          }}
-        /> */}
-    </Drawer.Navigator>
-  );
-}
-
 function mainStack({navigation}) {
-
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -666,9 +477,36 @@ function mainStack({navigation}) {
             },
           }}
         />
+
+        <Stack.Screen
+          name="DrawerSaloons"
+          component={DrawerSaloons}
+          options={{
+            headerShown: false,
+            headerTitleStyle: {
+              marginLeft: '30%',
+            },
+          }}
+        />
+
+        {token != null && (
+          <Stack.Screen
+            name="BookingHistory"
+            component={historyStack}
+            options={{
+              headerShown: false,
+              headerTitleStyle: {
+                marginLeft: '30%',
+              },
+            }}
+          />
+          // ) : (
+          //   alert('Please Login')
+        )}
+
         <Stack.Screen
           name="Available Services"
-          component={availableServicesStack}
+          component={Services}
           options={{
             headerShown: false,
             headerTitleStyle: {

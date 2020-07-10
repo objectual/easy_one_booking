@@ -1,5 +1,5 @@
-import { connect } from 'react-redux';
-import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import React, {Component} from 'react';
 import {
   Text,
   View,
@@ -11,58 +11,46 @@ import {
   TextInput,
   Linking,
   StyleSheet,
-  FlatList
+  FlatList,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
-import { Images, Metrics, Fonts } from '../../theme';
+import {Images, Metrics, Fonts} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
-import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import {NavigationContainer} from '@react-navigation/native';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import BookingHistoryCard from '../../components/BookingHistory/index';
 import Pending from '../Pending/index';
 import Completed from '../Completed/index';
 
-
-
 const Tab = createMaterialTopTabNavigator();
 
-function CurrentScreen({ navigation }) {
+function CurrentScreen({navigation}) {
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener('tabPress', e => {
-
-    });
+    const unsubscribe = navigation.addListener('tabPress', (e) => {});
     return unsubscribe;
   }, [navigation]);
 
   return (
-    <View >
+    <View>
       <FlatList
         data={null}
-        renderItem={({ item, index }) => (
-          <BookingHistoryCard
-            item={"item"}
-          />
-        )}
+        renderItem={({item, index}) => <BookingHistoryCard item={'item'} />}
       />
-      <BookingHistoryCard/>
+      <BookingHistoryCard />
     </View>
   );
 }
 
 function PreviousScreen() {
   return (
-    <View >
-    <FlatList
-      data={null}
-      renderItem={({ item, index }) => (
-        <BookingHistoryCard
-          item={"item"}
-        />
-      )}
-    />
-    <BookingHistoryCard/>
-  </View>
+    <View>
+      <FlatList
+        data={null}
+        renderItem={({item, index}) => <BookingHistoryCard item={'item'} />}
+      />
+      <BookingHistoryCard />
+    </View>
   );
 }
 
@@ -70,14 +58,12 @@ class BookingHistory extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Detail: [
-        name = "ddddddd"
-      ]
+      Detail: [(name = 'ddddddd')],
     };
   }
 
   _renderOverlaySpinner = () => {
-    const { isloading } = this.state;
+    const {isloading} = this.state;
     return <SpinnerLoader isloading={isloading} />;
   };
 
@@ -87,7 +73,7 @@ class BookingHistory extends Component {
         <Tab.Navigator
           initialRouteName="CurrentScreen"
           tabBarOptions={{
-            labelStyle: { fontSize: 15 },
+            labelStyle: {fontSize: 15},
             activeTintColor: 'white',
             inactiveTintColor: '#FF4514',
             // pressColor: '#FF4514',
@@ -101,25 +87,19 @@ class BookingHistory extends Component {
             },
             indicatorStyle: {
               borderWidth: 27,
-              borderColor: '#FF4514'
+              borderColor: '#FF4514',
             },
-          }}
-
-        >
-          <Tab.Screen name="Pending" component={Pending}
-          />
-          <Tab.Screen name="Completed" component={Completed}
-          />
+          }}>
+          <Tab.Screen name="Pending" component={Pending} />
+          <Tab.Screen name="Completed" component={Completed} />
         </Tab.Navigator>
       </NavigationContainer>
     );
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = (state) => ({});
 
 const action = {};
 
 export default connect(mapStateToProps, action)(BookingHistory);
-
-

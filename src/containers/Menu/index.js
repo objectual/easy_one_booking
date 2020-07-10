@@ -20,6 +20,8 @@ import Booking_Icon from 'react-native-vector-icons/dist/EvilIcons';
 import User_Icon from 'react-native-vector-icons/dist/Feather';
 import Logout_Icon from 'react-native-vector-icons/dist/AntDesign';
 
+import {token} from '../../config/WebServices';
+
 export default class Menu extends Component {
   constructor(props) {
     super(props);
@@ -55,8 +57,12 @@ export default class Menu extends Component {
     };
   }
 
-  onClickListener = (viewId) => {
-    Alert.alert('Alert', 'Button pressed ' + viewId);
+  onClickListener = (item, viewId) => {
+    item.title == 'Booking History' && token
+      ? this.props.navigation.navigate('BookingHistory')
+      : this.props.navigation.navigate('Login');
+    item.title == 'Login' && this.props.navigation.navigate('Login');
+    item.title == 'Register' && this.props.navigation.navigate('Register');
   };
 
   renderHeader = () => {
@@ -95,7 +101,7 @@ export default class Menu extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.servicebox}>
-          <TouchableOpacity onPress={() => this.onClickListener(index)}>
+          <TouchableOpacity onPress={() => this.onClickListener(item, index)}>
             <View
               style={[
                 styles.navigationInsideContainer,

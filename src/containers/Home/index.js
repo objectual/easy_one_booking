@@ -13,6 +13,7 @@ import {
   FlatList,
   StyleSheet,
   ActivityIndicator,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
@@ -65,7 +66,6 @@ class Home extends Component {
         nextProps.getSaloon.data.success
       ) {
         this.setState({GetSaloonData: nextProps.getSaloon.data.data});
-        
       } else if (
         !nextProps.getSaloon.failure &&
         !nextProps.getSaloon.isFetching &&
@@ -226,6 +226,9 @@ class Home extends Component {
 
   renderSaloonCard = (salon) => {
     const {selectCard} = this.state;
+
+    console.log('selectCardselectCardselectCard', selectCard);
+
     return (
       <TouchableOpacity
         style={
@@ -307,40 +310,42 @@ class Home extends Component {
   renderSaloonCategories = (category) => {
     const {selectSaloon} = this.state;
     return (
-      <TouchableOpacity
+      <TouchableWithoutFeedback
         style={{}}
         onPress={() =>
           this.props.navigation.navigate('Saloons', {id: category._id})
         }
         // onPress={() => this.props.navigation.navigate('BookingForm')}
       >
-        <View style={styles.categoriesCardContainer}>
-          {
-            category && category.image && category.image && (
-              <Image
-                resizeMethod="auto"
-                resizeMode="stretch"
-                source={{uri: category.image}}
-                style={{
-                  height: Metrics.ratio(90),
-                  width: Metrics.ratio(80),
-                }}
-              />
-            )
-            //( <Image source={Images.saloon_card} style={styles.cardImage} />)
-          }
-        </View>
         <View>
-          <Text
-            numberOfLines={1}
-            style={[
-              styles.titleText,
-              {textAlign: 'center', marginVertical: Metrics.ratio(5)},
-            ]}>
-            {category && category.name}
-          </Text>
+          <View style={styles.categoriesCardContainer}>
+            {
+              category && category.image && category.image && (
+                <Image
+                  resizeMethod="auto"
+                  resizeMode="stretch"
+                  source={{uri: category.image}}
+                  style={{
+                    height: Metrics.ratio(90),
+                    width: Metrics.ratio(80),
+                  }}
+                />
+              )
+              //( <Image source={Images.saloon_card} style={styles.cardImage} />)
+            }
+          </View>
+          <View>
+            <Text
+              numberOfLines={1}
+              style={[
+                styles.titleText,
+                {textAlign: 'center', marginVertical: Metrics.ratio(5)},
+              ]}>
+              {category && category.name}
+            </Text>
+          </View>
         </View>
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
     );
   };
 
@@ -633,7 +638,7 @@ class Home extends Component {
     const {showdescription, GetSaloonData, getServices} = this.state;
 
     return (
-      <Footer navigation={this.props.navigation.navigate} screen={"home"}>
+      <Footer navigation={this.props.navigation.navigate} screen={'home'}>
         {/* // <View style={styles.container}>
          */}
         <ScrollView>

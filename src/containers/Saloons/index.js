@@ -56,7 +56,6 @@ class Saloons extends Component {
         //   }, 3000);
         // });
         this.setState({isloading: false});
-
       }
     }
   }
@@ -66,7 +65,7 @@ class Saloons extends Component {
     return <SpinnerLoader isloading={isloading} />;
   };
   componentDidMount = () => {
-    // this.handleGetSaloonByCategory();
+    this.handleGetSaloonByCategory();
   };
 
   handleGetSaloonByCategory = () => {
@@ -82,13 +81,16 @@ class Saloons extends Component {
   renderService = (saloons, index) => {
     const {getSelectedSaloon} = this.state;
     const {id} = this.props.route.params;
-    console.log(saloons,'jjdsjakj')
+    console.log(saloons, 'jjdsjakj');
     return (
-      <TouchableOpacity 
-      onPress={() =>
-        this.props.navigation.navigate('SaloonServicesByCategory', {categoryId:id, companyId:saloons.company._id})
-      }
-      style={styles.containerForRow}>
+      <TouchableOpacity
+        onPress={() =>
+          this.props.navigation.navigate('SaloonServicesByCategory', {
+            categoryId: id,
+            companyId: saloons.company._id,
+          })
+        }
+        style={styles.containerForRow}>
         <View style={[styles.servicebox, {flexDirection: 'row'}]}>
           <View>
             {saloons && saloons.template && saloons.template.coverImage.url ? (
@@ -103,18 +105,17 @@ class Saloons extends Component {
               />
             )}
           </View>
-          <View
-            style={styles.dataContainer}>
+          <View style={styles.dataContainer}>
             <Text numberOfLines={1} style={styles.textsize18}>
               {saloons && saloons.company.name ? saloons.company.name : 'name'}
             </Text>
             <Text numberOfLines={1} style={styles.textsize15}>
-              City : {saloons && saloons.company.city
-                ? saloons.company.city
-                : 'City'}
+              City :{' '}
+              {saloons && saloons.company.city ? saloons.company.city : 'City'}
             </Text>
             <Text numberOfLines={2} style={styles.textsize15}>
-              Adress : {saloons && saloons.company.address
+              Adress :{' '}
+              {saloons && saloons.company.address
                 ? saloons.company.address
                 : null}
             </Text>
