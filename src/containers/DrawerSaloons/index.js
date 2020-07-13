@@ -76,12 +76,6 @@ class DrawerSaloons extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    console.log(
-      props.getSaloonByCategory,
-      'props.getSaloonByCategory.data.data',
-    );
-    console.log(props.getServices, 'props.getServices.data.data');
-
     let object = {};
 
     if (props.getSaloon.success !== state.saloonsSuccess) {
@@ -90,6 +84,8 @@ class DrawerSaloons extends Component {
         saloonsData: props.getSaloon.data.data,
         showData: props.getSaloon.data.data,
       };
+
+      console.log('::::::::::::::::::::::::::::::::', object);
     }
 
     if (props.getServices.success !== state.categoriesSuccess) {
@@ -125,10 +121,6 @@ class DrawerSaloons extends Component {
       };
     }
 
-    console.log(
-      object,
-      'xccxcccccccccccccccccccccccxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    );
     return object;
 
     // if (
@@ -160,7 +152,6 @@ class DrawerSaloons extends Component {
   };
 
   onChangeSearchBar = async (searchTerm) => {
-    console.log(this.state.categoriesData, 'this.state.categoriesData');
     this.setState({searchTerm, saloonNearBy: false});
     try {
       if (
@@ -201,8 +192,6 @@ class DrawerSaloons extends Component {
       );
 
       let prediction = await response.json();
-
-      console.log(prediction, 'prediction');
 
       try {
         if (prediction.predictions.length !== 0) {
@@ -246,7 +235,6 @@ class DrawerSaloons extends Component {
     // this.setState({isLoading: true});
     Geolocation.getCurrentPosition(
       (pos) => {
-        console.log(pos, 'getCurrentPosition');
         this.setState(
           {
             longitude: pos.coords.longitude,
@@ -256,8 +244,6 @@ class DrawerSaloons extends Component {
           },
           async () => await this.handleGetSaloon(),
         );
-        console.log('latitude: ', pos.coords.longitude);
-        console.log('longitude: ', pos.coords.latitude);
       },
       (error) => console.log(error, 'error'),
       {enableHighAccuracy: false, timeout: 5000, maximumAge: 10000},
@@ -386,6 +372,7 @@ class DrawerSaloons extends Component {
   };
 
   getSaloonNearBy = async () => {
+    console.log('pppppppplasoflsdk', this.state.saloonNearBy);
     if (this.state.saloonNearBy) {
       // this.setState({saloonNearBy: false});
       this.setState((state) => ({
@@ -493,10 +480,7 @@ class DrawerSaloons extends Component {
     } = this.state;
 
     const {getSaloon, getSaloonNearBy, getSaloonByCategory} = this.props;
-    console.log(
-      this.state.showData,
-      'skhdjskdhakjhdjshdjshdkjshdhshdkjshdjkhkjshjksdhsd',
-    );
+
     // const {isFetching, failure, data} = this.props.getSaloon;
     // saloonsData = data.data;
     // categoriesData = this.props.getServices.data.data;
@@ -560,7 +544,7 @@ class DrawerSaloons extends Component {
                       borderBottomRightRadius:
                         this.state.suggestion.length == index + 1 ? 15 : 0,
                     }}>
-                    <Text style={{color: Colors.taupeGrey}}>{item.name}</Text>
+                    <Text style={{color: Colors.taupeGrey}}>{item?.name}</Text>
                   </TouchableOpacity>
                 )}
               />
@@ -762,16 +746,26 @@ class DrawerSaloons extends Component {
             }}
             data={this.state.showData}
             renderItem={({item, index}) => {
-              let title = item.saloon ? item.saloon.name : item.company.name;
+              let title = item.saloon
+                ? item.saloon.name
+                : item.templateID?.name;
               let description = item.saloon
-                ? item.saloon.companyShortDescription
-                : item.company.companyShortDescription;
-              let salonId = item.saloon ? item.saloon._id : item.company._id;
+                ? item.saloon?.companyShortDescription
+                : item.templateID?.description;
+              let salonId = item.saloon
+                ? item.saloon?._id
+                : item.templateID?.coverImage?.id;
+
               return (
                 <Cards
                   title={title}
                   description={description}
-                  image={item.template.coverImage.url}
+                  image={
+                    item.template?.coverImage.url
+                      ? item.template?.coverImage.url
+                      : item.templateID?.coverImage.url
+                  }
+                  // image={item.templateID?.coverImage.url}
                   onPress={() =>
                     this.props.navigation.navigate('Categories', {
                       id: salonId,

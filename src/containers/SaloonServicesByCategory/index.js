@@ -11,13 +11,14 @@ import {
   TextInput,
   Linking,
   StyleSheet,
-  Button,
+  TouchableWithoutFeedback,
   FlatList,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
 import {Images, Metrics, Fonts} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
+import {Footer} from '../../components';
 import Header from '../../components/Header/index';
 import Rating from './../../components/Rating/index';
 import StarRating from 'react-native-star-rating';
@@ -122,54 +123,55 @@ class SaloonServicesByCategory extends Component {
     };
 
     return (
-      <View style={[styles.servicebox, {flexDirection: 'row'}]}>
-        {services && services.image && services.image ? (
-          <Image
-            resizeMethod="auto"
-            resizeMode="contain"
-            source={{uri: services.image}}
-            style={styles.servicesImage}
-          />
-        ) : (
-          <Image source={Images.human} style={styles.servicesImage} />
-        )}
-        <View
-          style={{flexDirection: 'row', marginHorizontal: Metrics.ratio(5)}}>
-          <View style={styles.containertext}>
-            <Text numberOfLines={1} style={{fontSize: Metrics.ratio(17)}}>
-              {services && services.name ? services.name : 'name'}
-            </Text>
-            {/* <Text>{services && services._id ? services._id : 'id'}</Text> */}
-
-            <View
-              style={{
-                flexDirection: 'row',
-                marginVertical: Metrics.ratio(5),
-              }}>
-              <Image source={Images.human} style={styles.containertitle} />
-              <Text>{'Select Employee'}</Text>
-            </View>
-            <View style={{flexDirection: 'row'}}>
-              <Image source={Images.tag_grey} style={styles.containertitle} />
-              <Text>
-                $ {services && services.price ? services.price : 'name'}
+      <TouchableWithoutFeedback
+        onPress={() =>
+          this.props.navigation.navigate('SaloonEmployee', payload)
+        }>
+        <View style={[styles.servicebox, {flexDirection: 'row'}]}>
+          {services && services.image && services.image ? (
+            <Image
+              resizeMethod="auto"
+              resizeMode="contain"
+              source={{uri: services.image}}
+              style={styles.servicesImage}
+            />
+          ) : (
+            <Image source={Images.human} style={styles.servicesImage} />
+          )}
+          <View
+            style={{flexDirection: 'row', marginHorizontal: Metrics.ratio(5)}}>
+            <View style={styles.containertext}>
+              <Text numberOfLines={1} style={{fontSize: Metrics.ratio(17)}}>
+                {services && services.name ? services.name : 'name'}
               </Text>
+              {/* <Text>{services && services._id ? services._id : 'id'}</Text> */}
+
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginVertical: Metrics.ratio(5),
+                }}>
+                <Image source={Images.human} style={styles.containertitle} />
+                <Text>{'Select Employee'}</Text>
+              </View>
+              <View style={{flexDirection: 'row'}}>
+                <Image source={Images.tag_grey} style={styles.containertitle} />
+                <Text>
+                  $ {services && services.price ? services.price : 'name'}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.containerAeroImage}>
+              <Image
+                resizeMode="contain"
+                resizeMethod="auto"
+                source={Images.arrow}
+                style={styles.arrowImage}
+              />
             </View>
           </View>
-          <TouchableOpacity
-            style={styles.containerAeroImage}
-            onPress={() =>
-              this.props.navigation.navigate('SaloonEmployee', payload)
-            }>
-            <Image
-              resizeMode="contain"
-              resizeMethod="auto"
-              source={Images.arrow}
-              style={styles.arrowImage}
-            />
-          </TouchableOpacity>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     );
   };
 
@@ -177,18 +179,20 @@ class SaloonServicesByCategory extends Component {
     const {getSelectedServices} = this.state;
     const {isFetching, failure} = this.props.getSaloonServicesByCategory;
     return (
-      <View style={styles.container}>
-        <SpinnerLoader isloading={isFetching} />
-        {isFetching == false && failure == false && (
-          <ScrollView>
-            <View>
-              {getSelectedServices &&
-                getSelectedServices.length != 0 &&
-                this.renderRow()}
-            </View>
-          </ScrollView>
-        )}
-      </View>
+      <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
+        <View style={styles.container}>
+          <SpinnerLoader isloading={isFetching} />
+          {isFetching == false && failure == false && (
+            <ScrollView>
+              <View>
+                {getSelectedServices &&
+                  getSelectedServices.length != 0 &&
+                  this.renderRow()}
+              </View>
+            </ScrollView>
+          )}
+        </View>
+      </Footer>
     );
   }
 }

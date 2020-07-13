@@ -130,7 +130,7 @@ class Saloons extends Component {
     if (getSelectedSaloon.length == 0) {
       return (
         <View style={styles.textContainer}>
-          <Text style={styles.textNotFound}>No Saloon Found</Text>
+          <Text style={styles.textNotFound}>No Salon Found</Text>
         </View>
       );
     } else {

@@ -10,7 +10,7 @@ import {
   Platform,
   TextInput,
   Linking,
-  StyleSheet,
+  BackHandler,
   FlatList,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
@@ -25,11 +25,20 @@ import Completed from '../Completed/index';
 
 const Tab = createMaterialTopTabNavigator();
 
-function CurrentScreen({navigation}) {
+function CurrentScreen(props) {
+  const {navigation, handleNavigation} = props;
+
   React.useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => true);
+
     const unsubscribe = navigation.addListener('tabPress', (e) => {});
+    // return unsubscribe, backButtonHandler();
     return unsubscribe;
   }, [navigation]);
+
+  function backButtonHandler() {
+    BackHandler.removeEventListener('hardwareBackPress', () => true);
+  }
 
   return (
     <View>
@@ -62,6 +71,20 @@ class BookingHistory extends Component {
     };
   }
 
+  handleBackButton() {
+    alert('Back button is pressed ');
+    // ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
+    return true;
+  }
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
   _renderOverlaySpinner = () => {
     const {isloading} = this.state;
     return <SpinnerLoader isloading={isloading} />;
@@ -90,8 +113,16 @@ class BookingHistory extends Component {
               borderColor: '#FF4514',
             },
           }}>
-          <Tab.Screen name="Pending" component={Pending} />
-          <Tab.Screen name="Completed" component={Completed} />
+          <Tab.Screen
+            name="Pending"
+            component={Pending}
+            navigation={this.props.navigation}
+          />
+          <Tab.Screen
+            name="Completed"
+            component={Completed}
+            navigation={this.props.navigation}
+          />
         </Tab.Navigator>
       </NavigationContainer>
     );

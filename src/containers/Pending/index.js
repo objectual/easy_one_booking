@@ -13,6 +13,7 @@ import {
   StyleSheet,
   FlatList,
   PermissionsAndroid,
+  BackHandler,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
@@ -35,9 +36,7 @@ import {
 } from '../../config/WebServices';
 import {request as get_Services} from '../../redux/actions/GetServices';
 import BookingHistoryCard from '../../components/BookingHistory/index';
-import {initializeToken, token, getUserInfo } from '../../config/WebServices'
-
-
+import {initializeToken, token, getUserInfo} from '../../config/WebServices';
 
 var saloonsData = [];
 var categoriesData = [];
@@ -68,6 +67,18 @@ class Current extends Component {
     };
   }
 
+  handleBackButton() {
+    // this.props.navigation.goBack();
+    // console.log('{{{{{{{{}}}}}}}}}', this.props);
+    // alert(JSON.stringify(this.props));
+    // ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
+    return true;
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
   _renderOverlaySpinner = () => {
     return <SpinnerLoader isloading={true} />;
   };
@@ -92,52 +103,52 @@ class Current extends Component {
   //   }
   // }
 
-
-  async componentDidMount()
-  {
-    let payload = JSON.parse(await getUserInfo())
-    console.log(payload,'payload')
-    this.props.get_Booking({payload})
-    this.props.navigation.addListener('focus', () => this.props.get_Booking({payload}) )
-
+  async componentDidMount() {
+    let payload = JSON.parse(await getUserInfo());
+    console.log(payload, 'payload');
+    this.props.get_Booking({payload});
+    this.props.navigation.addListener('focus', () =>
+      this.props.get_Booking({payload}),
+    );
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
-     
 
   render() {
-
-    const {isFetching, failure, data, success } = this.props.getBooking;
+    const {isFetching, failure, data, success} = this.props.getBooking;
 
     return (
       <ScrollView>
-
-          {isFetching &&
-            this._renderOverlaySpinner()}
-            {data.success &&
-            <FlatList
-              data={data.data}
-              renderItem={({item, index}) => {
-                let customerName = item.userId.firstName ? item.userId.firstName + " " + item.userId.lastName : item.userId.userName
-                let employeeName = item?.services[0].employeeId.userId.firstName + " " + item?.services[0].employeeId.userId.lastName
-                let bookingStatus = item?.status === 1 ? "Pending" : "Completed"
-                console.log(item,'llllllllllllllllllllllll')
-                return(
-                  <BookingHistoryCard 
-                  orderNo = {item._id}
-                  customerName = {customerName}
-                  employeeName = {employeeName}
+        {isFetching && this._renderOverlaySpinner()}
+        {data.success && (
+          <FlatList
+            data={data.data}
+            renderItem={({item, index}) => {
+              let customerName = item.userId.firstName
+                ? item.userId.firstName + ' ' + item.userId.lastName
+                : item.userId.userName;
+              let employeeName =
+                item?.services[0].employeeId.userId.firstName +
+                ' ' +
+                item?.services[0].employeeId.userId.lastName;
+              let bookingStatus = item?.status === 1 ? 'Pending' : 'Completed';
+              console.log(item, 'llllllllllllllllllllllll');
+              return (
+                <BookingHistoryCard
+                  orderNo={item._id}
+                  customerName={customerName}
+                  employeeName={employeeName}
                   date={item.services[0].date[0]}
                   time={item.services[0].time[0]}
                   employee={item.services[0].serviceId.name}
                   saloon={item.companyId.name}
                   price={item.totalAmount}
-                  paymentMethod = {item.paymentMethod}  
-                  bookingStatus = {bookingStatus}
-                  />
-                )
-              }
-            }
-            />
-            }
+                  paymentMethod={item.paymentMethod}
+                  bookingStatus={bookingStatus}
+                />
+              );
+            }}
+          />
+        )}
       </ScrollView>
     );
   }
@@ -150,7 +161,7 @@ const mapStateToProps = (state) => {
 };
 
 const action = {
-  get_Booking
+  get_Booking,
 };
 
 export default connect(mapStateToProps, action)(Current);

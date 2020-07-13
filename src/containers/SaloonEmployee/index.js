@@ -19,6 +19,7 @@ import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
 import {Images, Metrics, Fonts} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
+import {Footer} from '../../components';
 import Header from '../../components/Header/index';
 import Rating from './../../components/Rating/index';
 import StarRating from 'react-native-star-rating';
@@ -426,27 +427,52 @@ class SaloonEmployee extends Component {
     const {isFetching, failure} = this.props.getEmployeesBySaloonAndCategory;
     console.log(this.state.selectedEmployee, 'this.state.selectedEmployee');
     return (
-      <View style={styles.container}>
-        {this.state.showBookedModal && (
-          <BookingModal
-            data={this.state.selectedEmployee}
-            addToCard={(e) => this.addToCard(e)}
-            onCancel={() => this.setState({showBookedModal: false})}
-          />
-        )}
+      <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
+        <View style={styles.container}>
+          {this.state.showBookedModal && (
+            <BookingModal
+              data={this.state.selectedEmployee}
+              addToCard={(e) => this.addToCard(e)}
+              onCancel={() => this.setState({showBookedModal: false})}
+            />
+          )}
 
-        {<SpinnerLoader isloading={isFetching} />}
+          {<SpinnerLoader isloading={isFetching} />}
 
-        {isFetching == false && failure == false && (
-          <ScrollView>
-            <View>
-              {getEmployeesList.length != 0 && this.renderRow()}
-              {/* {setModalVisible ? this.renderPopup() : null} */}
-              {/* {this.dateAndTimePicker()} */}
-            </View>
-          </ScrollView>
-        )}
-      </View>
+          {isFetching == false && failure == false && (
+            <ScrollView>
+              <View>
+                {getEmployeesList.length != 0 && this.renderRow()}
+                {/* {setModalVisible ? this.renderPopup() : null} */}
+                {/* {this.dateAndTimePicker()} */}
+              </View>
+              <View
+                style={{
+                  justifyContent: 'center',
+                  height: Metrics.ratio(500),
+                  alignItems: 'center',
+                }}>
+                {getEmployeesList.length == 0 && (
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        fontSize: 22,
+                      }}>
+                      Employee Not Found
+                    </Text>
+                  </View>
+                )}
+              </View>
+            </ScrollView>
+          )}
+        </View>
+      </Footer>
     );
   }
 }

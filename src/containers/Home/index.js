@@ -615,14 +615,18 @@ class Home extends Component {
 
   renderDescription = () => {
     const {dayandtime, selectCard, GetSaloonData} = this.state;
+
     return (
       <View style={styles.containerForRow}>
         <Text style={styles.mainheading1}>Name</Text>
         {this.renderShowCategoryButton()}
         <Text style={styles.mainheading2}>Opening Hours</Text>
-        {/* {dayandtime.map((val, index) => {
-          return <View>{this.renderDayAndTime(val.day, val.time, index)}</View>;
-        })} */}
+        {dayandtime &&
+          dayandtime.map((val, index) => {
+            return (
+              <View>{this.renderDayAndTime(val.day, val.time, index)}</View>
+            );
+          })}
         {selectCard && selectCard.schedule && this.renderDayAndTime(selectCard)}
         <Text style={styles.mainheading2}>Address</Text>
         <Text style={styles.mainheading3}>

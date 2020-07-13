@@ -75,6 +75,7 @@ export default class Menu extends Component {
           title: 'Logout',
         },
       ],
+      token: '',
     };
   }
 
@@ -89,7 +90,8 @@ export default class Menu extends Component {
     try {
       await AsyncStorage.removeItem('access_token');
       await AsyncStorage.removeItem('loginResponce');
-      this.props.navigation.navigate('Login');
+      this.setState({token: ''});
+      alert('Logout Successfully');
       return true;
     } catch (exception) {
       return false;
@@ -102,7 +104,9 @@ export default class Menu extends Component {
 
   onClickListener = (item, viewId) => {
     item.title == 'Booking History' && token
-      ? this.props.navigation.navigate('BookingHistory')
+      ? this.props.navigation.navigate('BookingHistory', {
+          handleNavigation: this.props.navigation.navigate,
+        })
       : null;
     item.title == 'Login' && this.props.navigation.navigate('Login');
     item.title == 'Register' && this.props.navigation.navigate('Register');
@@ -110,12 +114,17 @@ export default class Menu extends Component {
   };
 
   componentWillUnmount() {
-    this.removeAndroidBackButtonHandler();
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
   }
 
-  // componentDidMount() {
-  //   this.handleAndroidBackButton(this.props.navigation.goBack());
-  // }
+  componentDidMount() {
+    this.setState({token});
+    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  onBackPress = () => {
+    this.props.navigation.navigate('Menu');
+  };
 
   renderHeader = () => {
     return (
@@ -150,7 +159,7 @@ export default class Menu extends Component {
   };
 
   renderItemList = (item, index) => {
-    if (item.title == 'Logout' && token) {
+    if (item.title == 'Logout' && this.state.token) {
       return (
         <View style={styles.container}>
           <View style={styles.servicebox}>
@@ -167,7 +176,10 @@ export default class Menu extends Component {
           </View>
         </View>
       );
-    } else if ((item.title == 'Login' || item.title == 'Register') && !token) {
+    } else if (
+      (item.title == 'Login' || item.title == 'Register') &&
+      !this.state.token
+    ) {
       return (
         <View style={styles.container}>
           <View style={styles.servicebox}>
@@ -215,10 +227,6 @@ export default class Menu extends Component {
             data={this.state.dataSource}
             renderItem={({item, index}) => this.renderItemList(item, index)}
           />
-          {/* <FlatList
-            data={this.state.list}
-            renderItem={({item, index}) => this.renderItemList(item, index)}
-          /> */}
         </ScrollView>
       </Footer>
     );

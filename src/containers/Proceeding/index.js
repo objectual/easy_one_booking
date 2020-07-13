@@ -19,6 +19,7 @@ import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
 import {Images, Metrics, Fonts, Colors} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
+import {Footer} from '../../components';
 import Header from '../../components/Header/index';
 import {
   add as addToCard,
@@ -303,29 +304,31 @@ class Proceeding extends Component {
 
     console.log(cart, 'cartarray');
     return (
-      <View style={styles.container}>
-        {createBooking.isFetching && <SpinnerLoader isloading={true} />}
+      <Footer navigation={this.props.navigation.navigate} screen={'menu'}>
+        <View style={styles.container}>
+          {createBooking.isFetching && <SpinnerLoader isloading={true} />}
 
-        {createBooking.success && (
-          <BookedSuccessModal
-            onPress={() => {
-              this.props.removeAll();
-              this.props.hideModal();
-              this.setState({showBookedModal: false});
-              this.props.navigation.navigate('Home');
-            }}
-            onCancel={() => this.setState({showBookedModal: false})}
-          />
-        )}
+          {createBooking.success && (
+            <BookedSuccessModal
+              onPress={() => {
+                this.props.removeAll();
+                this.props.hideModal();
+                this.setState({showBookedModal: false});
+                this.props.navigation.navigate('Home');
+              }}
+              onCancel={() => this.setState({showBookedModal: false})}
+            />
+          )}
 
-        <ScrollView>
-          <View>
-            {this.renderServicesRow()}
-            {this.renderTotalServices()}
-          </View>
-        </ScrollView>
-        {this.renderPayNowButton()}
-      </View>
+          <ScrollView>
+            <View>
+              {this.renderServicesRow()}
+              {this.renderTotalServices()}
+            </View>
+          </ScrollView>
+          {this.renderPayNowButton()}
+        </View>
+      </Footer>
     );
   }
 }

@@ -42,6 +42,9 @@ const salon_active = require('../assets/Images/Icons/salon_active.png');
 const salon_unactive = require('../assets/Images/Icons/salon_unactive.png');
 const home_active = require('../assets/Images/Icons/home_active.png');
 const home_unactive = require('../assets/Images/Icons/home_unactive.png');
+const booking_active = require('../assets/Images/Icons/booking_history_active.png');
+const booking_unactive = require('../assets/Images/Icons/booking_history_unactive.png');
+
 // nav_bar_active
 const saloon_check_arrow = require('../assets/Images/saloon_check_arrow.png');
 const plus = require('../assets/Images/Icons/plus.png');
@@ -94,4 +97,6 @@ export default {
   costumer_saloon,
   home_active,
   home_unactive,
+  booking_active,
+  booking_unactive,
 };

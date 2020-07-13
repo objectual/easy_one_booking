@@ -13,6 +13,7 @@ import {
   StyleSheet,
   FlatList,
   PermissionsAndroid,
+  BackHandler,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
@@ -93,10 +94,23 @@ class Current extends Component {
   async componentDidMount() {
     let payload = JSON.parse(await getUserInfo());
     console.log(payload, 'payload');
-    this.props.get_Booking({payload})
+    this.props.get_Booking({payload});
     this.props.navigation.addListener('focus', () =>
       this.props.get_Booking({payload}),
     );
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    // this.props.navigation.goBack();
+
+    // alert('Back button is pressed ');/
+    // ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
+    return true;
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   render() {

@@ -18,6 +18,7 @@ import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
 import {Images, Metrics, Fonts} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
+import {Footer} from '../../components';
 import Header from '../../components/Header/index';
 import {request as get_Saloon_Categories} from '../../redux/actions/SaloonCategories';
 
@@ -198,15 +199,17 @@ class Categories extends Component {
 
     const {isFetching, failure} = this.props.getSaloonCategories;
     return (
-      <View style={styles.container}>
-        {<SpinnerLoader isloading={isFetching} />}
+      <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
+        <View style={styles.container}>
+          {<SpinnerLoader isloading={isFetching} />}
 
-        {isFetching == false && failure == false && (
-          <ScrollView>
-            <View>{this.renderCategoryRow()}</View>
-          </ScrollView>
-        )}
-      </View>
+          {isFetching == false && failure == false && (
+            <ScrollView>
+              <View>{this.renderCategoryRow()}</View>
+            </ScrollView>
+          )}
+        </View>
+      </Footer>
     );
   }
 }

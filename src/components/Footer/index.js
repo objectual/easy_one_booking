@@ -6,6 +6,7 @@ import DotIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // import salon_unactive from './../../theme/Images/';
 import {Images, Metrics, Colors, Fonts} from '../../theme';
+import {token} from './../../config/WebServices';
 
 import styles from './style';
 
@@ -14,6 +15,16 @@ const headerIconSize = 27;
 
 // function Footer(props) {
 class Footer extends React.Component {
+  validateUser = () => {
+    token
+      ? this.props.navigation('BookingHistory')
+      : this.props.navigation('Login');
+  };
+
+  componentDidMount() {
+    this.validateUser();
+  }
+
   render() {
     const {children, screen, tab} = this.props;
 
@@ -40,24 +51,8 @@ class Footer extends React.Component {
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={{justifyContent: 'center'}}
-              onPress={() => this.props.navigation('Available Services')}>
-              {screen != 'services' ? (
-                <Image
-                  source={Images.service_unactive}
-                  style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
-                />
-              ) : (
-                <Image
-                  source={Images.service_active}
-                  style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
-                />
-              )}
-            </TouchableOpacity>
-
-            <TouchableOpacity
               onPress={() => this.props.navigation('DrawerSaloons')}>
-              {screen != 'saloon' ? (
+              {screen != 'history' ? (
                 <Image
                   source={Images.salon_unactive}
                   style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
@@ -69,6 +64,23 @@ class Footer extends React.Component {
                 />
               )}
             </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{justifyContent: 'center'}}
+              onPress={() => this.validateUser()}>
+              {screen != 'services' ? (
+                <Image
+                  source={Images.booking_unactive}
+                  style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
+                />
+              ) : (
+                <Image
+                  source={Images.booking_active}
+                  style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
+                />
+              )}
+            </TouchableOpacity>
+
             <TouchableOpacity onPress={() => this.props.navigation('Menu')}>
               {screen != 'navbar' ? (
                 <Image
