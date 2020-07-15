@@ -182,6 +182,7 @@ class SaloonEmployee extends Component {
     );
   };
   renderEmoployee = (employees, index) => {
+    console.log(employees, 'pppppppppp//////////');
     return (
       <TouchableOpacity
         onPress={() =>
@@ -206,9 +207,9 @@ class SaloonEmployee extends Component {
           }
           <View
             style={{
-              marginVertical: Metrics.ratio(15),
-              marginHorizontal: Metrics.ratio(5),
-              flexWrap: 'wrap',
+              // marginVertical: Metrics.ratio(15),
+              // marginHorizontal: Metrics.ratio(5),
+              // flexWrap: 'wrap',
               justifyContent: 'center',
             }}>
             <Text numberOfLines={1} style={{fontSize: Metrics.ratio(17)}}>
@@ -281,9 +282,77 @@ class SaloonEmployee extends Component {
                   : null}
               </Text>
             </View>
+            {/* {this.renderTimeSlots(employees)} */}
           </View>
         </View>
       </TouchableOpacity>
+    );
+  };
+
+  renderTimeSlots = (employees) => {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          marginTop: Metrics.ratio(10),
+        }}>
+        <Text numberOfLines={1} style={styles.text14}>
+          {employees &&
+          employees.employeeId &&
+          employees.employeeId.weekPlans &&
+          employees.employeeId.weekPlans['0'].availableStatus == 1
+            ? 'Mon'
+            : null}
+        </Text>
+        <Text numberOfLines={1} style={styles.text14}>
+          {employees &&
+          employees.employeeId &&
+          employees.employeeId.weekPlans &&
+          employees.employeeId.weekPlans['1'].availableStatus == 1
+            ? '-Tue'
+            : null}
+        </Text>
+        <Text numberOfLines={1} style={styles.text14}>
+          {employees &&
+          employees.employeeId &&
+          employees.employeeId.weekPlans &&
+          employees.employeeId.weekPlans['2'].availableStatus == 1
+            ? '-Wed'
+            : null}
+        </Text>
+        <Text numberOfLines={1} style={styles.text14}>
+          {employees &&
+          employees.employeeId &&
+          employees.employeeId.weekPlans &&
+          employees.employeeId.weekPlans['3'].availableStatus == 1
+            ? '-Thu'
+            : null}
+        </Text>
+        <Text numberOfLines={1} style={styles.text14}>
+          {employees &&
+          employees.employeeId &&
+          employees.employeeId.weekPlans &&
+          employees.employeeId.weekPlans['4'].availableStatus == 1
+            ? '-Fri'
+            : null}
+        </Text>
+        <Text numberOfLines={1} style={styles.text14}>
+          {employees &&
+          employees.employeeId &&
+          employees.employeeId.weekPlans &&
+          employees.employeeId.weekPlans['5'].availableStatus == 1
+            ? '-Sat'
+            : null}
+        </Text>
+        <Text numberOfLines={1} style={styles.text14}>
+          {employees &&
+          employees.employeeId &&
+          employees.employeeId.weekPlans &&
+          employees.employeeId.weekPlans['6'].availableStatus == 1
+            ? 'Sun'
+            : null}
+        </Text>
+      </View>
     );
   };
   // renderBookNowButton = services => {
