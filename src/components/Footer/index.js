@@ -22,7 +22,7 @@ class Footer extends React.Component {
   };
 
   componentDidMount() {
-    this.validateUser();
+    // this.validateUser();
   }
 
   render() {

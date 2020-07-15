@@ -326,8 +326,8 @@ class Home extends Component {
                   resizeMode="stretch"
                   source={{uri: category.image}}
                   style={{
-                    height: Metrics.ratio(90),
-                    width: Metrics.ratio(80),
+                    height: Metrics.ratio(70),
+                    width: Metrics.ratio(60),
                   }}
                 />
               )

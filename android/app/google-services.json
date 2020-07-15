@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "721316989519",
+    "firebase_url": "https://esayone-9821d.firebaseio.com",
+    "project_id": "esayone-9821d",
+    "storage_bucket": "esayone-9821d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721316989519:android:1d310958dadc2f4e43383a",
+        "android_client_info": {
+          "package_name": "com.easy_one"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "721316989519-h4l4286f1b51g730s34lvmpofslt5or1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuvy9JYW3x46R6Zbwl1goheh-SpSGNNOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "721316989519-h4l4286f1b51g730s34lvmpofslt5or1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721316989519:android:496b2597d9f321e243383a",
+        "android_client_info": {
+          "package_name": "com.salon_employee_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "721316989519-h4l4286f1b51g730s34lvmpofslt5or1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuvy9JYW3x46R6Zbwl1goheh-SpSGNNOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "721316989519-h4l4286f1b51g730s34lvmpofslt5or1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721316989519:android:7bd7a65f9ac2541843383a",
+        "android_client_info": {
+          "package_name": "com.saloonclient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "721316989519-h4l4286f1b51g730s34lvmpofslt5or1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuvy9JYW3x46R6Zbwl1goheh-SpSGNNOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "721316989519-h4l4286f1b51g730s34lvmpofslt5or1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
