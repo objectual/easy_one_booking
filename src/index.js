@@ -32,7 +32,7 @@ export default class App extends Component {
       SplashScreen.hide();
     }, 3000);
     this.checkPermission();
-    this.foregroundNotificationListner();
+    // this.foregroundNotificationListner();
   }
 
   foregroundNotificationListner = () => {
