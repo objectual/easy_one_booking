@@ -263,6 +263,7 @@ class Proceeding extends Component {
       //  services.push(payload)
     }
 
+    console.log(userInfo, 'userInfouserInfo');
     let payload = {
       services: services,
       // userName: "Test",

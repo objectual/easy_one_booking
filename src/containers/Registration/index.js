@@ -11,6 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import styles from './styles';
 // import CustomTextInput from '../../components/CustomTextInput';
