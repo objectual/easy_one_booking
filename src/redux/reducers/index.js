@@ -13,9 +13,7 @@ import cart from './Cart';
 import getServices from './GetServices';
 import getSaloonNearBy from './GetSaloonNearBy';
 import getBooking from './GetBooking';
-
-
-
+import updateBooking from './UpdateBooking';
 
 // import forgotPassword from "./ForgotPassword";
 // import verifyResetCode from "./VerifyResetCode";
@@ -39,5 +37,6 @@ export const rootReducer = combineReducers({
   cart,
   getServices,
   getSaloonNearBy,
-  getBooking
+  getBooking,
+  updateBooking,
 });

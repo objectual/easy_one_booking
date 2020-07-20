@@ -14,6 +14,7 @@ import {
   FlatList,
   PermissionsAndroid,
   BackHandler,
+  Modal,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
@@ -28,7 +29,7 @@ import Geolocation from '@react-native-community/geolocation';
 import {Dropdown} from 'react-native-material-dropdown';
 import Immutable from 'seamless-immutable';
 import {request as get_Saloon_By_Category} from '../../redux/actions/GetSaloonByCategory';
-import {request as get_Saloon_By_Category_NearBy} from '../../redux/actions/GetSaloonNearBy';
+import {request as updateMyBooking} from '../../redux/actions/updateBooking';
 import {
   place_reverse_Geocoding_URL,
   place_Autocomplete_URL,
@@ -37,7 +38,8 @@ import {
 import {request as get_Services} from '../../redux/actions/GetServices';
 import BookingHistoryCard from '../../components/BookingHistory/index';
 import {initializeToken, token, getUserInfo} from '../../config/WebServices';
-
+import CustomTextInputRow from './../../components/CustomTextInputRow/index';
+import CustomTextInput from './../../components/CustomTextInput/index';
 var saloonsData = [];
 var categoriesData = [];
 
@@ -113,9 +115,101 @@ class Current extends Component {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
+  updateBooking = () => {
+    const {status, editAppoinment} = this.state;
+    console.log(editAppoinment._id, 'editAppoinment');
+    const payload = {
+      bookingId: editAppoinment._id,
+      status: 2,
+      totalAmount: 200,
+      paymentMethod: 'Cash',
+    };
+    // let bookingStatus = status == null ? editAppoinment.status : status;
+    this.props.updateMyBooking(payload);
+  };
+
+  renderButton = () => {
+    return (
+      <View
+        style={{
+          alignItems: 'center',
+        }}>
+        <TouchableOpacity
+          style={styles.submitBtnView}
+          onPress={() => this.updateBooking()}>
+          <Text style={styles.submitBtnText}>Update</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  renderInputField = () => {
+    const {editAppoinment, name, dateTime, status} = this.state;
+    let customerName = editAppoinment.userId.firstName
+      ? `${editAppoinment.userId.firstName} ${editAppoinment.userId.lastName}`
+      : editAppoinment.userId.userName;
+    return (
+      <ScrollView>
+        <CustomTextInputRow
+          placeholderText={'Name'}
+          CustomStyle={{width: Metrics.screenWidth * 0.7}}
+          textInput={name}
+          inputValue={customerName}
+          handleInput={this.onChangeName}
+          isEditable={false}
+          // errorMessage={this.state.formErrors.addressError}
+        />
+        <Text style={styles.paymentHeaderText}>Add more info</Text>
+        <View style={styles.paymentInpulMain}>
+          <View style={{flex: 1, paddingLeft: 5}}>
+            <CustomTextInput
+              placeholderText={'$100.00'}
+              textInputstyle={styles.textInput}
+              // textInput={dateTime}
+              inputValue={`$ ${editAppoinment.totalAmount.toString()}`}
+              // handleInput={this.onChangeDateTime}
+              customStyle={styles.custom}
+              // errorMessage={this.state.formErrors.lastNameError}
+            />
+          </View>
+        </View>
+
+        {this.renderButton()}
+      </ScrollView>
+    );
+  };
+
+  renderPopup = () => {
+    const {modalVisible} = this.setState;
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View style={{marginHorizontal: Metrics.ratio(15)}}>
+              <TouchableOpacity
+                onPress={() =>
+                  this.setState({setModalVisible: false, status: null})
+                }>
+                <Image source={Images.cross} style={styles.crossImageStyle} />
+              </TouchableOpacity>
+              <Text style={styles.modalText}>Edit</Text>
+              {this.renderInputField()}
+            </View>
+          </View>
+        </View>
+      </Modal>
+    );
+  };
+
   render() {
     const {isFetching, failure, data, success} = this.props.getBooking;
-
+    const {setModalVisible} = this.state;
     return (
       <ScrollView>
         {isFetching && this._renderOverlaySpinner()}
@@ -131,7 +225,6 @@ class Current extends Component {
                 ' ' +
                 item?.services[0].employeeId.userId.lastName;
               let bookingStatus = item?.status === 1 ? 'Pending' : 'Completed';
-              console.log(item, 'llllllllllllllllllllllll');
               return (
                 <BookingHistoryCard
                   orderNo={item._id}
@@ -144,11 +237,16 @@ class Current extends Component {
                   price={item.totalAmount}
                   paymentMethod={item.paymentMethod}
                   bookingStatus={bookingStatus}
+                  showButton={true}
+                  onPress={() =>
+                    this.setState({setModalVisible: true, editAppoinment: item})
+                  }
                 />
               );
             }}
           />
         )}
+        {setModalVisible ? this.renderPopup() : null}
       </ScrollView>
     );
   }
@@ -162,6 +260,7 @@ const mapStateToProps = (state) => {
 
 const action = {
   get_Booking,
+  updateMyBooking,
 };
 
 export default connect(mapStateToProps, action)(Current);

@@ -48,6 +48,21 @@ class ApiSauce {
     });
   }
 
+  async putWithToken(url, payload, token, headers) {
+    const Header = {
+      headers: {
+        // "Content-Type": "application/x-www-form-urlencoded",
+        'Content-Type': 'application/json',
+        Authorization: `${token}`,
+      },
+    };
+    const response = await api.put(url, payload, Header);
+    console.log(response, '9999990wwwwww00000000');
+    return new Promise((resolve, reject) => {
+      this.handlePromise(resolve, reject, response);
+    });
+  }
+
   async getWithToken(url, token) {
     // const token = data && data.access_token && data.access_token;
     console.log(url, 'url');

@@ -260,11 +260,13 @@ class Home extends Component {
               shadowOpacity: 0.32,
               shadowRadius: 5.46,
             }}>
-            <Image
-              // source={{ uri: salon.saloon.companyLogo }}
-              source={{uri: salon.template.coverImage.url}}
-              style={styles.cardImage}
-            />
+            {salon?.template?.coverImage && (
+              <Image
+                // source={{ uri: salon.saloon.companyLogo }}
+                source={{uri: salon.template.coverImage.url}}
+                style={styles.cardImage}
+              />
+            )}
             <Text
               numberOfLines={1}
               style={[styles.titleText, {marginHorizontal: Metrics.ratio(3)}]}>

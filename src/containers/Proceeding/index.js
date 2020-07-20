@@ -267,7 +267,7 @@ class Proceeding extends Component {
     let payload = {
       services: services,
       // userName: "Test",
-      postalCode: '021',
+      postalCode: '02221',
       email: userInfo.data.email,
       companyId: cart.data[0].payload.companyId,
       phoneNo: '090078601',

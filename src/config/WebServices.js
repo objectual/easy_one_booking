@@ -2,7 +2,7 @@
 // export const register_API = `${baseUrl}/api/v1/register`;
 
 // export const baseUrl = 'https://easy-one.herokuapp.com/api/'; // live
-// export const baseUrl = 'https://easy-one-staging.herokuapp.com/api/'; // staging
+// export const baseUrl = 'https://easy-one-staging.herokuapp.com/api/'; // stagingbb
 
 // export const baseUrl = "http://192.168.0.111/reactboilerplate/";
 export const baseUrl = 'http://192.168.18.10:3000/api/'; // H
@@ -23,6 +23,7 @@ export const create_Booking_Api = `${baseUrl}booking/createBooking`;
 export const get_Employees_By_Saloon_And_Category_Api = `${baseUrl}saloon/getEmployeesBySaloonAndService`;
 export const get_Services_Api = `${baseUrl}service/getService`;
 export const get_Booking = `${baseUrl}booking/getAllBookingsByUser`;
+export const update_booking_api = `${baseUrl}booking/updateBooking`;
 
 export const secret_Key = 'AIzaSyCIGENLCfCwZwPaumiUQs21GfgMhgppa7s';
 export const place_Autocomplete_URL =
