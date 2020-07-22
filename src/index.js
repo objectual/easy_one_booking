@@ -41,8 +41,8 @@ export default class App extends Component {
     messaging().onMessage(async (remoteMessage) => {
       this.setState({
         showNotification: true,
-        notificationTitle: remoteMessage?.notification.title,
-        notificationMessage: remoteMessage?.notification.title,
+        notificationTitle: remoteMessage?.notification?.title,
+        notificationMessage: remoteMessage?.notification?.body,
       })
       console.log(remoteMessage, "iiiiiiiiiiiiioooooooooooopppppppppp")
       // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
@@ -82,17 +82,16 @@ export default class App extends Component {
   }
 
   render() {
-    const {showNotification} = this.state;
+    const {showNotification, notificationTitle, notificationMessage} = this.state;
     console.disableYellowBox = true;
 
     return (
       <Provider store={store}>
         <Navigation />
-       {/* {showNotification ? <NotificationAlert/> : null}  */}
-       <NotificationAlert 
+        {showNotification ? <NotificationAlert 
           notificationTitle = {notificationTitle}
           notificationMessage = {notificationMessage} 
-       /> 
+       /> : null}  
       </Provider>
     );
   }
