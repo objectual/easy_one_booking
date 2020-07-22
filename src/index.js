@@ -39,7 +39,11 @@ export default class App extends Component {
 
   foregroundNotificationListner = () => {
     messaging().onMessage(async (remoteMessage) => {
-      this.setState({showNotification: true})
+      this.setState({
+        showNotification: true,
+        notificationTitle: remoteMessage?.notification.title,
+        notificationMessage: remoteMessage?.notification.title,
+      })
       console.log(remoteMessage, "iiiiiiiiiiiiioooooooooooopppppppppp")
       // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
     });
@@ -85,7 +89,10 @@ export default class App extends Component {
       <Provider store={store}>
         <Navigation />
        {/* {showNotification ? <NotificationAlert/> : null}  */}
-       <NotificationAlert/> 
+       <NotificationAlert 
+          notificationTitle = {notificationTitle}
+          notificationMessage = {notificationMessage} 
+       /> 
       </Provider>
     );
   }

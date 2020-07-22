@@ -11,10 +11,10 @@ export default class NotificationAlert extends Component {
         console.log('Pressed');
       },
       appIconSource: require('../../assets/splashIcon.png'),
-      appTitle: 'Some App',
+      appTitle: 'Easy-1',
       timeText: 'Now',
-      title: 'Something Else!',
-      body: 'Order has been created.',
+      title: this.props.notificationTitle,
+      body: this.props.notificationMessage,
       slideOutTime: 5000,
     });
   }

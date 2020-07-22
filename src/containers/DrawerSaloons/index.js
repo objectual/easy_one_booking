@@ -489,41 +489,19 @@ class DrawerSaloons extends Component {
 
     // const getSaloon = this.props.getSaloon;
     // const getSaloonNearBy = this.props.getSaloonNearBy;
-
+    console.log(this.state.showData,'showDatashowData')
     return (
       <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
         <ScrollView>
           <View style={{marginHorizontal: Metrics.ratio(15)}}>
             {this.renderTextInputWithLableRow(
-              // '',
-              // 'inputName',
-              // 'next',
               this.onChangeSearchBar,
-              // searchByCategory,
               this.state.searchTerm,
-              // searchByCategory,
-              // '',
               'Search Category',
-              // 'numeric',
-              // false,
             )}
 
             {this.state.suggestion.length != 0 && (
-              // <Dropdown
-              //   label={'Please select category'}
-              //   labelExtractor={(x) => x.name}
-              //   valueExtractor={(x) => x._id}
-              //   dropdownOffset={{top: 32, left: 10}}
-              //   containerStyle={{
-              //     width: '100%',
-              //     borderWidth: 0,
-              //     marginTop: -20,
-              //     marginBottom: 10,
-              //   }}
-              //   pickerStyle={{width: '95%'}}
-              //   data={this.state.suggestion}
-              //   onChangeText={(value) => this.onChangeTextSelectedValue(value)}
-              // />
+              
               <FlatList
                 showsVerticalScrollIndicator={false}
                 style={{marginBottom: 10, marginTop: -20}}
@@ -569,22 +547,6 @@ class DrawerSaloons extends Component {
             </View>
 
             {this.state.predictionsData.length != 0 && (
-              // <Dropdown
-              //   value={this.state.selectedLocation}
-              //   label={'Please select location'}
-              //   labelExtractor={(x) => x.description}
-              //   valueExtractor={(x) => x.place_id}
-              //   dropdownOffset={{top: 32, left: 10}}
-              //   containerStyle={{
-              //     width: '100%',
-              //     borderWidth: 0,
-              //     marginTop: -20,
-              //     marginBottom: 10,
-              //   }}
-              //   pickerStyle={{width: '95%'}}
-              //   data={this.state.predictionsData}
-              //   onChangeText={(value) => this.onSelectedLocation(value)}
-              // />
               <FlatList
                 showsVerticalScrollIndicator={false}
                 style={{marginBottom: 10, marginTop: -20}}
@@ -612,10 +574,7 @@ class DrawerSaloons extends Component {
                 )}
               />
             )}
-
             {this.renderFilter()}
-
-            {/* {this.renderShowCategoryButton()} */}
           </View>
 
           {(getSaloon.isFetching ||
@@ -623,121 +582,8 @@ class DrawerSaloons extends Component {
             getSaloonByCategory.isFetching) &&
             this._renderOverlaySpinner()}
 
-          {/* {(getSaloonNearBy.isFetching || this.props.getSaloon.isFetching) &&
-            this._renderOverlaySpinner()} */}
-
-          {/*
-
-          {this.state.searchTerm.length != 0 && this.state.saloonsData != 0 && (
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              numColumns={2}
-              columnWrapperStyle={{
-                justifyContent: 'space-between',
-                paddingHorizontal: 10,
-              }}
-              data={this.state.saloonsData}
-              renderItem={({item, index}) => {
-                console.log(item,'////oooooo')
-                return(
-                  <Cards
-                  // item={{saloon: item}}
-                  title = {item.company.name}
-                  description = {item.company.companyShortDescription}
-                  image = {item.template.coverImage.url}
-                  onPress={() =>
-                    this.props.navigation.navigate('Categories', {
-                      id: item.company._id,
-                    })
-                  }
-                />
-                )
-              }}
-            />
-          )}
-
-          {this.state.saloonNearBy == false &&
-            this.state.selectedLocationSaloons == false &&
-            getSaloon.isFetching == false &&
-            this.state.searchTerm.length == 0 &&
-            getSaloon.failure == false &&
-            getSaloon.data != undefined &&
-            getSaloon.data.data.length != 0 && (
-              <FlatList
-                showsVerticalScrollIndicator={false}
-                numColumns={2}
-                columnWrapperStyle={{
-                  justifyContent: 'space-between',
-                  paddingHorizontal: 10,
-                }}
-                data={getSaloon.data.data}
-                renderItem={({item, index}) => (
-                  <Cards
-                  title = {item.saloon.name}
-                  description = {item.saloon.companyShortDescription}
-                  image = {item.template.coverImage.url}
-                    onPress={() => {
-                      console.log(item, 'mainDrawerSaloonsItem');
-                      this.props.navigation.navigate('Categories', {
-                        id: item.saloon._id,
-                      });
-                    }}
-                  />
-                )}
-              />
-            )}
-
-          {console.log(
-            getSaloonNearBy.data,
-            'this.props.getSaloonNearBy.data.data',
-          )}
-          {(this.state.saloonNearBy == true ||
-            this.state.selectedLocationSaloons == true) &&
-            getSaloonNearBy.data &&
-           (
-              <FlatList
-                showsVerticalScrollIndicator={false}
-                numColumns={2}
-                columnWrapperStyle={{
-                  justifyContent: 'space-between',
-                  paddingHorizontal: 10,
-                }}
-                data={getSaloonNearBy.data.data}
-                renderItem={({item, index}) => (
-                  console.log(item, 'this.state.saloonNearBy == true'),
-                  (
-                    <Cards
-                    title = {item.saloon.name}
-                    description = {item.saloon.companyShortDescription}
-                    image = {item.template.coverImage.url}
-                      onPress={() =>
-                        this.props.navigation.navigate('Categories', {
-                          id: item.saloon._id,
-                        })
-                      }
-                    />
-                  )
-                )}
-              />
-            )}
-            ((this.state.saloonNearBy == true ||
-            this.state.selectedLocationSaloons == true) &&
-            getSaloonNearBy.isFetching &&
-            getSaloonNearBy.data && 
-            getSaloonNearBy.data.data && 
-            getSaloonNearBy.data.data.length == 0 && (
-              <View
-                style={{
-                  width: '100%',
-                  borderWidth: 0,
-                  height: 40,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text>No Saloons Found</Text>
-              </View>
-            ))*/}
-
+         
+            
           <FlatList
             numColumns={2}
             columnWrapperStyle={{
@@ -748,13 +594,13 @@ class DrawerSaloons extends Component {
             renderItem={({item, index}) => {
               let title = item.saloon
                 ? item.saloon.name
-                : item.templateID?.name;
+                : item.company?.name;
               let description = item.saloon
                 ? item.saloon?.companyShortDescription
-                : item.templateID?.description;
+                : item.company?.companyShortDescription;
               let salonId = item.saloon
                 ? item.saloon?._id
-                : item.templateID?.coverImage?.id;
+                : item.company?._id;
 
               return (
                 <Cards
