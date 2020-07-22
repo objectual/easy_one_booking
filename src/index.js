@@ -17,13 +17,15 @@ import {Footer} from './components';
 import Store from './redux/store';
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import NotificationAlert from './components/NotificationAlert'
 const store = Store();
 
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      showNotification: false
+    };
   }
 
   componentDidMount() {
@@ -32,12 +34,14 @@ export default class App extends Component {
       SplashScreen.hide();
     }, 3000);
     this.checkPermission();
-    // this.foregroundNotificationListner();
+    this.foregroundNotificationListner();
   }
 
   foregroundNotificationListner = () => {
     messaging().onMessage(async (remoteMessage) => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      this.setState({showNotification: true})
+      console.log(remoteMessage, "iiiiiiiiiiiiioooooooooooopppppppppp")
+      // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
     });
   };
 
@@ -74,11 +78,14 @@ export default class App extends Component {
   }
 
   render() {
+    const {showNotification} = this.state;
     console.disableYellowBox = true;
 
     return (
       <Provider store={store}>
         <Navigation />
+       {/* {showNotification ? <NotificationAlert/> : null}  */}
+       <NotificationAlert/> 
       </Provider>
     );
   }

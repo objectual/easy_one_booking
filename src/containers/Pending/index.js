@@ -17,6 +17,7 @@ import {
   Modal,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
+import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 import styles from './styles';
 import {Images, Metrics, Fonts, Colors} from '../../theme';
 
@@ -107,7 +108,6 @@ class Current extends Component {
 
   async componentDidMount() {
     let payload = JSON.parse(await getUserInfo());
-    console.log(payload, 'payload');
     this.props.get_Booking({payload});
     this.props.navigation.addListener('focus', () =>
       this.props.get_Booking({payload}),
@@ -116,17 +116,21 @@ class Current extends Component {
   }
 
   updateBooking = () => {
-    const {status, editAppoinment} = this.state;
+    const {status, paymentType, amount, editAppoinment} = this.state;
     console.log(editAppoinment._id, 'editAppoinment');
+    console.log(status, "status")
+    console.log(amount,'payyyyyyyyyy')
     const payload = {
       bookingId: editAppoinment._id,
-      status: 2,
+      status: status,
       totalAmount: 200,
-      paymentMethod: 'Cash',
+      paymentMethod: paymentType,
     };
     // let bookingStatus = status == null ? editAppoinment.status : status;
     this.props.updateMyBooking(payload);
   };
+
+  onChangeAmount = value => {console.log(value,'valllllllllllllll')}
 
   renderButton = () => {
     return (
@@ -143,36 +147,103 @@ class Current extends Component {
     );
   };
 
+  handlePickerValue = (value, type) => {
+    type === 'status'
+      ? this.setState({ status: value })
+      : this.setState({ paymentType: value });
+  };
+
+  renderDropdownPicker = (type, data) => {
+    console.log(data,'ddddddddddddddddddddd')
+    const status = [
+      { label: 'Done', value: 4 },
+      { label: 'Cancel', value: 3 },
+    ];
+    const paymentType = [
+      { label: 'Cash', value: 'Cash' },
+      { label: 'Points', value: 'Points' }];
+    return (
+      <View style={styles.dropdownContainer}>
+        <RNPickerSelect
+          onValueChange={value => this.handlePickerValue(value, type)}
+          items={type === 'status' ? status : paymentType}
+          placeholder={{
+            label: type === 'status' ? 'Pending' : 'Payment Method',
+            value: null,
+          }}
+          style={{
+            placeholder: {
+              fontSize: Metrics.ratio(16),
+              color: '#B4B4B4',
+              fontFamily: Fonts.type.regular,
+            },
+            inputIOS: {
+              marginTop: Metrics.ratio(15),
+              fontFamily: Fonts.type.regular,
+              fontSize: Metrics.ratio(16),
+              color: '#B4B4B4',
+            },
+            viewContainer: {
+              height: 50,
+              width: Metrics.screenWidth * 0.35,
+              paddingLeft: Metrics.ratio(0),
+            },
+          }}
+        />
+      </View>
+    );
+  };
+
   renderInputField = () => {
-    const {editAppoinment, name, dateTime, status} = this.state;
+    const {editAppoinment, name, dateTime, amount} = this.state;
     let customerName = editAppoinment.userId.firstName
       ? `${editAppoinment.userId.firstName} ${editAppoinment.userId.lastName}`
       : editAppoinment.userId.userName;
+      let companyName = editAppoinment?.companyId.name
+      let totalAmount = editAppoinment?.totalAmount;
+      let bookingStatus = editAppoinment?.status;
+      let paymentMethod = editAppoinment?.paymentMethod
+      console.log(editAppoinment,'editAppoinment')
     return (
       <ScrollView>
+        <Text style={styles.paymentHeaderText}>Customer Name</Text>
         <CustomTextInputRow
           placeholderText={'Name'}
           CustomStyle={{width: Metrics.screenWidth * 0.7}}
-          textInput={name}
           inputValue={customerName}
           handleInput={this.onChangeName}
           isEditable={false}
           // errorMessage={this.state.formErrors.addressError}
         />
+        <Text style={styles.paymentHeaderText}>Customer Name</Text>
+        <CustomTextInputRow
+          placeholderText={'Name'}
+          CustomStyle={{width: Metrics.screenWidth * 0.7}}
+          inputValue={companyName}
+          handleInput={this.onChangeName}
+          isEditable={false}
+          // errorMessage={this.state.formErrors.addressError}
+        />
+       
         <Text style={styles.paymentHeaderText}>Add more info</Text>
-        <View style={styles.paymentInpulMain}>
-          <View style={{flex: 1, paddingLeft: 5}}>
-            <CustomTextInput
-              placeholderText={'$100.00'}
-              textInputstyle={styles.textInput}
-              // textInput={dateTime}
-              inputValue={`$ ${editAppoinment.totalAmount.toString()}`}
-              // handleInput={this.onChangeDateTime}
-              customStyle={styles.custom}
-              // errorMessage={this.state.formErrors.lastNameError}
-            />
-          </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+         <View style = {{flexDirection: "row", justifyContent: "space-between"}}>
+         {this.renderDropdownPicker('payment', paymentMethod)}
+          {this.renderDropdownPicker('status', bookingStatus)}
+         </View>
         </View>
+        <CustomTextInputRow
+          placeholderText={'$100.00'}
+          CustomStyle={{width: Metrics.screenWidth * 0.7}}
+          inputValue={`$ ${amount ? JSON.stringify(amount) : JSON.stringify(totalAmount)}`}
+          handleInput={this.onChangeAmount}
+          // isEditable={false}
+          // errorMessage={this.state.formErrors.addressError}
+        />
 
         {this.renderButton()}
       </ScrollView>
@@ -237,7 +308,7 @@ class Current extends Component {
                   price={item.totalAmount}
                   paymentMethod={item.paymentMethod}
                   bookingStatus={bookingStatus}
-                  showButton={true}
+                  showButton={ item?.status === 1}
                   onPress={() =>
                     this.setState({setModalVisible: true, editAppoinment: item})
                   }
