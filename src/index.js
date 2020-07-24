@@ -35,6 +35,7 @@ export default class App extends Component {
     }, 3000);
     this.checkPermission();
     this.foregroundNotificationListner();
+    this.backgroundNotificationListner()
   }
 
   foregroundNotificationListner = () => {
@@ -44,10 +45,15 @@ export default class App extends Component {
         notificationTitle: remoteMessage?.notification?.title,
         notificationMessage: remoteMessage?.notification?.body,
       })
-      console.log(remoteMessage, "iiiiiiiiiiiiioooooooooooopppppppppp")
       // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
     });
   };
+
+  backgroundNotificationListner = () => {
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+      console.log('Message handled in the background!', remoteMessage);
+    });
+  }
 
   async checkPermission() {
     const enabled = await messaging().hasPermission();

@@ -115,28 +115,43 @@ class Current extends Component {
 
   render() {
     const {isFetching, failure, data, success} = this.props.getBooking;
-
-    const {date, time, employee, saloon} = this.props;
-
+    const {setModalVisible} = this.state;
     return (
       <ScrollView>
         {isFetching && this._renderOverlaySpinner()}
         {data.success && (
           <FlatList
             data={data.data}
-            renderItem={({item, index}) =>
-              item.status == 3 && (
-                <BookingHistoryCard
-                  date={item.services[0].date[0]}
-                  time={item.services[0].time[0]}
-                  employee={item.services[0].serviceId.name}
-                  saloon={item.companyId.name}
-                  price={item.services[0].serviceId.price}
-                />
-              )
-            }
+            renderItem={({item, index}) => {
+              let customerName = item.userId.firstName
+                ? item.userId.firstName + ' ' + item.userId.lastName
+                : item.userId.userName;
+              let employeeName =
+                item?.services[0].employeeId.userId.firstName +
+                ' ' +
+                item?.services[0].employeeId.userId.lastName;
+              let bookingStatus = item?.status === 3 ? 'Cancelled' : 'Completed';
+              if(item?.status === 3 || item?.status === 4){
+                return (
+                  <BookingHistoryCard
+                    orderNo={item._id}
+                    customerName={customerName}
+                    employeeName={employeeName}
+                    date={item.services[0].date[0]}
+                    time={item.services[0].time[0]}
+                    employee={item.services[0].serviceId.name}
+                    saloon={item.companyId.name}
+                    price={item.totalAmount}
+                    paymentMethod={item.paymentMethod}
+                    bookingStatus={bookingStatus}
+                  />
+                );
+              }
+              return null;
+            }}
           />
         )}
+        {setModalVisible ? this.renderPopup() : null}
       </ScrollView>
     );
   }
