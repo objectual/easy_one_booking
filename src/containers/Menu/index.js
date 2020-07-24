@@ -319,13 +319,13 @@ const styles = StyleSheet.create({
     width: Metrics.screenWidth * 0.91,
     backgroundColor: '#fff',
     borderRadius: Metrics.ratio(15),
-    overflow: 'hidden',
     elevation: 5,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.15,
-    shadowRadius: 1.0,
+    shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.32,
+        shadowRadius: 5.46,
   },
 });

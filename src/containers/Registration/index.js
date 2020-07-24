@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import styles from './styles';
 // import CustomTextInput from '../../components/CustomTextInput';
 import {request as userRegister} from '../../redux/actions/Register';
@@ -318,7 +318,7 @@ class Register extends Component {
       <View>
         <Text style={styles.labelText}>{lable}</Text>
         <TextInput
-          style={[styles.textInput, CustomTextInput]}
+          style={[styles.textInput, CustomTextInput, Platform.OS == "ios" && {paddingBottom: 0}]}
           placeholderTextColor="#81788B"
           ref={(o) => {
             ref = o;
@@ -359,7 +359,7 @@ class Register extends Component {
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          marginBottom: Metrics.ratio(30),
+          marginBottom: Metrics.screenHeight * 0.15,
         }}>
         <TouchableOpacity
           onPress={() => this.checkValidation()}
@@ -396,77 +396,81 @@ class Register extends Component {
   render() {
     const {name, postalCode, email, password, confirmPassword} = this.state;
     return (
-      <ScrollView contentContainerStyle={styles.container}>
-        {this.renderHeaderLogo()}
-        {this.renderScreenHeading()}
-        {this.renderTextInputWithLable(
-          'Name',
-          'inputName',
-          'next',
-          this.onChangeName,
-          name,
-          'Enter your name.',
-          null,
-          'inputPostalCode',
-          false,
-          styles.CustomTextInput,
-          this.state.nameError,
-        )}
-        {this.renderTextInputWithLable(
-          'Postal Code',
-          'inputPostalCode',
-          'next',
-          this.onChangePostalCode,
-          postalCode,
-          'Enter your postal code.',
-          null,
-          'inputEmail',
-          false,
-          styles.CustomTextInput,
-          this.state.postalCodeError,
-        )}
-        {this.renderTextInputWithLable(
-          'Email',
-          'inputEmail',
-          'next',
-          this.onChangeEmail,
-          email,
-          'Enter your email.',
-          'email-address',
-          'inputPassword',
-          false,
-          styles.CustomTextInput,
-          this.state.emailError,
-        )}
-        {this.renderTextInputWithLable(
-          'Password',
-          'inputPassword',
-          'next',
-          this.onChangePassword,
-          password,
-          'Enter your password',
-          null,
-          'inputConfirmPassword',
-          true,
-          styles.CustomTextInput,
-          this.state.passwordError,
-        )}
-        {this.renderTextInputWithLable(
-          'Confirm Password',
-          'inputConfirmPassword',
-          'done',
-          this.onChangeConfirmPassword,
-          confirmPassword,
-          'Confirm your password',
-          null,
-          'onDone',
-          true,
-          styles.CustomTextInput,
-          this.state.confirmPasswordError,
-        )}
-        {this.renderSubmitBtn()}
-        {this._renderOverlaySpinner()}
-      </ScrollView>
+       <View style = {styles.container}> 
+         <KeyboardAwareScrollView showsVerticalScrollIndicator = {false}>
+            {this.renderHeaderLogo()}
+            {this.renderScreenHeading()}
+            {this.renderTextInputWithLable(
+              'Name',
+              'inputName',
+              'next',
+              this.onChangeName,
+              name,
+              'Enter your name.',
+              null,
+              'inputPostalCode',
+              false,
+              styles.CustomTextInput,
+              this.state.nameError
+            )}
+            {this.renderTextInputWithLable(
+              'Postal Code',
+              'inputPostalCode',
+              'next',
+              this.onChangePostalCode,
+              postalCode,
+              'Enter your postal code.',
+              null,
+              'inputEmail',
+              false,
+              styles.CustomTextInput,
+              this.state.postalCodeError
+            )}
+            {this.renderTextInputWithLable(
+              'Email',
+              'inputEmail',
+              'next',
+              this.onChangeEmail,
+              email,
+              'Enter your email.',
+              'email-address',
+              'inputPassword',
+              false,
+              styles.CustomTextInput,
+              this.state.emailError
+
+            )}
+            {this.renderTextInputWithLable(
+              'Password',
+              'inputPassword',
+              'next',
+              this.onChangePassword,
+              password,
+              'Enter your password',
+              null,
+              'inputConfirmPassword',
+              true,
+              styles.CustomTextInput,
+              this.state.passwordError
+            )}
+            {this.renderTextInputWithLable(
+              'Confirm Password',
+              'inputConfirmPassword',
+              'done',
+              this.onChangeConfirmPassword,
+              confirmPassword,
+              'Confirm your password',
+              null,
+              'onDone',
+              true,
+              styles.CustomTextInput,
+              this.state.confirmPasswordError
+
+            )}
+            {this.renderSubmitBtn()}
+            {this._renderOverlaySpinner()}
+        </KeyboardAwareScrollView>
+       </View>
     );
   }
 }
