@@ -131,14 +131,21 @@ class Current extends Component {
                 ' ' +
                 item?.services[0].employeeId.userId.lastName;
               let bookingStatus = item?.status === 3 ? 'Cancelled' : 'Completed';
+              let dateTime = item.createdDate
+              let newDate = new Date(dateTime);
+              let time = newDate.toLocaleTimeString('en-US');
+              let date = newDate.getDate();
+              let month = newDate.getMonth(); //Month of the Year: 0-based index, so 1 in our example
+              let year = newDate.getFullYear()
+              let fullDate = `${date}-${month}-${year}`
               if(item?.status === 3 || item?.status === 4){
                 return (
                   <BookingHistoryCard
                     orderNo={item._id}
                     customerName={customerName}
                     employeeName={employeeName}
-                    date={item.services[0].date[0]}
-                    time={item.services[0].time[0]}
+                    date={fullDate}
+                    time={time}
                     employee={item.services[0].serviceId.name}
                     saloon={item.companyId.name}
                     price={item.totalAmount}

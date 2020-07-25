@@ -12,7 +12,6 @@ export default StyleSheet.create({
     marginTop: Metrics.ratio(20),
     marginBottom: Metrics.ratio(7),
     borderRadius: Metrics.ratio(15),
-    overflow: 'hidden',
     elevation: 5,
     paddingHorizontal: Metrics.ratio(15),
     paddingVertical: Metrics.ratio(15),

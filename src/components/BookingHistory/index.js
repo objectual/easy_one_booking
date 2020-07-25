@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import React, {Component} from 'react';
-import {Text, View, Image, TouchableOpacity, Platform} from 'react-native';
+import {Text, View, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import styles from './styles';
 import {Images, Metrics} from '../../theme';
 import PropTypes from 'prop-types';
@@ -37,9 +37,14 @@ class BookingHistoryCard extends Component {
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
+            <View style = {{width: Metrics.screenWidth * 0.4}}>
             <Text style={styles.titlesize}>Date : {date}</Text>
+            </View>
+            <View style = {{width: Metrics.screenWidth * 0.4}}>
             <Text style={styles.titlesize}>Time : {time}</Text>
+            </View>
           </View>
+          <View style = {{borderBottomWidth: StyleSheet.hairlineWidth, borderColor: "grey", marginVertical: Metrics.ratio(5)}}></View>
           <View
             style={{
               flexDirection: 'row',
