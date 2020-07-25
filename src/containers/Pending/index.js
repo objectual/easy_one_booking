@@ -117,20 +117,16 @@ class Current extends Component {
 
   updateBooking = () => {
     const {status, paymentType, amount, editAppoinment} = this.state;
-    console.log(editAppoinment._id, 'editAppoinment');
-    console.log(status, "status")
-    console.log(amount,'payyyyyyyyyy')
     const payload = {
       bookingId: editAppoinment._id,
       status: status,
-      totalAmount: 200,
+      totalAmount: amount,
       paymentMethod: paymentType,
     };
     // let bookingStatus = status == null ? editAppoinment.status : status;
     this.props.updateMyBooking(payload);
   };
 
-  onChangeAmount = value => {console.log(value,'valllllllllllllll')}
 
   renderButton = () => {
     return (
@@ -154,9 +150,7 @@ class Current extends Component {
   };
 
   renderDropdownPicker = (type, data) => {
-    console.log(data,'ddddddddddddddddddddd')
     const status = [
-      { label: 'Done', value: 4 },
       { label: 'Cancel', value: 3 },
     ];
     const paymentType = [
@@ -232,18 +226,18 @@ class Current extends Component {
             justifyContent: 'space-between',
           }}>
          <View style = {{flexDirection: "row", justifyContent: "space-between"}}>
-         {this.renderDropdownPicker('payment', paymentMethod)}
+         {/* {this.renderDropdownPicker('payment', paymentMethod)} */}
           {this.renderDropdownPicker('status', bookingStatus)}
          </View>
         </View>
-        <CustomTextInputRow
+        {/* <CustomTextInputRow
           placeholderText={'$100.00'}
           CustomStyle={{width: Metrics.screenWidth * 0.7}}
           inputValue={`$ ${amount ? JSON.stringify(amount) : JSON.stringify(totalAmount)}`}
           handleInput={this.onChangeAmount}
           // isEditable={false}
           // errorMessage={this.state.formErrors.addressError}
-        />
+        /> */}
 
         {this.renderButton()}
       </ScrollView>

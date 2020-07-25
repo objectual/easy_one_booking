@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import styles from './styles';
 // import CustomTextInput from '../../components/CustomTextInput';
 import {request as userRegister} from '../../redux/actions/Register';
@@ -318,7 +318,7 @@ class Register extends Component {
       <View>
         <Text style={styles.labelText}>{lable}</Text>
         <TextInput
-          style={[styles.textInput, CustomTextInput]}
+          style={[styles.textInput, CustomTextInput, Platform.OS == "ios" && {paddingBottom: 0}]}
           placeholderTextColor="#81788B"
           ref={(o) => {
             ref = o;
@@ -359,7 +359,7 @@ class Register extends Component {
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          marginBottom: Metrics.ratio(30),
+          marginBottom: Metrics.screenHeight * 0.15,
         }}>
         <TouchableOpacity
           onPress={() => this.checkValidation()}
@@ -397,7 +397,7 @@ class Register extends Component {
     const {name, postalCode, email, password, confirmPassword} = this.state;
     return (
        <View style = {styles.container}> 
-         <KeyboardAwareScrollView>
+         <KeyboardAwareScrollView showsVerticalScrollIndicator = {false}>
             {this.renderHeaderLogo()}
             {this.renderScreenHeading()}
             {this.renderTextInputWithLable(

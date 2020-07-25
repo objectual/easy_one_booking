@@ -80,7 +80,7 @@ class Login extends Component {
               ],
               {cancelable: false},
             );
-          }, 3000);
+          }, 1000);
         });
         if (this.props.cart.data.length == 0) {
           this.props.navigation.navigate('Home');
@@ -215,7 +215,7 @@ class Login extends Component {
       <View>
         <Text style={styles.labelText}>{label}</Text>
         <TextInput
-          style={[styles.textInput, CustomTextInput]}
+          style={[styles.textInput, CustomTextInput, Platform.OS == "ios" && {paddingBottom: 0}]}
           placeholderTextColor="#81788B"
           ref={(o) => {
             ref = o;
@@ -225,7 +225,6 @@ class Login extends Component {
           value={value}
           placeholder={placeholder}
           autoCompleteType="off"
-          keyboardType={keyboardType}
           // onSubmitEditing={() => {
           //   this.onSubmit(onSubmitEditing);
           // }}
