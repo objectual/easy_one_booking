@@ -57,7 +57,7 @@
 		0A01102D894D4388A299D733 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		0D5C92E1E933447F901D1C2A /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		131A32B760FC3CE174F29227 /* Pods-easy_one.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-easy_one.release.xcconfig"; path = "Target Support Files/Pods-easy_one/Pods-easy_one.release.xcconfig"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* easy_one.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = easy_one.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* easy_1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = easy_1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = easy_one/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = easy_one/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -244,7 +244,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* easy_one.app */,
+				13B07F961A680F5B00A75B9A /* easy_1.app */,
 				00E356EE1AD99517003FC87E /* easy_oneTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* easy_one-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* easy_one-tvOSTests.xctest */,
@@ -307,7 +307,7 @@
 			);
 			name = easy_one;
 			productName = easy_one;
-			productReference = 13B07F961A680F5B00A75B9A /* easy_one.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* easy_1.app */;
 			productType = "com.apple.product-type.application";
 		};
 		2D02E47A1E0B4A5D006451C7 /* easy_one-tvOS */ = {
@@ -769,7 +769,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = easy_one;
+				PRODUCT_NAME = easy_1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -789,7 +789,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = easy_one;
+				PRODUCT_NAME = easy_1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

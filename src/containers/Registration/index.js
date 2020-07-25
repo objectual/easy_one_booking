@@ -11,6 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import styles from './styles';
 // import CustomTextInput from '../../components/CustomTextInput';
@@ -331,9 +332,8 @@ class Register extends Component {
   render() {
     const {name, postalCode, email, password, confirmPassword} = this.state;
     return (
-        <ScrollView
-        contentContainerStyle={styles.container}
-        >
+       <View style = {styles.container}> 
+         <KeyboardAwareScrollView>
             {this.renderHeaderLogo()}
             {this.renderScreenHeading()}
             {this.renderTextInputWithLable(
@@ -405,7 +405,8 @@ class Register extends Component {
             )}
             {this.renderSubmitBtn()}
             {this._renderOverlaySpinner()}
-        </ScrollView>
+        </KeyboardAwareScrollView>
+       </View>
     );
   }
 }

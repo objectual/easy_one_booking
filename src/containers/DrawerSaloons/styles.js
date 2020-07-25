@@ -79,7 +79,7 @@ export default StyleSheet.create({
   },
   textInputWithLabel:{
     paddingHorizontal: Metrics.ratio(10),
-    // paddingVertical: Metrics.ratio(10),
+    paddingVertical: Metrics.ratio(10),
     marginTop: Metrics.ratio(25),
     marginBottom: Metrics.ratio(10),
     borderRadius: Metrics.ratio(20),

@@ -21,10 +21,6 @@ class Footer extends React.Component {
       : this.props.navigation('Login');
   };
 
-  componentDidMount() {
-    this.validateUser();
-  }
-
   render() {
     const {children, screen, tab} = this.props;
 
