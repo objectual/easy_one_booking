@@ -10,8 +10,8 @@ import {
   Platform,
   TextInput,
   Linking,
-  StyleSheet,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import FloatingLabel from 'react-native-floating-labels';
 import {request as userLogin, success} from '../../redux/actions/Login';
 import styles from './styles';
@@ -39,6 +39,7 @@ class Login extends Component {
       btnDisabled: false,
       emailError: '',
       passwordError: '',
+      fcmToken: null,
       formErrors: {
         emailError: false,
         passwordError: false,
@@ -106,6 +107,15 @@ class Login extends Component {
     }
   }
 
+  componentDidMount() {
+    this.getToken();
+  }
+
+  async getToken() {
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    this.setState({fcmToken});
+  }
+
   checkValidation = () => {
     const {email, password} = this.state;
     const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -147,12 +157,12 @@ class Login extends Component {
 
   handleLogin = () => {
     this.setState({isLoading: true});
-    const {email, password} = this.state;
+    const {email, password, fcmToken} = this.state;
     const payload = {
       email: email,
       password: password,
-      gcm_id: 'string123',
-      platform: 'android',
+      gcm_id: fcmToken,
+      platform: Platform.OS,
       // device_type: Platform.OS,
       // device_token: 'string',
     };

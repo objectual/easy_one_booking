@@ -105,10 +105,11 @@ class Categories extends Component {
                     height: Metrics.screenHeight * 0.2,
                     width: Metrics.screenWidth * 0.42,
                     alignItems: 'center',
+                    justifyContent: 'center',
                   }}>
                   <Image
                     style={{
-                      marginTop: Metrics.ratio(10),
+                      marginTop: Metrics.ratio(20),
                       width: Metrics.ratio(120),
                       height: Metrics.ratio(100),
                     }}

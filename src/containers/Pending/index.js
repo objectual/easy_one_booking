@@ -14,8 +14,10 @@ import {
   FlatList,
   PermissionsAndroid,
   BackHandler,
+  Modal,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
+import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 import styles from './styles';
 import {Images, Metrics, Fonts, Colors} from '../../theme';
 
@@ -28,7 +30,7 @@ import Geolocation from '@react-native-community/geolocation';
 import {Dropdown} from 'react-native-material-dropdown';
 import Immutable from 'seamless-immutable';
 import {request as get_Saloon_By_Category} from '../../redux/actions/GetSaloonByCategory';
-import {request as get_Saloon_By_Category_NearBy} from '../../redux/actions/GetSaloonNearBy';
+import {request as updateMyBooking} from '../../redux/actions/updateBooking';
 import {
   place_reverse_Geocoding_URL,
   place_Autocomplete_URL,
@@ -37,7 +39,8 @@ import {
 import {request as get_Services} from '../../redux/actions/GetServices';
 import BookingHistoryCard from '../../components/BookingHistory/index';
 import {initializeToken, token, getUserInfo} from '../../config/WebServices';
-
+import CustomTextInputRow from './../../components/CustomTextInputRow/index';
+import CustomTextInput from './../../components/CustomTextInput/index';
 var saloonsData = [];
 var categoriesData = [];
 
@@ -105,7 +108,6 @@ class Current extends Component {
 
   async componentDidMount() {
     let payload = JSON.parse(await getUserInfo());
-    console.log(payload, 'payload');
     this.props.get_Booking({payload});
     this.props.navigation.addListener('focus', () =>
       this.props.get_Booking({payload}),
@@ -113,9 +115,172 @@ class Current extends Component {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
+  updateBooking = () => {
+    const {status, paymentType, amount, editAppoinment} = this.state;
+    console.log(editAppoinment._id, 'editAppoinment');
+    console.log(status, "status")
+    console.log(amount,'payyyyyyyyyy')
+    const payload = {
+      bookingId: editAppoinment._id,
+      status: status,
+      totalAmount: 200,
+      paymentMethod: paymentType,
+    };
+    // let bookingStatus = status == null ? editAppoinment.status : status;
+    this.props.updateMyBooking(payload);
+  };
+
+  onChangeAmount = value => {console.log(value,'valllllllllllllll')}
+
+  renderButton = () => {
+    return (
+      <View
+        style={{
+          alignItems: 'center',
+        }}>
+        <TouchableOpacity
+          style={styles.submitBtnView}
+          onPress={() => this.updateBooking()}>
+          <Text style={styles.submitBtnText}>Update</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  handlePickerValue = (value, type) => {
+    type === 'status'
+      ? this.setState({ status: value })
+      : this.setState({ paymentType: value });
+  };
+
+  renderDropdownPicker = (type, data) => {
+    console.log(data,'ddddddddddddddddddddd')
+    const status = [
+      { label: 'Done', value: 4 },
+      { label: 'Cancel', value: 3 },
+    ];
+    const paymentType = [
+      { label: 'Cash', value: 'Cash' },
+      { label: 'Points', value: 'Points' }];
+    return (
+      <View style={styles.dropdownContainer}>
+        <RNPickerSelect
+          onValueChange={value => this.handlePickerValue(value, type)}
+          items={type === 'status' ? status : paymentType}
+          placeholder={{
+            label: type === 'status' ? 'Pending' : 'Payment Method',
+            value: null,
+          }}
+          style={{
+            placeholder: {
+              fontSize: Metrics.ratio(16),
+              color: '#B4B4B4',
+              fontFamily: Fonts.type.regular,
+            },
+            inputIOS: {
+              marginTop: Metrics.ratio(15),
+              fontFamily: Fonts.type.regular,
+              fontSize: Metrics.ratio(16),
+              color: '#B4B4B4',
+            },
+            viewContainer: {
+              height: 50,
+              width: Metrics.screenWidth * 0.35,
+              paddingLeft: Metrics.ratio(0),
+            },
+          }}
+        />
+      </View>
+    );
+  };
+
+  renderInputField = () => {
+    const {editAppoinment, name, dateTime, amount} = this.state;
+    let customerName = editAppoinment.userId.firstName
+      ? `${editAppoinment.userId.firstName} ${editAppoinment.userId.lastName}`
+      : editAppoinment.userId.userName;
+      let companyName = editAppoinment?.companyId.name
+      let totalAmount = editAppoinment?.totalAmount;
+      let bookingStatus = editAppoinment?.status;
+      let paymentMethod = editAppoinment?.paymentMethod
+      console.log(editAppoinment,'editAppoinment')
+    return (
+      <ScrollView>
+        <Text style={styles.paymentHeaderText}>Customer Name</Text>
+        <CustomTextInputRow
+          placeholderText={'Name'}
+          CustomStyle={{width: Metrics.screenWidth * 0.7}}
+          inputValue={customerName}
+          handleInput={this.onChangeName}
+          isEditable={false}
+          // errorMessage={this.state.formErrors.addressError}
+        />
+        <Text style={styles.paymentHeaderText}>Customer Name</Text>
+        <CustomTextInputRow
+          placeholderText={'Name'}
+          CustomStyle={{width: Metrics.screenWidth * 0.7}}
+          inputValue={companyName}
+          handleInput={this.onChangeName}
+          isEditable={false}
+          // errorMessage={this.state.formErrors.addressError}
+        />
+       
+        <Text style={styles.paymentHeaderText}>Add more info</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+         <View style = {{flexDirection: "row", justifyContent: "space-between"}}>
+         {this.renderDropdownPicker('payment', paymentMethod)}
+          {this.renderDropdownPicker('status', bookingStatus)}
+         </View>
+        </View>
+        <CustomTextInputRow
+          placeholderText={'$100.00'}
+          CustomStyle={{width: Metrics.screenWidth * 0.7}}
+          inputValue={`$ ${amount ? JSON.stringify(amount) : JSON.stringify(totalAmount)}`}
+          handleInput={this.onChangeAmount}
+          // isEditable={false}
+          // errorMessage={this.state.formErrors.addressError}
+        />
+
+        {this.renderButton()}
+      </ScrollView>
+    );
+  };
+
+  renderPopup = () => {
+    const {modalVisible} = this.setState;
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View style={{marginHorizontal: Metrics.ratio(15)}}>
+              <TouchableOpacity
+                onPress={() =>
+                  this.setState({setModalVisible: false, status: null})
+                }>
+                <Image source={Images.cross} style={styles.crossImageStyle} />
+              </TouchableOpacity>
+              <Text style={styles.modalText}>Edit</Text>
+              {this.renderInputField()}
+            </View>
+          </View>
+        </View>
+      </Modal>
+    );
+  };
+
   render() {
     const {isFetching, failure, data, success} = this.props.getBooking;
-
+    const {setModalVisible} = this.state;
     return (
       <ScrollView>
         {isFetching && this._renderOverlaySpinner()}
@@ -131,7 +296,6 @@ class Current extends Component {
                 ' ' +
                 item?.services[0].employeeId.userId.lastName;
               let bookingStatus = item?.status === 1 ? 'Pending' : 'Completed';
-              console.log(item, 'llllllllllllllllllllllll');
               return (
                 <BookingHistoryCard
                   orderNo={item._id}
@@ -144,11 +308,16 @@ class Current extends Component {
                   price={item.totalAmount}
                   paymentMethod={item.paymentMethod}
                   bookingStatus={bookingStatus}
+                  showButton={ item?.status === 1}
+                  onPress={() =>
+                    this.setState({setModalVisible: true, editAppoinment: item})
+                  }
                 />
               );
             }}
           />
         )}
+        {setModalVisible ? this.renderPopup() : null}
       </ScrollView>
     );
   }
@@ -162,6 +331,7 @@ const mapStateToProps = (state) => {
 
 const action = {
   get_Booking,
+  updateMyBooking,
 };
 
 export default connect(mapStateToProps, action)(Current);

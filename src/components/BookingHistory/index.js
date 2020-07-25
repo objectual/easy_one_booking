@@ -87,6 +87,13 @@ class BookingHistoryCard extends Component {
             <Text style={styles.titleTotal}>Total Amount : ${price}</Text>
             <Text style={styles.titleTotal}>{bookingStatus}</Text>
           </View>
+          {this.props.showButton == true ? (
+            <TouchableOpacity
+              style={styles.submitBtn}
+              onPress={this.props.onPress}>
+              <Text style={styles.submitBtnText}>Edit</Text>
+            </TouchableOpacity>
+          ) : null}
         </View>
       </View>
     );

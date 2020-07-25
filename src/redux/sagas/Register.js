@@ -1,19 +1,19 @@
-import { take, put, call, fork } from "redux-saga/effects";
+import {take, put, call, fork} from 'redux-saga/effects';
 
-import ApiSauce from "../../services/apiSauce";
-import { register_Api } from "../../config/WebServices";
-import * as types from "../actions/ActionTypes";
+import ApiSauce from '../../services/apiSauce';
+import {register_Api} from '../../config/WebServices';
+import * as types from '../actions/ActionTypes';
 
-import { success, failure } from "../actions/Register";
+import {success, failure} from '../actions/Register';
 
-import { ErrorHelper } from "../../helpers";
+import {ErrorHelper} from '../../helpers';
 
 function callRequest(data) {
   return ApiSauce.post(register_Api, data);
 }
 function* watchRequest() {
   while (true) {
-    const { payload } = yield take(types.REGISTER.REQUEST);
+    const {payload} = yield take(types.REGISTER.REQUEST);
 
     // const { targetView } = payload;
     // delete payload.targetView;

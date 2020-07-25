@@ -35,10 +35,9 @@ export const CREATE_BOOKING = createRequestTypes('CREATE_BOOKING');
 export const GET_EMPLOYEES_BY_SALOON_AND_CATEGORY = createRequestTypes(
   'GET_EMPLOYEES_BY_SALOON_AND_CATEGORY',
 );
-export const GET_SERVICES = createRequestTypes(
-  'GET_SERVICES',
-);
-
+export const GET_SERVICES = createRequestTypes('GET_SERVICES');
+export const UPDATE_BOOKING = createRequestTypes('UPDATE_BOOKING');
+//
 
 export const LOGOUT = 'LOGOUT';
 
@@ -48,5 +47,3 @@ export const ADD_TO_CART = 'ADD_CART';
 export const REMOVE__FROM_CART = 'REMOVE_CART';
 export const HIDE_MODAL = 'HIDE_MODAL';
 export const REMOVE_ALL = 'REMOVE_ALL';
-
-
