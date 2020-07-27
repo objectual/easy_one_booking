@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Alert} from 'react-native';
+import {Alert, Platform} from 'react-native';
 import Navigation from './navigator';
 // import 'react-native-gesture-handler';
 import SplashScreen from 'react-native-splash-screen';
@@ -40,10 +40,12 @@ export default class App extends Component {
 
   foregroundNotificationListner = () => {
     messaging().onMessage(async (remoteMessage) => {
+      let notificationTitle = Platform.OS === "ios" ? remoteMessage?.data?.notification?.title  : remoteMessage?.notification?.title;
+      let notificationMessage = Platform.OS === "ios" ? remoteMessage?.data?.notification?.body  : remoteMessage?.notification?.body;
       this.setState({
         showNotification: true,
-        notificationTitle: remoteMessage?.notification?.title,
-        notificationMessage: remoteMessage?.notification?.body,
+        notificationTitle: notificationTitle,
+        notificationMessage: notificationMessage
       })
       // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
     });
@@ -66,7 +68,14 @@ export default class App extends Component {
 
   async requestPermission() {
     try {
-      await messaging().requestPermission();
+      const granted = await messaging().requestPermission({
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: true,
+        provisional: false,
+        sound: true,
+      });
       // User has authorised
       this.getToken();
     } catch (error) {
@@ -80,6 +89,7 @@ export default class App extends Component {
     if (!fcmToken) {
       fcmToken = await messaging().getToken();
       if (fcmToken) {
+        console.log(fcmToken,'fflsakdlkdslkds')
         // user has a device token
         await AsyncStorage.setItem('fcmToken', fcmToken);
       }

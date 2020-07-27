@@ -13,13 +13,13 @@ import { Platform } from "react-native";
 import Metrics from "./Metrics";
 
 const type = {
-  extraLight: "Lato-Thin",
-  light: "Lato-Light",
-  regular: "Lato-Regular",
-  Black: "Lato-Black",
-  // demibold: "Manrope-SemiBold",
-  bold: "Lato-Bold",
-  ExtraBold: "Lato-Black",
+  // extraLight: "Lato-Thin",
+  // light: "Lato-Light",
+  // regular: "Lato-Regular",
+  // Black: "Lato-Black",
+  // // demibold: "Manrope-SemiBold",
+  // bold: "Lato-Bold",
+  // ExtraBold: "Lato-Black",
 };
 
 // Metrics.generatedFontSize(ios, android)

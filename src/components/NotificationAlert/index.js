@@ -15,7 +15,7 @@ export default class NotificationAlert extends Component {
       timeText: 'Now',
       title: this.props.notificationTitle,
       body: this.props.notificationMessage,
-      slideOutTime: 8000,
+      slideOutTime: 10000,
     });
   }
   renderCustomPopup = ({appIconSource, appTitle, timeText, title, body}) => (
@@ -72,6 +72,7 @@ export default class NotificationAlert extends Component {
     </View>
   );
   render() {
+    console.log("hello notification here...")
     return (
       <NotificationPopup
         ref={(ref) => (this.popup = ref)}
