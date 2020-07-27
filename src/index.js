@@ -18,6 +18,8 @@ import Store from './redux/store';
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-community/async-storage';
 import NotificationAlert from './components/NotificationAlert'
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import PushNotification from "react-native-push-notification";
 const store = Store();
 
 export default class App extends Component {
@@ -35,25 +37,68 @@ export default class App extends Component {
     }, 3000);
     this.checkPermission();
     this.foregroundNotificationListner();
-    this.backgroundNotificationListner()
+    this.backgroundNotificationListner();
+    // this.getNotification();
+    this.registerNotificationListner();
   }
+
+  registerForNotifications = token => {
+   console.log(token,'osapdopsaopsd')
+  };
+
+  registerNotificationListner = () => {
+    PushNotification.configure({
+      onRegister:(token)=>{
+        console.log(token,'0909090909090')
+        this.registerForNotifications(token.token)
+      } ,
+      requestPermissions: true,
+    });
+    return true;
+  }
+  
 
   foregroundNotificationListner = () => {
     messaging().onMessage(async (remoteMessage) => {
+      console.log(remoteMessage,'temoteeeee00000')
       let notificationTitle = Platform.OS === "ios" ? remoteMessage?.data?.notification?.title  : remoteMessage?.notification?.title;
       let notificationMessage = Platform.OS === "ios" ? remoteMessage?.data?.notification?.body  : remoteMessage?.notification?.body;
+      let details = {
+        alertTitle: Platform.OS === "ios" ? remoteMessage?.data?.notification?.title  : remoteMessage?.notification?.title,
+        alertBody: Platform.OS === "ios" ? remoteMessage?.data?.notification?.body  : remoteMessage?.notification?.body,
+      }
+      console.log(remoteMessage,'remoteee')
       this.setState({
         showNotification: true,
         notificationTitle: notificationTitle,
         notificationMessage: notificationMessage
       })
+      PushNotificationIOS.scheduleLocalNotification(details);
       // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
     });
   };
 
+  // getNotification = () => {
+  //   PushNotificationIOS.getDeliveredNotifications((data) => {
+  //     console.log(data,'88888888888899999900000')
+  //   });
+  // }
+
   backgroundNotificationListner = () => {
     messaging().setBackgroundMessageHandler(async remoteMessage => {
-      console.log('Message handled in the background!', remoteMessage);
+      let notificationTitle = Platform.OS === "ios" ? remoteMessage?.data?.notification?.title  : remoteMessage?.notification?.title;
+      let notificationMessage = Platform.OS === "ios" ? remoteMessage?.data?.notification?.body  : remoteMessage?.notification?.body;
+      let details = {
+        alertTitle: Platform.OS === "ios" ? remoteMessage?.data?.notification?.title  : remoteMessage?.notification?.title,
+        alertBody: Platform.OS === "ios" ? remoteMessage?.data?.notification?.body  : remoteMessage?.notification?.body,
+      }
+      console.log(remoteMessage,'background notification remoteee')
+      this.setState({
+        showNotification: true,
+        notificationTitle: notificationTitle,
+        notificationMessage: notificationMessage
+      })
+      PushNotificationIOS.scheduleLocalNotification(details);
     });
   }
 
@@ -85,6 +130,7 @@ export default class App extends Component {
   }
 
   async getToken() {
+    console.log("fcm token")
     let fcmToken = await AsyncStorage.getItem('fcmToken');
     if (!fcmToken) {
       fcmToken = await messaging().getToken();
