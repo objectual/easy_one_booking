@@ -49,10 +49,10 @@ export default class App extends Component {
   registerNotificationListner = () => {
     PushNotification.configure({
       onRegister:(token)=>{
-        console.log(token,'0909090909090')
         this.registerForNotifications(token.token)
       } ,
       requestPermissions: true,
+      popInitialNotification: true,
     });
     return true;
   }
@@ -73,7 +73,25 @@ export default class App extends Component {
         notificationTitle: notificationTitle,
         notificationMessage: notificationMessage
       })
-      PushNotificationIOS.scheduleLocalNotification(details);
+
+      if(Platform.OS == 'android'){
+        PushNotification.localNotification({
+          autoCancel: true,
+          bigText:
+          remoteMessage?.notification?.body,
+          // subText: 'Local Notification Demo',
+          title: remoteMessage?.notification?.title,
+          message: 'Expand me to see more',
+          vibrate: true,
+          vibration: 300,
+          playSound: true,
+          soundName: 'default',
+          actions: '["Yes", "No"]'
+        })
+      }else{
+        PushNotificationIOS.scheduleLocalNotification(details);
+      }
+
       // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
     });
   };
@@ -98,7 +116,23 @@ export default class App extends Component {
         notificationTitle: notificationTitle,
         notificationMessage: notificationMessage
       })
-      PushNotificationIOS.scheduleLocalNotification(details);
+      if(Platform.OS == 'android'){
+        PushNotification.localNotification({
+          autoCancel: true,
+          bigText:
+          remoteMessage?.notification?.body,
+          // subText: 'Local Notification Demo',
+          title: remoteMessage?.notification?.title,
+          message: 'Expand me to see more',
+          vibrate: true,
+          vibration: 300,
+          playSound: true,
+          soundName: 'default',
+          actions: '["Yes", "No"]'
+        })
+      }else{
+        PushNotificationIOS.scheduleLocalNotification(details);
+      }
     });
   }
 
@@ -150,10 +184,10 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <Navigation />
-        {showNotification ? <NotificationAlert 
+        {/* {showNotification ? <NotificationAlert 
           notificationTitle = {notificationTitle}
           notificationMessage = {notificationMessage} 
-       /> : null}  
+       /> : null}   */}
       </Provider>
     );
   }
