@@ -194,58 +194,24 @@ class Home extends Component {
     );
   };
 
-  // getLocationHandler = () => {
-  //   this.setState({ isLoading: true });
-  //   Geolocation.getCurrentPosition(
-  //     pos => {
-  //       this.setState(
-  //         {
-  //           longitude: pos.coords.longitude,
-  //           latitude: pos.coords.latitude,
-  //           radius: 5000,
-  //         },
-  //         () => this.handleGetSaloon(),
-  //       );
-  //       console.log('latitude: ', pos.coords.longitude);
-  //       console.log('longitude: ', pos.coords.latitude);
-  //     },
-  //     error => this.setState({ error: error.message }),
-  //     { enableHighAccuracy: false, timeout: 5000, maximumAge: 10000 },
-  //   );
-  // };
-  // handleGetSaloon = () => {
-  //   this.setState({ isLoading: true });
-  //   const { longitude, latitude, radius } = this.state;
-  //   const payload = {
-  //     longitude,
-  //     latitude,
-  //     radius,
-  //   };
-  //   this.props.get_Saloon();
-  // };
-
+  
   renderSaloonCard = (salon) => {
     const {selectCard} = this.state;
 
-    console.log('selectCardselectCardselectCard', selectCard);
+    selectCard && console.log('selectCardselectCardselectCard',  selectCard.saloon._id == salon.saloon._id);
 
     return (
       <TouchableWithoutFeedback
-        style={
-          selectCard && selectCard.saloon._id == salon.saloon._id
-            ? styles.showcardradius
-            : null
-        }
         onPress={() =>
           this.setState({showdescription: true, selectCard: salon})
         }>
-        <View style={styles.cardradius}>
+        <View style={[styles.cardradius]}>
           {/* {salon &&
           salon.template &&
           salon.template.coverImage &&
           salon.template.coverImage.url ? ( */}
           <View
-            style={{
+            style={[{
               // overflow: 'hidden',
               borderRadius: Metrics.ratio(10),
               // borderWidth: Metrics.ratio(2),
@@ -259,7 +225,9 @@ class Home extends Component {
               },
               shadowOpacity: 0.32,
               shadowRadius: 5.46,
-            }}>
+            }, selectCard && selectCard.saloon._id == salon.saloon._id
+            ? styles.showcardradius
+            : null]}>
             {salon?.template?.coverImage && (
               <Image
                 // source={{ uri: salon.saloon.companyLogo }}
@@ -272,7 +240,7 @@ class Home extends Component {
               style={[styles.titleText, {marginHorizontal: Metrics.ratio(3)}]}>
               {salon && salon.saloon && salon.saloon.name}
             </Text>
-            <Text
+            {/* <Text
               numberOfLines={3}
               style={[
                 styles.titleText,
@@ -283,7 +251,7 @@ class Home extends Component {
                 },
               ]}>
               {salon && salon.saloon && salon.saloon.companyShortDescription}
-            </Text>
+            </Text> */}
             <View
               style={{
                 justifyContent: 'space-between',
@@ -328,8 +296,8 @@ class Home extends Component {
                   resizeMode="stretch"
                   source={{uri: category.image}}
                   style={{
-                    height: Metrics.ratio(70),
-                    width: Metrics.ratio(60),
+                    height: Metrics.ratio(50),
+                    width: Metrics.ratio(40),
                   }}
                 />
               )
@@ -338,7 +306,7 @@ class Home extends Component {
           </View>
           <View>
             <Text
-              numberOfLines={1}
+              numberOfLines={2}
               style={[
                 styles.titleText,
                 {textAlign: 'center', marginVertical: Metrics.ratio(5)},

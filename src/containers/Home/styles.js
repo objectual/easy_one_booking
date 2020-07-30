@@ -68,7 +68,7 @@ export default StyleSheet.create({
   },
   containerForRow: {
     paddingHorizontal: Metrics.ratio(20),
-    marginTop: Metrics.ratio(20),
+    // marginTop: Metrics.ratio(20),
   },
   servicebox: {
     // height: Metrics.screenHeight * 0.23,
@@ -87,27 +87,20 @@ export default StyleSheet.create({
     // shadowRadius: 1.0,
   },
   titleText: {
-    fontSize: Metrics.ratio(18),
-    width: Metrics.ratio(150),
+    fontSize: Metrics.ratio(14),
+    width: Metrics.ratio(100),
   },
   cardradius: {
     padding: Metrics.ratio(10),
   },
   showcardradius: {
-    borderWidth: Metrics.ratio(1),
-    borderColor: '#5c0000',
-    borderRadius: Metrics.ratio(5),
-    shadowColor: Colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.18,
-    shadowRadius: 1.0,
+    borderWidth: Metrics.ratio(2),
+    borderColor: Colors.darkStaleBlue,
+    borderRadius: Metrics.ratio(10),
   },
   categoriesCardContainer: {
-    height: Metrics.ratio(140),
-    width: Metrics.ratio(140),
+    height: Metrics.ratio(100),
+    width: Metrics.ratio(100),
     borderRadius: 100,
     borderWidth: Metrics.ratio(2),
     // borderColor: '#FF3600',
@@ -125,8 +118,8 @@ export default StyleSheet.create({
     shadowRadius: 5.46,
   },
   cardImage: {
-    height: Metrics.ratio(190),
-    width: Metrics.ratio(180),
+    height: Metrics.ratio(160),
+    width: Metrics.ratio(150),
     borderRadius: Metrics.ratio(10),
   },
   StarImage: {

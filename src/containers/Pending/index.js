@@ -225,9 +225,9 @@ class Current extends Component {
 
   renderInputField = () => {
     const {editAppoinment, name, dateTime, amount} = this.state;
-    let customerName = editAppoinment.userId.firstName
-      ? `${editAppoinment.userId.firstName} ${editAppoinment.userId.lastName}`
-      : editAppoinment.userId.userName;
+    let customerName = editAppoinment?.userId?.firstName
+      ? `${editAppoinment?.userId?.firstName} ${editAppoinment?.userId?.lastName}`
+      : editAppoinment?.userId?.userName;
       let companyName = editAppoinment?.companyId.name
       let totalAmount = editAppoinment?.totalAmount;
       let bookingStatus = editAppoinment?.status;
@@ -317,15 +317,15 @@ class Current extends Component {
           <FlatList
             data={data.data}
             renderItem={({item, index}) => {
-              let customerName = item.userId.firstName
-                ? item.userId.firstName + ' ' + item.userId.lastName
-                : item.userId.userName;
+              let customerName = item?.userId?.firstName
+                ? item?.userId?.firstName + ' ' + item.userId?.lastName
+                : item?.userId?.userName;
               let employeeName =
-                item?.services[0].employeeId.userId.firstName +
+                item?.services[0]?.employeeId?.userId?.firstName +
                 ' ' +
-                item?.services[0].employeeId.userId.lastName;
+                item?.services[0]?.employeeId?.userId?.lastName;
               let bookingStatus = item?.status === 1 ? 'Pending' : 'Now Serving';
-              let dateTime = item.createdDate
+              let dateTime = item?.createdDate
               let newDate = new Date(dateTime);
               let time = newDate.toLocaleTimeString('en-US');
               let date = newDate.getDate();
@@ -342,8 +342,8 @@ class Current extends Component {
                     date={fullDate}
                     time={time}
                     employee={item.services[0].serviceId.name}
-                    saloon={item.companyId.name}
-                    price={item.totalAmount}
+                    saloon={item?.companyId?.name}
+                    price={item?.totalAmount}
                     paymentMethod={item.paymentMethod}
                     bookingStatus={bookingStatus}
 
