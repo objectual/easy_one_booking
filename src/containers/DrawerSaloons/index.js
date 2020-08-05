@@ -372,7 +372,6 @@ class DrawerSaloons extends Component {
   };
 
   getSaloonNearBy = async () => {
-    console.log('pppppppplasoflsdk', this.state.saloonNearBy);
     if (this.state.saloonNearBy) {
       // this.setState({saloonNearBy: false});
       this.setState((state) => ({
@@ -387,7 +386,7 @@ class DrawerSaloons extends Component {
           latitude,
           // radius:saloonRadius
         };
-        console.log(payload, 'payloadDrawerSaloon');
+
         this.props.get_Saloon_By_Category_NearBy(payload);
         this.setState({saloonNearBy: true});
       } else {
@@ -489,7 +488,12 @@ class DrawerSaloons extends Component {
 
     // const getSaloon = this.props.getSaloon;
     // const getSaloonNearBy = this.props.getSaloonNearBy;
-    console.log(this.state.showData,'showDatashowData')
+    console.log(this.state.showData, 'showDatashowData');
+    console.log(
+      'predictionsDatapredictionsDatapredictionsData',
+      this.state.predictionsData,
+      'predictionsDatapredictionsDatapredictionsData',
+    );
     return (
       <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
         <ScrollView>
@@ -501,7 +505,6 @@ class DrawerSaloons extends Component {
             )}
 
             {this.state.suggestion.length != 0 && (
-              
               <FlatList
                 showsVerticalScrollIndicator={false}
                 style={{marginBottom: 10, marginTop: -20}}
@@ -582,8 +585,6 @@ class DrawerSaloons extends Component {
             getSaloonByCategory.isFetching) &&
             this._renderOverlaySpinner()}
 
-         
-            
           <FlatList
             numColumns={2}
             columnWrapperStyle={{
@@ -592,15 +593,24 @@ class DrawerSaloons extends Component {
             }}
             data={this.state.showData}
             renderItem={({item, index}) => {
+              console.log('itemeiejee', item);
+
               let title = item.saloon
                 ? item.saloon.name
-                : item.company?.name;
+                : item.company?.name
+                ? item.company?.name
+                : item?.name;
               let description = item.saloon
                 ? item.saloon?.companyShortDescription
-                : item.company?.companyShortDescription;
+                : item.company
+                ? item.company?.companyShortDescription
+                : item.companyShortDescription;
+
               let salonId = item.saloon
                 ? item.saloon?._id
-                : item.company?._id;
+                  ? item.company
+                  : item.company?._id
+                : item._id;
 
               return (
                 <Cards

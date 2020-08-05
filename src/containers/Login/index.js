@@ -215,7 +215,11 @@ class Login extends Component {
       <View>
         <Text style={styles.labelText}>{label}</Text>
         <TextInput
-          style={[styles.textInput, CustomTextInput, Platform.OS == "ios" && {paddingBottom: 0}]}
+          style={[
+            styles.textInput,
+            CustomTextInput,
+            Platform.OS == 'ios' && {paddingBottom: 0},
+          ]}
           placeholderTextColor="#81788B"
           ref={(o) => {
             ref = o;

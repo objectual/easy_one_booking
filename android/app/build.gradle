@@ -177,7 +177,6 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
             minifyEnabled true
-            shrinkResources false
         }
     }
     // applicationVariants are e.g. debug, release
