@@ -12,6 +12,41 @@ export default StyleSheet.create({
     paddingHorizontal: Metrics.ratio(20),
     marginVertical: Metrics.ratio(20),
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    width: Metrics.screenWidth * 0.8,
+    height: Metrics.screenHeight * 0.3,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  dropdownContainer: {
+    width: Metrics.screenWidth * 0.7,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    alignItems: 'center',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: Metrics.ratio(30),
+  },
+  modalText: {
+    textAlign: 'center',
+    fontSize: Metrics.ratio(18),
+    padding: Metrics.ratio(20),
+  },
+
   servicehead: {
     flexDirection: 'row',
     // justifyContent: 'space-between',
@@ -23,7 +58,7 @@ export default StyleSheet.create({
     borderWidth: 0,
     marginBottom: 10,
     marginTop: 10,
-    paddingLeft: 20
+    paddingLeft: 20,
   },
   serviceheadfont: {
     fontSize: Metrics.ratio(15),
@@ -33,7 +68,7 @@ export default StyleSheet.create({
     fontSize: Metrics.ratio(16),
     fontWeight: 'bold',
     color: 'red',
-    paddingLeft: 20
+    paddingLeft: 20,
   },
   servicebodyfont: {
     fontSize: Metrics.ratio(20),

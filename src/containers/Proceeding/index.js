@@ -12,7 +12,7 @@ import {
   Linking,
   StyleSheet,
   Button,
-  Picker,
+  Modal,
   FlatList,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
@@ -26,6 +26,8 @@ import {
   remove as removeFromCard,
   removeAll,
 } from '../../redux/actions/Cart';
+import RNPickerSelect, {defaultStyles} from 'react-native-picker-select';
+
 // import {initializeToken, token} from '../../config/WebServices'
 import {
   request as create_Booking,
@@ -49,6 +51,7 @@ class Proceeding extends Component {
       showBookedModal: false,
       data: [],
       createBooking: '',
+      modalVisible: false,
     };
   }
 
@@ -65,11 +68,6 @@ class Proceeding extends Component {
         createBooking: props.createBooking,
       };
     }
-
-    console.log(
-      JSON.stringify(props.createBooking.data),
-      'props.createBooking.data',
-    );
 
     if (props.createBooking.success == true) {
       return {showBookedModal: true};
@@ -231,6 +229,82 @@ class Proceeding extends Component {
     }
   };
 
+  renderPopup = () => {
+    const {modalVisible, setModalVisible} = this.setState;
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={true}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <TouchableOpacity
+              style={{...styles.openButton}}
+              onPress={() => {
+                this.setState({modalVisible: false}, () => this.booKNow());
+              }}>
+              <View
+                style={{
+                  justifyContent: 'flex-end',
+                  alignSelf: 'flex-end',
+                  padding: 20,
+                }}>
+                <Text style={styles.textStyle}>X</Text>
+              </View>
+            </TouchableOpacity>
+            <Text style={styles.modalText}>Select Payment Type</Text>
+            {this.renderDropdownPicker()}
+          </View>
+        </View>
+      </Modal>
+    );
+  };
+
+  renderDropdownPicker = (type, data) => {
+    const status = [{label: 'Cancel', value: 3}];
+    const paymentType = [
+      {label: 'Cash', value: 'Cash'},
+      {label: 'Points', value: 'Points'},
+    ];
+    return (
+      <View style={styles.dropdownContainer}>
+        <RNPickerSelect
+          onValueChange={(value) => this.handlePickerValue(value, type)}
+          items={type === 'status' ? status : paymentType}
+          placeholder={{
+            label: type === 'status' ? 'Pending' : 'Payment Method',
+            value: null,
+          }}
+          style={{
+            placeholder: {
+              fontSize: Metrics.ratio(16),
+              color: '#B4B4B4',
+              fontFamily: Fonts.type.regular,
+            },
+            inputIOS: {
+              marginTop: Metrics.ratio(15),
+              fontFamily: Fonts.type.regular,
+              fontSize: Metrics.ratio(16),
+              color: '#B4B4B4',
+            },
+            viewContainer: {
+              height: 50,
+            },
+          }}
+        />
+      </View>
+    );
+  };
+
+  handlePickerValue = (value, type) => {
+    type === 'status'
+      ? this.setState({status: value})
+      : this.setState({paymentType: value});
+  };
+
   createPayload = async () => {
     const {login} = this.props;
     const {cart} = this.props;
@@ -256,14 +330,12 @@ class Proceeding extends Component {
         time: timeArray,
       };
 
-      console.log(object, 'paylodof Services');
       services.push(object);
 
       // return await console.log(payload,'paylodof Services')
       //  services.push(payload)
     }
 
-    console.log(userInfo, 'userInfouserInfo');
     let payload = {
       services: services,
       // userName: "Test",
@@ -285,7 +357,8 @@ class Proceeding extends Component {
     return (
       <View style={[styles.containerForRow, {alignItems: 'center'}]}>
         <TouchableOpacity
-          onPress={() => this.booKNow()}
+          // onPress={() => this.booKNow()}
+          onPress={() => this.setState({modalVisible: true})}
           style={styles.submitBtn2}>
           <Text style={styles.submitBtnText2}>Book Now</Text>
         </TouchableOpacity>
@@ -294,10 +367,11 @@ class Proceeding extends Component {
   };
 
   render() {
-    const {services} = this.state;
+    const {services, modalVisible} = this.state;
     const {cart} = this.props;
     const {createBooking} = this.props;
     {
+      // alert("sf")
       cart.data.length == 0 &&
         createBooking.success == false &&
         this.props.navigation.navigate('Home');
@@ -327,6 +401,7 @@ class Proceeding extends Component {
               {this.renderTotalServices()}
             </View>
           </ScrollView>
+          {modalVisible && this.renderPopup()}
           {this.renderPayNowButton()}
         </View>
       </Footer>

@@ -608,8 +608,8 @@ class DrawerSaloons extends Component {
 
               let salonId = item.saloon
                 ? item.saloon?._id
-                  ? item.company
-                  : item.company?._id
+                : item.company
+                ? item.company?._id
                 : item._id;
 
               return (
