@@ -1,5 +1,5 @@
-import {connect} from 'react-redux';
-import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -16,26 +16,26 @@ import {
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
-import {Images, Metrics, Fonts, Colors} from '../../theme';
+import { Images, Metrics, Fonts, Colors } from '../../theme';
 
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Cards from '../..//components/Card';
-import {Footer} from '../../components';
-import {Icon} from 'react-native-vector-icons/MaterialIcons';
-import {request as get_Saloon} from '../../redux/actions/GetSaloon';
+import { Footer } from '../../components';
+import { Icon } from 'react-native-vector-icons/MaterialIcons';
+import { request as get_Saloon } from '../../redux/actions/GetSaloon';
 import Geolocation from '@react-native-community/geolocation';
 // import {request as ge} from '../../redux/actions/GetCategories';
-import {Dropdown} from 'react-native-material-dropdown';
+import { Dropdown } from 'react-native-material-dropdown';
 import Immutable from 'seamless-immutable';
 
-import {request as get_Saloon_By_Category} from '../../redux/actions/GetSaloonByCategory';
-import {request as get_Saloon_By_Category_NearBy} from '../../redux/actions/GetSaloonNearBy';
+import { request as get_Saloon_By_Category } from '../../redux/actions/GetSaloonByCategory';
+import { request as get_Saloon_By_Category_NearBy } from '../../redux/actions/GetSaloonNearBy';
 import {
   place_reverse_Geocoding_URL,
   place_Autocomplete_URL,
   secret_Key,
 } from '../../config/WebServices';
-import {request as get_Services} from '../../redux/actions/GetServices';
+import { request as get_Services } from '../../redux/actions/GetServices';
 
 var saloonsData = [];
 var categoriesData = [];
@@ -81,11 +81,11 @@ class DrawerSaloons extends Component {
     if (props.getSaloon.success !== state.saloonsSuccess) {
       object = {
         saloonsSuccess: props.getSaloon.success,
-        saloonsData: props.getSaloon.data.data,
-        showData: props.getSaloon.data.data,
+        saloonsData: props.getSaloon.data.saloons,
+        showData: props.getSaloon.data.saloons,
       };
 
-      console.log('::::::::::::::::::::::::::::::::', object);
+      console.log('::::::::::::::::::::::::::::::::', props.getSaloon);
     }
 
     if (props.getServices.success !== state.categoriesSuccess) {
@@ -142,17 +142,17 @@ class DrawerSaloons extends Component {
 
   // onChangeSearchBar = (value) => this.setState({searchByCategory: value});
 
-  onChangeSaloonRadius = (value) => this.setState({saloonRadius: value});
-  onChangeByRating = (value) => this.setState({byRating: value});
-  onChangeByServices = (value) => this.setState({byServices: value});
+  onChangeSaloonRadius = (value) => this.setState({ saloonRadius: value });
+  onChangeByRating = (value) => this.setState({ byRating: value });
+  onChangeByServices = (value) => this.setState({ byServices: value });
   onChangeTextSelectedValue = async (value) => {
     // this.setState({categoryId: value});
-    await this.props.get_Saloon_By_Category({serviceId: value._id});
-    this.setState({suggestion: [], searchTerm: value.name});
+    await this.props.get_Saloon_By_Category({ serviceId: value._id });
+    this.setState({ suggestion: [], searchTerm: value.name });
   };
 
   onChangeSearchBar = async (searchTerm) => {
-    this.setState({searchTerm, saloonNearBy: false});
+    this.setState({ searchTerm, saloonNearBy: false });
     try {
       if (
         searchTerm.trim().length >= 1 &&
@@ -165,9 +165,9 @@ class DrawerSaloons extends Component {
         });
 
         if (suggestion.length == 0) {
-          this.setState({suggestion: []});
+          this.setState({ suggestion: [] });
         } else {
-          this.setState({suggestion: suggestion});
+          this.setState({ suggestion: suggestion });
         }
       } else {
         this.setState((state) => ({
@@ -176,15 +176,15 @@ class DrawerSaloons extends Component {
         }));
       }
     } catch (e) {
-      this.setState({suggestion: []});
+      this.setState({ suggestion: [] });
     }
   };
 
   onChangeSearchByLocation = async (value) => {
-    this.setState({searchByLocation: value});
+    this.setState({ searchByLocation: value });
 
     if (value.length == 0) {
-      this.setState({predictionsData: [], selectedLocationSaloons: false});
+      this.setState({ predictionsData: [], selectedLocationSaloons: false });
     }
     if (value.length > 1) {
       let response = await fetch(
@@ -195,10 +195,10 @@ class DrawerSaloons extends Component {
 
       try {
         if (prediction.predictions.length !== 0) {
-          this.setState({predictionsData: prediction.predictions});
+          this.setState({ predictionsData: prediction.predictions });
         }
       } catch (e) {
-        this.setState({predictionsData: []});
+        this.setState({ predictionsData: [] });
       }
     }
     // else {
@@ -246,11 +246,11 @@ class DrawerSaloons extends Component {
         );
       },
       (error) => console.log(error, 'error'),
-      {enableHighAccuracy: false, timeout: 5000, maximumAge: 10000},
+      { enableHighAccuracy: false, timeout: 5000, maximumAge: 10000 },
     );
   };
   handleGetSaloon = () => {
-    const {longitude, latitude, saloonRadius} = this.state;
+    const { longitude, latitude, saloonRadius } = this.state;
     const payload = {
       longitude,
       latitude,
@@ -262,7 +262,7 @@ class DrawerSaloons extends Component {
     return <SpinnerLoader isloading={true} />;
   };
   renderShowCategoryButton = () => {
-    const {selectCard} = this.state;
+    const { selectCard } = this.state;
     // console.log( selectCard, 'selectCardselectCardselectCardselectCard')
     return (
       <View>
@@ -302,9 +302,9 @@ class DrawerSaloons extends Component {
         ]}
         placeholderTextColor="#81788B"
         onSubmitEditing={() => {
-          this.setState({expandSearchByCategory: false});
+          this.setState({ expandSearchByCategory: false });
         }}
-        onFocus={() => this.setState({expandSearchByCategory: true})}
+        onFocus={() => this.setState({ expandSearchByCategory: true })}
         ref={(input) => (this.searchInput = input)}
         // ref={(o) => {
         //   ref = o;
@@ -316,13 +316,13 @@ class DrawerSaloons extends Component {
         // icon={icon}
         // value={this.state.value}
         placeholder={placeholder}
-        // rightIcon={Images.arrow}
-        // autoCompleteType="off"
-        // keyboardType={keyboardType}
-        // onSubmitEditing={() => {
-        //   this.onSubmit(onSubmitEditing);
-        // }}
-        // secureTextEntry={secureTextEntry}
+      // rightIcon={Images.arrow}
+      // autoCompleteType="off"
+      // keyboardType={keyboardType}
+      // onSubmitEditing={() => {
+      //   this.onSubmit(onSubmitEditing);
+      // }}
+      // secureTextEntry={secureTextEntry}
       />
     );
   };
@@ -360,12 +360,12 @@ class DrawerSaloons extends Component {
           onChangeText={onChangeText}
           value={value}
           placeholder={placeholder}
-          // autoCompleteType="off"
-          // keyboardType={keyboardType}
-          // onSubmitEditing={() => {
-          //   this.onSubmit(onSubmitEditing);
-          // }}
-          // secureTextEntry={secureTextEntry}
+        // autoCompleteType="off"
+        // keyboardType={keyboardType}
+        // onSubmitEditing={() => {
+        //   this.onSubmit(onSubmitEditing);
+        // }}
+        // secureTextEntry={secureTextEntry}
         />
       </View>
     );
@@ -380,7 +380,7 @@ class DrawerSaloons extends Component {
       }));
     } else {
       if (this.state.permission) {
-        const {longitude, latitude, saloonRadius} = this.state;
+        const { longitude, latitude, saloonRadius } = this.state;
         const payload = {
           longitude,
           latitude,
@@ -388,7 +388,7 @@ class DrawerSaloons extends Component {
         };
 
         this.props.get_Saloon_By_Category_NearBy(payload);
-        this.setState({saloonNearBy: true});
+        this.setState({ saloonNearBy: true });
       } else {
         await this.requestLocationPermission();
         // const {longitude, latitude, saloonRadius} = this.state;
@@ -406,7 +406,7 @@ class DrawerSaloons extends Component {
   };
 
   onSelectedLocationSaloons = () => {
-    const {longitude, latitude, saloonRadius} = this.state;
+    const { longitude, latitude, saloonRadius } = this.state;
     const payload = {
       longitude,
       latitude,
@@ -414,7 +414,7 @@ class DrawerSaloons extends Component {
     };
     console.log(payload, 'get_Saloon_By_Category_NearBy');
     this.props.get_Saloon_By_Category_NearBy(payload);
-    this.setState({selectedLocationSaloons: true, predictionsData: []});
+    this.setState({ selectedLocationSaloons: true, predictionsData: [] });
   };
 
   renderFilter() {
@@ -423,13 +423,13 @@ class DrawerSaloons extends Component {
         onPress={() => this.getSaloonNearBy()}
         style={[
           styles.textInput,
-          this.state.saloonNearBy == true && {backgroundColor: '#FF3600'},
+          this.state.saloonNearBy == true && { backgroundColor: '#FF3600' },
         ]}>
         <Text
           style={[
             this.state.saloonNearBy == true
-              ? {color: Colors.white}
-              : {color: Colors.taupeGrey},
+              ? { color: Colors.white }
+              : { color: Colors.taupeGrey },
           ]}>
           {' '}
           Salon within 2km
@@ -478,7 +478,7 @@ class DrawerSaloons extends Component {
       byRating,
     } = this.state;
 
-    const {getSaloon, getSaloonNearBy, getSaloonByCategory} = this.props;
+    const { getSaloon, getSaloonNearBy, getSaloonByCategory } = this.props;
 
     // const {isFetching, failure, data} = this.props.getSaloon;
     // saloonsData = data.data;
@@ -497,7 +497,7 @@ class DrawerSaloons extends Component {
     return (
       <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
         <ScrollView>
-          <View style={{marginHorizontal: Metrics.ratio(15)}}>
+          <View style={{ marginHorizontal: Metrics.ratio(15) }}>
             {this.renderTextInputWithLableRow(
               this.onChangeSearchBar,
               this.state.searchTerm,
@@ -507,9 +507,9 @@ class DrawerSaloons extends Component {
             {this.state.suggestion.length != 0 && (
               <FlatList
                 showsVerticalScrollIndicator={false}
-                style={{marginBottom: 10, marginTop: -20}}
+                style={{ marginBottom: 10, marginTop: -20 }}
                 data={this.state.suggestion}
-                renderItem={({item, index}) => (
+                renderItem={({ item, index }) => (
                   <TouchableOpacity
                     onPress={() => this.onChangeTextSelectedValue(item)}
                     style={{
@@ -525,7 +525,7 @@ class DrawerSaloons extends Component {
                       borderBottomRightRadius:
                         this.state.suggestion.length == index + 1 ? 15 : 0,
                     }}>
-                    <Text style={{color: Colors.taupeGrey}}>{item?.name}</Text>
+                    <Text style={{ color: Colors.taupeGrey }}>{item?.name}</Text>
                   </TouchableOpacity>
                 )}
               />
@@ -552,9 +552,9 @@ class DrawerSaloons extends Component {
             {this.state.predictionsData.length != 0 && (
               <FlatList
                 showsVerticalScrollIndicator={false}
-                style={{marginBottom: 10, marginTop: -20}}
+                style={{ marginBottom: 10, marginTop: -20 }}
                 data={this.state.predictionsData}
-                renderItem={({item, index}) => (
+                renderItem={({ item, index }) => (
                   <TouchableOpacity
                     onPress={() => this.onSelectedLocation(item)}
                     style={{
@@ -570,7 +570,7 @@ class DrawerSaloons extends Component {
                       borderBottomRightRadius:
                         this.state.predictionsData.length == index + 1 ? 15 : 0,
                     }}>
-                    <Text style={{color: Colors.taupeGrey}}>
+                    <Text style={{ color: Colors.taupeGrey }}>
                       {item.description}
                     </Text>
                   </TouchableOpacity>
@@ -592,25 +592,25 @@ class DrawerSaloons extends Component {
               paddingHorizontal: 10,
             }}
             data={this.state.showData}
-            renderItem={({item, index}) => {
+            renderItem={({ item, index }) => {
               console.log('itemeiejee', item);
 
               let title = item.saloon
                 ? item.saloon.name
                 : item.company?.name
-                ? item.company?.name
-                : item?.name;
+                  ? item.company?.name
+                  : item?.name;
               let description = item.saloon
                 ? item.saloon?.companyShortDescription
                 : item.company
-                ? item.company?.companyShortDescription
-                : item.companyShortDescription;
+                  ? item.company?.companyShortDescription
+                  : item.companyShortDescription;
 
               let salonId = item.saloon
                 ? item.saloon?._id
                 : item.company
-                ? item.company?._id
-                : item._id;
+                  ? item.company?._id
+                  : item._id;
 
               return (
                 <Cards
