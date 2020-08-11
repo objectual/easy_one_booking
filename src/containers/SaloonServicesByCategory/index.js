@@ -1,5 +1,5 @@
-import {connect} from 'react-redux';
-import React, {Component, useState} from 'react';
+import { connect } from 'react-redux';
+import React, { Component, useState } from 'react';
 import {
   Text,
   View,
@@ -16,13 +16,13 @@ import {
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
-import {Images, Metrics, Fonts} from '../../theme';
+import { Images, Metrics, Fonts } from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
-import {Footer} from '../../components';
+import { Footer } from '../../components';
 import Header from '../../components/Header/index';
 import Rating from './../../components/Rating/index';
 import StarRating from 'react-native-star-rating';
-import {request as get_Saloon_Services_By_Category} from '../../redux/actions/GetSaloonServicesByCategory.js';
+import { request as get_Saloon_Services_By_Category } from '../../redux/actions/GetSaloonServicesByCategory.js';
 import DatePicker from 'react-native-datepicker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -32,7 +32,7 @@ class SaloonServicesByCategory extends Component {
     this.state = {
       starCount: 5,
       show: false,
-      selectCompanyId: this.props.getSaloon.data.data.saloon,
+      selectCompanyId: this.props.getSaloon.data.saloon,
       getSelectedServices: [],
       selectBookNow: 0,
       showBookedModal: false,
@@ -60,7 +60,7 @@ class SaloonServicesByCategory extends Component {
         nextProps.getSaloonServicesByCategory.data.data &&
         !nextProps.getSaloonServicesByCategory.data.success
       ) {
-        this.setState({isloading: false}, () => {
+        this.setState({ isloading: false }, () => {
           setTimeout(() => {
             Alert.alert(
               'Error',
@@ -78,7 +78,7 @@ class SaloonServicesByCategory extends Component {
   handleSaloonServicesByCategory = () => {
     // const {id, companyId} = this.props;
     // this.setState({isLoading: true});
-    const {categoryId, companyId} = this.props.route.params;
+    const { categoryId, companyId } = this.props.route.params;
 
     const payload = {
       companyId: companyId,
@@ -94,26 +94,26 @@ class SaloonServicesByCategory extends Component {
     });
   }
   _renderOverlaySpinner = () => {
-    const {isloading} = this.state;
+    const { isloading } = this.state;
     return <SpinnerLoader isloading={isloading} />;
   };
   renderRow = () => {
-    const {getSelectedServices} = this.state;
+    const { getSelectedServices } = this.state;
     return (
       <View>
         <FlatList
           // horizontal
           data={getSelectedServices}
-          renderItem={({item, index}) => this.renderService(item, index)}
-          // keyExtractor={item => item.id}
-          // extraData={selected}
+          renderItem={({ item, index }) => this.renderService(item, index)}
+        // keyExtractor={item => item.id}
+        // extraData={selected}
         />
       </View>
     );
   };
   renderService = (services, index) => {
-    const {id} = this.props;
-    const {companyId, categoryId} = this.props.route.params;
+    const { id } = this.props;
+    const { companyId, categoryId } = this.props.route.params;
 
     const payload = {
       companyId: companyId,
@@ -127,21 +127,21 @@ class SaloonServicesByCategory extends Component {
         onPress={() =>
           this.props.navigation.navigate('SaloonEmployee', payload)
         }>
-        <View style={[styles.servicebox, {flexDirection: 'row'}]}>
+        <View style={[styles.servicebox, { flexDirection: 'row' }]}>
           {services && services.image && services.image ? (
             <Image
               resizeMethod="auto"
               resizeMode="contain"
-              source={{uri: services.image}}
+              source={{ uri: services.image }}
               style={styles.servicesImage}
             />
           ) : (
-            <Image source={Images.human} style={styles.servicesImage} />
-          )}
+              <Image source={Images.human} style={styles.servicesImage} />
+            )}
           <View
-            style={{flexDirection: 'row', marginHorizontal: Metrics.ratio(5)}}>
+            style={{ flexDirection: 'row', marginHorizontal: Metrics.ratio(5) }}>
             <View style={styles.containertext}>
-              <Text numberOfLines={1} style={{fontSize: Metrics.ratio(17)}}>
+              <Text numberOfLines={1} style={{ fontSize: Metrics.ratio(17) }}>
                 {services && services.name ? services.name : 'name'}
               </Text>
               {/* <Text>{services && services._id ? services._id : 'id'}</Text> */}
@@ -154,7 +154,7 @@ class SaloonServicesByCategory extends Component {
                 <Image source={Images.human} style={styles.containertitle} />
                 <Text>{'Select Employee'}</Text>
               </View>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Image source={Images.tag_grey} style={styles.containertitle} />
                 <Text>
                   $ {services && services.price ? services.price : 'name'}
@@ -176,8 +176,8 @@ class SaloonServicesByCategory extends Component {
   };
 
   render() {
-    const {getSelectedServices} = this.state;
-    const {isFetching, failure} = this.props.getSaloonServicesByCategory;
+    const { getSelectedServices } = this.state;
+    const { isFetching, failure } = this.props.getSaloonServicesByCategory;
     return (
       <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
         <View style={styles.container}>
@@ -203,6 +203,6 @@ const mapStateToProps = (state) => ({
   login: state.login,
 });
 
-const action = {get_Saloon_Services_By_Category};
+const action = { get_Saloon_Services_By_Category };
 
 export default connect(mapStateToProps, action)(SaloonServicesByCategory);
