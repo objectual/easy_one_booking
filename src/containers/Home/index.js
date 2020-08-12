@@ -16,6 +16,9 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import PushNotification from "react-native-push-notification";
+import messaging from '@react-native-firebase/messaging';
 import styles from './styles';
 import { Images, Metrics, Fonts, Colors } from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
@@ -48,8 +51,48 @@ class Home extends Component {
     await initializeToken();
     await this.props.get_Services();
     await this.props.get_Saloon();
-
+    this.foregroundNotificationListner();
     // await this.getLocationHandler();
+  };
+
+
+  foregroundNotificationListner = () => {
+
+    messaging().onMessage(async (remoteMessage) => {
+      let notificationTitle = Platform.OS === "ios" ? remoteMessage?.data?.notification?.title : remoteMessage?.notification?.title;
+      let notificationMessage = Platform.OS === "ios" ? remoteMessage?.data?.notification?.body : remoteMessage?.notification?.body;
+      let details = {
+        alertTitle: Platform.OS === "ios" ? remoteMessage?.data?.notification?.title : remoteMessage?.notification?.title,
+        alertBody: Platform.OS === "ios" ? remoteMessage?.data?.notification?.body : remoteMessage?.notification?.body,
+      }
+
+      this.setState({
+        showNotification: true,
+        notificationTitle: notificationTitle,
+        notificationMessage: notificationMessage
+      })
+
+      if (Platform.OS == 'android') {
+        PushNotification.localNotification({
+          autoCancel: true,
+          bigText:
+            remoteMessage?.notification?.body,
+          // subText: 'Local Notification Demo',
+          title: remoteMessage?.notification?.title,
+          message: 'Expand me to see more',
+          vibrate: true,
+          vibration: 300,
+          playSound: true,
+          soundName: 'default',
+          actions: '["Open"]'
+        });
+        this.props.navigation.navigate('GiveFeedBack', remoteMessage);
+      } else {
+        PushNotificationIOS.scheduleLocalNotification(details);
+      }
+
+      // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
   };
 
   // componentWillUnmount()

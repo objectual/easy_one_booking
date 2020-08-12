@@ -1,5 +1,5 @@
-import {connect} from 'react-redux';
-import React, {Component, useState} from 'react';
+import { connect } from 'react-redux';
+import React, { Component, useState } from 'react';
 import {
   Text,
   View,
@@ -17,14 +17,14 @@ import {
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
-import {Images, Metrics, Fonts} from '../../theme';
+import { Images, Metrics, Fonts } from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
-import {Footer} from '../../components';
+import { Footer } from '../../components';
 import Header from '../../components/Header/index';
 import Rating from './../../components/Rating/index';
 import StarRating from 'react-native-star-rating';
-import {request as get_Employees_By_Saloon_And_Category} from '../../redux/actions/GetEmployeesBySaloonAndCategory.js';
-import {request as create_Booking} from '../../redux/actions/CreateBooking.js';
+import { request as get_Employees_By_Saloon_And_Category } from '../../redux/actions/GetEmployeesBySaloonAndCategory.js';
+import { request as create_Booking } from '../../redux/actions/CreateBooking.js';
 import DatePicker from 'react-native-datepicker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import BookingModal from '../../components/BookingModal';
@@ -70,7 +70,7 @@ class SaloonEmployee extends Component {
         nextProps.getEmployeesBySaloonAndCategory.data.data &&
         !nextProps.getEmployeesBySaloonAndCategory.data.success
       ) {
-        this.setState({isloading: false}, () => {
+        this.setState({ isloading: false }, () => {
           setTimeout(() => {
             Alert.alert(
               'Error',
@@ -125,14 +125,12 @@ class SaloonEmployee extends Component {
     //   serviceId: '5ee7417408ea9d0017d1f881',
     // };
 
-    const {serviceId, companyId} = this.props.route.params;
+    const { serviceId, companyId } = this.props.route.params;
 
     const payload = {
       companyId: companyId,
       serviceId: serviceId,
     };
-
-    console.log(payload, 'Saloo11111111111111111111111111111111nEmployee');
 
     this.props.get_Employees_By_Saloon_And_Category(payload);
   };
@@ -167,16 +165,16 @@ class SaloonEmployee extends Component {
     });
   }
   _renderOverlaySpinner = () => {
-    const {isloading} = this.state;
+    const { isloading } = this.state;
     return <SpinnerLoader isloading={isloading} />;
   };
   renderRow = () => {
-    const {getEmployeesList} = this.state;
+    const { getEmployeesList } = this.state;
     return (
       <View>
         <FlatList
           data={getEmployeesList}
-          renderItem={({item, index}) => this.renderEmoployee(item, index)}
+          renderItem={({ item, index }) => this.renderEmoployee(item, index)}
         />
       </View>
     );
@@ -186,20 +184,20 @@ class SaloonEmployee extends Component {
     return (
       <TouchableOpacity
         onPress={() =>
-          this.setState({showBookedModal: true, selectedEmployee: employees})
+          this.setState({ showBookedModal: true, selectedEmployee: employees })
         }
         style={styles.containerForRow}>
-        <View style={[styles.servicebox, {flexDirection: 'row'}]}>
+        <View style={[styles.servicebox, { flexDirection: 'row' }]}>
           {
             employees &&
-              employees.employeeId &&
-              employees.employeeId.userId &&
-              employees.employeeId.userId.profile_img && (
-                <Image
-                  source={{uri: employees.employeeId.userId.profile_img}}
-                  style={styles.servicesImage}
-                />
-              )
+            employees.employeeId &&
+            employees.employeeId.userId &&
+            employees.employeeId.userId.profile_img && (
+              <Image
+                source={{ uri: employees.employeeId.userId.profile_img }}
+                style={styles.servicesImage}
+              />
+            )
             // <Image
             //   source={Images.select_services}
             //   style={styles.servicesImage}
@@ -212,11 +210,11 @@ class SaloonEmployee extends Component {
               // flexWrap: 'wrap',
               justifyContent: 'center',
             }}>
-            <Text numberOfLines={1} style={{fontSize: Metrics.ratio(17)}}>
+            <Text numberOfLines={1} style={{ fontSize: Metrics.ratio(17) }}>
               {employees &&
-              employees.employeeId &&
-              employees.employeeId.userId &&
-              employees.employeeId.userId.firstName
+                employees.employeeId &&
+                employees.employeeId.userId &&
+                employees.employeeId.userId.firstName
                 ? employees.employeeId.userId.firstName
                 : 'Name'}
             </Text>
@@ -227,57 +225,57 @@ class SaloonEmployee extends Component {
               }}>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
-                employees.employeeId &&
-                employees.employeeId.weekPlans &&
-                employees.employeeId.weekPlans['0'].availableStatus == 1
+                  employees.employeeId &&
+                  employees.employeeId.weekPlans &&
+                  employees.employeeId.weekPlans['0'].availableStatus == 1
                   ? 'Mon'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
-                employees.employeeId &&
-                employees.employeeId.weekPlans &&
-                employees.employeeId.weekPlans['1'].availableStatus == 1
+                  employees.employeeId &&
+                  employees.employeeId.weekPlans &&
+                  employees.employeeId.weekPlans['1'].availableStatus == 1
                   ? '-Tue'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
-                employees.employeeId &&
-                employees.employeeId.weekPlans &&
-                employees.employeeId.weekPlans['2'].availableStatus == 1
+                  employees.employeeId &&
+                  employees.employeeId.weekPlans &&
+                  employees.employeeId.weekPlans['2'].availableStatus == 1
                   ? '-Wed'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
-                employees.employeeId &&
-                employees.employeeId.weekPlans &&
-                employees.employeeId.weekPlans['3'].availableStatus == 1
+                  employees.employeeId &&
+                  employees.employeeId.weekPlans &&
+                  employees.employeeId.weekPlans['3'].availableStatus == 1
                   ? '-Thu'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
-                employees.employeeId &&
-                employees.employeeId.weekPlans &&
-                employees.employeeId.weekPlans['4'].availableStatus == 1
+                  employees.employeeId &&
+                  employees.employeeId.weekPlans &&
+                  employees.employeeId.weekPlans['4'].availableStatus == 1
                   ? '-Fri'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
-                employees.employeeId &&
-                employees.employeeId.weekPlans &&
-                employees.employeeId.weekPlans['5'].availableStatus == 1
+                  employees.employeeId &&
+                  employees.employeeId.weekPlans &&
+                  employees.employeeId.weekPlans['5'].availableStatus == 1
                   ? '-Sat'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
-                employees.employeeId &&
-                employees.employeeId.weekPlans &&
-                employees.employeeId.weekPlans['6'].availableStatus == 1
+                  employees.employeeId &&
+                  employees.employeeId.weekPlans &&
+                  employees.employeeId.weekPlans['6'].availableStatus == 1
                   ? 'Sun'
                   : null}
               </Text>
@@ -298,57 +296,57 @@ class SaloonEmployee extends Component {
         }}>
         <Text numberOfLines={1} style={styles.text14}>
           {employees &&
-          employees.employeeId &&
-          employees.employeeId.weekPlans &&
-          employees.employeeId.weekPlans['0'].availableStatus == 1
+            employees.employeeId &&
+            employees.employeeId.weekPlans &&
+            employees.employeeId.weekPlans['0'].availableStatus == 1
             ? 'Mon'
             : null}
         </Text>
         <Text numberOfLines={1} style={styles.text14}>
           {employees &&
-          employees.employeeId &&
-          employees.employeeId.weekPlans &&
-          employees.employeeId.weekPlans['1'].availableStatus == 1
+            employees.employeeId &&
+            employees.employeeId.weekPlans &&
+            employees.employeeId.weekPlans['1'].availableStatus == 1
             ? '-Tue'
             : null}
         </Text>
         <Text numberOfLines={1} style={styles.text14}>
           {employees &&
-          employees.employeeId &&
-          employees.employeeId.weekPlans &&
-          employees.employeeId.weekPlans['2'].availableStatus == 1
+            employees.employeeId &&
+            employees.employeeId.weekPlans &&
+            employees.employeeId.weekPlans['2'].availableStatus == 1
             ? '-Wed'
             : null}
         </Text>
         <Text numberOfLines={1} style={styles.text14}>
           {employees &&
-          employees.employeeId &&
-          employees.employeeId.weekPlans &&
-          employees.employeeId.weekPlans['3'].availableStatus == 1
+            employees.employeeId &&
+            employees.employeeId.weekPlans &&
+            employees.employeeId.weekPlans['3'].availableStatus == 1
             ? '-Thu'
             : null}
         </Text>
         <Text numberOfLines={1} style={styles.text14}>
           {employees &&
-          employees.employeeId &&
-          employees.employeeId.weekPlans &&
-          employees.employeeId.weekPlans['4'].availableStatus == 1
+            employees.employeeId &&
+            employees.employeeId.weekPlans &&
+            employees.employeeId.weekPlans['4'].availableStatus == 1
             ? '-Fri'
             : null}
         </Text>
         <Text numberOfLines={1} style={styles.text14}>
           {employees &&
-          employees.employeeId &&
-          employees.employeeId.weekPlans &&
-          employees.employeeId.weekPlans['5'].availableStatus == 1
+            employees.employeeId &&
+            employees.employeeId.weekPlans &&
+            employees.employeeId.weekPlans['5'].availableStatus == 1
             ? '-Sat'
             : null}
         </Text>
         <Text numberOfLines={1} style={styles.text14}>
           {employees &&
-          employees.employeeId &&
-          employees.employeeId.weekPlans &&
-          employees.employeeId.weekPlans['6'].availableStatus == 1
+            employees.employeeId &&
+            employees.employeeId.weekPlans &&
+            employees.employeeId.weekPlans['6'].availableStatus == 1
             ? 'Sun'
             : null}
         </Text>
@@ -373,7 +371,7 @@ class SaloonEmployee extends Component {
   // };
 
   renderPopup = () => {
-    const {modalVisible, setModalVisible} = this.setState;
+    const { modalVisible, setModalVisible } = this.setState;
     return (
       <Modal
         animationType="slide"
@@ -387,7 +385,7 @@ class SaloonEmployee extends Component {
             <Text style={styles.modalText}>Hello World!</Text>
 
             <TouchableOpacity
-              style={{...styles.openButton, backgroundColor: '#2196F3'}}
+              style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
               onPress={() => {
                 setModalVisible(!modalVisible);
               }}>
@@ -400,12 +398,12 @@ class SaloonEmployee extends Component {
   };
 
   addToCard = async (e) => {
-    let {serviceId, companyId, services, categoryId} = this.props.route.params;
+    let { serviceId, companyId, services, categoryId } = this.props.route.params;
     console.log(services, 'services');
     console.log(categoryId, 'categoryId');
     console.log(serviceId, 'serviceId');
 
-    let payload = {...e, ...{companyId}, ...{services}};
+    let payload = { ...e, ...{ companyId }, ...{ services } };
 
     console.log(JSON.stringify(payload), 'proceedingpayload');
 
@@ -414,7 +412,7 @@ class SaloonEmployee extends Component {
         companyId: companyId,
         serviceId: serviceId,
       }),
-        this.setState({showBookedModal: false});
+        this.setState({ showBookedModal: false });
 
       //  Alert.alert(
       //   'Oops',
@@ -434,12 +432,12 @@ class SaloonEmployee extends Component {
       //   {cancelable: false},
       // );
     } else {
-      await this.props.addToCard({payload});
+      await this.props.addToCard({ payload });
       this.props.navigation.navigate('Proceeding', {
         companyId: companyId,
         serviceId: serviceId,
       }),
-        this.setState({showBookedModal: false});
+        this.setState({ showBookedModal: false });
     }
 
     Alert.alert(
@@ -453,7 +451,7 @@ class SaloonEmployee extends Component {
               companyId: companyId,
               serviceId: serviceId,
             }),
-              this.setState({showBookedModal: false});
+              this.setState({ showBookedModal: false });
           },
           style: 'cancel',
         },
@@ -461,16 +459,16 @@ class SaloonEmployee extends Component {
           text: 'Yes',
           onPress: () => {
             this.props.navigation.navigate('Home'),
-              this.setState({showBookedModal: false});
+              this.setState({ showBookedModal: false });
           },
         },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
   };
 
   vaidateService = async (object) => {
-    const {cart} = this.props;
+    const { cart } = this.props;
 
     if (cart.data.length == 0) {
       return await true;
@@ -492,8 +490,8 @@ class SaloonEmployee extends Component {
   };
 
   render() {
-    const {getEmployeesList, setModalVisible} = this.state;
-    const {isFetching, failure} = this.props.getEmployeesBySaloonAndCategory;
+    const { getEmployeesList, setModalVisible } = this.state;
+    const { isFetching, failure } = this.props.getEmployeesBySaloonAndCategory;
     console.log(this.state.selectedEmployee, 'this.state.selectedEmployee');
     return (
       <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
@@ -502,7 +500,7 @@ class SaloonEmployee extends Component {
             <BookingModal
               data={this.state.selectedEmployee}
               addToCard={(e) => this.addToCard(e)}
-              onCancel={() => this.setState({showBookedModal: false})}
+              onCancel={() => this.setState({ showBookedModal: false })}
             />
           )}
 

@@ -6,14 +6,14 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {Alert, Platform} from 'react-native';
+import React, { Component } from 'react';
+import { Alert, Platform } from 'react-native';
 import Navigation from './navigator';
 // import 'react-native-gesture-handler';
 import SplashScreen from 'react-native-splash-screen';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import io from 'socket.io-client';
-import {Footer} from './components';
+import { Footer } from './components';
 import Store from './redux/store';
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -36,65 +36,65 @@ export default class App extends Component {
       SplashScreen.hide();
     }, 3000);
     this.checkPermission();
-    this.foregroundNotificationListner();
+    // this.foregroundNotificationListner();
     this.backgroundNotificationListner();
     // this.getNotification();
     this.registerNotificationListner();
   }
 
   registerForNotifications = token => {
-   console.log(token,'osapdopsaopsd')
+    console.log(token, 'osapdopsaopsd')
   };
 
   registerNotificationListner = () => {
     PushNotification.configure({
-      onRegister:(token)=>{
+      onRegister: (token) => {
         this.registerForNotifications(token.token)
-      } ,
+      },
       requestPermissions: true,
       popInitialNotification: true,
     });
     return true;
   }
-  
 
-  foregroundNotificationListner = () => {
-    messaging().onMessage(async (remoteMessage) => {
-      console.log(remoteMessage,'temoteeeee00000')
-      let notificationTitle = Platform.OS === "ios" ? remoteMessage?.data?.notification?.title  : remoteMessage?.notification?.title;
-      let notificationMessage = Platform.OS === "ios" ? remoteMessage?.data?.notification?.body  : remoteMessage?.notification?.body;
-      let details = {
-        alertTitle: Platform.OS === "ios" ? remoteMessage?.data?.notification?.title  : remoteMessage?.notification?.title,
-        alertBody: Platform.OS === "ios" ? remoteMessage?.data?.notification?.body  : remoteMessage?.notification?.body,
-      }
-      console.log(remoteMessage,'remoteee')
-      this.setState({
-        showNotification: true,
-        notificationTitle: notificationTitle,
-        notificationMessage: notificationMessage
-      })
 
-      if(Platform.OS == 'android'){
-        PushNotification.localNotification({
-          autoCancel: true,
-          bigText:
-          remoteMessage?.notification?.body,
-          // subText: 'Local Notification Demo',
-          title: remoteMessage?.notification?.title,
-          message: 'Expand me to see more',
-          vibrate: true,
-          vibration: 300,
-          playSound: true,
-          soundName: 'default',
-          actions: '["Yes", "No"]'
-        })
-      }else{
-        PushNotificationIOS.scheduleLocalNotification(details);
-      }
+  // foregroundNotificationListner = () => {
+  //   messaging().onMessage(async (remoteMessage) => {
+  //     let notificationTitle = Platform.OS === "ios" ? remoteMessage?.data?.notification?.title : remoteMessage?.notification?.title;
+  //     let notificationMessage = Platform.OS === "ios" ? remoteMessage?.data?.notification?.body : remoteMessage?.notification?.body;
+  //     let details = {
+  //       alertTitle: Platform.OS === "ios" ? remoteMessage?.data?.notification?.title : remoteMessage?.notification?.title,
+  //       alertBody: Platform.OS === "ios" ? remoteMessage?.data?.notification?.body : remoteMessage?.notification?.body,
+  //     }
+  //     console.log(remoteMessage, 'remoteee')
+  //     this.setState({
+  //       showNotification: true,
+  //       notificationTitle: notificationTitle,
+  //       notificationMessage: notificationMessage
+  //     })
 
-      // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    });
-  };
+  //     if (Platform.OS == 'android') {
+  //       PushNotification.localNotification({
+  //         autoCancel: true,
+  //         bigText:
+  //           remoteMessage?.notification?.body,
+  //         // subText: 'Local Notification Demo',
+  //         title: remoteMessage?.notification?.title,
+  //         message: 'Expand me to see more',
+  //         vibrate: true,
+  //         vibration: 300,
+  //         playSound: true,
+  //         soundName: 'default',
+  //         actions: '["Open"]'
+  //       });
+  //       NavigationAction('GiveFeedBack', remoteMessage);
+  //     } else {
+  //       PushNotificationIOS.scheduleLocalNotification(details);
+  //     }
+
+  //     // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+  //   });
+  // };
 
   // getNotification = () => {
   //   PushNotificationIOS.getDeliveredNotifications((data) => {
@@ -104,23 +104,23 @@ export default class App extends Component {
 
   backgroundNotificationListner = () => {
     messaging().setBackgroundMessageHandler(async remoteMessage => {
-      let notificationTitle = Platform.OS === "ios" ? remoteMessage?.data?.notification?.title  : remoteMessage?.notification?.title;
-      let notificationMessage = Platform.OS === "ios" ? remoteMessage?.data?.notification?.body  : remoteMessage?.notification?.body;
+      let notificationTitle = Platform.OS === "ios" ? remoteMessage?.data?.notification?.title : remoteMessage?.notification?.title;
+      let notificationMessage = Platform.OS === "ios" ? remoteMessage?.data?.notification?.body : remoteMessage?.notification?.body;
       let details = {
-        alertTitle: Platform.OS === "ios" ? remoteMessage?.data?.notification?.title  : remoteMessage?.notification?.title,
-        alertBody: Platform.OS === "ios" ? remoteMessage?.data?.notification?.body  : remoteMessage?.notification?.body,
+        alertTitle: Platform.OS === "ios" ? remoteMessage?.data?.notification?.title : remoteMessage?.notification?.title,
+        alertBody: Platform.OS === "ios" ? remoteMessage?.data?.notification?.body : remoteMessage?.notification?.body,
       }
-      console.log(remoteMessage,'background notification remoteee')
+      console.log(remoteMessage, 'background notification remoteee')
       this.setState({
         showNotification: true,
         notificationTitle: notificationTitle,
         notificationMessage: notificationMessage
       })
-      if(Platform.OS == 'android'){
+      if (Platform.OS == 'android') {
         PushNotification.localNotification({
           autoCancel: true,
           bigText:
-          remoteMessage?.notification?.body,
+            remoteMessage?.notification?.body,
           // subText: 'Local Notification Demo',
           title: remoteMessage?.notification?.title,
           message: 'Expand me to see more',
@@ -130,7 +130,7 @@ export default class App extends Component {
           soundName: 'default',
           actions: '["Yes", "No"]'
         })
-      }else{
+      } else {
         PushNotificationIOS.scheduleLocalNotification(details);
       }
     });
@@ -169,7 +169,7 @@ export default class App extends Component {
     if (!fcmToken) {
       fcmToken = await messaging().getToken();
       if (fcmToken) {
-        console.log(fcmToken,'fflsakdlkdslkds')
+        console.log(fcmToken, 'fflsakdlkdslkds')
         // user has a device token
         await AsyncStorage.setItem('fcmToken', fcmToken);
       }
@@ -178,16 +178,12 @@ export default class App extends Component {
   }
 
   render() {
-    const {showNotification, notificationTitle, notificationMessage} = this.state;
+    const { showNotification, notificationTitle, notificationMessage } = this.state;
     console.disableYellowBox = true;
 
     return (
       <Provider store={store}>
         <Navigation />
-        {/* {showNotification ? <NotificationAlert 
-          notificationTitle = {notificationTitle}
-          notificationMessage = {notificationMessage} 
-       /> : null}   */}
       </Provider>
     );
   }

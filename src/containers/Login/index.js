@@ -55,10 +55,6 @@ class Login extends Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.login) {
-      console.log(
-        nextProps.login,
-        'nextProps.loginnextProps.loginnextProps.loginnextProps.loginnextProps.loginnextProps.login',
-      );
       if (
         !nextProps.login.failure &&
         !nextProps.login.isFetching &&
