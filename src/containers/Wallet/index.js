@@ -43,8 +43,6 @@ class Wallet extends Component {
         nextProps.getWallet.data.data &&
         nextProps.getWallet.data.success
       ) {
-        console.log('nextProps.getWallet.data0', nextProps.getWallet.data);
-
         this.setState({
           walletInfo: nextProps.getWallet.data,
         });
@@ -59,7 +57,7 @@ class Wallet extends Component {
     }
   }
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
     this.props.get_wallet();
   };
 

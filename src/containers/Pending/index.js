@@ -17,7 +17,7 @@ import {
   Modal,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
-import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
+import RNPickerSelect, {defaultStyles} from 'react-native-picker-select';
 import styles from './styles';
 import {Images, Metrics, Fonts, Colors} from '../../theme';
 
@@ -95,7 +95,6 @@ class Current extends Component {
         nextProps.updateBooking.data.success
       ) {
         this.setState({isloading: false, setModalVisible: false});
-       
       } else if (
         !nextProps.updateBooking.failure &&
         !nextProps.updateBooking.isFetching &&
@@ -116,7 +115,6 @@ class Current extends Component {
     }
   }
 
- 
   // static getDerivedStateFromProps(props, state) {
   //   console.log(props.getSaloonNearBy.data, 'props.getSaloonNearBy.data.data');
 
@@ -158,7 +156,6 @@ class Current extends Component {
     this.props.updateMyBooking(payload);
   };
 
-
   renderButton = () => {
     return (
       <View
@@ -176,21 +173,20 @@ class Current extends Component {
 
   handlePickerValue = (value, type) => {
     type === 'status'
-      ? this.setState({ status: value })
-      : this.setState({ paymentType: value });
+      ? this.setState({status: value})
+      : this.setState({paymentType: value});
   };
 
   renderDropdownPicker = (type, data) => {
-    const status = [
-      { label: 'Cancel', value: 3 },
-    ];
+    const status = [{label: 'Cancel', value: 3}];
     const paymentType = [
-      { label: 'Cash', value: 'Cash' },
-      { label: 'Points', value: 'Points' }];
+      {label: 'Cash', value: 'Cash'},
+      {label: 'Points', value: 'Points'},
+    ];
     return (
       <View style={styles.dropdownContainer}>
         <RNPickerSelect
-          onValueChange={value => this.handlePickerValue(value, type)}
+          onValueChange={(value) => this.handlePickerValue(value, type)}
           items={type === 'status' ? status : paymentType}
           placeholder={{
             label: type === 'status' ? 'Pending' : 'Payment Method',
@@ -228,11 +224,11 @@ class Current extends Component {
     let customerName = editAppoinment?.userId?.firstName
       ? `${editAppoinment?.userId?.firstName} ${editAppoinment?.userId?.lastName}`
       : editAppoinment?.userId?.userName;
-      let companyName = editAppoinment?.companyId.name
-      let totalAmount = editAppoinment?.totalAmount;
-      let bookingStatus = editAppoinment?.status;
-      let paymentMethod = editAppoinment?.paymentMethod
-      console.log(editAppoinment,'editAppoinment')
+    let companyName = editAppoinment?.companyId.name;
+    let totalAmount = editAppoinment?.totalAmount;
+    let bookingStatus = editAppoinment?.status;
+    let paymentMethod = editAppoinment?.paymentMethod;
+    console.log(editAppoinment, 'editAppoinment');
     return (
       <ScrollView>
         <Text style={styles.paymentHeaderText}>Customer Name</Text>
@@ -253,17 +249,17 @@ class Current extends Component {
           isEditable={false}
           // errorMessage={this.state.formErrors.addressError}
         />
-       
+
         <Text style={styles.paymentHeaderText}>Add more info</Text>
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
-         <View style = {{flexDirection: "row", justifyContent: "space-between"}}>
-         {/* {this.renderDropdownPicker('payment', paymentMethod)} */}
-          {this.renderDropdownPicker('status', bookingStatus)}
-         </View>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            {/* {this.renderDropdownPicker('payment', paymentMethod)} */}
+            {this.renderDropdownPicker('status', bookingStatus)}
+          </View>
         </View>
         {/* <CustomTextInputRow
           placeholderText={'$100.00'}
@@ -324,16 +320,16 @@ class Current extends Component {
                 item?.services[0]?.employeeId?.userId?.firstName +
                 ' ' +
                 item?.services[0]?.employeeId?.userId?.lastName;
-              let bookingStatus = item?.status === 1 ? 'Pending' : 'Now Serving';
-              let dateTime = item?.createdDate
+              let bookingStatus =
+                item?.status === 1 ? 'Pending' : 'Now Serving';
+              let dateTime = item?.createdDate;
               let newDate = new Date(dateTime);
               let time = newDate.toLocaleTimeString('en-US');
               let date = newDate.getDate();
               let month = newDate.getMonth(); //Month of the Year: 0-based index, so 1 in our example
-              let year = newDate.getFullYear()
-              let fullDate = `${date}-${month}-${year}`
-              console.log(item,'iooioioioi')
-              if(item?.status === 1 || item?.status === 2){
+              let year = newDate.getFullYear();
+              let fullDate = `${date}-${month}-${year}`;
+              if (item?.status === 1 || item?.status === 2) {
                 return (
                   <BookingHistoryCard
                     orderNo={item._id}
@@ -346,10 +342,12 @@ class Current extends Component {
                     price={item?.totalAmount}
                     paymentMethod={item.paymentMethod}
                     bookingStatus={bookingStatus}
-
-                    showButton={ item?.status === 1}
+                    showButton={item?.status === 1}
                     onPress={() =>
-                      this.setState({setModalVisible: true, editAppoinment: item})
+                      this.setState({
+                        setModalVisible: true,
+                        editAppoinment: item,
+                      })
                     }
                   />
                 );
@@ -367,7 +365,7 @@ class Current extends Component {
 const mapStateToProps = (state) => {
   return {
     getBooking: state.getBooking,
-    updateBooking: state.updateBooking
+    updateBooking: state.updateBooking,
   };
 };
 

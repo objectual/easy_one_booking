@@ -25,44 +25,6 @@ import Completed from '../Completed/index';
 
 const Tab = createMaterialTopTabNavigator();
 
-function CurrentScreen(props) {
-  const {navigation, handleNavigation} = props;
-
-  React.useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', () => true);
-
-    const unsubscribe = navigation.addListener('tabPress', (e) => {});
-    // return unsubscribe, backButtonHandler();
-    return unsubscribe;
-  }, [navigation]);
-
-  function backButtonHandler() {
-    BackHandler.removeEventListener('hardwareBackPress', () => true);
-  }
-
-  return (
-    <View>
-      <FlatList
-        data={null}
-        renderItem={({item, index}) => <BookingHistoryCard item={'item'} />}
-      />
-      <BookingHistoryCard />
-    </View>
-  );
-}
-
-function PreviousScreen() {
-  return (
-    <View>
-      <FlatList
-        data={null}
-        renderItem={({item, index}) => <BookingHistoryCard item={'item'} />}
-      />
-      <BookingHistoryCard />
-    </View>
-  );
-}
-
 class BookingHistory extends Component {
   constructor(props) {
     super(props);
@@ -78,6 +40,8 @@ class BookingHistory extends Component {
   }
 
   componentDidMount() {
+    // console.log('this.props.handleNavigation', this.props.navigation);
+
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
@@ -117,11 +81,13 @@ class BookingHistory extends Component {
             name="Pending"
             component={Pending}
             navigation={this.props.navigation}
+            initialParams={this.props.route.params}
           />
           <Tab.Screen
             name="Completed"
             component={Completed}
             navigation={this.props.navigation}
+            initialParams={this.props.route.params}
           />
         </Tab.Navigator>
       </NavigationContainer>

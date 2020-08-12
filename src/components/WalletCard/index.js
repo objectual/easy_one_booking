@@ -26,11 +26,9 @@ class WalletCard extends Component {
     } = this.props;
     // const { setModalVisible } = this.state;
 
-    console.log('walletinfo', walletInfo?.reciver?.profile_img);
-
-    let name =
-      walletInfo?.reciver?.firstName + ' ' + walletInfo?.reciver?.lastName;
-
+    let name = walletInfo.reciver.firstName
+      ? walletInfo.reciver.firstName + ' ' + walletInfo?.reciver?.lastName
+      : walletInfo?.reciver?.userName;
     let type = walletInfo.type == 'Debit' ? '-' : '+';
 
     return (
