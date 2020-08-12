@@ -18,16 +18,29 @@ import styles from './styles';
 import {Images, Metrics, Fonts} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
-import {request as get_Saloon_Categories} from '../../redux/actions/SaloonCategories';
+import {request as customer_rating_for_company} from '../../redux/actions/CustomerRatingForCompany';
 import Rating from './../../components/Rating/index';
 import CustomTextInput from '../../components/CustomTextInput';
 import CustomTextIarea from './../../components/CustomTextIarea/index';
 
+import StarRating from 'react-native-star-rating';
+
 class GiveFeedBack extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      starCount: 3.5,
+      bookingData: props.route.params.remoteMessage.data,
+    };
   }
+
+  // componentDidMount() {
+  //   console.log(
+  //     'paramsfndksdfhksdfksfjhksdsdfsdfkskdjf',
+  //     this.props.route.params.remoteMessage.data,
+  //   );
+  // }
+
   renderHeading = () => {
     return (
       <View style={styles.containerForRow}>
@@ -44,10 +57,12 @@ class GiveFeedBack extends Component {
         <View style={styles.containerborder}>
           <Text style={styles.employeeheading}>For Employee</Text>
           <View style={styles.rating}>
-            <Rating
-              Default_Rating={2}
+            <StarRating
               disabled={false}
-              StarImage={styles.StarImage}
+              maxStars={5}
+              rating={this.state.starCount}
+              starStyle={{color: 'orange'}}
+              selectedStar={(rating) => this.onStarRatingPress(rating)}
             />
           </View>
         </View>
@@ -55,16 +70,59 @@ class GiveFeedBack extends Component {
     );
   };
 
+  onStarRatingPress(rating) {
+    this.setState({
+      starCount: rating,
+    });
+  }
+
+  submitFeedback() {
+    this.setState({isLoading: true});
+    const {starCount, bookingData} = this.state;
+
+    let booking = JSON.parse(bookingData.body);
+    //
+    // "userId": "",
+    //   "bookingId": "",
+    //     "ratingToCustomerByCompany": 2.6
+    //
+    // {"body": "{\"services\":
+    // [{\"serviceId\":\"5f317eb7394d400017dc824f\",
+    // \"employeeId\":\"5f2030f787487600175f8342\",
+    // \"categoryId\":\"5f060678b6e7dd0017cd0c77\",
+    // \"date\":\"08-25-20\",
+    // \"time\":\"12:10:00\"}],
+    // \"postalCode\":\"02221\",
+    // \"email\":\"Testing99@gmail.com\",
+    // \"companyId\":\"5f3147b4cc26e1001741f43a\",
+    // \"phoneNo\":\"090078601\",
+    // \"status\":\"1\",\"totalAmount\":20,
+    // \"paymentMethod\":\"Cash\",
+    // \"userId\":\"5f1881ddccc8061b7c0f9a28\"}"}
+
+    const payload = {
+      companyId: booking.companyId,
+      bookingId: booking.userId.bookingId,
+      ratingToCompanyByCustomer: starCount,
+    };
+
+    alert(JSON.stringify(payload));
+
+    // this.props.customer_rating_for_company(payload);
+  }
+
   renderRatingForSaloon = () => {
     return (
       <View style={styles.containerForRow}>
         <View style={styles.containerborder}>
           <Text style={styles.employeeheading}>For Saloon</Text>
           <View style={styles.rating}>
-            <Rating
-              Default_Rating={2}
+            <StarRating
               disabled={false}
-              StarImage={styles.StarImage}
+              maxStars={5}
+              starStyle={{color: 'orange'}}
+              rating={this.state.starCount}
+              selectedStar={(rating) => this.onStarRatingPress(rating)}
             />
           </View>
         </View>
@@ -95,7 +153,9 @@ class GiveFeedBack extends Component {
   renderPayNowButton = () => {
     return (
       <View style={styles.containerForRow}>
-        <TouchableOpacity style={styles.submitBtn2}>
+        <TouchableOpacity
+          style={styles.submitBtn2}
+          onPress={() => this.submitFeedback()}>
           <Text style={styles.submitBtnText2}>Submit</Text>
         </TouchableOpacity>
       </View>
@@ -132,6 +192,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-const action = {get_Saloon_Categories};
+const action = {customer_rating_for_company};
 
 export default connect(mapStateToProps, action)(GiveFeedBack);

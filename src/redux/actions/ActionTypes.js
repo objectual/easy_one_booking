@@ -23,6 +23,7 @@ export const GET_BOOKING = createRequestTypes('GET_BOOKING');
 export const GET_SALOON_NEARBY = createRequestTypes('GET_SALOON_NEARBY');
 export const GET_CATEGORIES = createRequestTypes('GET_CATEGORIES');
 export const GETWALLET = createRequestTypes('GETWALLET');
+export const CUSTOMER_RATING = createRequestTypes('CUSTOMER_RATING');
 
 export const GET_SALOON_CATEGORIES = createRequestTypes(
   'GET_SALOON_CATEGORIES',

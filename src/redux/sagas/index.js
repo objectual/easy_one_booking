@@ -11,7 +11,8 @@ import getServices from './GetServices';
 import getSaloonNearBy from './GetSaloonNearBy';
 import getBooking from './GetBooking';
 import updateBooking from './UpdateBooking';
-import getWallet from './GetWallet'
+import getWallet from './GetWallet';
+import customerRating from './CustomerRatingForEmployee';
 // import forgotPassword from "./ForgotPassword";
 // import verifyResetCode from "./VerifyResetCode";
 // import resetPassword from "./ResetPassword";
@@ -34,6 +35,7 @@ export default function* rootSaga() {
   yield fork(getBooking);
   yield fork(updateBooking);
   yield fork(getWallet);
+  yield fork(customerRating);
   // yield fork(forgotPassword);
   // yield fork(verifyResetCode);
   // yield fork(resetPassword);
