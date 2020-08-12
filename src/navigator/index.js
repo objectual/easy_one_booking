@@ -36,6 +36,7 @@ import GiveFeedBack from './../containers/GiveFeedBack/index';
 import AsyncStorage from '@react-native-community/async-storage';
 import {token} from '../config/WebServices';
 import RNRestart from 'react-native-restart';
+import Wallet from '../containers/Wallet';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -190,6 +191,11 @@ function mainStack({navigation}) {
           name="SaloonServicesByCategory"
           component={SaloonServicesByCategory}
           options={{title: 'Salons Service'}}
+        />
+        <Stack.Screen
+          name="Wallet"
+          component={Wallet}
+          options={{title: 'Wallet'}}
         />
       </Stack.Navigator>
     </NavigationContainer>

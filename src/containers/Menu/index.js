@@ -108,6 +108,11 @@ export default class Menu extends Component {
           handleNavigation: this.props.navigation.navigate,
         })
       : null;
+    item.title == 'Wallet' && token
+      ? this.props.navigation.navigate('Wallet', {
+          handleNavigation: this.props.navigation.navigate,
+        })
+      : null;
     item.title == 'Login' && this.props.navigation.navigate('Login');
     item.title == 'Register' && this.props.navigation.navigate('Register');
     item.title == 'Logout' && this.removeItemValue();
@@ -320,12 +325,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: Metrics.ratio(15),
     elevation: 5,
-    shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: 4,
-        },
-        shadowOpacity: 0.32,
-        shadowRadius: 5.46,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
   },
 });

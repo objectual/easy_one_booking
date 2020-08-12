@@ -13,6 +13,7 @@ import cart from './Cart';
 import getServices from './GetServices';
 import getSaloonNearBy from './GetSaloonNearBy';
 import getBooking from './GetBooking';
+import getWallet from './GetWallet';
 import updateBooking from './UpdateBooking';
 
 // import forgotPassword from "./ForgotPassword";
@@ -39,4 +40,5 @@ export const rootReducer = combineReducers({
   getSaloonNearBy,
   getBooking,
   updateBooking,
+  getWallet,
 });

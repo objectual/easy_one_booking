@@ -24,6 +24,7 @@ export const get_Employees_By_Saloon_And_Category_Api = `${baseUrl}saloon/getEmp
 export const get_Services_Api = `${baseUrl}service/getService`;
 export const get_Booking = `${baseUrl}booking/getAllBookingsByUser`;
 export const update_booking_api = `${baseUrl}booking/updateBooking`;
+export const get_wallet = `${baseUrl}wallet/getWallet`;
 
 export const secret_Key = 'AIzaSyCIGENLCfCwZwPaumiUQs21GfgMhgppa7s';
 export const place_Autocomplete_URL =
