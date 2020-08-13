@@ -244,7 +244,7 @@ class Proceeding extends Component {
             <TouchableOpacity
               style={{ ...styles.openButton }}
               onPress={() => {
-                this.setState({ modalVisible: false }, () => this.booKNow());
+                this.setState({ modalVisible: false });
               }}>
               <View
                 style={{
@@ -257,6 +257,16 @@ class Proceeding extends Component {
             </TouchableOpacity>
             <Text style={styles.modalText}>Select Payment Type</Text>
             {this.renderDropdownPicker()}
+            <View style={[styles.containerForRow, { alignItems: 'center' }]}>
+              <TouchableOpacity
+                // onPress={() => this.booKNow()}
+                onPress={() => {
+                  this.setState({ modalVisible: false }, () => this.booKNow());
+                }}
+                style={styles.submitBtn2}>
+                <Text style={styles.submitBtnText2}>Done</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -300,14 +310,13 @@ class Proceeding extends Component {
   };
 
   handlePickerValue = (value, type) => {
-    type === 'status'
-      ? this.setState({ status: value })
-      : this.setState({ paymentType: value });
+    this.setState({ status: value })
   };
 
   createPayload = async () => {
     const { login } = this.props;
     const { cart } = this.props;
+    const { status } = this.state;
     console.log(JSON.stringify(cart.data), 'login.cart');
     let userInfo = JSON.parse(await getUserInfo());
     console.log(userInfo, 'userInfo');
@@ -346,7 +355,7 @@ class Proceeding extends Component {
       status: '1',
       access_token: userInfo.data.access_token,
       totalAmount: parseInt(this.getTotalPrice()),
-      paymentMethod: 'Cash',
+      paymentMethod: status,
     };
 
     console.log(payload, 'postbody');
@@ -377,7 +386,6 @@ class Proceeding extends Component {
         this.props.navigation.navigate('Home');
     }
 
-    console.log(cart, 'cartarray');
     return (
       <Footer navigation={this.props.navigation.navigate} screen={'menu'}>
         <View style={styles.container}>

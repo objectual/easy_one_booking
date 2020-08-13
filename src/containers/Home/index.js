@@ -86,7 +86,7 @@ class Home extends Component {
           soundName: 'default',
           actions: '["Open"]'
         });
-        this.props.navigation.navigate('GiveFeedBack', remoteMessage);
+        // this.props.navigation.navigate('GiveFeedBack', remoteMessage);
       } else {
         PushNotificationIOS.scheduleLocalNotification(details);
       }
@@ -94,11 +94,6 @@ class Home extends Component {
       // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
     });
   };
-
-  // componentWillUnmount()
-  // {
-  //   this.didFocusListener.remove();
-  // }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.getSaloon) {
@@ -161,10 +156,15 @@ class Home extends Component {
       <View style={styles.containerForRow}>
         <Text style={styles.mainheading}>About Easy1</Text>
         <Text style={{ marginTop: Metrics.ratio(20) }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eget
-          nisi ex. Integer est enim, hendrerit at enim in, feugiat efficitur
-          massa. Maecenas dictum feugiat magna, in tincidunt orci aliquet
-          convallis.
+          The beauty parlour shop is the need of every age of men women and children
+          famours poet keats defined the word beauty as : " A thing of beauty is a joy for ever:
+          Beauty parlour is a very important shop to make the people good looking by application
+          of cosmetics treatment of hair and nourishment of skin by various
+          Our Beauty Salon is located in Curepipe and will offer affordable priced,
+          convenient hair styling. This Salon will accept walk-ins as well as appointments for
+          the entire family. The salon will grow its market share based on superior customer attention.
+          The Salon is a family hair salon, also known as a “quick hair salon”
+          and this new salon has everything to set up a new path and disguise people in an unexpected way.
         </Text>
       </View>
     );
@@ -172,7 +172,6 @@ class Home extends Component {
 
   renderShowCategoryButton = () => {
     const { selectCard } = this.state;
-    console.log(selectCard, '////////////00000000000')
     return (
       <View>
         <Text style={styles.mainheading2}>
@@ -613,7 +612,7 @@ class Home extends Component {
       <View style={styles.containerForRow}>
         <Text style={styles.mainheading1}>Name</Text>
         {this.renderShowCategoryButton()}
-        <Text style={styles.mainheading2}>Opening Hours</Text>
+        {/* <Text style={styles.mainheading2}>Opening Hours</Text> */}
         {dayandtime &&
           dayandtime.map((val, index) => {
             return (

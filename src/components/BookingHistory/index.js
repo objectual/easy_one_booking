@@ -1,8 +1,8 @@
-import {connect} from 'react-redux';
-import React, {Component} from 'react';
-import {Text, View, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
+import { Text, View, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import styles from './styles';
-import {Images, Metrics} from '../../theme';
+import { Images, Metrics } from '../../theme';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -29,6 +29,7 @@ class BookingHistoryCard extends Component {
       paymentMethod,
       bookingStatus,
     } = this.props;
+
     return (
       <View style={styles.containerForRow}>
         <View style={styles.servicebox}>
@@ -37,14 +38,14 @@ class BookingHistoryCard extends Component {
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
-            <View style = {{width: Metrics.screenWidth * 0.4}}>
-            <Text style={styles.titlesize}>Date : {date}</Text>
+            <View style={{ width: Metrics.screenWidth * 0.4 }}>
+              <Text style={styles.titlesize}>Date : {date}</Text>
             </View>
-            <View style = {{width: Metrics.screenWidth * 0.4}}>
-            <Text style={styles.titlesize}>Time : {time}</Text>
+            <View style={{ width: Metrics.screenWidth * 0.4 }}>
+              <Text style={styles.titlesize}>Time : {time}</Text>
             </View>
           </View>
-          <View style = {{borderBottomWidth: StyleSheet.hairlineWidth, borderColor: "grey", marginVertical: Metrics.ratio(5)}}></View>
+          <View style={{ borderBottomWidth: StyleSheet.hairlineWidth, borderColor: "grey", marginVertical: Metrics.ratio(5) }}></View>
           <View
             style={{
               flexDirection: 'row',
@@ -89,7 +90,11 @@ class BookingHistoryCard extends Component {
               justifyContent: 'space-between',
             }}>
             {/* <Text style={styles.titlesize}>Payment Process : {item ? item : ""}</Text> */}
-            <Text style={styles.titleTotal}>Total Amount : ${price}</Text>
+            {paymentMethod == "Points" ?
+              <Text style={styles.titleTotal}>Total Points : {price}</Text> :
+              <Text style={styles.titleTotal}>Total Amount : ${price}</Text>
+
+            }
             <Text style={styles.titleTotal}>{bookingStatus}</Text>
           </View>
           {this.props.showButton == true ? (

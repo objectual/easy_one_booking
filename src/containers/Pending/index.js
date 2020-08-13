@@ -1,5 +1,5 @@
-import {connect} from 'react-redux';
-import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -17,28 +17,28 @@ import {
   Modal,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
-import RNPickerSelect, {defaultStyles} from 'react-native-picker-select';
+import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 import styles from './styles';
-import {Images, Metrics, Fonts, Colors} from '../../theme';
+import { Images, Metrics, Fonts, Colors } from '../../theme';
 
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Cards from '../..//components/Card';
-import {Icon} from 'react-native-vector-icons/MaterialIcons';
-import {request as get_Booking} from '../../redux/actions/GetBooking';
+import { Icon } from 'react-native-vector-icons/MaterialIcons';
+import { request as get_Booking } from '../../redux/actions/GetBooking';
 import Geolocation from '@react-native-community/geolocation';
 // import {request as ge} from '../../redux/actions/GetCategories';
-import {Dropdown} from 'react-native-material-dropdown';
+import { Dropdown } from 'react-native-material-dropdown';
 import Immutable from 'seamless-immutable';
-import {request as get_Saloon_By_Category} from '../../redux/actions/GetSaloonByCategory';
-import {request as updateMyBooking} from '../../redux/actions/updateBooking';
+import { request as get_Saloon_By_Category } from '../../redux/actions/GetSaloonByCategory';
+import { request as updateMyBooking } from '../../redux/actions/updateBooking';
 import {
   place_reverse_Geocoding_URL,
   place_Autocomplete_URL,
   secret_Key,
 } from '../../config/WebServices';
-import {request as get_Services} from '../../redux/actions/GetServices';
+import { request as get_Services } from '../../redux/actions/GetServices';
 import BookingHistoryCard from '../../components/BookingHistory/index';
-import {initializeToken, token, getUserInfo} from '../../config/WebServices';
+import { initializeToken, token, getUserInfo } from '../../config/WebServices';
 import CustomTextInputRow from './../../components/CustomTextInputRow/index';
 import CustomTextInput from './../../components/CustomTextInput/index';
 var saloonsData = [];
@@ -94,7 +94,7 @@ class Current extends Component {
         nextProps.updateBooking.data &&
         nextProps.updateBooking.data.success
       ) {
-        this.setState({isloading: false, setModalVisible: false});
+        this.setState({ isloading: false, setModalVisible: false });
       } else if (
         !nextProps.updateBooking.failure &&
         !nextProps.updateBooking.isFetching &&
@@ -110,7 +110,7 @@ class Current extends Component {
         //     Alert.alert('Error', nextProps.login.data.msg);
         //   }, 3000);
         // });
-        this.setState({isloading: false, setModalVisible: false});
+        this.setState({ isloading: false, setModalVisible: false });
       }
     }
   }
@@ -137,15 +137,15 @@ class Current extends Component {
 
   async componentDidMount() {
     let payload = JSON.parse(await getUserInfo());
-    this.props.get_Booking({payload});
+    this.props.get_Booking({ payload });
     this.props.navigation.addListener('focus', () =>
-      this.props.get_Booking({payload}),
+      this.props.get_Booking({ payload }),
     );
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   updateBooking = () => {
-    const {status, paymentType, amount, editAppoinment} = this.state;
+    const { status, paymentType, amount, editAppoinment } = this.state;
     const payload = {
       bookingId: editAppoinment._id,
       status: status,
@@ -173,15 +173,15 @@ class Current extends Component {
 
   handlePickerValue = (value, type) => {
     type === 'status'
-      ? this.setState({status: value})
-      : this.setState({paymentType: value});
+      ? this.setState({ status: value })
+      : this.setState({ paymentType: value });
   };
 
   renderDropdownPicker = (type, data) => {
-    const status = [{label: 'Cancel', value: 3}];
+    const status = [{ label: 'Cancel', value: 3 }];
     const paymentType = [
-      {label: 'Cash', value: 'Cash'},
-      {label: 'Points', value: 'Points'},
+      { label: 'Cash', value: 'Cash' },
+      { label: 'Points', value: 'Points' },
     ];
     return (
       <View style={styles.dropdownContainer}>
@@ -220,7 +220,7 @@ class Current extends Component {
   };
 
   renderInputField = () => {
-    const {editAppoinment, name, dateTime, amount} = this.state;
+    const { editAppoinment, name, dateTime, amount } = this.state;
     let customerName = editAppoinment?.userId?.firstName
       ? `${editAppoinment?.userId?.firstName} ${editAppoinment?.userId?.lastName}`
       : editAppoinment?.userId?.userName;
@@ -234,20 +234,20 @@ class Current extends Component {
         <Text style={styles.paymentHeaderText}>Customer Name</Text>
         <CustomTextInputRow
           placeholderText={'Name'}
-          CustomStyle={{width: Metrics.screenWidth * 0.7}}
+          CustomStyle={{ width: Metrics.screenWidth * 0.7 }}
           inputValue={customerName}
           handleInput={this.onChangeName}
           isEditable={false}
-          // errorMessage={this.state.formErrors.addressError}
+        // errorMessage={this.state.formErrors.addressError}
         />
         <Text style={styles.paymentHeaderText}>Customer Name</Text>
         <CustomTextInputRow
           placeholderText={'Name'}
-          CustomStyle={{width: Metrics.screenWidth * 0.7}}
+          CustomStyle={{ width: Metrics.screenWidth * 0.7 }}
           inputValue={companyName}
           handleInput={this.onChangeName}
           isEditable={false}
-          // errorMessage={this.state.formErrors.addressError}
+        // errorMessage={this.state.formErrors.addressError}
         />
 
         <Text style={styles.paymentHeaderText}>Add more info</Text>
@@ -256,7 +256,7 @@ class Current extends Component {
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             {/* {this.renderDropdownPicker('payment', paymentMethod)} */}
             {this.renderDropdownPicker('status', bookingStatus)}
           </View>
@@ -276,7 +276,7 @@ class Current extends Component {
   };
 
   renderPopup = () => {
-    const {modalVisible} = this.setState;
+    const { modalVisible } = this.setState;
     return (
       <Modal
         animationType="slide"
@@ -287,10 +287,10 @@ class Current extends Component {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <View style={{marginHorizontal: Metrics.ratio(15)}}>
+            <View style={{ marginHorizontal: Metrics.ratio(15) }}>
               <TouchableOpacity
                 onPress={() =>
-                  this.setState({setModalVisible: false, status: null})
+                  this.setState({ setModalVisible: false, status: null })
                 }>
                 <Image source={Images.cross} style={styles.crossImageStyle} />
               </TouchableOpacity>
@@ -304,61 +304,65 @@ class Current extends Component {
   };
 
   render() {
-    const {isFetching, failure, data, success} = this.props.getBooking;
-    const {setModalVisible} = this.state;
-    return (
-      <ScrollView>
-        {isFetching && this._renderOverlaySpinner()}
-        {data.success && (
-          <FlatList
-            data={data.data}
-            renderItem={({item, index}) => {
-              let customerName = item?.userId?.firstName
-                ? item?.userId?.firstName + ' ' + item.userId?.lastName
-                : item?.userId?.userName;
-              let employeeName =
-                item?.services[0]?.employeeId?.userId?.firstName +
-                ' ' +
-                item?.services[0]?.employeeId?.userId?.lastName;
-              let bookingStatus =
-                item?.status === 1 ? 'Pending' : 'Now Serving';
-              let dateTime = item?.createdDate;
-              let newDate = new Date(dateTime);
-              let time = newDate.toLocaleTimeString('en-US');
-              let date = newDate.getDate();
-              let month = newDate.getMonth(); //Month of the Year: 0-based index, so 1 in our example
-              let year = newDate.getFullYear();
-              let fullDate = `${date}-${month}-${year}`;
-              if (item?.status === 1 || item?.status === 2) {
-                return (
-                  <BookingHistoryCard
-                    orderNo={item._id}
-                    customerName={customerName}
-                    employeeName={employeeName}
-                    date={fullDate}
-                    time={time}
-                    employee={item.services[0].serviceId.name}
-                    saloon={item?.companyId?.name}
-                    price={item?.totalAmount}
-                    paymentMethod={item.paymentMethod}
-                    bookingStatus={bookingStatus}
-                    showButton={item?.status === 1}
-                    onPress={() =>
-                      this.setState({
-                        setModalVisible: true,
-                        editAppoinment: item,
-                      })
-                    }
-                  />
-                );
-              }
-              return null;
-            }}
-          />
-        )}
-        {setModalVisible ? this.renderPopup() : null}
-      </ScrollView>
-    );
+    let { isFetching, failure, data, success } = this.props.getBooking;
+    const { setModalVisible } = this.state;
+    if (data.success) {
+      let booking = [...data.data];
+      return (
+        <ScrollView>
+          {isFetching && this._renderOverlaySpinner()}
+          {data.success && (
+            <FlatList
+              data={booking.reverse()}
+              renderItem={({ item, index }) => {
+                let customerName = item?.userId?.firstName
+                  ? item?.userId?.firstName + ' ' + item.userId?.lastName
+                  : item?.userId?.userName;
+                let employeeName =
+                  item?.services[0]?.employeeId?.userId?.firstName +
+                  ' ' +
+                  item?.services[0]?.employeeId?.userId?.lastName;
+                let bookingStatus =
+                  item?.status === 1 ? 'Pending' : 'Now Serving';
+                let dateTime = item?.createdDate;
+                let newDate = new Date(dateTime);
+                let time = newDate.toLocaleTimeString('en-US');
+                let date = newDate.getDate();
+                let month = newDate.getMonth(); //Month of the Year: 0-based index, so 1 in our example
+                let year = newDate.getFullYear();
+                let fullDate = `${date}-${month}-${year}`;
+                let amount = item.paymentMethod == "Points" ? item?.totalAmount * 1000 : item?.totalAmount;
+                if (item?.status === 1 || item?.status === 2) {
+                  return (
+                    <BookingHistoryCard
+                      orderNo={item._id}
+                      customerName={customerName}
+                      employeeName={employeeName}
+                      date={fullDate}
+                      time={time}
+                      employee={item.services[0].serviceId.name}
+                      saloon={item?.companyId?.name}
+                      price={amount}
+                      paymentMethod={item.paymentMethod}
+                      bookingStatus={bookingStatus}
+                      showButton={item?.status === 1}
+                      onPress={() =>
+                        this.setState({
+                          setModalVisible: true,
+                          editAppoinment: item,
+                        })
+                      }
+                    />
+                  );
+                }
+                return null;
+              }}
+            />
+          )}
+          {setModalVisible ? this.renderPopup() : null}
+        </ScrollView>
+      );
+    }
   }
 }
 

@@ -1,6 +1,6 @@
 // @flow
-import {StyleSheet, ListViewBase} from 'react-native';
-import {Images, Metrics, Fonts} from '../../theme';
+import { StyleSheet, ListViewBase } from 'react-native';
+import { Images, Metrics, Fonts } from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -22,7 +22,7 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 20,
     width: Metrics.screenWidth * 0.8,
-    height: Metrics.screenHeight * 0.3,
+    height: Metrics.screenHeight * 0.35,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
