@@ -20,8 +20,8 @@ import SpinnerLoader from '../../components/SpinnerLoader';
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import BookingHistoryCard from '../../components/BookingHistory/index';
-import Pending from '../Pending/index';
-import Completed from '../Completed/index';
+import PendingAppoinment from '../Pending/index';
+import CompletedAppoinment from '../Completed/index';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -58,7 +58,7 @@ class BookingHistory extends Component {
     return (
       <NavigationContainer independent={true}>
         <Tab.Navigator
-          initialRouteName="CurrentScreen"
+          initialRouteName="PendingAppoinment"
           tabBarOptions={{
             labelStyle: {fontSize: 15},
             activeTintColor: 'white',
@@ -79,15 +79,36 @@ class BookingHistory extends Component {
           }}>
           <Tab.Screen
             name="Pending"
-            component={Pending}
-            navigation={this.props.navigation}
-            initialParams={this.props.route.params}
+            component={() => (
+              <PendingAppoinment
+                // allInfo={this.state.allInfo}
+                // isLoading={this.state.isLoading}
+                isStatus={true}
+                name="HomeScreen"
+                navigation={this.props.navigation.navigate}
+              />
+            )}
+
+            // name="Pending"
+            // component={Pending}
+            // navigation={this.props.navigation}
+            // initialParams={this.props.route.params}
           />
           <Tab.Screen
-            name="Completed"
-            component={Completed}
-            navigation={this.props.navigation}
-            initialParams={this.props.route.params}
+             name="Completed"
+             component={() => (
+               <CompletedAppoinment
+                 // allInfo={this.state.allInfo}
+                 // isLoading={this.state.isLoading}
+                 name="HomeScreen"
+                 navigation={this.props.navigation.navigate}
+               />
+             )}
+          
+            // name="Completed"
+            // component={Completed}
+            // navigation={this.props.navigation}
+            // initialParams={this.props.route.params}
           />
         </Tab.Navigator>
       </NavigationContainer>
