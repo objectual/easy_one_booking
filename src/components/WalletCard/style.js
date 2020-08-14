@@ -34,7 +34,6 @@ export default StyleSheet.create({
     width: Metrics.ratio(150),
   },
   servicebox: {
-    width: Metrics.ratio('100%'),
     backgroundColor: '#fff',
     borderRadius: Metrics.ratio(15),
     // overflow: 'hidden',

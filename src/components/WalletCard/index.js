@@ -1,9 +1,8 @@
-import {connect} from 'react-redux';
 import React, {Component} from 'react';
-import {Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
+import {Text, View, Image, TouchableOpacity} from 'react-native';
 import styles from './style';
-import {Images, Metrics} from '../../theme';
-import PropTypes from 'prop-types';
+import {Metrics} from "../../theme"
+
 
 class WalletCard extends Component {
   constructor(props) {
@@ -15,13 +14,6 @@ class WalletCard extends Component {
   }
   render() {
     const {
-      customerName,
-      serviceName,
-      paymentMethod,
-      amount,
-      status,
-      customerImage,
-      disable,
       walletInfo,
     } = this.props;
     // const { setModalVisible } = this.state;
