@@ -41,7 +41,7 @@ import { initializeToken, token, getUserInfo } from '../../config/WebServices';
 var saloonsData = [];
 var categoriesData = [];
 
-class Current extends Component {
+class CompletedAppoinment extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -116,8 +116,7 @@ class Current extends Component {
   render() {
     const { isFetching, failure, data, success } = this.props.getBooking;
     const { setModalVisible } = this.state;
-    if (data.success) {
-      let booking = [...data.data];
+      let booking = data.success && [...data.data];
       return (
         <ScrollView>
           {isFetching && this._renderOverlaySpinner()}
@@ -163,7 +162,6 @@ class Current extends Component {
           {setModalVisible ? this.renderPopup() : null}
         </ScrollView>
       );
-    }
   }
 }
 
@@ -177,4 +175,4 @@ const action = {
   get_Booking,
 };
 
-export default connect(mapStateToProps, action)(Current);
+export default connect(mapStateToProps, action)(CompletedAppoinment);

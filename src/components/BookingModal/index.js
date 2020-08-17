@@ -55,8 +55,8 @@ export default class BookingModal extends Component {
     if (JSON.stringify(props.data) !== JSON.stringify(state.selectedEmployee)) {
       let dateSlots = [];
 
-      for (let i = 0; i < props.data.employeeId.weekPlans.length; i++) {
-        let object = Immutable.asMutable(props.data.employeeId.weekPlans[i]);
+      for (let i = 0; i < props.data.weekPlans.length; i++) {
+        let object = Immutable.asMutable(props.data.weekPlans[i]);
         object.timeSlotsLabel = `${object.checkIn} ${object.checkOut}`;
         object.timeSlotsValue = `${object.checkIn}${object.checkOut}`;
         dateSlots.push(object);
@@ -96,14 +96,14 @@ export default class BookingModal extends Component {
     day.toString();
     console.log(day, 'day');
 
-    for (let i = 0; i < this.state.data.employeeId.weekPlans.length; i++) {
+    for (let i = 0; i < this.state.data.weekPlans.length; i++) {
       if (
-        this.state.data.employeeId.weekPlans[i].dayOfWeek == day &&
-        this.state.data.employeeId.weekPlans[i].availableStatus == '1'
+        this.state.data.weekPlans[i].dayOfWeek == day &&
+        this.state.data.weekPlans[i].availableStatus == '1'
       ) {
         // return true;
         return await this.validateTime(
-          this.state.data.employeeId.weekPlans[i],
+          this.state.data.weekPlans[i],
           date,
         );
       }

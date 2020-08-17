@@ -44,7 +44,7 @@ import CustomTextInput from './../../components/CustomTextInput/index';
 var saloonsData = [];
 var categoriesData = [];
 
-class Current extends Component {
+class PendingAppoinment extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -306,8 +306,7 @@ class Current extends Component {
   render() {
     let { isFetching, failure, data, success } = this.props.getBooking;
     const { setModalVisible } = this.state;
-    if (data.success) {
-      let booking = [...data.data];
+      let booking = data.success && [...data.data];
       return (
         <ScrollView>
           {isFetching && this._renderOverlaySpinner()}
@@ -362,7 +361,6 @@ class Current extends Component {
           {setModalVisible ? this.renderPopup() : null}
         </ScrollView>
       );
-    }
   }
 }
 
@@ -378,4 +376,4 @@ const action = {
   updateMyBooking,
 };
 
-export default connect(mapStateToProps, action)(Current);
+export default connect(mapStateToProps, action)(PendingAppoinment);

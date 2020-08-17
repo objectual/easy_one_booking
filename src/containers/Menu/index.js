@@ -107,12 +107,12 @@ export default class Menu extends Component {
       ? this.props.navigation.navigate('BookingHistory', {
           handleNavigation: this.props.navigation.navigate,
         })
-      : null;
+      : Alert.alert("Message", "Please Login First");;
     item.title == 'Wallet' && token
       ? this.props.navigation.navigate('Wallet', {
           handleNavigation: this.props.navigation.navigate,
         })
-      : null;
+      : Alert.alert("Message", "Please Login First");
     item.title == 'Login' && this.props.navigation.navigate('Login');
     item.title == 'Register' && this.props.navigation.navigate('Register');
     item.title == 'Logout' && this.removeItemValue();
