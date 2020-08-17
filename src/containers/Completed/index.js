@@ -14,6 +14,7 @@ import {
   FlatList,
   PermissionsAndroid,
   BackHandler,
+  RefreshControl
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
@@ -64,7 +65,31 @@ class CompletedAppoinment extends Component {
       saloonsNearByData: [],
       selectedLocationSaloons: false,
       permission: false,
+      refreshing: false
     };
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+
+    if (nextProps.getBooking) {
+      if (
+        !nextProps.getBooking.failure &&
+        nextProps.getBooking.data &&
+        nextProps.getBooking.data.success
+      ) {
+        this.setState({
+          refreshing: false
+        });
+      } else if (
+        !nextProps.getBooking.failure &&
+        nextProps.getBooking.data &&
+        !nextProps.getBooking.data.success
+      ) {
+        this.setState({
+          refreshing: false
+        });
+      }
+    }
   }
 
   _renderOverlaySpinner = () => {
@@ -101,6 +126,12 @@ class CompletedAppoinment extends Component {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
+  refreshingData = async () => {
+    let payload = JSON.parse(await getUserInfo());
+    this.props.get_Booking({ payload });
+    this.setState({ refreshing: true });
+  }
+
   handleBackButton() {
     // this.props.navigation.goBack();
 
@@ -115,53 +146,62 @@ class CompletedAppoinment extends Component {
 
   render() {
     const { isFetching, failure, data, success } = this.props.getBooking;
-    const { setModalVisible } = this.state;
-      let booking = data.success && [...data.data];
-      return (
-        <ScrollView>
-          {isFetching && this._renderOverlaySpinner()}
-          {data.success && (
-            <FlatList
-              data={booking.reverse()}
-              renderItem={({ item, index }) => {
-                let customerName = item?.userId?.firstName
-                  ? item?.userId?.firstName + ' ' + item?.userId?.lastName
-                  : item?.userId?.userName;
-                let employeeName =
-                  item?.services[0]?.employeeId?.userId?.firstName +
-                  ' ' +
-                  item?.services[0]?.employeeId?.userId?.lastName;
-                let bookingStatus = item?.status === 3 ? 'Cancelled' : 'Completed';
-                let dateTime = item?.createdDate
-                let newDate = new Date(dateTime);
-                let time = newDate.toLocaleTimeString('en-US');
-                let date = newDate.getDate();
-                let month = newDate.getMonth(); //Month of the Year: 0-based index, so 1 in our example
-                let year = newDate.getFullYear()
-                let fullDate = `${date}-${month}-${year}`
-                if (item?.status === 3 || item?.status === 4) {
-                  return (
-                    <BookingHistoryCard
-                      orderNo={item._id}
-                      customerName={customerName}
-                      employeeName={employeeName}
-                      date={fullDate}
-                      time={time}
-                      employee={item?.services[0]?.serviceId?.name}
-                      saloon={item?.companyId?.name}
-                      price={item?.totalAmount}
-                      paymentMethod={item.paymentMethod}
-                      bookingStatus={bookingStatus}
-                    />
-                  );
-                }
-                return null;
-              }}
-            />
-          )}
-          {setModalVisible ? this.renderPopup() : null}
-        </ScrollView>
-      );
+    const { setModalVisible, refreshing } = this.state;
+    let booking = data.success && [...data.data];
+    return (
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            style={{ backgroundColor: 'transparent' }}
+            refreshing={refreshing}
+            onRefresh={() => {
+              this.refreshingData();
+            }}
+          />
+        }>
+        {isFetching && this._renderOverlaySpinner()}
+        {data.success && (
+          <FlatList
+            data={booking.reverse()}
+            renderItem={({ item, index }) => {
+              let customerName = item?.userId?.firstName
+                ? item?.userId?.firstName + ' ' + item?.userId?.lastName
+                : item?.userId?.userName;
+              let employeeName =
+                item?.services[0]?.employeeId?.userId?.firstName +
+                ' ' +
+                item?.services[0]?.employeeId?.userId?.lastName;
+              let bookingStatus = item?.status === 3 ? 'Cancelled' : 'Completed';
+              let dateTime = item?.createdDate
+              let newDate = new Date(dateTime);
+              let time = newDate.toLocaleTimeString('en-US');
+              let date = newDate.getDate();
+              let month = newDate.getMonth(); //Month of the Year: 0-based index, so 1 in our example
+              let year = newDate.getFullYear()
+              let fullDate = `${date}-${month}-${year}`
+              if (item?.status === 3 || item?.status === 4) {
+                return (
+                  <BookingHistoryCard
+                    orderNo={item._id}
+                    customerName={customerName}
+                    employeeName={employeeName}
+                    date={fullDate}
+                    time={time}
+                    employee={item?.services[0]?.serviceId?.name}
+                    saloon={item?.companyId?.name}
+                    price={item?.totalAmount}
+                    paymentMethod={item.paymentMethod}
+                    bookingStatus={bookingStatus}
+                  />
+                );
+              }
+              return null;
+            }}
+          />
+        )}
+        {(setModalVisible && !refreshing) ? this.renderPopup() : null}
+      </ScrollView>
+    );
   }
 }
 

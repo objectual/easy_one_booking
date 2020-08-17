@@ -15,6 +15,7 @@ import {
   PermissionsAndroid,
   BackHandler,
   Modal,
+  RefreshControl
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
@@ -67,6 +68,8 @@ class PendingAppoinment extends Component {
       saloonsNearByData: [],
       selectedLocationSaloons: false,
       permission: false,
+      currentBooking: null,
+      refreshing: false
     };
   }
 
@@ -83,17 +86,48 @@ class PendingAppoinment extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
+
+    if (nextProps.getBooking) {
+      if (
+        !nextProps.getBooking.failure &&
+        nextProps.getBooking.data &&
+        nextProps.getBooking.data.success
+      ) {
+        this.setState({
+          refreshing: false
+        });
+      } else if (
+        !nextProps.getBooking.failure &&
+        nextProps.getBooking.data &&
+        !nextProps.getBooking.data.success
+      ) {
+        this.setState({
+          refreshing: false
+        });
+      }
+    }
     if (nextProps.updateBooking) {
-      console.log(
-        nextProps.updateBooking,
-        'nextProps.loginnextProps.loginnextProps.loginnextProps.loginnextProps.loginnextProps.login',
-      );
+
       if (
         !nextProps.updateBooking.failure &&
         !nextProps.updateBooking.isFetching &&
         nextProps.updateBooking.data &&
         nextProps.updateBooking.data.success
       ) {
+        // let payload = JSON.parse(await getUserInfo());
+        // this.props.get_Booking({ payload });
+        const { currentBooking } = this.state;
+        let bookingData = nextProps.updateBooking.data.data;
+        let bookingId = bookingData._id;
+        this.setState({
+          currentBooking: bookingId
+        }, async () => {
+          if (bookingId !== currentBooking) {
+            let payload = JSON.parse(await getUserInfo());
+            this.props.get_Booking({ payload });
+          }
+        })
+
         this.setState({ isloading: false, setModalVisible: false });
       } else if (
         !nextProps.updateBooking.failure &&
@@ -155,6 +189,12 @@ class PendingAppoinment extends Component {
     // let bookingStatus = status == null ? editAppoinment.status : status;
     this.props.updateMyBooking(payload);
   };
+
+  refreshingData = async () => {
+    let payload = JSON.parse(await getUserInfo());
+    this.props.get_Booking({ payload });
+    this.setState({ refreshing: true });
+  }
 
   renderButton = () => {
     return (
@@ -256,7 +296,13 @@ class PendingAppoinment extends Component {
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            borderWidth: Metrics.ratio(1),
+            borderColor: "#FF3600",
+            borderRadius: Metrics.ratio(10)
+          }}>
             {/* {this.renderDropdownPicker('payment', paymentMethod)} */}
             {this.renderDropdownPicker('status', bookingStatus)}
           </View>
@@ -305,62 +351,73 @@ class PendingAppoinment extends Component {
 
   render() {
     let { isFetching, failure, data, success } = this.props.getBooking;
-    const { setModalVisible } = this.state;
-      let booking = data.success && [...data.data];
-      return (
-        <ScrollView>
-          {isFetching && this._renderOverlaySpinner()}
-          {data.success && (
-            <FlatList
-              data={booking.reverse()}
-              renderItem={({ item, index }) => {
-                let customerName = item?.userId?.firstName
-                  ? item?.userId?.firstName + ' ' + item.userId?.lastName
-                  : item?.userId?.userName;
-                let employeeName =
-                  item?.services[0]?.employeeId?.userId?.firstName +
-                  ' ' +
-                  item?.services[0]?.employeeId?.userId?.lastName;
-                let bookingStatus =
-                  item?.status === 1 ? 'Pending' : 'Now Serving';
-                let dateTime = item?.createdDate;
-                let newDate = new Date(dateTime);
-                let time = newDate.toLocaleTimeString('en-US');
-                let date = newDate.getDate();
-                let month = newDate.getMonth(); //Month of the Year: 0-based index, so 1 in our example
-                let year = newDate.getFullYear();
-                let fullDate = `${date}-${month}-${year}`;
-                let amount = item.paymentMethod == "Points" ? item?.totalAmount * 1000 : item?.totalAmount;
-                if (item?.status === 1 || item?.status === 2) {
-                  return (
-                    <BookingHistoryCard
-                      orderNo={item._id}
-                      customerName={customerName}
-                      employeeName={employeeName}
-                      date={fullDate}
-                      time={time}
-                      employee={item.services[0].serviceId.name}
-                      saloon={item?.companyId?.name}
-                      price={amount}
-                      paymentMethod={item.paymentMethod}
-                      bookingStatus={bookingStatus}
-                      showButton={item?.status === 1}
-                      onPress={() =>
-                        this.setState({
-                          setModalVisible: true,
-                          editAppoinment: item,
-                        })
-                      }
-                    />
-                  );
-                }
-                return null;
-              }}
-            />
-          )}
-          {setModalVisible ? this.renderPopup() : null}
-        </ScrollView>
-      );
+    const { setModalVisible, refreshing } = this.state;
+    let booking = data.success && [...data.data];
+
+    return (
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            style={{ backgroundColor: 'transparent' }}
+            refreshing={refreshing}
+            onRefresh={() => {
+              this.refreshingData();
+            }}
+          />
+        }
+      >
+        {isFetching && this._renderOverlaySpinner()}
+        {data.success && (
+          <FlatList
+            data={booking.reverse()}
+            renderItem={({ item, index }) => {
+              let customerName = item?.userId?.firstName
+                ? item?.userId?.firstName + ' ' + item.userId?.lastName
+                : item?.userId?.userName;
+              let employeeName =
+                item?.services[0]?.employeeId?.userId?.firstName +
+                ' ' +
+                item?.services[0]?.employeeId?.userId?.lastName;
+              let bookingStatus =
+                item?.status === 1 ? 'Pending' : 'Now Serving';
+              let dateTime = item?.createdDate;
+              let newDate = new Date(dateTime);
+              let time = newDate.toLocaleTimeString('en-US');
+              let date = newDate.getDate();
+              let month = newDate.getMonth(); //Month of the Year: 0-based index, so 1 in our example
+              let year = newDate.getFullYear();
+              let fullDate = `${date}-${month}-${year}`;
+              let amount = item.paymentMethod == "Points" ? item?.totalAmount * 1000 : item?.totalAmount;
+              if (item.status == 1 || item.status == 2) {
+                return (
+                  <BookingHistoryCard
+                    orderNo={item._id}
+                    customerName={customerName}
+                    employeeName={employeeName}
+                    date={fullDate}
+                    time={time}
+                    employee={item.services[0].serviceId.name}
+                    saloon={item?.companyId?.name}
+                    price={amount}
+                    paymentMethod={item.paymentMethod}
+                    bookingStatus={bookingStatus}
+                    showButton={item?.status === 1}
+                    onPress={() =>
+                      this.setState({
+                        setModalVisible: true,
+                        editAppoinment: item,
+                      })
+                    }
+                  />
+                );
+              }
+              return null;
+            }}
+          />
+        )}
+        {setModalVisible ? this.renderPopup() : null}
+      </ ScrollView>
+    );
   }
 }
 
