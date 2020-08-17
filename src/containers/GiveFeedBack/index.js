@@ -1,5 +1,5 @@
-import {connect} from 'react-redux';
-import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -15,10 +15,10 @@ import {
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
-import {Images, Metrics, Fonts} from '../../theme';
+import { Images, Metrics, Fonts } from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
-import {request as customer_rating_for_company} from '../../redux/actions/CustomerRatingForCompany';
+import { request as customer_rating_for_company } from '../../redux/actions/CustomerRatingForCompany';
 import Rating from './../../components/Rating/index';
 import CustomTextInput from '../../components/CustomTextInput';
 import CustomTextIarea from './../../components/CustomTextIarea/index';
@@ -30,7 +30,7 @@ class GiveFeedBack extends Component {
     super(props);
     this.state = {
       starCount: 3.5,
-      bookingData: props.route.params.remoteMessage.data,
+      bookingData: ""//props.route.params.remoteMessage.data,
     };
   }
 
@@ -61,7 +61,7 @@ class GiveFeedBack extends Component {
               disabled={false}
               maxStars={5}
               rating={this.state.starCount}
-              starStyle={{color: 'orange'}}
+              starStyle={{ color: 'orange' }}
               selectedStar={(rating) => this.onStarRatingPress(rating)}
             />
           </View>
@@ -77,8 +77,8 @@ class GiveFeedBack extends Component {
   }
 
   submitFeedback() {
-    this.setState({isLoading: true});
-    const {starCount, bookingData} = this.state;
+    this.setState({ isLoading: true });
+    const { starCount, bookingData } = this.state;
 
     let booking = JSON.parse(bookingData.body);
     //
@@ -120,7 +120,7 @@ class GiveFeedBack extends Component {
             <StarRating
               disabled={false}
               maxStars={5}
-              starStyle={{color: 'orange'}}
+              starStyle={{ color: 'orange' }}
               rating={this.state.starCount}
               selectedStar={(rating) => this.onStarRatingPress(rating)}
             />
@@ -162,9 +162,9 @@ class GiveFeedBack extends Component {
     );
   };
   render() {
-    const {getSelectedCategory} = this.state;
+    const { getSelectedCategory } = this.state;
 
-    const {isFetching, failure} = this.props.getSaloonCategories;
+    const { isFetching, failure } = this.props.getSaloonCategories;
     return (
       <View style={styles.container}>
         {<SpinnerLoader isloading={isFetching} />}
@@ -192,6 +192,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-const action = {customer_rating_for_company};
+const action = { customer_rating_for_company };
 
 export default connect(mapStateToProps, action)(GiveFeedBack);
