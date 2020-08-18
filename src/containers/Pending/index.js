@@ -388,7 +388,8 @@ class PendingAppoinment extends Component {
               let year = newDate.getFullYear();
               let fullDate = `${date}-${month}-${year}`;
               let amount = item.paymentMethod == "Points" ? item?.totalAmount * 1000 : item?.totalAmount;
-              if (item.status == 1 || item.status == 2) {
+              console.log(item.status,'status')
+              if (item.status == 1 || item.status == 2 || item.status != 0) {
                 return (
                   <BookingHistoryCard
                     orderNo={item._id}
@@ -411,7 +412,6 @@ class PendingAppoinment extends Component {
                   />
                 );
               }
-              return null;
             }}
           />
         )}
