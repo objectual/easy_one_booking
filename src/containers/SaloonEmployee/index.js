@@ -432,32 +432,34 @@ class SaloonEmployee extends Component {
       }),
         this.setState({ showBookedModal: false });
     }
+    setTimeout(() => {
 
-    Alert.alert(
-      'Add Service',
-      'Do you want to add another services?',
-      [
-        {
-          text: 'No',
-          onPress: () => {
-            this.props.navigation.navigate('Proceeding', {
-              companyId: companyId,
-              serviceId: serviceId,
-            }),
-              this.setState({ showBookedModal: false });
+      Alert.alert(
+        'Add Service',
+        'Do you want to add another services?',
+        [
+          {
+            text: 'No',
+            onPress: () => {
+              this.props.navigation.navigate('Proceeding', {
+                companyId: companyId,
+                serviceId: serviceId,
+              }),
+                this.setState({ showBookedModal: false });
+            },
+            style: 'cancel',
           },
-          style: 'cancel',
-        },
-        {
-          text: 'Yes',
-          onPress: () => {
-            this.props.navigation.navigate('Home'),
-              this.setState({ showBookedModal: false });
+          {
+            text: 'Yes',
+            onPress: () => {
+              this.props.navigation.navigate('Home'),
+                this.setState({ showBookedModal: false });
+            },
           },
-        },
-      ],
-      { cancelable: false },
-    );
+        ],
+        { cancelable: false },
+      );
+    }, 1000)
   };
 
   vaidateService = async (object) => {

@@ -319,8 +319,11 @@ class Home extends Component {
     return (
       <TouchableWithoutFeedback
         style={{}}
-        onPress={() =>
+        onPress={() => {
+          // this.props.navigation.navigate('GiveFeedBack');
           this.props.navigation.navigate('Saloons', { id: category._id })
+        }
+
         }
       // onPress={() => this.props.navigation.navigate('BookingForm')}
       >
@@ -352,7 +355,7 @@ class Home extends Component {
             </Text>
           </View>
         </View>
-      </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback >
     );
   };
 
