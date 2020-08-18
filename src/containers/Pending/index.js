@@ -240,7 +240,7 @@ class PendingAppoinment extends Component {
           isEditable={false}
         // errorMessage={this.state.formErrors.addressError}
         />
-        <Text style={styles.paymentHeaderText}>Customer Name</Text>
+        <Text style={styles.paymentHeaderText}>Company Name</Text>
         <CustomTextInputRow
           placeholderText={'Name'}
           CustomStyle={{ width: Metrics.screenWidth * 0.7 }}

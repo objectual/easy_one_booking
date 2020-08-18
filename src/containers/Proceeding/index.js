@@ -367,7 +367,11 @@ class Proceeding extends Component {
       <View style={[styles.containerForRow, { alignItems: 'center' }]}>
         <TouchableOpacity
           // onPress={() => this.booKNow()}
-          onPress={() => this.setState({ modalVisible: true })}
+          onPress={() => {
+            token ? 
+            this.setState({ modalVisible: true }) 
+            : this.props.navigation.navigate('Login');
+          }}
           style={styles.submitBtn2}>
           <Text style={styles.submitBtnText2}>Book Now</Text>
         </TouchableOpacity>
@@ -385,7 +389,7 @@ class Proceeding extends Component {
         createBooking.success == false &&
         this.props.navigation.navigate('Home');
     }
-
+    console.log(token,'ttttttttooopppp')
     return (
       <Footer navigation={this.props.navigation.navigate} screen={'menu'}>
         <View style={styles.container}>
