@@ -13,6 +13,7 @@ import getBooking from './GetBooking';
 import updateBooking from './UpdateBooking';
 import getWallet from './GetWallet';
 import customerRating from './CustomerRatingForEmployee';
+import EmployeeRating from './EmployeeRatingForEmployee';
 // import forgotPassword from "./ForgotPassword";
 // import verifyResetCode from "./VerifyResetCode";
 // import resetPassword from "./ResetPassword";
@@ -36,6 +37,8 @@ export default function* rootSaga() {
   yield fork(updateBooking);
   yield fork(getWallet);
   yield fork(customerRating);
+  yield fork(EmployeeRating);
+
   // yield fork(forgotPassword);
   // yield fork(verifyResetCode);
   // yield fork(resetPassword);
