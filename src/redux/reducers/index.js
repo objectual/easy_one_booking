@@ -1,4 +1,4 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 
 import login from './Login';
 import register from './Register';
@@ -15,7 +15,7 @@ import getSaloonNearBy from './GetSaloonNearBy';
 import getBooking from './GetBooking';
 import getWallet from './GetWallet';
 import updateBooking from './UpdateBooking';
-import customerRating from './CustomerRatingForEmployee';
+import customerRating from './CustomerRatingForCompany';
 
 // import forgotPassword from "./ForgotPassword";
 // import verifyResetCode from "./VerifyResetCode";

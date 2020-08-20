@@ -1,5 +1,5 @@
-import {connect} from 'react-redux';
-import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -15,10 +15,10 @@ import {
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
-import {Images, Metrics, Fonts} from '../../theme';
+import { Images, Metrics, Fonts } from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
-import {request as customer_rating_for_company} from '../../redux/actions/CustomerRatingForCompany';
+import { request as customer_rating_for_company } from '../../redux/actions/CustomerRatingForCompany';
 import Rating from './../../components/Rating/index';
 
 import CustomTextInput from '../../components/CustomTextInput';
@@ -46,30 +46,26 @@ class GiveFeedBack extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    //   if (nextProps.customerRating) {
-    //     console.log(
-    //       'nextPropsnextProps',
-    //       nextProps.customerRating,
-    //       'safhlsadflkajsdflk',
-    //     );
-    //     if (
-    //       !nextProps.customerRating.failure &&
-    //       !nextProps.customerRating.isFetching &&
-    //       nextProps.customerRating.data &&
-    //       nextProps.customerRating.data.success
-    //     ) {
-    //       this.setState({isloading: false}, () => {
-    //         this.props.navigation.navigate('Home');
-    //       });
-    //     } else if (
-    //       !nextProps.customerRating.failure &&
-    //       !nextProps.customerRating.isFetching &&
-    //       nextProps.customerRating.data &&
-    //       !nextProps.customerRating.data.success
-    //     ) {
-    //       this.setState({isloading: false});
-    //     }
-    //   }
+    console.log(nextProps.customerRating, 'customerRating///customerRating')
+    if (nextProps.customerRating) {
+      if (
+        !nextProps.customerRating.failure &&
+        !nextProps.customerRating.isFetching &&
+        nextProps.customerRating.data &&
+        nextProps.customerRating.data.success
+      ) {
+        this.setState({ isloading: false }, () => {
+          this.props.navigation.navigate('Home');
+        });
+      } else if (
+        !nextProps.customerRating.failure &&
+        !nextProps.customerRating.isFetching &&
+        nextProps.customerRating.data &&
+        !nextProps.customerRating.data.success
+      ) {
+        this.setState({ isloading: false });
+      }
+    }
   }
 
   renderHeading = () => {
@@ -83,7 +79,7 @@ class GiveFeedBack extends Component {
     );
   };
   renderRatingForEmployee = () => {
-    const {starCount} = this.state;
+    const { starCount } = this.state;
 
     return (
       <View style={styles.containerForRow}>
@@ -94,7 +90,7 @@ class GiveFeedBack extends Component {
               disabled={false}
               maxStars={5}
               rating={starCount}
-              starStyle={{color: 'orange'}}
+              starStyle={{ color: 'orange' }}
               selectedStar={(rating) =>
                 this.onStarRatingPress(rating, 'starCount')
               }
@@ -106,7 +102,7 @@ class GiveFeedBack extends Component {
   };
 
   _renderOverlaySpinner = () => {
-    const {isloading} = this.state;
+    const { isloading } = this.state;
 
     return <SpinnerLoader isloading={isloading} />;
   };
@@ -118,18 +114,18 @@ class GiveFeedBack extends Component {
   }
 
   submitFeedback() {
-    this.setState({isLoading: true});
-    const {starCount, bookingData, salonRating} = this.state;
+    this.setState({ isLoading: true });
+    const { starCount, bookingData, salonRating } = this.state;
 
     let booking = JSON.parse(bookingData.data.body);
 
-    this.setState({isloading: true});
+    this.setState({ isloading: true });
 
     const employeePayload = {
       sender: booking.userId,
       bookingId: booking._id,
       receiver: booking.services[0].employeeId,
-      review: '',
+      review: 'customer review test',
       rate: starCount,
       type: 'employee',
     };
@@ -138,7 +134,7 @@ class GiveFeedBack extends Component {
       sender: booking.userId,
       bookingId: booking._id,
       receiver: booking.companyId,
-      review: '',
+      review: 'customer review test',
       rate: salonRating,
       type: 'client',
     };
@@ -147,13 +143,12 @@ class GiveFeedBack extends Component {
       rating: [employeePayload, customerPayload],
     };
 
-    // console.log('[[[[[sbfkshdfkhs]]]]]', [employeePayload, customerPayload]);
     this.props.customer_rating_for_company(payload);
     // this.props.customer_rating_for_company(employeePayload);
   }
 
   renderRatingForSaloon = () => {
-    const {salonRating} = this.state;
+    const { salonRating } = this.state;
 
     return (
       <View style={styles.containerForRow}>
@@ -163,7 +158,7 @@ class GiveFeedBack extends Component {
             <StarRating
               disabled={false}
               maxStars={5}
-              starStyle={{color: 'orange'}}
+              starStyle={{ color: 'orange' }}
               rating={salonRating}
               selectedStar={(rating) =>
                 this.onStarRatingPress(rating, 'salonRating')
@@ -175,7 +170,7 @@ class GiveFeedBack extends Component {
     );
   };
   renderTitle = () => {
-    const {customerRating, salonRating} = this.state;
+    const { customerRating, salonRating } = this.state;
 
     return (
       <View>
@@ -187,13 +182,13 @@ class GiveFeedBack extends Component {
             placeholderText={'Review For Employee'}
             title={'Review For Employee'}
             value={salonRating}
-            handleInput={(e) => this.setState({salonRating: e})}
+            handleInput={(e) => this.setState({ salonRating: e })}
           />
           <CustomTextInput
             placeholderText={'Review For Customer'}
             title={'Review For Customer'}
             value={customerRating}
-            handleInput={(e) => this.setState({customerRating: e})}
+            handleInput={(e) => this.setState({ customerRating: e })}
           />
         </View>
       </View>
@@ -212,9 +207,9 @@ class GiveFeedBack extends Component {
     );
   };
   render() {
-    const {getSelectedCategory, isloading} = this.state;
+    const { getSelectedCategory, isloading } = this.state;
 
-    const {isFetching, failure} = this.props.getSaloonCategories;
+    const { isFetching, failure } = this.props.getSaloonCategories;
     return (
       <View style={styles.container}>
         {isFetching == false && failure == false && (
@@ -241,6 +236,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-const action = {customer_rating_for_company};
+const action = { customer_rating_for_company };
 
 export default connect(mapStateToProps, action)(GiveFeedBack);
