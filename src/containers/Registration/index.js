@@ -315,7 +315,7 @@ class Register extends Component {
     errorMessage,
   ) => {
     return (
-      <View>
+      <View style = {{marginHorizontal: Metrics.ratio(3)}}>
         <Text style={styles.labelText}>{lable}</Text>
         <TextInput
           style={[styles.textInput, CustomTextInput, Platform.OS == "ios" && {paddingBottom: 0}]}
@@ -358,6 +358,7 @@ class Register extends Component {
       <View
         style={{
           flexDirection: 'row',
+          marginHorizontal: Metrics.ratio(3),
           justifyContent: 'space-between',
           marginBottom: Metrics.screenHeight * 0.15,
         }}>
@@ -397,7 +398,7 @@ class Register extends Component {
     const {name, postalCode, email, password, confirmPassword} = this.state;
     return (
        <View style = {styles.container}> 
-         <KeyboardAwareScrollView showsVerticalScrollIndicator = {false}>
+         <KeyboardAwareScrollView style = {{marginHorizontal: Metrics.ratio(10)}} showsVerticalScrollIndicator = {false}>
             {this.renderHeaderLogo()}
             {this.renderScreenHeading()}
             {this.renderTextInputWithLable(

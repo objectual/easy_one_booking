@@ -2,7 +2,7 @@ export const nameRegex = /^[a-zA-Z]+$/;
 export const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 // export const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,16}$/;
 export const passwordRegex = /^.{6,}$/;
-export const postalCodeRegex = /^\d{2,5}$/;
+export const postalCodeRegex = /^([a-zA-Z0-9 _-]+)$/;
 export const phoneNumberRegex = /^\d{10,11}$/;
 
 // export const phoneNumberRegex = /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/;

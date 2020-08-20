@@ -70,19 +70,19 @@ class Login extends Component {
                 {
                   text: 'ok',
                   onPress: () => {
-                    console.log('ok');
+                    if (this.props.cart.data.length == 0) {
+                      this.props.navigation.navigate('Home');
+                    } else {
+                      this.props.navigation.navigate('Proceeding');
+                    }
                   },
                 },
               ],
               { cancelable: false },
             );
-          }, 1000);
+          }, 500);
         });
-        if (this.props.cart.data.length == 0) {
-          this.props.navigation.navigate('Home');
-        } else {
-          this.props.navigation.navigate('Proceeding');
-        }
+        
       } else if (
         !nextProps.login.failure &&
         !nextProps.login.isFetching &&
