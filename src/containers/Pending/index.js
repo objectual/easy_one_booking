@@ -371,6 +371,7 @@ class PendingAppoinment extends Component {
           <FlatList
             data={booking.reverse()}
             renderItem={({ item, index }) => {
+              console.log(item,'iiiiiii')
               let customerName = item?.userId?.firstName
                 ? item?.userId?.firstName + ' ' + item.userId?.lastName
                 : item?.userId?.userName;
@@ -389,7 +390,7 @@ class PendingAppoinment extends Component {
               let fullDate = `${date}-${month}-${year}`;
               let amount = item.paymentMethod == "Points" ? item?.totalAmount * 1000 : item?.totalAmount;
               console.log(item.status,'status')
-              if (item.status == 1 || item.status == 2 || item.status != 0) {
+              if ((item.status == 1 || item.status == 2 ) && item.status != 0) {
                 return (
                   <BookingHistoryCard
                     orderNo={item._id}

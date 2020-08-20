@@ -432,7 +432,7 @@ class DrawerSaloons extends Component {
               : { color: Colors.taupeGrey },
           ]}>
           {' '}
-          Salon within 2km
+          Salon within 10km
         </Text>
       </TouchableOpacity>
     );

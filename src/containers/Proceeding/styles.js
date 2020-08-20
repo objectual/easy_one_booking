@@ -22,7 +22,7 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 20,
     width: Metrics.screenWidth * 0.8,
-    height: Metrics.screenHeight * 0.35,
+    height: Metrics.screenHeight * 0.26,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -33,7 +33,7 @@ export default StyleSheet.create({
     elevation: 5,
   },
   dropdownContainer: {
-    width: Metrics.screenWidth * 0.7,
+    width: Metrics.screenWidth * 0.55,
     justifyContent: 'center',
     alignSelf: 'center',
     alignItems: 'center',
@@ -44,7 +44,7 @@ export default StyleSheet.create({
   modalText: {
     textAlign: 'center',
     fontSize: Metrics.ratio(18),
-    padding: Metrics.ratio(20),
+    marginVertical: Metrics.ratio(10)
   },
 
   servicehead: {

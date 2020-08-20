@@ -1,13 +1,13 @@
-import {take, put, call, fork} from 'redux-saga/effects';
+import { take, put, call, fork } from 'redux-saga/effects';
 
 import ApiSauce from '../../services/apiSauce';
-import {customer_rating_for_company} from '../../config/WebServices';
+import { customer_rating_for_company } from '../../config/WebServices';
 import * as types from '../actions/ActionTypes';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import {success, failure} from '../actions/Register';
+import { success, failure } from '../actions/CustomerRatingForCompany';
 
-import {ErrorHelper} from '../../helpers';
+import { ErrorHelper } from '../../helpers';
 
 async function callRequest(data) {
   const token = await storeToken();
@@ -20,12 +20,12 @@ async function callRequest(data) {
 async function storeToken() {
   try {
     return await AsyncStorage.getItem('access_token');
-  } catch (e) {}
+  } catch (e) { }
 }
 
 function* watchRequest() {
   while (true) {
-    const {payload} = yield take(types.CUSTOMER_RATING.REQUEST);
+    const { payload } = yield take(types.CUSTOMER_RATING.REQUEST);
 
     // const { targetView } = payload;
     // delete payload.targetView;

@@ -10,7 +10,7 @@ export default StyleSheet.create({
     container: {
         backgroundColor: Colors.Glitter,
         justifyContent:'center',
-        paddingHorizontal: 20,
+        // paddingHorizontal: 20,
         height: Metrics.screenHeight
         },
     logoView: {

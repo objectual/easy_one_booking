@@ -250,7 +250,9 @@ class Proceeding extends Component {
                 style={{
                   justifyContent: 'flex-end',
                   alignSelf: 'flex-end',
-                  padding: 20,
+                  marginTop:Metrics.ratio(10),
+                  marginHorizontal: Metrics.ratio(10)
+                  // padding: 20,
                 }}>
                 <Text style={styles.textStyle}>X</Text>
               </View>
@@ -263,7 +265,7 @@ class Proceeding extends Component {
                 onPress={() => {
                   this.setState({modalVisible: false}, () => this.booKNow());
                 }}
-                style={styles.submitBtn2}>
+                style={[styles.submitBtn2, {width: Metrics.screenWidth * 0.55}]}>
                 <Text style={styles.submitBtnText2}>Done</Text>
               </TouchableOpacity>
             </View>
@@ -293,15 +295,17 @@ class Proceeding extends Component {
               fontSize: Metrics.ratio(16),
               color: '#B4B4B4',
               fontFamily: Fonts.type.regular,
+              marginHorizontal: Metrics.ratio(10)
             },
             inputIOS: {
-              marginTop: Metrics.ratio(15),
+              marginTop: Metrics.ratio(10),
               fontFamily: Fonts.type.regular,
               fontSize: Metrics.ratio(16),
               color: '#B4B4B4',
             },
             viewContainer: {
               height: 50,
+              marginHorizontal: Metrics.ratio(10)
             },
           }}
         />
