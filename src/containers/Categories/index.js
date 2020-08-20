@@ -214,8 +214,16 @@ class Categories extends Component {
                 <Text style={styles.mainheading0}>{selectedCard?.name}</Text>
 
                 <Text style={styles.mainheading1}>Description</Text>
-                <Text>{selectedCard?.companyShortDescription}</Text>
-                <Text style={styles.mainheading1}>Address</Text>
+                <Text
+                  style={{
+                    color: 'darkgray',
+                    fontSize: Metrics.ratio(14),
+                    fontFamily: Fonts.type.bold,
+                    fontWeight: 'bold',
+                  }}>
+                  {selectedCard?.companyShortDescription}
+                </Text>
+                <Text style={styles.headAddress}>Address</Text>
                 <Text style={styles.mainheading2}>
                   {selectedCard?.address.toUpperCase()}
                 </Text>
@@ -228,6 +236,19 @@ class Categories extends Component {
                     starStyle={{color: 'orange'}}
                     starSize={20}
                   />
+                  <Text
+                    style={{
+                      color: 'darkgray',
+                      fontSize: Metrics.ratio(14),
+                      fontFamily: Fonts.type.bold,
+                      fontWeight: 'bold',
+                    }}>
+                    {' '}
+                    (6.6K)
+                  </Text>
+                </View>
+                <View style={styles.btnContainer}>
+                  <Text style={styles.btnText}>Categories We Offer</Text>
                 </View>
               </View>
               <ScrollView horizontal={true}>
