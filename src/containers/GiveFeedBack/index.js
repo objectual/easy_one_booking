@@ -20,6 +20,7 @@ import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
 import {request as customer_rating_for_company} from '../../redux/actions/CustomerRatingForCompany';
 import Rating from './../../components/Rating/index';
+
 import CustomTextInput from '../../components/CustomTextInput';
 import CustomTextIarea from './../../components/CustomTextIarea/index';
 
@@ -32,6 +33,9 @@ class GiveFeedBack extends Component {
       starCount: 0,
       salonRating: 0,
       bookingData: null, //props.route.params.remoteMessage.data,
+      employeeRating: '',
+      customerRating: '',
+      isloading: false,
     };
   }
 
@@ -39,6 +43,33 @@ class GiveFeedBack extends Component {
     this.setState({
       bookingData: this.props.route.params.remoteMessage,
     });
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    //   if (nextProps.customerRating) {
+    //     console.log(
+    //       'nextPropsnextProps',
+    //       nextProps.customerRating,
+    //       'safhlsadflkajsdflk',
+    //     );
+    //     if (
+    //       !nextProps.customerRating.failure &&
+    //       !nextProps.customerRating.isFetching &&
+    //       nextProps.customerRating.data &&
+    //       nextProps.customerRating.data.success
+    //     ) {
+    //       this.setState({isloading: false}, () => {
+    //         this.props.navigation.navigate('Home');
+    //       });
+    //     } else if (
+    //       !nextProps.customerRating.failure &&
+    //       !nextProps.customerRating.isFetching &&
+    //       nextProps.customerRating.data &&
+    //       !nextProps.customerRating.data.success
+    //     ) {
+    //       this.setState({isloading: false});
+    //     }
+    //   }
   }
 
   renderHeading = () => {
@@ -74,6 +105,12 @@ class GiveFeedBack extends Component {
     );
   };
 
+  _renderOverlaySpinner = () => {
+    const {isloading} = this.state;
+
+    return <SpinnerLoader isloading={isloading} />;
+  };
+
   onStarRatingPress(rating, updateState) {
     this.setState({
       [updateState]: rating,
@@ -82,25 +119,37 @@ class GiveFeedBack extends Component {
 
   submitFeedback() {
     this.setState({isLoading: true});
-    const {starCount, bookingData} = this.state;
+    const {starCount, bookingData, salonRating} = this.state;
 
     let booking = JSON.parse(bookingData.data.body);
 
-    console.log('sbfkshdfkhs', booking);
+    this.setState({isloading: true});
 
-    const payload = {
-      companyId: booking.companyId,
-      bookingId: booking.userId,
-      ratingToEmployeeByCustomer: [
-        {
-          employeeId: booking.services[0].employeeId,
-          rate: starCount,
-          review: '',
-        },
-      ],
+    const employeePayload = {
+      sender: booking.userId,
+      bookingId: booking._id,
+      receiver: booking.services[0].employeeId,
+      review: '',
+      rate: starCount,
+      type: 'employee',
     };
 
+    const customerPayload = {
+      sender: booking.userId,
+      bookingId: booking._id,
+      receiver: booking.companyId,
+      review: '',
+      rate: salonRating,
+      type: 'client',
+    };
+
+    let payload = {
+      rating: [employeePayload, customerPayload],
+    };
+
+    // console.log('[[[[[sbfkshdfkhs]]]]]', [employeePayload, customerPayload]);
     this.props.customer_rating_for_company(payload);
+    // this.props.customer_rating_for_company(employeePayload);
   }
 
   renderRatingForSaloon = () => {
@@ -126,27 +175,31 @@ class GiveFeedBack extends Component {
     );
   };
   renderTitle = () => {
+    const {customerRating, salonRating} = this.state;
+
     return (
       <View>
         <Text style={[styles.mainheadingtext, styles.containerForRow]}>
           How has your experience with saloon onlone so far?
         </Text>
         <View style={styles.titleText}>
-          <CustomTextInput placeholderText={'Review'} title={'Review For Employee'} />
-          <CustomTextInput placeholderText={'Review'} title={'Review For Customer'} />
+          <CustomTextInput
+            placeholderText={'Review For Employee'}
+            title={'Review For Employee'}
+            value={salonRating}
+            handleInput={(e) => this.setState({salonRating: e})}
+          />
+          <CustomTextInput
+            placeholderText={'Review For Customer'}
+            title={'Review For Customer'}
+            value={customerRating}
+            handleInput={(e) => this.setState({customerRating: e})}
+          />
         </View>
       </View>
     );
   };
-  renderDescription = () => {
-    return (
-      <View>
-        <View style={styles.descriptionText}>
-          <CustomTextIarea placeholderText={''} title={'Description'} />
-        </View>
-      </View>
-    );
-  };
+
   renderPayNowButton = () => {
     return (
       <View style={styles.containerForRow}>
@@ -159,13 +212,11 @@ class GiveFeedBack extends Component {
     );
   };
   render() {
-    const {getSelectedCategory} = this.state;
+    const {getSelectedCategory, isloading} = this.state;
 
     const {isFetching, failure} = this.props.getSaloonCategories;
     return (
       <View style={styles.container}>
-        {/* {<SpinnerLoader isloading={isFetching} />} */}
-
         {isFetching == false && failure == false && (
           <ScrollView>
             <View>
@@ -173,8 +224,8 @@ class GiveFeedBack extends Component {
               {this.renderRatingForEmployee()}
               {this.renderRatingForSaloon()}
               {this.renderTitle()}
-              {/* {this.renderDescription()} */}
               {this.renderPayNowButton()}
+              {isloading && this._renderOverlaySpinner()}
             </View>
           </ScrollView>
         )}
@@ -186,6 +237,7 @@ class GiveFeedBack extends Component {
 const mapStateToProps = (state) => {
   return {
     getSaloonCategories: state.getSaloonCategories,
+    customerRating: state.customerRating,
   };
 };
 

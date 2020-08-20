@@ -12,9 +12,9 @@ import {ErrorHelper} from '../../helpers';
 async function callRequest(data) {
   const token = await storeToken();
 
-  console.log('Sdfsdtoken', token);
+  console.log('Sdfsdtoken', data);
 
-  return ApiSauce.post(customer_rating_for_company, data, token);
+  return ApiSauce.postWithToken(customer_rating_for_company, data, token);
 }
 
 async function storeToken() {

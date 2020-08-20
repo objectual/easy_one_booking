@@ -25,7 +25,7 @@ export const get_Services_Api = `${baseUrl}service/getService`;
 export const get_Booking = `${baseUrl}booking/getAllBookingsByUser`;
 export const update_booking_api = `${baseUrl}booking/updateBooking`;
 export const get_wallet = `${baseUrl}wallet/getWallet`;
-export const customer_rating_for_company = `${baseUrl}rating/customerRatingForCompany`;
+export const customer_rating_for_company = `${baseUrl}rating/createRating`;
 export const customer_rating_for_employee = `${baseUrl}rating/customerRatingForEmployee`;
 
 export const secret_Key = 'AIzaSyCIGENLCfCwZwPaumiUQs21GfgMhgppa7s';
