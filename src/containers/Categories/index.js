@@ -20,6 +20,8 @@ import {Images, Metrics, Fonts} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import {Footer} from '../../components';
 import Header from '../../components/Header/index';
+
+import StarRating from 'react-native-star-rating';
 import {request as get_Saloon_Categories} from '../../redux/actions/SaloonCategories';
 
 class Categories extends Component {
@@ -28,6 +30,7 @@ class Categories extends Component {
     this.state = {
       getSelectedCategory: [],
       categoryId: null,
+      selectedCard: null,
     };
   }
 
@@ -66,11 +69,10 @@ class Categories extends Component {
   };
 
   handleSaloonCategories = () => {
-    const {id} = this.props.route.params;
-    console.log(id, 'ididididididididididid');
-    this.setState({isLoading: true});
+    const {selectedCard} = this.props.route.params;
+    this.setState({isLoading: true, selectedCard});
     const payload = {
-      companyId: id,
+      companyId: selectedCard._id,
     };
     this.props.get_Saloon_Categories(payload);
   };
@@ -81,8 +83,9 @@ class Categories extends Component {
   };
 
   renderCategory = (category, index) => {
-    const {id} = this.props.route.params;
-    console.log(id, 'ididididid');
+    const {selectedCard} = this.props.route.params;
+    let id = selectedCard._id;
+
     return (
       <View>
         <TouchableOpacity
@@ -196,17 +199,40 @@ class Categories extends Component {
   };
 
   render() {
-    const {getSelectedCategory} = this.state;
+    const {getSelectedCategory, selectedCard} = this.state;
+
+    console.log('sfdsdf', selectedCard);
 
     const {isFetching, failure} = this.props.getSaloonCategories;
     return (
       <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
         <View style={styles.container}>
           {<SpinnerLoader isloading={isFetching} />}
-
           {isFetching == false && failure == false && (
             <ScrollView>
-              <View>{this.renderCategoryRow()}</View>
+              <View style={styles.containerForRow}>
+                <Text style={styles.mainheading0}>{selectedCard?.name}</Text>
+
+                <Text style={styles.mainheading1}>Description</Text>
+                <Text>{selectedCard?.companyShortDescription}</Text>
+                <Text style={styles.mainheading1}>Address</Text>
+                <Text style={styles.mainheading2}>
+                  {selectedCard?.address.toUpperCase()}
+                </Text>
+
+                <View style={styles.ratingContainer}>
+                  <StarRating
+                    disabled={true}
+                    maxStars={5}
+                    rating={4}
+                    starStyle={{color: 'orange'}}
+                    starSize={20}
+                  />
+                </View>
+              </View>
+              <ScrollView horizontal={true}>
+                <View>{this.renderCategoryRow()}</View>
+              </ScrollView>
             </ScrollView>
           )}
         </View>

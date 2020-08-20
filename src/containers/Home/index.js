@@ -199,10 +199,12 @@ class Home extends Component {
         </Text>
         <TouchableOpacity
           style={styles.submitBtn}
-          onPress={() =>
-            this.props.navigation.navigate('Categories', {
-              id: selectCard._id,
-            })
+          onPress={
+            () =>
+              this.props.navigation.navigate('Categories', {
+                selectedCard: selectCard._id,
+              })
+            // alert(JSON.stringify(selectCard))
           }>
           <Text style={styles.submitBtnText}>Show Category</Text>
         </TouchableOpacity>
@@ -249,10 +251,20 @@ class Home extends Component {
 
   renderSaloonCard = (salon) => {
     const {selectCard} = this.state;
+
+    // this.props.navigation.navigate('Categories', {
+    //   selectedCard: selectCard._id,
+    // });
+
     return (
       <TouchableWithoutFeedback
-        onPress={() =>
-          this.setState({showdescription: true, selectCard: salon})
+        onPress={
+          () =>
+            this.props.navigation.navigate('Categories', {
+              selectedCard: salon,
+            })
+          // alert(JSON.stringify(salon))
+          // this.setState({showdescription: true, selectCard: salon})
         }>
         <View style={[styles.cardradius]}>
           {/* {salon &&
@@ -658,7 +670,7 @@ class Home extends Component {
           {this.renderSaloonCategoriesCard()}
           {this.renderRatedSaloon()}
           {this.renderTopRatedSaloonCard()}
-          {showdescription ? this.renderDescription() : null}
+          {/* {showdescription ? this.renderDescription() : null} */}
         </ScrollView>
         {/* </View> */}
       </Footer>

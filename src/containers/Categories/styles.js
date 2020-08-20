@@ -11,6 +11,10 @@ export default StyleSheet.create({
   textmiddle: {
     textAlign: 'center',
   },
+  containerForRow: {
+    paddingHorizontal: Metrics.ratio(20),
+    // marginTop: Metrics.ratio(20),
+  },
   servicesImage: {
     height: Metrics.ratio(180),
     width: Metrics.ratio(170),
@@ -20,9 +24,32 @@ export default StyleSheet.create({
     borderRadius: Metrics.ratio(80),
     resizeMode: 'contain',
   },
+  mainheading0: {
+    color: 'black',
+    fontSize: Metrics.ratio(18),
+    fontFamily: Fonts.type.bold,
+    fontWeight: 'bold',
+    paddingVertical: Metrics.ratio(10),
+  },
+  mainheading2: {
+    color: 'black',
+    fontSize: Metrics.ratio(14),
+    fontWeight: 'bold',
+  },
+  mainheading1: {
+    color: '#5c0000',
+    fontSize: Metrics.ratio(14),
+    fontFamily: Fonts.type.bold,
+    paddingVertical: Metrics.ratio(10),
+  },
+  mainheading1: {
+    color: 'black',
+    fontSize: Metrics.ratio(16),
+    fontFamily: Fonts.type.bold,
+    paddingVertical: Metrics.ratio(20),
+  },
   containerForRow: {
     paddingHorizontal: Metrics.ratio(20),
-    // marginTop: Metrics.ratio(20),
   },
   servicebox: {
     width: Metrics.screenWidth * 0.42,
@@ -64,5 +91,9 @@ export default StyleSheet.create({
     marginHorizontal: Metrics.ratio(10),
     marginVertical: Metrics.ratio(10),
     alignSelf: 'flex-end',
+  },
+  ratingContainer: {
+    width: Metrics.screenWidth * 0.3,
+    paddingVertical: Metrics.ratio(5),
   },
 });
