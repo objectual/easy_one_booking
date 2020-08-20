@@ -1,5 +1,5 @@
-import { connect } from 'react-redux';
-import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import React, {Component} from 'react';
 import {
   Text,
   View,
@@ -15,10 +15,10 @@ import {
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
-import { Images, Metrics, Fonts } from '../../theme';
+import {Images, Metrics, Fonts} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
-import { request as customer_rating_for_company } from '../../redux/actions/CustomerRatingForCompany';
+import {request as customer_rating_for_company} from '../../redux/actions/CustomerRatingForCompany';
 import Rating from './../../components/Rating/index';
 import CustomTextInput from '../../components/CustomTextInput';
 import CustomTextIarea from './../../components/CustomTextIarea/index';
@@ -29,17 +29,17 @@ class GiveFeedBack extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      starCount: 3.5,
-      bookingData: ""//props.route.params.remoteMessage.data,
+      starCount: 0,
+      salonRating: 0,
+      bookingData: null, //props.route.params.remoteMessage.data,
     };
   }
 
-  // componentDidMount() {
-  //   console.log(
-  //     'paramsfndksdfhksdfksfjhksdsdfsdfkskdjf',
-  //     this.props.route.params.remoteMessage.data,
-  //   );
-  // }
+  componentDidMount() {
+    this.setState({
+      bookingData: this.props.route.params.remoteMessage,
+    });
+  }
 
   renderHeading = () => {
     return (
@@ -52,6 +52,8 @@ class GiveFeedBack extends Component {
     );
   };
   renderRatingForEmployee = () => {
+    const {starCount} = this.state;
+
     return (
       <View style={styles.containerForRow}>
         <View style={styles.containerborder}>
@@ -60,9 +62,11 @@ class GiveFeedBack extends Component {
             <StarRating
               disabled={false}
               maxStars={5}
-              rating={this.state.starCount}
-              starStyle={{ color: 'orange' }}
-              selectedStar={(rating) => this.onStarRatingPress(rating)}
+              rating={starCount}
+              starStyle={{color: 'orange'}}
+              selectedStar={(rating) =>
+                this.onStarRatingPress(rating, 'starCount')
+              }
             />
           </View>
         </View>
@@ -70,48 +74,38 @@ class GiveFeedBack extends Component {
     );
   };
 
-  onStarRatingPress(rating) {
+  onStarRatingPress(rating, updateState) {
     this.setState({
-      starCount: rating,
+      [updateState]: rating,
     });
   }
 
   submitFeedback() {
-    this.setState({ isLoading: true });
-    const { starCount, bookingData } = this.state;
+    this.setState({isLoading: true});
+    const {starCount, bookingData} = this.state;
 
-    let booking = JSON.parse(bookingData.body);
-    //
-    // "userId": "",
-    //   "bookingId": "",
-    //     "ratingToCustomerByCompany": 2.6
-    //
-    // {"body": "{\"services\":
-    // [{\"serviceId\":\"5f317eb7394d400017dc824f\",
-    // \"employeeId\":\"5f2030f787487600175f8342\",
-    // \"categoryId\":\"5f060678b6e7dd0017cd0c77\",
-    // \"date\":\"08-25-20\",
-    // \"time\":\"12:10:00\"}],
-    // \"postalCode\":\"02221\",
-    // \"email\":\"Testing99@gmail.com\",
-    // \"companyId\":\"5f3147b4cc26e1001741f43a\",
-    // \"phoneNo\":\"090078601\",
-    // \"status\":\"1\",\"totalAmount\":20,
-    // \"paymentMethod\":\"Cash\",
-    // \"userId\":\"5f1881ddccc8061b7c0f9a28\"}"}
+    let booking = JSON.parse(bookingData.data.body);
+
+    console.log('sbfkshdfkhs', booking);
 
     const payload = {
       companyId: booking.companyId,
-      bookingId: booking.userId.bookingId,
-      ratingToCompanyByCustomer: starCount,
+      bookingId: booking.userId,
+      ratingToEmployeeByCustomer: [
+        {
+          employeeId: booking.services[0].employeeId,
+          rate: starCount,
+          review: '',
+        },
+      ],
     };
 
-    alert(JSON.stringify(payload));
-
-    // this.props.customer_rating_for_company(payload);
+    this.props.customer_rating_for_company(payload);
   }
 
   renderRatingForSaloon = () => {
+    const {salonRating} = this.state;
+
     return (
       <View style={styles.containerForRow}>
         <View style={styles.containerborder}>
@@ -120,9 +114,11 @@ class GiveFeedBack extends Component {
             <StarRating
               disabled={false}
               maxStars={5}
-              starStyle={{ color: 'orange' }}
-              rating={this.state.starCount}
-              selectedStar={(rating) => this.onStarRatingPress(rating)}
+              starStyle={{color: 'orange'}}
+              rating={salonRating}
+              selectedStar={(rating) =>
+                this.onStarRatingPress(rating, 'salonRating')
+              }
             />
           </View>
         </View>
@@ -136,7 +132,8 @@ class GiveFeedBack extends Component {
           How has your experience with saloon onlone so far?
         </Text>
         <View style={styles.titleText}>
-          <CustomTextInput placeholderText={'Title'} title={'Title'} />
+          <CustomTextInput placeholderText={'Review'} title={'Review For Employee'} />
+          <CustomTextInput placeholderText={'Review'} title={'Review For Customer'} />
         </View>
       </View>
     );
@@ -162,12 +159,12 @@ class GiveFeedBack extends Component {
     );
   };
   render() {
-    const { getSelectedCategory } = this.state;
+    const {getSelectedCategory} = this.state;
 
-    const { isFetching, failure } = this.props.getSaloonCategories;
+    const {isFetching, failure} = this.props.getSaloonCategories;
     return (
       <View style={styles.container}>
-        {<SpinnerLoader isloading={isFetching} />}
+        {/* {<SpinnerLoader isloading={isFetching} />} */}
 
         {isFetching == false && failure == false && (
           <ScrollView>
@@ -176,7 +173,7 @@ class GiveFeedBack extends Component {
               {this.renderRatingForEmployee()}
               {this.renderRatingForSaloon()}
               {this.renderTitle()}
-              {this.renderDescription()}
+              {/* {this.renderDescription()} */}
               {this.renderPayNowButton()}
             </View>
           </ScrollView>
@@ -192,6 +189,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-const action = { customer_rating_for_company };
+const action = {customer_rating_for_company};
 
 export default connect(mapStateToProps, action)(GiveFeedBack);

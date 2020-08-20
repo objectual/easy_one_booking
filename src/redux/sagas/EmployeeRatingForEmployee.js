@@ -1,28 +1,16 @@
 import {take, put, call, fork} from 'redux-saga/effects';
 
 import ApiSauce from '../../services/apiSauce';
-import {customer_rating_for_company} from '../../config/WebServices';
+import {customer_rating_for_employee} from '../../config/WebServices';
 import * as types from '../actions/ActionTypes';
-import AsyncStorage from '@react-native-community/async-storage';
 
 import {success, failure} from '../actions/Register';
 
 import {ErrorHelper} from '../../helpers';
 
-async function callRequest(data) {
-  const token = await storeToken();
-
-  console.log('Sdfsdtoken', token);
-
-  return ApiSauce.post(customer_rating_for_company, data, token);
+function callRequest(data) {
+  return ApiSauce.post(customer_rating_for_employee, data);
 }
-
-async function storeToken() {
-  try {
-    return await AsyncStorage.getItem('access_token');
-  } catch (e) {}
-}
-
 function* watchRequest() {
   while (true) {
     const {payload} = yield take(types.CUSTOMER_RATING.REQUEST);
@@ -31,7 +19,7 @@ function* watchRequest() {
     // delete payload.targetView;
     try {
       const response = yield call(callRequest, payload);
-      // console.log(response, "registerregisterregisterregisterregisterregister");
+      console.log('fasdASDFASDF', response, 'sfsfsfd');
       yield put(success(response));
       //   setTimeout(() => {
       //     Actions.verify({
