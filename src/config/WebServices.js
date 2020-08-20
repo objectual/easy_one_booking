@@ -5,7 +5,7 @@ export const baseUrl = 'https://easy-one.herokuapp.com/api/'; // live
 // export const baseUrl = 'https://easy-one-staging.herokuapp.com/api/'; // stagingbb
 
 // export const baseUrl = "http://192.168.0.111/reactboilerplate/";
-// export const baseUrl = 'http://192.168.18.10:3000/api/'; // H
+// export const baseUrl = 'http://192.168.18.68:3000/api/'; // H
 
 export const login_Api = `${baseUrl}user/login`;
 export const register_Api = `${baseUrl}user/register`;
@@ -25,7 +25,7 @@ export const get_Services_Api = `${baseUrl}service/getService`;
 export const get_Booking = `${baseUrl}booking/getAllBookingsByUser`;
 export const update_booking_api = `${baseUrl}booking/updateBooking`;
 export const get_wallet = `${baseUrl}wallet/getWallet`;
-export const customer_rating_for_company = `${baseUrl}rating/customerRatingForCompany`;
+export const customer_rating_for_company = `${baseUrl}rating/createRating`;
 export const customer_rating_for_employee = `${baseUrl}rating/customerRatingForEmployee`;
 
 export const secret_Key = 'AIzaSyCIGENLCfCwZwPaumiUQs21GfgMhgppa7s';

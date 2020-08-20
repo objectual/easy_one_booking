@@ -16,7 +16,6 @@ import getBooking from './GetBooking';
 import getWallet from './GetWallet';
 import updateBooking from './UpdateBooking';
 import customerRating from './CustomerRatingForEmployee';
-import employeeRating from './EmployeeRatingForCustomer';
 
 // import forgotPassword from "./ForgotPassword";
 // import verifyResetCode from "./VerifyResetCode";
@@ -44,5 +43,4 @@ export const rootReducer = combineReducers({
   updateBooking,
   getWallet,
   customerRating,
-  employeeRating,
 });
