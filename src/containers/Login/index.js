@@ -33,8 +33,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      email: 'new_cust1@mailinator.com',
+      password: '123456',
       isloading: false,
       btnDisabled: false,
       emailError: '',
@@ -82,7 +82,7 @@ class Login extends Component {
             );
           }, 500);
         });
-        
+
       } else if (
         !nextProps.login.failure &&
         !nextProps.login.isFetching &&
