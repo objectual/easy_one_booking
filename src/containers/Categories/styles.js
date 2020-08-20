@@ -42,11 +42,17 @@ export default StyleSheet.create({
     fontFamily: Fonts.type.bold,
     paddingVertical: Metrics.ratio(10),
   },
+  headAddress: {
+    color: '#5c0000',
+    fontSize: Metrics.ratio(14),
+    fontFamily: Fonts.type.bold,
+    paddingVertical: Metrics.ratio(8),
+  },
   mainheading1: {
     color: 'black',
     fontSize: Metrics.ratio(16),
     fontFamily: Fonts.type.bold,
-    paddingVertical: Metrics.ratio(20),
+    paddingVertical: Metrics.ratio(10),
   },
   containerForRow: {
     paddingHorizontal: Metrics.ratio(20),
@@ -94,6 +100,19 @@ export default StyleSheet.create({
   },
   ratingContainer: {
     width: Metrics.screenWidth * 0.3,
-    paddingVertical: Metrics.ratio(5),
+    paddingVertical: Metrics.ratio(20),
+    flexDirection: 'row',
+  },
+  btnContainer: {
+    paddingVertical: Metrics.ratio(12),
+    width: Metrics.screenWidth * 0.4,
+    backgroundColor: '#FF4514',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    borderRadius: Metrics.ratio(30),
+  },
+  btnText: {
+    color: 'white',
   },
 });
