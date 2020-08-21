@@ -30,7 +30,7 @@ class Categories extends Component {
     this.state = {
       getSelectedCategory: [],
       categoryId: null,
-      selectedCard: null,
+      selectedCard: props.route.params.selectedCard,
     };
   }
 
@@ -42,24 +42,22 @@ class Categories extends Component {
         nextProps.getSaloonCategories.data &&
         nextProps.getSaloonCategories.data.success
       ) {
-        this.setState({
-          getSelectedCategory: nextProps.getSaloonCategories.data.data,
-        });
-        // console.log(
-        //   nextProps.getSaloonCategories.data.data,
-        //   'getSaloonCategoriesDatagetSaloonCategoriesDatagetSaloonCategoriesDatagetSaloonCategoriesData',
-        // );
+        this.setState(
+          {
+            getSelectedCategory: nextProps.getSaloonCategories.data.data,
+          },
+          () =>
+            console.log(
+              ' nextProps.getSaloonCategories.data.data',
+              nextProps.getSaloonCategories.data.data,
+            ),
+        );
       } else if (
         !nextProps.getSaloonCategories.failure &&
         !nextProps.getSaloonCategories.isFetching &&
         nextProps.getSaloonCategories.data &&
         !nextProps.getSaloonCategories.data.success
       ) {
-        // this.setState({ isloading: false }, () => {
-        //   setTimeout(() => {
-        //     Alert.alert('Error', nextProps.getSaloonCategories.data.msg);
-        //   }, 3000);
-        // });
         this.setState({isloading: false});
       }
     }
@@ -69,11 +67,14 @@ class Categories extends Component {
   };
 
   handleSaloonCategories = () => {
-    const {selectedCard} = this.props.route.params;
-    this.setState({isLoading: true, selectedCard});
+    // const {selectedCard} = this.props.route.params;
+    const {selectedCard} = this.state;
+
+    this.setState({isloading: true});
     const payload = {
       companyId: selectedCard._id,
     };
+
     this.props.get_Saloon_Categories(payload);
   };
 
@@ -85,6 +86,8 @@ class Categories extends Component {
   renderCategory = (category, index) => {
     const {selectedCard} = this.props.route.params;
     let id = selectedCard._id;
+
+    console.log('selectedCardselectedCard', selectedCard);
 
     return (
       <View>
@@ -118,7 +121,7 @@ class Categories extends Component {
                     }}
                     resizeMethod="auto"
                     resizeMode="contain"
-                    source={{uri: category.image}}
+                    source={{uri: category?.image}}
                   />
                 </View>
                 <View
@@ -172,19 +175,15 @@ class Categories extends Component {
 
   renderCategoryRow = () => {
     const {getSelectedCategory} = this.state;
-    if (getSelectedCategory.length == 0) {
-      return (
-        <View style={styles.textContainer}>
-          <Text style={styles.textNotFound}>No Categories Found</Text>
-        </View>
-      );
-    } else {
-      return (
-        <View
-          style={{
-            flexDirection: 'row',
-            marginHorizontal: Metrics.screenWidth * 0.06,
-          }}>
+
+    // if (getSelectedCategory.length) {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          marginHorizontal: Metrics.screenWidth * 0.06,
+        }}>
+        {getSelectedCategory.length ? (
           <FlatList
             numColumns={2}
             columnWrapperStyle={{
@@ -193,25 +192,64 @@ class Categories extends Component {
             data={getSelectedCategory}
             renderItem={({item, index}) => this.renderCategory(item, index)}
           />
-        </View>
-      );
-    }
+        ) : (
+          <View
+            style={{
+              justifyContent: 'center',
+              marginVertical: Metrics.ratio(20),
+            }}>
+            <Text style={{fontSize: Metrics.ratio(18)}}>
+              No Categories Found
+            </Text>
+          </View>
+        )}
+      </View>
+      //   );
+      // }
+      // else {
+      //   return (
+      //     <View style={styles.textContainer}>
+      //       <Text style={styles.textNotFound}>No Categories Found</Text>
+      //     </View>
+    );
   };
 
   render() {
     const {getSelectedCategory, selectedCard} = this.state;
 
     const {isFetching, failure} = this.props.getSaloonCategories;
+
     return (
       <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
         <View style={styles.container}>
-          {<SpinnerLoader isloading={isFetching} />}
-          {isFetching == false && failure == false && (
-            <ScrollView>
-              <View style={styles.containerForRow}>
-                <Text style={styles.mainheading0}>{selectedCard?.name}</Text>
+          {!isFetching && !failure && <SpinnerLoader isloading={isFetching} />}
+          <ScrollView>
+            <View style={styles.containerForRow}>
+              <Text style={styles.mainheading0}>{selectedCard?.name}</Text>
 
-                <Text style={styles.mainheading1}>Description</Text>
+              <Text style={styles.mainheading1}>Description</Text>
+              <Text
+                style={{
+                  color: 'darkgray',
+                  fontSize: Metrics.ratio(14),
+                  fontFamily: Fonts.type.bold,
+                  fontWeight: 'bold',
+                }}>
+                {selectedCard?.companyShortDescription}
+              </Text>
+              <Text style={styles.headAddress}>Address</Text>
+              <Text style={styles.mainheading2}>
+                {selectedCard?.address?.toUpperCase()}
+              </Text>
+
+              <View style={styles.ratingContainer}>
+                <StarRating
+                  disabled={true}
+                  maxStars={5}
+                  rating={4}
+                  starStyle={{color: 'orange'}}
+                  starSize={20}
+                />
                 <Text
                   style={{
                     color: 'darkgray',
@@ -219,43 +257,20 @@ class Categories extends Component {
                     fontFamily: Fonts.type.bold,
                     fontWeight: 'bold',
                   }}>
-                  {selectedCard?.companyShortDescription}
+                  {' '}
+                  (6.6K)
                 </Text>
-                <Text style={styles.headAddress}>Address</Text>
-                <Text style={styles.mainheading2}>
-                  {selectedCard?.address.toUpperCase()}
-                </Text>
-
-                <View style={styles.ratingContainer}>
-                  <StarRating
-                    disabled={true}
-                    maxStars={5}
-                    rating={4}
-                    starStyle={{color: 'orange'}}
-                    starSize={20}
-                  />
-                  <Text
-                    style={{
-                      color: 'darkgray',
-                      fontSize: Metrics.ratio(14),
-                      fontFamily: Fonts.type.bold,
-                      fontWeight: 'bold',
-                    }}>
-                    {' '}
-                    (6.6K)
-                  </Text>
-                </View>
-                <View style={styles.btnContainer}>
-                  <Text style={styles.btnText}>Categories We Offer</Text>
-                </View>
               </View>
-              <ScrollView
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}>
-                <View>{this.renderCategoryRow()}</View>
-              </ScrollView>
+              <View style={styles.btnContainer}>
+                <Text style={styles.btnText}>Categories We Offer</Text>
+              </View>
+            </View>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}>
+              <View>{this.renderCategoryRow()}</View>
             </ScrollView>
-          )}
+          </ScrollView>
         </View>
       </Footer>
     );

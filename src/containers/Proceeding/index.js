@@ -244,14 +244,14 @@ class Proceeding extends Component {
             <TouchableOpacity
               style={{...styles.openButton}}
               onPress={() => {
-                this.setState({modalVisible: false}, () => this.booKNow());
+                this.setState({modalVisible: false});
               }}>
               <View
                 style={{
                   justifyContent: 'flex-end',
                   alignSelf: 'flex-end',
-                  marginTop:Metrics.ratio(10),
-                  marginHorizontal: Metrics.ratio(10)
+                  marginTop: Metrics.ratio(10),
+                  marginHorizontal: Metrics.ratio(10),
                   // padding: 20,
                 }}>
                 <Text style={styles.textStyle}>X</Text>
@@ -265,7 +265,10 @@ class Proceeding extends Component {
                 onPress={() => {
                   this.setState({modalVisible: false}, () => this.booKNow());
                 }}
-                style={[styles.submitBtn2, {width: Metrics.screenWidth * 0.55}]}>
+                style={[
+                  styles.submitBtn2,
+                  {width: Metrics.screenWidth * 0.55},
+                ]}>
                 <Text style={styles.submitBtnText2}>Done</Text>
               </TouchableOpacity>
             </View>
@@ -295,7 +298,7 @@ class Proceeding extends Component {
               fontSize: Metrics.ratio(16),
               color: '#B4B4B4',
               fontFamily: Fonts.type.regular,
-              marginHorizontal: Metrics.ratio(10)
+              marginHorizontal: Metrics.ratio(10),
             },
             inputIOS: {
               marginTop: Metrics.ratio(10),
@@ -305,7 +308,7 @@ class Proceeding extends Component {
             },
             viewContainer: {
               height: 50,
-              marginHorizontal: Metrics.ratio(10)
+              marginHorizontal: Metrics.ratio(10),
             },
           }}
         />

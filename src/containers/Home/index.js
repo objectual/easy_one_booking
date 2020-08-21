@@ -115,7 +115,12 @@ class Home extends Component {
         nextProps.getSaloon.data &&
         nextProps.getSaloon.data.success
       ) {
-        this.setState({GetSaloonData: nextProps.getSaloon.data.saloons});
+        this.setState({GetSaloonData: nextProps.getSaloon.data.saloons}, () =>
+          console.log(
+            'nextProps.getSaloon.data.saloonsnextProps.getSaloon.data.saloons',
+            nextProps.getSaloon.data.saloons,
+          ),
+        );
       } else if (
         !nextProps.getSaloon.failure &&
         !nextProps.getSaloon.isFetching &&

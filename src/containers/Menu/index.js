@@ -103,21 +103,20 @@ export default class Menu extends Component {
   };
 
   onClickListener = (item, viewId) => {
-    item.title == 'Booking History' && token
-
-      ?
-       this.props.navigation.navigate('BookingHistory', {
-          handleNavigation: this.props.navigation.navigate,
-        })
-      : this.props.navigation.navigate('Login');
-    item.title == 'Wallet' && token
-      ? this.props.navigation.navigate('Wallet', {
-          handleNavigation: this.props.navigation.navigate,
-        })
-      : this.props.navigation.navigate('Login');
     item.title == 'Login' && this.props.navigation.navigate('Login');
     item.title == 'Register' && this.props.navigation.navigate('Register');
     item.title == 'Logout' && this.removeItemValue();
+    item.title == 'Booking History' &&
+      token &&
+      this.props.navigation.navigate('BookingHistory', {
+        handleNavigation: this.props.navigation.navigate,
+      });
+
+    item.title == 'Wallet' &&
+      token &&
+      this.props.navigation.navigate('Wallet', {
+        handleNavigation: this.props.navigation.navigate,
+      });
   };
 
   componentWillUnmount() {
