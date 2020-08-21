@@ -22,7 +22,7 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 20,
     width: Metrics.screenWidth * 0.8,
-    height: Metrics.screenHeight * 0.26,
+    height: Metrics.screenHeight * 0.45,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

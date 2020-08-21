@@ -1,5 +1,5 @@
-import { connect } from 'react-redux';
-import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import React, {Component} from 'react';
 import {
   Text,
   View,
@@ -14,30 +14,30 @@ import {
   FlatList,
   PermissionsAndroid,
   BackHandler,
-  RefreshControl
+  RefreshControl,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
-import { Images, Metrics, Fonts, Colors } from '../../theme';
+import {Images, Metrics, Fonts, Colors} from '../../theme';
 
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Cards from '../..//components/Card';
-import { Icon } from 'react-native-vector-icons/MaterialIcons';
-import { request as get_Booking } from '../../redux/actions/GetBooking';
+import {Icon} from 'react-native-vector-icons/MaterialIcons';
+import {request as get_Booking} from '../../redux/actions/GetBooking';
 import Geolocation from '@react-native-community/geolocation';
 // import {request as ge} from '../../redux/actions/GetCategories';
-import { Dropdown } from 'react-native-material-dropdown';
+import {Dropdown} from 'react-native-material-dropdown';
 import Immutable from 'seamless-immutable';
-import { request as get_Saloon_By_Category } from '../../redux/actions/GetSaloonByCategory';
-import { request as get_Saloon_By_Category_NearBy } from '../../redux/actions/GetSaloonNearBy';
+import {request as get_Saloon_By_Category} from '../../redux/actions/GetSaloonByCategory';
+import {request as get_Saloon_By_Category_NearBy} from '../../redux/actions/GetSaloonNearBy';
 import {
   place_reverse_Geocoding_URL,
   place_Autocomplete_URL,
   secret_Key,
 } from '../../config/WebServices';
-import { request as get_Services } from '../../redux/actions/GetServices';
+import {request as get_Services} from '../../redux/actions/GetServices';
 import BookingHistoryCard from '../../components/BookingHistory/index';
-import { initializeToken, token, getUserInfo } from '../../config/WebServices';
+import {initializeToken, token, getUserInfo} from '../../config/WebServices';
 
 var saloonsData = [];
 var categoriesData = [];
@@ -65,12 +65,11 @@ class CompletedAppoinment extends Component {
       saloonsNearByData: [],
       selectedLocationSaloons: false,
       permission: false,
-      refreshing: false
+      refreshing: false,
     };
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-
     if (nextProps.getBooking) {
       if (
         !nextProps.getBooking.failure &&
@@ -78,7 +77,7 @@ class CompletedAppoinment extends Component {
         nextProps.getBooking.data.success
       ) {
         this.setState({
-          refreshing: false
+          refreshing: false,
         });
       } else if (
         !nextProps.getBooking.failure &&
@@ -86,7 +85,7 @@ class CompletedAppoinment extends Component {
         !nextProps.getBooking.data.success
       ) {
         this.setState({
-          refreshing: false
+          refreshing: false,
         });
       }
     }
@@ -119,18 +118,18 @@ class CompletedAppoinment extends Component {
   async componentDidMount() {
     let payload = JSON.parse(await getUserInfo());
     console.log(payload, 'payload');
-    this.props.get_Booking({ payload });
+    this.props.get_Booking({payload});
     this.props.navigation.addListener('focus', () =>
-      this.props.get_Booking({ payload }),
+      this.props.get_Booking({payload}),
     );
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   refreshingData = async () => {
     let payload = JSON.parse(await getUserInfo());
-    this.props.get_Booking({ payload });
-    this.setState({ refreshing: true });
-  }
+    this.props.get_Booking({payload});
+    this.setState({refreshing: true});
+  };
 
   handleBackButton() {
     // this.props.navigation.goBack();
@@ -145,14 +144,14 @@ class CompletedAppoinment extends Component {
   }
 
   render() {
-    const { isFetching, failure, data, success } = this.props.getBooking;
-    const { setModalVisible, refreshing } = this.state;
+    const {isFetching, failure, data, success} = this.props.getBooking;
+    const {setModalVisible, refreshing,suggestion} = this.state;
     let booking = data.success && [...data.data];
     return (
       <ScrollView
         refreshControl={
           <RefreshControl
-            style={{ backgroundColor: 'transparent' }}
+            style={{backgroundColor: 'transparent'}}
             refreshing={refreshing}
             onRefresh={() => {
               this.refreshingData();
@@ -163,7 +162,7 @@ class CompletedAppoinment extends Component {
         {data.success && (
           <FlatList
             data={booking.reverse()}
-            renderItem={({ item, index }) => {
+            renderItem={({item, index}) => {
               let customerName = item?.userId?.firstName
                 ? item?.userId?.firstName + ' ' + item?.userId?.lastName
                 : item?.userId?.userName;
@@ -171,14 +170,15 @@ class CompletedAppoinment extends Component {
                 item?.services[0]?.employeeId?.userId?.firstName +
                 ' ' +
                 item?.services[0]?.employeeId?.userId?.lastName;
-              let bookingStatus = item?.status === 3 ? 'Cancelled' : 'Completed';
-              let dateTime = item?.createdDate
+              let bookingStatus =
+                item?.status === 3 ? 'Cancelled' : 'Completed';
+              let dateTime = item?.createdDate;
               let newDate = new Date(dateTime);
               let time = newDate.toLocaleTimeString('en-US');
               let date = newDate.getDate();
               let month = newDate.getMonth(); //Month of the Year: 0-based index, so 1 in our example
-              let year = newDate.getFullYear()
-              let fullDate = `${date}-${month}-${year}`
+              let year = newDate.getFullYear();
+              let fullDate = `${date}-${month}-${year}`;
               if (item?.status === 3 || item?.status === 4) {
                 return (
                   <BookingHistoryCard
@@ -199,7 +199,17 @@ class CompletedAppoinment extends Component {
             }}
           />
         )}
-        {(setModalVisible && !refreshing) ? this.renderPopup() : null}
+        {data.data && !data.data.length && !isFetching && (
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: Metrics.ratio(20),
+            }}>
+            <Text style={{fontSize: Metrics.ratio(16)}}>No Data Found!</Text>
+          </View>
+        )}
+        {setModalVisible && !refreshing ? this.renderPopup() : null}
       </ScrollView>
     );
   }

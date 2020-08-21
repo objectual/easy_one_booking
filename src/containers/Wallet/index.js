@@ -91,9 +91,7 @@ class Wallet extends Component {
   };
 
   render() {
-    const {headerImage, walletInfo} = this.state;
-
-    console.log(walletInfo?.data?.transactions);
+    const {isloading, walletInfo} = this.state;
 
     return (
       <Footer navigation={this.props.navigation.navigate} screen={''}>
@@ -101,14 +99,13 @@ class Wallet extends Component {
           <ScrollView>
             {this.renderHeaderHeading()}
 
-            {walletInfo?.data?.transactions.length ? (
-              <FlatList
-                data={walletInfo?.data?.transactions}
-                renderItem={({item, index}) => {
-                  return <WalletCard disable={true} walletInfo={item} />;
-                }}
-              />
-            ) : (
+            <FlatList
+              data={walletInfo?.data?.transactions}
+              renderItem={({item, index}) => {
+                return <WalletCard disable={true} walletInfo={item} />;
+              }}
+            />
+            {!walletInfo?.data?.transactions.length && !isloading && (
               <View style={{justifyContent: 'center', alignItems: 'center'}}>
                 <Text style={{fontSize: Metrics.ratio(16)}}>
                   No Data Found!
