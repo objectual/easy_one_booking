@@ -201,8 +201,6 @@ class Categories extends Component {
   render() {
     const {getSelectedCategory, selectedCard} = this.state;
 
-    console.log('sfdsdf', selectedCard);
-
     const {isFetching, failure} = this.props.getSaloonCategories;
     return (
       <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
@@ -251,7 +249,9 @@ class Categories extends Component {
                   <Text style={styles.btnText}>Categories We Offer</Text>
                 </View>
               </View>
-              <ScrollView horizontal={true}>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}>
                 <View>{this.renderCategoryRow()}</View>
               </ScrollView>
             </ScrollView>
@@ -263,7 +263,6 @@ class Categories extends Component {
 }
 
 const mapStateToProps = (state) => {
-  // console.log(state, 'sssaaaaaaaaaafffffffffffffffffffsssssssssssss');
   return {
     getSaloonCategories: state.getSaloonCategories,
   };

@@ -38,43 +38,67 @@ class Footer extends React.Component {
               onPress={() => this.props.navigation('Home')}
               style={{justifyContent: 'center'}}>
               {screen != 'home' ? (
-                  <View style={{ alignItems: "center" }}>
-                     <Image
-                  source={Images.home_unactive}
-                  style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
-                /><Text style={{ fontSize: 9, color: 'white', textAlign: "center" }}>Home</Text>
-                 </View>
-             
+                <View style={{alignItems: 'center'}}>
+                  <Image
+                    source={Images.home_unactive}
+                    style={{
+                      width: Metrics.ratio(30),
+                      height: Metrics.ratio(30),
+                    }}
+                  />
+                  <Text
+                    style={{fontSize: 9, color: 'white', textAlign: 'center'}}>
+                    Home
+                  </Text>
+                </View>
               ) : (
-                <View style={{ alignItems: "center" }}>
-                   <Image
-                  source={Images.home_active}
-                  style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
-                /><Text style={{ fontSize: 9, color: 'white', textAlign: "center" }}>Home</Text>
-                  </View>
+                <View style={{alignItems: 'center'}}>
+                  <Image
+                    source={Images.home_active}
+                    style={{
+                      width: Metrics.ratio(30),
+                      height: Metrics.ratio(30),
+                    }}
+                  />
+                  <Text
+                    style={{fontSize: 9, color: 'white', textAlign: 'center'}}>
+                    Home
+                  </Text>
+                </View>
               )}
-              {
-
-              }
+              {}
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={() => this.props.navigation('DrawerSaloons')}>
               {screen != 'history' ? (
-                <View style={{ alignItems: "center" }}>
-                 <Image
-                  source={Images.salon_unactive}
-                  style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
-                /><Text style={{ fontSize: 9, color: 'white', textAlign: "center" }}>Salon</Text>
-            </View>
+                <View style={{alignItems: 'center'}}>
+                  <Image
+                    source={Images.salon_unactive}
+                    style={{
+                      width: Metrics.ratio(30),
+                      height: Metrics.ratio(30),
+                    }}
+                  />
+                  <Text
+                    style={{fontSize: 9, color: 'white', textAlign: 'center'}}>
+                    Salon
+                  </Text>
+                </View>
               ) : (
-                <View style={{ alignItems: "center" }}>
-                 <Image
-                  source={Images.salon_active}
-                  style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
-                /><Text style={{ fontSize: 9, color: 'white', textAlign: "center" }}>Salon</Text>
-            </View>
-               
+                <View style={{alignItems: 'center'}}>
+                  <Image
+                    source={Images.salon_active}
+                    style={{
+                      width: Metrics.ratio(30),
+                      height: Metrics.ratio(30),
+                    }}
+                  />
+                  <Text
+                    style={{fontSize: 9, color: 'white', textAlign: 'center'}}>
+                    Salon
+                  </Text>
+                </View>
               )}
             </TouchableOpacity>
 
@@ -82,21 +106,33 @@ class Footer extends React.Component {
               style={{justifyContent: 'center'}}
               onPress={() => this.validateUser()}>
               {screen != 'services' ? (
-                <View style={{ alignItems: "center" }}>
-                 <Image
-                  source={Images.booking_unactive}
-                  style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
-                /><Text style={{ fontSize: 9, color: 'white', textAlign: "center" }}>Booking</Text>
-           </View>
-               
+                <View style={{alignItems: 'center'}}>
+                  <Image
+                    source={Images.booking_unactive}
+                    style={{
+                      width: Metrics.ratio(30),
+                      height: Metrics.ratio(30),
+                    }}
+                  />
+                  <Text
+                    style={{fontSize: 9, color: 'white', textAlign: 'center'}}>
+                    Booking
+                  </Text>
+                </View>
               ) : (
-                <View style={{ alignItems: "center" }}>
-                   <Image
-                  source={Images.booking_active}
-                  style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
-                /><Text style={{ fontSize: 9, color: 'white', textAlign: "center" }}>Booking</Text>
-           </View>
-              
+                <View style={{alignItems: 'center'}}>
+                  <Image
+                    source={Images.booking_active}
+                    style={{
+                      width: Metrics.ratio(30),
+                      height: Metrics.ratio(30),
+                    }}
+                  />
+                  <Text
+                    style={{fontSize: 9, color: 'white', textAlign: 'center'}}>
+                    Booking
+                  </Text>
+                </View>
               )}
             </TouchableOpacity>
 
@@ -104,7 +140,11 @@ class Footer extends React.Component {
               {screen != 'navbar' ? (
                 <Image
                   source={Images.nav_bar_unactive}
-                  style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
+                  style={{
+                    width: Metrics.ratio(30),
+                    height: Metrics.ratio(30),
+                    marginTop: Metrics.ratio(5),
+                  }}
                 />
               ) : (
                 <Image

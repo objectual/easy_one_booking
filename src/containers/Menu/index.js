@@ -104,7 +104,9 @@ export default class Menu extends Component {
 
   onClickListener = (item, viewId) => {
     item.title == 'Booking History' && token
-      ? this.props.navigation.navigate('BookingHistory', {
+
+      ?
+       this.props.navigation.navigate('BookingHistory', {
           handleNavigation: this.props.navigation.navigate,
         })
       : this.props.navigation.navigate('Login');

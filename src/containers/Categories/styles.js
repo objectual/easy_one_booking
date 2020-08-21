@@ -64,6 +64,8 @@ export default StyleSheet.create({
     marginTop: Metrics.ratio(20),
     marginBottom: Metrics.ratio(7),
     borderRadius: Metrics.ratio(15),
+    margin: Metrics.ratio(6),
+
     // alignItems: "center",
     // justifyContent: "center",
     // overflow: 'hidden',
