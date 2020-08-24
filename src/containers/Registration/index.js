@@ -1,5 +1,5 @@
-import {connect} from 'react-redux';
-import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import {
   Text,
   Image,
@@ -15,9 +15,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import styles from './styles';
 // import CustomTextInput from '../../components/CustomTextInput';
-import {request as userRegister} from '../../redux/actions/Register';
+import { request as userRegister } from '../../redux/actions/Register';
 import SpinnerLoader from '../../components/SpinnerLoader';
-import {Images, Metrics} from '../../theme';
+import { Images, Metrics } from '../../theme';
 import {
   nameRegex,
   emailRegex,
@@ -33,6 +33,7 @@ class Register extends Component {
       name: '',
       postalCode: '',
       email: '',
+      phoneNum: "",
       password: '',
       confirmPassword: '',
       isLoading: false,
@@ -40,6 +41,7 @@ class Register extends Component {
       postalCodeError: '',
       emailError: '',
       passwordError: '',
+      phoneNoErr: "",
       confirmPasswordError: '',
       fcmToken: null,
       formErrors: {
@@ -47,6 +49,7 @@ class Register extends Component {
         emailError: false,
         passwordError: false,
         confirmPasswordError: false,
+        phoneNoErr: false
       },
     };
   }
@@ -56,11 +59,11 @@ class Register extends Component {
 
   async getToken() {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
-    this.setState({fcmToken});
+    this.setState({ fcmToken });
   }
 
   onChangeName = async (value) => {
-    this.setState({name: value}),
+    this.setState({ name: value }),
       this.setState({
         nameError: await validate(
           value,
@@ -71,7 +74,7 @@ class Register extends Component {
   };
 
   onChangePostalCode = async (value) => {
-    this.setState({postalCode: value});
+    this.setState({ postalCode: value });
     this.setState({
       postalCodeError: await validate(
         value,
@@ -82,7 +85,7 @@ class Register extends Component {
   };
 
   onChangeEmail = async (value) => {
-    this.setState({email: value});
+    this.setState({ email: value });
     this.setState({
       emailError: await validate(
         value,
@@ -93,7 +96,7 @@ class Register extends Component {
   };
 
   onChangePassword = async (value) => {
-    this.setState({password: value});
+    this.setState({ password: value });
     this.setState({
       passwordError: await validate(
         value,
@@ -103,7 +106,7 @@ class Register extends Component {
     });
   };
   onChangeConfirmPassword = async (value) => {
-    this.setState({confirmPassword: value}),
+    this.setState({ confirmPassword: value }),
       this.setState({
         confirmPasswordError: await validate(
           value,
@@ -125,7 +128,7 @@ class Register extends Component {
         nextProps.register.data &&
         nextProps.register.data.success
       ) {
-        this.setState({isloading: false}, () => {
+        this.setState({ isloading: false }, () => {
           setTimeout(() => {
             Alert.alert(
               'Successfully',
@@ -155,13 +158,13 @@ class Register extends Component {
         //     Alert.alert('Error', nextProps.register.data.msg);
         //   }, 3000);
         // });
-        this.setState({isloading: false});
+        this.setState({ isloading: false });
       }
     }
   }
 
   checkValidation = () => {
-    const {name, email, password, confirmPassword, postalCode} = this.state;
+    const { name, email, password, confirmPassword, postalCode, phoneNum } = this.state;
     const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (name == '' || name == ' ' || name.length < 3) {
@@ -171,6 +174,7 @@ class Register extends Component {
           emailError: false,
           passwordError: false,
           confirmPasswordError: false,
+          phoneNoErr: false
         },
       });
       setTimeout(() => {
@@ -180,6 +184,7 @@ class Register extends Component {
             emailError: false,
             passwordError: false,
             confirmPasswordError: false,
+            phoneNoErr: false
           },
         });
       }, 3000);
@@ -190,6 +195,7 @@ class Register extends Component {
           emailError: true,
           passwordError: false,
           confirmPasswordError: false,
+          phoneNoErr: false
         },
       });
       setTimeout(() => {
@@ -199,6 +205,28 @@ class Register extends Component {
             emailError: false,
             passwordError: false,
             confirmPasswordError: false,
+            phoneNoErr: false
+          },
+        });
+      }, 3000);
+    } else if (phoneNum.length < 14) {
+      this.setState({
+        formErrors: {
+          nameError: false,
+          emailError: true,
+          passwordError: false,
+          confirmPasswordError: false,
+          phoneNoErr: false
+        },
+      });
+      setTimeout(() => {
+        this.setState({
+          formErrors: {
+            nameError: false,
+            emailError: false,
+            passwordError: false,
+            confirmPasswordError: false,
+            phoneNoErr: false
           },
         });
       }, 3000);
@@ -209,6 +237,7 @@ class Register extends Component {
           emailError: false,
           passwordError: true,
           confirmPasswordError: false,
+          phoneNoErr: false
         },
       });
       setTimeout(() => {
@@ -218,6 +247,7 @@ class Register extends Component {
             emailError: false,
             passwordError: false,
             confirmPasswordError: false,
+            phoneNoErr: false
           },
         });
       }, 3000);
@@ -228,6 +258,7 @@ class Register extends Component {
           emailError: false,
           passwordError: false,
           confirmPasswordError: true,
+          phoneNoErr: false
         },
       });
       setTimeout(() => {
@@ -237,11 +268,12 @@ class Register extends Component {
             emailError: false,
             passwordError: false,
             confirmPasswordError: false,
+            phoneNoErr: false
           },
         });
       }, 3000);
     } else {
-      this.setState({isLoading: true});
+      this.setState({ isLoading: true });
       this.handleRegister();
     }
   };
@@ -254,6 +286,7 @@ class Register extends Component {
       confirmPassword,
       postalCode,
       fcmToken,
+      phoneNum
     } = this.state;
     const payload = {
       userName: name,
@@ -263,19 +296,7 @@ class Register extends Component {
       gcm_id: fcmToken,
       platform: Platform.OS,
       role: '5',
-
-      // userName : name,
-      // email : email,
-      // password : password,
-      // postalCode : postalCode,
-      // role : "5",
-      // gcm_id: "string123",
-      // platform : "android",
-
-      // password_confirmation: confirmPassword,
-      // phone: 'string',
-      // device_token: 'string',
-      // device_type: Platform.OS,
+      phoneNo: phoneNum
     };
     console.log('payload ==>> ', payload);
     this.props.userRegister(payload);
@@ -285,6 +306,7 @@ class Register extends Component {
       email: '',
       password: '',
       confirmPassword: '',
+      phoneNum: ""
     });
   };
 
@@ -297,7 +319,7 @@ class Register extends Component {
   };
 
   _renderOverlaySpinner = () => {
-    const {isFetching} = this.props.register;
+    const { isFetching } = this.props.register;
     return <SpinnerLoader isloading={isFetching} />;
   };
 
@@ -313,12 +335,14 @@ class Register extends Component {
     secureTextEntry,
     CustomTextInput,
     errorMessage,
+    contentType,
+    maxLength
   ) => {
     return (
-      <View style = {{marginHorizontal: Metrics.ratio(3)}}>
+      <View style={{ marginHorizontal: Metrics.ratio(3) }}>
         <Text style={styles.labelText}>{lable}</Text>
         <TextInput
-          style={[styles.textInput, CustomTextInput, Platform.OS == "ios" && {paddingBottom: 0}]}
+          style={[styles.textInput, CustomTextInput, Platform.OS == "ios" && { paddingBottom: 0 }]}
           placeholderTextColor="#81788B"
           ref={(o) => {
             ref = o;
@@ -329,10 +353,12 @@ class Register extends Component {
           placeholder={placeholder}
           autoCompleteType="off"
           keyboardType={keyboardType}
+          textContentType={contentType}
           // onSubmitEditing={() => {
           //   this.onSubmit(onSubmitEditing);
           // }}
           secureTextEntry={secureTextEntry}
+          maxLength={maxLength}
         />
         <View>
           <Text style={styles.errorText}>{errorMessage}</Text>
@@ -366,22 +392,24 @@ class Register extends Component {
           onPress={() => this.checkValidation()}
           disabled={
             this.state.nameError == null &&
-            this.state.passwordError == null &&
-            this.state.postalCodeError == null &&
-            this.state.emailError == null &&
-            this.state.confirmPasswordError == null
+              this.state.passwordError == null &&
+              this.state.postalCodeError == null &&
+              this.state.emailError == null &&
+              this.state.confirmPasswordError == null &&
+              this.state.phoneNoErr == null
               ? false
               : true
           }
           style={[
             styles.submitBtn,
             this.state.nameError == null &&
-            this.state.passwordError == null &&
-            this.state.postalCodeError == null &&
-            this.state.emailError == null &&
-            this.state.confirmPasswordError == null
-              ? {backgroundColor: '#FF3600'}
-              : {backgroundColor: '#DEDEDE'},
+              this.state.passwordError == null &&
+              this.state.postalCodeError == null &&
+              this.state.emailError == null &&
+              this.state.confirmPasswordError == null &&
+              this.state.phoneNoErr == null
+              ? { backgroundColor: '#FF3600' }
+              : { backgroundColor: '#DEDEDE' },
           ]}>
           <Text style={styles.submitBtnText}>Register Now</Text>
         </TouchableOpacity>
@@ -394,90 +422,126 @@ class Register extends Component {
     );
   };
 
+  onPhoneNoChange = (text) => {
+    var cleaned = ('' + text).replace(/\D/g, '')
+    var match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/)
+    if (match) {
+      var intlCode = (match[1] ? '+1 ' : ''),
+        number = [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('');
+
+      this.setState({
+        phoneNum: number,
+        phoneNoErr: null
+      });
+
+      return;
+    }
+    this.setState({
+      phoneNoErr: 'Please enter a valid phone no',
+      phoneNum: text
+    });
+  }
+
   render() {
-    const {name, postalCode, email, password, confirmPassword} = this.state;
+    const { name, postalCode, email, password, confirmPassword, phoneNum } = this.state;
     return (
-       <View style = {styles.container}> 
-         <KeyboardAwareScrollView style = {{marginHorizontal: Metrics.ratio(10)}} showsVerticalScrollIndicator = {false}>
-            {this.renderHeaderLogo()}
-            {this.renderScreenHeading()}
-            {this.renderTextInputWithLable(
-              'Name',
-              'inputName',
-              'next',
-              this.onChangeName,
-              name,
-              'Enter your name.',
-              null,
-              'inputPostalCode',
-              false,
-              styles.CustomTextInput,
-              this.state.nameError
-            )}
-            {this.renderTextInputWithLable(
-              'Postal Code',
-              'inputPostalCode',
-              'next',
-              this.onChangePostalCode,
-              postalCode,
-              'Enter your postal code.',
-              null,
-              'inputEmail',
-              false,
-              styles.CustomTextInput,
-              this.state.postalCodeError
-            )}
-            {this.renderTextInputWithLable(
-              'Email',
-              'inputEmail',
-              'next',
-              this.onChangeEmail,
-              email,
-              'Enter your email.',
-              'email-address',
-              'inputPassword',
-              false,
-              styles.CustomTextInput,
-              this.state.emailError
+      <View style={styles.container}>
+        <KeyboardAwareScrollView style={{ marginHorizontal: Metrics.ratio(10) }} showsVerticalScrollIndicator={false}>
+          {this.renderHeaderLogo()}
+          {this.renderScreenHeading()}
+          {this.renderTextInputWithLable(
+            'Name',
+            'inputName',
+            'next',
+            this.onChangeName,
+            name,
+            'Enter your name.',
+            null,
+            'inputPostalCode',
+            false,
+            styles.CustomTextInput,
+            this.state.nameError
+          )}
+          {this.renderTextInputWithLable(
+            'Postal Code',
+            'inputPostalCode',
+            'next',
+            this.onChangePostalCode,
+            postalCode,
+            'Enter your postal code.',
+            null,
+            'inputEmail',
+            false,
+            styles.CustomTextInput,
+            this.state.postalCodeError
+          )}
+          {this.renderTextInputWithLable(
+            'Email',
+            'inputEmail',
+            'next',
+            this.onChangeEmail,
+            email,
+            'Enter your email.',
+            'email-address',
+            'inputPassword',
+            false,
+            styles.CustomTextInput,
+            this.state.emailError
 
-            )}
-            {this.renderTextInputWithLable(
-              'Password',
-              'inputPassword',
-              'next',
-              this.onChangePassword,
-              password,
-              'Enter your password',
-              null,
-              'inputConfirmPassword',
-              true,
-              styles.CustomTextInput,
-              this.state.passwordError
-            )}
-            {this.renderTextInputWithLable(
-              'Confirm Password',
-              'inputConfirmPassword',
-              'done',
-              this.onChangeConfirmPassword,
-              confirmPassword,
-              'Confirm your password',
-              null,
-              'onDone',
-              true,
-              styles.CustomTextInput,
-              this.state.confirmPasswordError
+          )}
+          {this.renderTextInputWithLable(
+            'Phone No',
+            'inputPhoneNo',
+            'next',
+            this.onPhoneNoChange,
+            phoneNum,
+            'Enter your Phone No.',
+            'phone-pad',
+            'inputPassword',
+            false,
+            styles.CustomTextInput,
+            this.state.phoneNoErr,
+            "telephoneNumber",
+            14
+          )}
 
-            )}
-            {this.renderSubmitBtn()}
-            {this._renderOverlaySpinner()}
+          {this.renderTextInputWithLable(
+            'Password',
+            'inputPassword',
+            'next',
+            this.onChangePassword,
+            password,
+            'Enter your password',
+            null,
+            'inputConfirmPassword',
+            true,
+            styles.CustomTextInput,
+            this.state.passwordError
+          )}
+          {this.renderTextInputWithLable(
+            'Confirm Password',
+            'inputConfirmPassword',
+            'done',
+            this.onChangeConfirmPassword,
+            confirmPassword,
+            'Confirm your password',
+            null,
+            'onDone',
+            true,
+            styles.CustomTextInput,
+            this.state.confirmPasswordError
+
+          )}
+          {this.renderSubmitBtn()}
+          {this._renderOverlaySpinner()}
         </KeyboardAwareScrollView>
-       </View>
+      </View>
     );
   }
 }
 
-const mapStateToProps = (state) => ({register: state.register});
+const mapStateToProps = (state) => ({ register: state.register });
 
-const actions = {userRegister};
+const actions = { userRegister };
 
 export default connect(mapStateToProps, actions)(Register);
