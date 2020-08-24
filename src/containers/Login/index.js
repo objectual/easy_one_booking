@@ -1,5 +1,5 @@
-import { connect } from 'react-redux';
-import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import React, {Component} from 'react';
 import {
   Text,
   View,
@@ -13,9 +13,9 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import FloatingLabel from 'react-native-floating-labels';
-import { request as userLogin, success } from '../../redux/actions/Login';
+import {request as userLogin, success} from '../../redux/actions/Login';
 import styles from './styles';
-import { Images, Metrics, Fonts } from '../../theme';
+import {Images, Metrics, Fonts} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import {
   nameRegex,
@@ -33,8 +33,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'new_cust1@mailinator.com',
-      password: '123456',
+      email: '', //new_cust1@mailinator.com
+      password: '', //123456
       isloading: false,
       btnDisabled: false,
       emailError: '',
@@ -44,11 +44,11 @@ class Login extends Component {
         emailError: false,
         passwordError: false,
       },
-    }
+    };
   }
 
   _renderOverlaySpinner = () => {
-    const { isFetching } = this.props.login;
+    const {isFetching} = this.props.login;
 
     return <SpinnerLoader isloading={isFetching} />;
   };
@@ -61,7 +61,7 @@ class Login extends Component {
         nextProps.login.data &&
         nextProps.login.data.success
       ) {
-        this.setState({ isloading: false }, () => {
+        this.setState({isloading: false}, () => {
           setTimeout(() => {
             Alert.alert(
               'Successfully',
@@ -78,11 +78,10 @@ class Login extends Component {
                   },
                 },
               ],
-              { cancelable: false },
+              {cancelable: false},
             );
           }, 500);
         });
-
       } else if (
         !nextProps.login.failure &&
         !nextProps.login.isFetching &&
@@ -98,7 +97,7 @@ class Login extends Component {
         //     Alert.alert('Error', nextProps.login.data.msg);
         //   }, 3000);
         // });
-        this.setState({ isloading: false });
+        this.setState({isloading: false});
       }
     }
   }
@@ -109,11 +108,11 @@ class Login extends Component {
 
   async getToken() {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
-    this.setState({ fcmToken });
+    this.setState({fcmToken});
   }
 
   checkValidation = () => {
-    const { email, password } = this.state;
+    const {email, password} = this.state;
     const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (!email.match(emailRegex)) {
@@ -152,8 +151,8 @@ class Login extends Component {
   };
 
   handleLogin = () => {
-    this.setState({ isLoading: true });
-    const { email, password, fcmToken } = this.state;
+    this.setState({isLoading: true});
+    const {email, password, fcmToken} = this.state;
     const payload = {
       email: email,
       password: password,
@@ -166,7 +165,7 @@ class Login extends Component {
   };
 
   onChangeEmail = async (value) => {
-    this.setState({ email: value });
+    this.setState({email: value});
     this.setState({
       emailError: await validate(
         value,
@@ -176,7 +175,7 @@ class Login extends Component {
     });
   };
   onChangePassword = async (value) => {
-    this.setState({ password: value });
+    this.setState({password: value});
     this.setState({
       passwordError: await validate(
         value,
@@ -214,7 +213,7 @@ class Login extends Component {
           style={[
             styles.textInput,
             CustomTextInput,
-            Platform.OS == 'ios' && { paddingBottom: 0 },
+            Platform.OS == 'ios' && {paddingBottom: 0},
           ]}
           placeholderTextColor="#81788B"
           ref={(o) => {
@@ -251,13 +250,13 @@ class Login extends Component {
 
   renderSubmitBtn = () => {
     return (
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <TouchableOpacity
           style={[
             styles.submitBtn,
             this.state.passwordError == null && this.state.emailError == null
-              ? { backgroundColor: '#FF3600' }
-              : { backgroundColor: '#DEDEDE' },
+              ? {backgroundColor: '#FF3600'}
+              : {backgroundColor: '#DEDEDE'},
           ]}
           disabled={
             this.state.passwordError == null && this.state.emailError == null
@@ -279,11 +278,11 @@ class Login extends Component {
   renderGmailBtn = () => {
     return (
       <TouchableOpacity
-        style={{ backgroundColor: '#4385F5', ...styles.socialBtn }}>
-        <View style={{ backgroundColor: '#fff', ...styles.socialBtnIconView }}>
+        style={{backgroundColor: '#4385F5', ...styles.socialBtn}}>
+        <View style={{backgroundColor: '#fff', ...styles.socialBtnIconView}}>
           <Image
             source={Images.gmail_icon}
-            style={{ width: Metrics.ratio(30), height: Metrics.ratio(30) }}
+            style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
           />
         </View>
         <Text style={styles.socialBtnText}>Sign in with Google</Text>
@@ -294,11 +293,11 @@ class Login extends Component {
   renderFacebookBtn = () => {
     return (
       <TouchableOpacity
-        style={{ backgroundColor: '#3B5999', ...styles.socialBtn }}>
-        <View style={{ ...styles.socialBtnIconView }}>
+        style={{backgroundColor: '#3B5999', ...styles.socialBtn}}>
+        <View style={{...styles.socialBtnIconView}}>
           <Image
             source={Images.facebook_icon}
-            style={{ width: Metrics.ratio(25), height: Metrics.ratio(25) }}
+            style={{width: Metrics.ratio(25), height: Metrics.ratio(25)}}
           />
         </View>
         <Text style={styles.socialBtnText}>Facebook</Text>
@@ -308,8 +307,8 @@ class Login extends Component {
 
   renderConnectCard = () => {
     return (
-      <View style={{ alignItems: 'center' }}>
-        <View style={{ marginVertical: Metrics.ratio(30), alignItems: 'center' }}>
+      <View style={{alignItems: 'center'}}>
+        <View style={{marginVertical: Metrics.ratio(30), alignItems: 'center'}}>
           <Text style={styles.connectCardText}>OR CONNECT WITH</Text>
           <View
             style={{
@@ -325,7 +324,7 @@ class Login extends Component {
   };
 
   render() {
-    const { btnDisabled, formErrors, email, password } = this.state;
+    const {btnDisabled, formErrors, email, password} = this.state;
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -363,6 +362,12 @@ class Login extends Component {
               styles.CustomTextInput,
               this.state.passwordError,
             )}
+
+            <TouchableOpacity
+              style={styles.forgetContainer}
+              onPress={() => this.props.navigation.navigate('ForgetPassword')}>
+              <Text style={styles.forgetTxt}>Forget Password?</Text>
+            </TouchableOpacity>
             {this.renderSubmitBtn()}
             {this._renderOverlaySpinner()}
           </View>
@@ -372,8 +377,8 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({ login: state.login, cart: state.cart });
+const mapStateToProps = (state) => ({login: state.login, cart: state.cart});
 
-const action = { userLogin };
+const action = {userLogin};
 
 export default connect(mapStateToProps, action)(Login);

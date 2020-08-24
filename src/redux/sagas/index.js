@@ -13,13 +13,15 @@ import getBooking from './GetBooking';
 import updateBooking from './UpdateBooking';
 import getWallet from './GetWallet';
 import customerRating from './CustomerRatingForCompany';
+import forgetPassword from './ForgetPassword';
+import verifyOtp from './VerifyOtp';
 
 // import forgotPassword from "./ForgotPassword";
 // import verifyResetCode from "./VerifyResetCode";
 // import resetPassword from "./ResetPassword";
 // import socialLogin from "./SocialLogin";
 
-import { fork } from 'redux-saga/effects';
+import {fork} from 'redux-saga/effects';
 
 export default function* rootSaga() {
   yield fork(login);
@@ -37,6 +39,9 @@ export default function* rootSaga() {
   yield fork(updateBooking);
   yield fork(getWallet);
   yield fork(customerRating);
+  yield fork(forgetPassword);
+  yield fork(verifyOtp);
+
   // yield fork(forgotPassword);
   // yield fork(verifyResetCode);
   // yield fork(resetPassword);

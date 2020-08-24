@@ -21,8 +21,9 @@ export default StyleSheet.create({
     resizeMode: 'contain',
   },
   screenHeading: {
-    fontSize: Metrics.ratio(25),
+    fontSize: Metrics.ratio(20),
     color: '#5A5559',
+    fontFamily: 'Lato-Black',
     marginBottom: Metrics.ratio(20),
   },
   labelText: {

@@ -25,6 +25,8 @@ export const GET_CATEGORIES = createRequestTypes('GET_CATEGORIES');
 export const GETWALLET = createRequestTypes('GETWALLET');
 export const CUSTOMER_RATING = createRequestTypes('CUSTOMER_RATING');
 export const EMPLOYEE_RATING = createRequestTypes('EMPLOYEE_RATING');
+export const FORGET_PASSWORD = createRequestTypes('FORGET_PASSWORD');
+export const OTP = createRequestTypes('OTP');
 
 export const GET_SALOON_CATEGORIES = createRequestTypes(
   'GET_SALOON_CATEGORIES',

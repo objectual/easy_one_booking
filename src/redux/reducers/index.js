@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 
 import login from './Login';
 import register from './Register';
@@ -16,6 +16,9 @@ import getBooking from './GetBooking';
 import getWallet from './GetWallet';
 import updateBooking from './UpdateBooking';
 import customerRating from './CustomerRatingForCompany';
+import forgetPassword from './ForgetPassword';
+import verifyOtp from './VerifyOtp';
+import resetPassword from './ResetPassword';
 
 // import forgotPassword from "./ForgotPassword";
 // import verifyResetCode from "./VerifyResetCode";
@@ -43,4 +46,7 @@ export const rootReducer = combineReducers({
   updateBooking,
   getWallet,
   customerRating,
+  forgetPassword,
+  verifyOtp,
+  resetPassword,
 });

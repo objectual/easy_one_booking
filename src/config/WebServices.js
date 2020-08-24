@@ -1,17 +1,17 @@
 // export const baseUrl = "http://itsolution24x7.com/request_form/";
 // export const register_API = `${baseUrl}/api/v1/register`;
 
-export const baseUrl = 'https://easy-one.herokuapp.com/api/'; // live
+// export const baseUrl = 'https://easy-one.herokuapp.com/api/'; // live
 // export const baseUrl = 'https://easy-one-staging.herokuapp.com/api/'; // stagingbb
 
 // export const baseUrl = "http://192.168.0.111/reactboilerplate/";
-// export const baseUrl = 'http://192.168.18.10:3000/api/'; // H
+export const baseUrl = 'http://192.168.18.10:3000/api/'; // H 
 
 export const login_Api = `${baseUrl}user/login`;
 export const register_Api = `${baseUrl}user/register`;
 export const forget_Saloon_NearApiget_password_Api = `${baseUrl}forget-password`;
 export const verify_reset_code_Api = `${baseUrl}verify-reset-code`;
-export const reset_password_Api = `${baseUrl}reset-password`;
+export const reset_password_Api = `${baseUrl}password/reset`;
 export const social_login_Api = `${baseUrl}social_login`;
 export const get_Saloon_Api = `${baseUrl}saloon/getSaloon`;
 export const get_Saloon_NearApi = `${baseUrl}saloon/Nearby`;
@@ -27,6 +27,8 @@ export const update_booking_api = `${baseUrl}booking/updateBooking`;
 export const get_wallet = `${baseUrl}wallet/getWallet`;
 export const customer_rating_for_company = `${baseUrl}rating/createRating`;
 export const customer_rating_for_employee = `${baseUrl}rating/customerRatingForEmployee`;
+export const forget_password = `${baseUrl}password/forget`;
+export const verify_otp = `${baseUrl}password/otpcode`;
 
 export const secret_Key = 'AIzaSyCIGENLCfCwZwPaumiUQs21GfgMhgppa7s';
 export const place_Autocomplete_URL =
