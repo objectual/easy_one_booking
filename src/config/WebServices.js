@@ -2,10 +2,10 @@
 // export const register_API = `${baseUrl}/api/v1/register`;
 
 // export const baseUrl = 'https://easy-one.herokuapp.com/api/'; // live
-// export const baseUrl = 'https://easy-one-staging.herokuapp.com/api/'; // stagingbb
+export const baseUrl = 'https://easy-one-staging.herokuapp.com/api/'; // stagingbb
 
 // export const baseUrl = "http://192.168.0.111/reactboilerplate/";
-export const baseUrl = 'http://192.168.18.10:3000/api/'; // H 
+// export const baseUrl = 'http://192.168.18.10:3000/api/'; // H 
 
 export const login_Api = `${baseUrl}user/login`;
 export const register_Api = `${baseUrl}user/register`;

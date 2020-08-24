@@ -1,5 +1,5 @@
-import {connect} from 'react-redux';
-import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -15,15 +15,11 @@ import AsyncStorage from '@react-native-community/async-storage';
 import FloatingLabel from 'react-native-floating-labels';
 import {
   request as passwordReset,
-  success,
 } from '../../redux/actions/ResetPassword';
 import styles from './styles';
-import {Images, Metrics, Fonts} from '../../theme';
+import { Images, Metrics, Fonts } from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import {
-  nameRegex,
-  emailRegex,
-  postalCodeRegex,
   passwordRegex,
   validate,
 } from '../../services/validation';
@@ -48,59 +44,45 @@ class UpdatePassword extends Component {
   }
 
   _renderOverlaySpinner = () => {
-    const {isFetching} = this.props.resetPassword;
+    const { isFetching } = this.props.resetPassword;
 
     return <SpinnerLoader isloading={isFetching} />;
   };
 
-  //   UNSAFE_componentWillReceiveProps(nextProps) {
-  //     if (nextProps.login) {
-  //       if (
-  //         !nextProps.login.failure &&
-  //         !nextProps.login.isFetching &&
-  //         nextProps.login.data &&
-  //         nextProps.login.data.success
-  //       ) {
-  //         this.setState({isloading: false}, () => {
-  //           setTimeout(() => {
-  //             Alert.alert(
-  //               'Successfully',
-  //               'Successfully Logged In',
-  //               [
-  //                 {
-  //                   text: 'ok',
-  //                   onPress: () => {
-  //                     if (this.props.cart.data.length == 0) {
-  //                       this.props.navigation.navigate('Home');
-  //                     } else {
-  //                       this.props.navigation.navigate('Proceeding');
-  //                     }
-  //                   },
-  //                 },
-  //               ],
-  //               {cancelable: false},
-  //             );
-  //           }, 500);
-  //         });
-  //       } else if (
-  //         !nextProps.login.failure &&
-  //         !nextProps.login.isFetching &&
-  //         nextProps.login.data &&
-  //         !nextProps.login.data.success
-  //       ) {
-  //         console.log(
-  //           nextProps.login.data.msg,
-  //           'nextProps.login.data.data.msgnextProps.login.data.data.msg',
-  //         );
-  //         // this.setState({isloading: false}, () => {
-  //         //   setTimeout(() => {
-  //         //     Alert.alert('Error', nextProps.login.data.msg);
-  //         //   }, 3000);
-  //         // });
-  //         this.setState({isloading: false});
-  //       }
-  //     }
-  //   }
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    console.log(nextProps.resetPassword.data, ' nextProps.resetPassword.data')
+    if (nextProps.resetPassword) {
+      if (
+        !nextProps.resetPassword.failure &&
+        !nextProps.resetPassword.isFetching &&
+        nextProps.resetPassword.data &&
+        nextProps.resetPassword.data.success
+      ) {
+        this.setState({ isloading: false }, () => {
+          Alert.alert('Success', nextProps.resetPassword.data.msg, [
+            {
+              text: 'OK',
+              onPress: () =>
+                this.props.navigation.navigate(
+                  'Login',
+                ),
+            },
+          ]);
+        });
+      } else if (
+        !nextProps.resetPassword.failure &&
+        !nextProps.resetPassword.isFetching &&
+        nextProps.resetPassword.data &&
+        !nextProps.resetPassword.data.success
+      ) {
+        this.setState({ isloading: false }, () => {
+          setTimeout(() => {
+            Alert.alert('Error', nextProps.login.data.msg);
+          }, 3000);
+        });
+      }
+    }
+  }
 
   componentDidMount() {
     this.getToken();
@@ -108,24 +90,22 @@ class UpdatePassword extends Component {
 
   async getToken() {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
-    this.setState({fcmToken});
+    this.setState({ fcmToken });
   }
 
   handleReset = () => {
-    this.setState({isloading: true});
-    const {confirmPassword, password, fcmToken} = this.state;
+    this.setState({ isloading: true });
+    const { password } = this.state;
     const payload = {
       password: password,
-      userId: this.props.route.params.userObj.userId,
+      userId: this.props.route.params.userObj._userId,
     };
 
-    console.log(payload, 'sflsdlklsdfsdfsdfkl');
-
-    // this.props.passwordReset(payload);
+    this.props.passwordReset(payload);
   };
 
   onChangePassword = async (value) => {
-    this.setState({password: value});
+    this.setState({ password: value });
     this.setState({
       passwordError: await validate(
         value,
@@ -136,7 +116,7 @@ class UpdatePassword extends Component {
   };
 
   onChangeConfirmPassword = async (value) => {
-    this.setState({confirmPassword: value});
+    this.setState({ confirmPassword: value });
     this.setState({
       passwordError: await validate(
         value,
@@ -166,7 +146,7 @@ class UpdatePassword extends Component {
           style={[
             styles.textInput,
             CustomTextInput,
-            Platform.OS == 'ios' && {paddingBottom: 0},
+            Platform.OS == 'ios' && { paddingBottom: 0 },
           ]}
           placeholderTextColor="#81788B"
           ref={(o) => {
@@ -203,13 +183,13 @@ class UpdatePassword extends Component {
 
   renderSubmitBtn = () => {
     return (
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <View
           style={[
             styles.submitBtn,
             this.state.passwordError == null && this.state.emailError == null
-              ? {backgroundColor: 'transparent'}
-              : {backgroundColor: 'transparent'},
+              ? { backgroundColor: 'transparent' }
+              : { backgroundColor: 'transparent' },
           ]}
           disabled={
             this.state.passwordError == null && this.state.emailError == null
@@ -226,7 +206,7 @@ class UpdatePassword extends Component {
   };
 
   render() {
-    const {btnDisabled, confirmPassword, email, password} = this.state;
+    const { btnDisabled, confirmPassword, email, password } = this.state;
 
     return (
       <View style={styles.container}>
@@ -279,6 +259,6 @@ const mapStateToProps = (state) => ({
   resetPassword: state.resetPassword,
 });
 
-const action = {passwordReset};
+const action = { passwordReset };
 
 export default connect(mapStateToProps, action)(UpdatePassword);

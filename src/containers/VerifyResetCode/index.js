@@ -1,171 +1,213 @@
-import {connect} from 'react-redux';
-
-import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import {
   Text,
   View,
+  Image,
   TouchableOpacity,
   ScrollView,
-  TextInput,
   Alert,
+  Platform,
+  TextInput,
+  Linking,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import FloatingLabel from 'react-native-floating-labels';
-
+import { request as userVerifyOtp, success } from '../../redux/actions/VerifyOtp';
 import styles from './styles';
-import CustomTextInput from '../../components/CustomTextInput';
-import {request as userVerifyResetCode} from '../../redux/actions/VerifyResetCode';
-
-class VerifyResetCode extends Component {
+import { Images, Metrics, Fonts } from '../../theme';
+import SpinnerLoader from '../../components/SpinnerLoader';
+import {
+  nameRegex,
+  emailRegex,
+  postalCodeRegex,
+  passwordRegex,
+  validate,
+} from '../../services/validation';
+class OTP extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      code: '',
-      email: '',
-      btnDisabled: false,
+      userToken: '',
+      serverToken: '',
+      isloading: false,
       formErrors: {
-        codeError: false,
+        emailError: false,
+        passwordError: false,
       },
     };
   }
-
-  onChangeCode = (value) => this.setState({code: value});
-
-  componentDidMount() {
-    this.setState({
-      email: this.props.navigation.state.params.email,
-    });
-  }
-
+  _renderOverlaySpinner = () => {
+    const { isloading } = this.state;
+    return <SpinnerLoader isloading={isloading} />;
+  };
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const {email, code} = this.state;
-    if (nextProps.verifyResetCode) {
+    if (nextProps.verifyOtp) {
       if (
-        !nextProps.verifyResetCode.failure &&
-        !nextProps.verifyResetCode.isFetching &&
-        nextProps.verifyResetCode.data
-        // this.state.newView === "abc"
+        !nextProps.verifyOtp.failure &&
+        !nextProps.verifyOtp.isFetching &&
+        nextProps.verifyOtp.data &&
+        nextProps.verifyOtp.data.success
       ) {
-        console.log('nextProps ==>> ', nextProps.verifyResetCode);
-        this.setState({isloading: false}, () => {
-          setTimeout(() => {
-            Alert.alert(
-              'Successfully',
-              'Successfully Verified',
-              [
-                {
-                  text: 'ok',
-                  onPress: () => {
-                    console.log('ok');
-                  },
-                },
-              ],
-              {cancelable: false},
-            );
-          }, 500);
+        this.setState({ isloading: false }, () => {
+          Alert.alert('Success', nextProps.verifyOtp.data.msg, [
+            {
+              text: 'OK',
+              onPress: () =>
+                this.props.navigation.navigate('UpdatePassword', {
+                  userObj: this.props.route.params.userObj,
+                }),
+            },
+          ]);
         });
-        console.log(
-          nextProps.verifyResetCode.data,
-          ' nextProps.verifyResetCode.data nextProps.verifyResetCode.data',
-        );
-        // this.props.stackNavigator("abc", 'ResetPassword')
-        this.props.navigation.navigate('ResetPassword', {email, code});
       } else if (
-        nextProps.verifyResetCode.failure &&
-        !nextProps.verifyResetCode.isFetching
+        !nextProps.verifyOtp.failure &&
+        !nextProps.verifyOtp.isFetching &&
+        nextProps.verifyOtp.data &&
+        !nextProps.verifyOtp.data.success
       ) {
-        this.setState({isloading: false});
+        this.setState({ isloading: false }, () => {
+          setTimeout(() => {
+            Alert.alert('Error', nextProps.login.data.msg);
+          }, 3000);
+        });
       }
     }
   }
-
-  checkValidation = () => {
-    const {code} = this.state;
-    if (code == '' || code == ' ' || code.length < 3) {
-      this.setState({
-        formErrors: {
-          codeError: true,
-        },
-      });
-      setTimeout(() => {
-        this.setState({
-          formErrors: {
-            codeError: false,
-          },
-        });
-      }, 3000);
+  componentDidMount() {
+    this.getToken();
+  }
+  async getToken() {
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    this.setState({ fcmToken });
+  }
+  handleLogin = () => {
+    this.setState({ isLoading: true });
+    const { userToken } = this.state;
+    const { otpCode, _id, _userId } = this.props.route.params.userObj;
+    const payload = {
+      userId: _userId,
+      token: userToken,
+    };
+    if (userToken == otpCode) {
+      this.props.userVerifyOtp(payload);
     } else {
-      this.handleVerifyResetCode();
+      Alert.alert('Error', 'Please Provide Right Code');
     }
   };
-
-  handleVerifyResetCode = () => {
-    const {code} = this.state;
-    const payload = {verification_code: Number(code)};
-
-    console.log(payload, 'PAYLOAD');
-
-    this.props.userVerifyResetCode(payload);
+  onChangeToken = async (value) => {
+    this.setState({ userToken: value });
   };
-
-  render() {
-    const {code, btnDisabled, formErrors, email} = this.state;
+  renderTextInputWithLabel = (
+    label,
+    ref,
+    returnKeyType,
+    onChangeText,
+    value,
+    placeholder,
+    keyboardType,
+    onSubmitEditing,
+    secureTextEntry,
+    CustomTextInput,
+    maxLength,
+    errorMessage,
+  ) => {
     return (
-      <ScrollView style={styles.container}>
-        <View style={{paddingBottom: 20}}>
-          <View style={styles.titleView}>
-            <Text style={[styles.text, {fontSize: 30, fontWeight: '700'}]}>
-              Enter 4 digit code sent to you at{' '}
-              <Text
-                style={[
-                  styles.text,
-                  {fontSize: 30, fontWeight: '700', color: '#FF1654'},
-                ]}>
-                Email
-              </Text>
-            </Text>
-          </View>
-
-          <CustomTextInput
-            style={{marginTop: 20, marginBottom: 10}}
-            placeholderText="Enter your code."
-            isSecure={true}
-            autoCompleteType="off"
-            handleInput={this.onChangeCode}
-            inputValue={code}
-            maxLength={4}
-            keyboardType="numeric"
-          />
-          {formErrors.codeError ? (
-            <Text style={styles.errorMessage}>
-              Enter a vaild varification code
-            </Text>
-          ) : null}
-
-          <TouchableOpacity
-            style={
-              btnDisabled
-                ? styles.submitContainerDisabled
-                : styles.submitContainer
-            }
-            onPress={() => this.checkValidation()}
-            // onPress={() => this.props.navigation.navigate('ResetPassword')}
-          >
-            <Text
-              style={[
-                styles.text,
-                {color: '#FFF', fontWeight: '600', fontSize: 16},
-              ]}>
-              Verify
-            </Text>
-          </TouchableOpacity>
+      <View>
+        <Text style={styles.labelText}>{label}</Text>
+        <TextInput
+          style={[
+            styles.textInput,
+            CustomTextInput,
+            Platform.OS == 'ios' && { paddingBottom: 0 },
+          ]}
+          placeholderTextColor="#81788B"
+          ref={(o) => {
+            ref = o;
+          }}
+          returnKeyType={returnKeyType}
+          onChangeText={onChangeText}
+          value={value}
+          maxLength={maxLength}
+          placeholder={placeholder}
+          autoCompleteType="off"
+          // onSubmitEditing={() => {
+          //   this.onSubmit(onSubmitEditing);
+          // }}
+          secureTextEntry={secureTextEntry}
+        />
+        <View>
+          <Text style={styles.errorText}>{errorMessage}</Text>
         </View>
-      </ScrollView>
+      </View>
+    );
+  };
+  renderHeaderLogo = () => {
+    return (
+      <View style={styles.logoView}>
+        <Image source={Images.easy1_logo_800x300} style={styles.logoImage} />
+      </View>
+    );
+  };
+  renderScreenHeading = () => {
+    return <Text style={styles.screenHeading}>Enter OTP Code!</Text>;
+  };
+  renderSubmitBtn = () => {
+    return (
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View
+          style={[
+            styles.submitBtn,
+            this.state.passwordError == null && this.state.emailError == null
+              ? { backgroundColor: 'transparent' }
+              : { backgroundColor: 'transparent' },
+          ]}
+          disabled={
+            this.state.passwordError == null && this.state.emailError == null
+              ? false
+              : true
+          }></View>
+        <TouchableOpacity
+          onPress={() => this.handleLogin()}
+          style={styles.submitBtn}>
+          <Text style={styles.submitBtnText}>Verify</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+  render() {
+    const { btnDisabled, formErrors, userToken, password } = this.state;
+    return (
+      <View style={styles.container}>
+        <ScrollView>
+          <View
+            style={{
+              paddingHorizontal: Metrics.ratio(20),
+            }}>
+            {this.renderHeaderLogo()}
+            {this.renderScreenHeading()}
+            {this.renderTextInputWithLabel(
+              'OTP',
+              'inputEmail',
+              'next',
+              this.onChangeToken,
+              userToken,
+              '######',
+              'email-address',
+              'inputPassword',
+              false,
+              styles.CustomTextInput,
+              6,
+              this.state.emailError,
+            )}
+            {this.renderSubmitBtn()}
+            {this._renderOverlaySpinner()}
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }
-
-const mapStateToProps = (state) => ({verifyResetCode: state.verifyResetCode});
-
-const action = {userVerifyResetCode};
-
-export default connect(mapStateToProps, action)(VerifyResetCode);
+const mapStateToProps = (state) => ({ verifyOtp: state.verifyOtp });
+const action = { userVerifyOtp };
+export default connect(mapStateToProps, action)(OTP);

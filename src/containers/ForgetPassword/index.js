@@ -1,5 +1,5 @@
-import {connect} from 'react-redux';
-import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -18,36 +18,27 @@ import {
   success,
 } from '../../redux/actions/ForgetPassword';
 import styles from './styles';
-import {Images, Metrics, Fonts} from '../../theme';
+import { Images, Metrics, Fonts } from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
-import {
-  nameRegex,
-  emailRegex,
-  postalCodeRegex,
-  passwordRegex,
-  validate,
-} from '../../services/validation';
 
 class ForgetPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'muhammadsarim555@gmail.com', //new_cust1@mailinator.com
+      phoneNum: '(647) 367-5417', //new_cust1@mailinator.com
       isLoading: false,
       btnDisabled: false,
-      emailError: '',
-      passwordError: '',
+      phoneNoErr: '',
       fcmToken: null,
       userObj: {},
       formErrors: {
-        emailError: false,
-        passwordError: false,
+        phoneNoErr: false
       },
     };
   }
 
   _renderOverlaySpinner = () => {
-    const {isLoading} = this.state;
+    const { isLoading } = this.state;
 
     return <SpinnerLoader isloading={isLoading} />;
   };
@@ -60,7 +51,7 @@ class ForgetPassword extends Component {
         nextProps.forgetPassword.data &&
         nextProps.forgetPassword.data.success
       ) {
-  
+        console.log(nextProps.forgetPassword.data, 'nextProps.forgetPassword.data')
 
         Alert.alert('Info', nextProps.forgetPassword.data.msg, [
           {
@@ -71,6 +62,7 @@ class ForgetPassword extends Component {
                   otpCode: nextProps.forgetPassword.data.data.token,
                   _id: nextProps.forgetPassword.data.data._id,
                   _userId: nextProps.forgetPassword.data.data._userId,
+                  // phoneNo: 
                 },
               }),
           },
@@ -85,12 +77,12 @@ class ForgetPassword extends Component {
         nextProps.forgetPassword.data &&
         !nextProps.forgetPassword.data.success
       ) {
-        this.setState({isloading: false}, () => {
+        this.setState({ isloading: false }, () => {
           setTimeout(() => {
             Alert.alert('Error', nextProps.forgetPassword.data.msg);
           }, 1000);
         });
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       }
     }
   }
@@ -101,22 +93,31 @@ class ForgetPassword extends Component {
 
   async getToken() {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
-    this.setState({fcmToken});
+    this.setState({ fcmToken });
   }
 
-  onChangeEmail = async (value) => {
-    this.setState({email: value});
-    this.setState({
-      emailError: await validate(
-        value,
-        emailRegex,
-        'Please enter a valid email',
-      ),
-    });
-  };
+  onPhoneNoChange = (text) => {
+    var cleaned = ('' + text).replace(/\D/g, '')
+    var match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/)
+    if (match) {
+      var intlCode = (match[1] ? '+1 ' : ''),
+        number = [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('');
 
-  renderTextInputWithLabel = (
-    label,
+      this.setState({
+        phoneNum: number,
+        phoneNoErr: null
+      });
+
+      return;
+    }
+    this.setState({
+      phoneNoErr: 'Please enter a valid phone no',
+      phoneNum: text
+    });
+  }
+
+  renderTextInputWithLable = (
+    lable,
     ref,
     returnKeyType,
     onChangeText,
@@ -127,16 +128,14 @@ class ForgetPassword extends Component {
     secureTextEntry,
     CustomTextInput,
     errorMessage,
+    contentType,
+    maxLength
   ) => {
     return (
-      <View>
-        <Text style={styles.labelText}>{label}</Text>
+      <View style={{ marginHorizontal: Metrics.ratio(3) }}>
+        <Text style={styles.labelText}>{lable}</Text>
         <TextInput
-          style={[
-            styles.textInput,
-            CustomTextInput,
-            Platform.OS == 'ios' && {paddingBottom: 0},
-          ]}
+          style={[styles.textInput, CustomTextInput, Platform.OS == "ios" && { paddingBottom: 0 }]}
           placeholderTextColor="#81788B"
           ref={(o) => {
             ref = o;
@@ -146,10 +145,13 @@ class ForgetPassword extends Component {
           value={value}
           placeholder={placeholder}
           autoCompleteType="off"
+          keyboardType={keyboardType}
+          textContentType={contentType}
           // onSubmitEditing={() => {
           //   this.onSubmit(onSubmitEditing);
           // }}
           secureTextEntry={secureTextEntry}
+          maxLength={maxLength}
         />
         <View>
           <Text style={styles.errorText}>{errorMessage}</Text>
@@ -157,6 +159,49 @@ class ForgetPassword extends Component {
       </View>
     );
   };
+
+  // renderTextInputWithLabel = (
+  //   label,
+  //   ref,
+  //   returnKeyType,
+  //   onChangeText,
+  //   value,
+  //   placeholder,
+  //   keyboardType,
+  //   onSubmitEditing,
+  //   secureTextEntry,
+  //   CustomTextInput,
+  //   errorMessage,
+  // ) => {
+  //   return (
+  //     <View>
+  //       <Text style={styles.labelText}>{label}</Text>
+  //       <TextInput
+  //         style={[
+  //           styles.textInput,
+  //           CustomTextInput,
+  //           Platform.OS == 'ios' && {paddingBottom: 0},
+  //         ]}
+  //         placeholderTextColor="#81788B"
+  //         ref={(o) => {
+  //           ref = o;
+  //         }}
+  //         returnKeyType={returnKeyType}
+  //         onChangeText={onChangeText}
+  //         value={value}
+  //         placeholder={placeholder}
+  //         autoCompleteType="off"
+  //         // onSubmitEditing={() => {
+  //         //   this.onSubmit(onSubmitEditing);
+  //         // }}
+  //         secureTextEntry={secureTextEntry}
+  //       />
+  //       <View>
+  //         <Text style={styles.errorText}>{errorMessage}</Text>
+  //       </View>
+  //     </View>
+  //   );
+  // };
 
   renderHeaderLogo = () => {
     return (
@@ -173,14 +218,14 @@ class ForgetPassword extends Component {
   sendEmail = () => {
     // this.props.navigation.navigate('Otp')
 
-    this.setState({isLoading: true});
+    this.setState({ isLoading: true });
 
-    const {email} = this.state;
+    const { phoneNum } = this.state;
 
-    this.setState({isLoading: true});
+    this.setState({ isLoading: true });
 
     const payload = {
-      email,
+      phoneNo: phoneNum,
     };
 
     this.props.reSendEmail(payload);
@@ -188,16 +233,16 @@ class ForgetPassword extends Component {
 
   renderSubmitBtn = () => {
     return (
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <View
           style={[
             styles.submitBtn,
-            this.state.passwordError == null && this.state.emailError == null
-              ? {backgroundColor: 'transparent'}
-              : {backgroundColor: 'transparent'},
+            this.state.emailError == null
+              ? { backgroundColor: 'transparent' }
+              : { backgroundColor: 'transparent' },
           ]}
           disabled={
-            this.state.passwordError == null && this.state.emailError == null
+            this.state.emailError == null
               ? false
               : true
           }></View>
@@ -211,7 +256,7 @@ class ForgetPassword extends Component {
   };
 
   render() {
-    const {btnDisabled, formErrors, email, isLoading} = this.state;
+    const { btnDisabled, formErrors, phoneNum, isLoading } = this.state;
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -223,18 +268,20 @@ class ForgetPassword extends Component {
             }}>
             {this.renderHeaderLogo()}
             {this.renderScreenHeading()}
-            {this.renderTextInputWithLabel(
-              'Email',
-              'inputEmail',
+            {this.renderTextInputWithLable(
+              'Phone No',
+              'inputPhoneNo',
               'next',
-              this.onChangeEmail,
-              email,
-              'Enter your email.',
-              'email-address',
+              this.onPhoneNoChange,
+              phoneNum,
+              'Enter your Phone No.',
+              'phone-pad',
               'inputPassword',
               false,
               styles.CustomTextInput,
-              this.state.emailError,
+              this.state.phoneNoErr,
+              "telephoneNumber",
+              14
             )}
 
             {this.renderSubmitBtn()}
@@ -260,6 +307,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-const action = {reSendEmail};
+const action = { reSendEmail };
 
 export default connect(mapStateToProps, action)(ForgetPassword);

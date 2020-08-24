@@ -1,5 +1,5 @@
-import {connect} from 'react-redux';
-import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -13,9 +13,9 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import FloatingLabel from 'react-native-floating-labels';
-import {request as userVerifyOtp, success} from '../../redux/actions/VerifyOtp';
+import { request as userVerifyOtp, success } from '../../redux/actions/VerifyOtp';
 import styles from './styles';
-import {Images, Metrics, Fonts} from '../../theme';
+import { Images, Metrics, Fonts } from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import {
   nameRegex,
@@ -41,7 +41,7 @@ class OTP extends Component {
   }
 
   _renderOverlaySpinner = () => {
-    const {isloading} = this.state;
+    const { isloading } = this.state;
 
     return <SpinnerLoader isloading={isloading} />;
   };
@@ -54,7 +54,8 @@ class OTP extends Component {
         nextProps.verifyOtp.data &&
         nextProps.verifyOtp.data.success
       ) {
-        this.setState({isloading: false}, () => {
+        console.log(this.props.route.params.userObj, 'this.props.route.params.userObj')
+        this.setState({ isloading: false }, () => {
           Alert.alert('Success', nextProps.verifyOtp.data.msg, [
             {
               text: 'OK',
@@ -81,7 +82,7 @@ class OTP extends Component {
         nextProps.verifyOtp.data &&
         !nextProps.verifyOtp.data.success
       ) {
-        this.setState({isloading: false}, () => {
+        this.setState({ isloading: false }, () => {
           setTimeout(() => {
             Alert.alert('Error', nextProps.login.data.msg);
           }, 3000);
@@ -96,13 +97,13 @@ class OTP extends Component {
 
   async getToken() {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
-    this.setState({fcmToken});
+    this.setState({ fcmToken });
   }
 
   handleLogin = () => {
-    this.setState({isLoading: true});
-    const {userToken} = this.state;
-    const {otpCode, _id, _userId} = this.props.route.params.userObj;
+    this.setState({ isLoading: true });
+    const { userToken } = this.state;
+    const { otpCode, _id, _userId } = this.props.route.params.userObj;
 
     const payload = {
       userId: _userId,
@@ -117,7 +118,7 @@ class OTP extends Component {
   };
 
   onChangeToken = async (value) => {
-    this.setState({userToken: value});
+    this.setState({ userToken: value });
   };
 
   renderTextInputWithLabel = (
@@ -141,7 +142,7 @@ class OTP extends Component {
           style={[
             styles.textInput,
             CustomTextInput,
-            Platform.OS == 'ios' && {paddingBottom: 0},
+            Platform.OS == 'ios' && { paddingBottom: 0 },
           ]}
           placeholderTextColor="#81788B"
           ref={(o) => {
@@ -179,13 +180,13 @@ class OTP extends Component {
 
   renderSubmitBtn = () => {
     return (
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <View
           style={[
             styles.submitBtn,
             this.state.passwordError == null && this.state.emailError == null
-              ? {backgroundColor: 'transparent'}
-              : {backgroundColor: 'transparent'},
+              ? { backgroundColor: 'transparent' }
+              : { backgroundColor: 'transparent' },
           ]}
           disabled={
             this.state.passwordError == null && this.state.emailError == null
@@ -202,7 +203,7 @@ class OTP extends Component {
   };
 
   render() {
-    const {btnDisabled, formErrors, userToken, password} = this.state;
+    const { btnDisabled, formErrors, userToken, password } = this.state;
 
     return (
       <View style={styles.container}>
@@ -237,8 +238,8 @@ class OTP extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({verifyOtp: state.verifyOtp});
+const mapStateToProps = (state) => ({ verifyOtp: state.verifyOtp });
 
-const action = {userVerifyOtp};
+const action = { userVerifyOtp };
 
 export default connect(mapStateToProps, action)(OTP);
