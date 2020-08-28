@@ -1,5 +1,5 @@
-import { connect } from 'react-redux';
-import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import React, {Component} from 'react';
 import {
   Text,
   View,
@@ -13,16 +13,11 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import FloatingLabel from 'react-native-floating-labels';
-import {
-  request as passwordReset,
-} from '../../redux/actions/ResetPassword';
+import {request as passwordReset} from '../../redux/actions/ResetPassword';
 import styles from './styles';
-import { Images, Metrics, Fonts } from '../../theme';
+import {Images, Metrics, Fonts} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
-import {
-  passwordRegex,
-  validate,
-} from '../../services/validation';
+import {passwordRegex, validate} from '../../services/validation';
 
 // import GoogleSigninBtn from '../../components/GoogleSigninButton';
 // import FacebookSigninButton from '../../components/FacebookSigninButton';
@@ -36,6 +31,7 @@ class UpdatePassword extends Component {
       confirmPassword: '',
       isloading: false,
       passwordError: '',
+      confirmPasswordError: '',
       formErrors: {
         emailError: false,
         passwordError: false,
@@ -44,13 +40,13 @@ class UpdatePassword extends Component {
   }
 
   _renderOverlaySpinner = () => {
-    const { isFetching } = this.props.resetPassword;
+    const {isloading} = this.state;
 
-    return <SpinnerLoader isloading={isFetching} />;
+    return <SpinnerLoader isloading={isloading} />;
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log(nextProps.resetPassword.data, ' nextProps.resetPassword.data')
+    console.log(nextProps.resetPassword.data, ' nextProps.resetPassword.data');
     if (nextProps.resetPassword) {
       if (
         !nextProps.resetPassword.failure &&
@@ -58,14 +54,11 @@ class UpdatePassword extends Component {
         nextProps.resetPassword.data &&
         nextProps.resetPassword.data.success
       ) {
-        this.setState({ isloading: false }, () => {
+        this.setState({isloading: false}, () => {
           Alert.alert('Success', nextProps.resetPassword.data.msg, [
             {
               text: 'OK',
-              onPress: () =>
-                this.props.navigation.navigate(
-                  'Login',
-                ),
+              onPress: () => this.props.navigation.navigate('Login'),
             },
           ]);
         });
@@ -75,9 +68,9 @@ class UpdatePassword extends Component {
         nextProps.resetPassword.data &&
         !nextProps.resetPassword.data.success
       ) {
-        this.setState({ isloading: false }, () => {
+        this.setState({isloading: false}, () => {
           setTimeout(() => {
-            Alert.alert('Error', nextProps.login.data.msg);
+            Alert.alert('Error', nextProps.resetPassword.data.msg);
           }, 3000);
         });
       }
@@ -90,22 +83,33 @@ class UpdatePassword extends Component {
 
   async getToken() {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
-    this.setState({ fcmToken });
+    this.setState({fcmToken});
   }
 
-  handleReset = () => {
-    this.setState({ isloading: true });
-    const { password } = this.state;
-    const payload = {
-      password: password,
-      userId: this.props.route.params.userObj._userId,
-    };
+  handleReset = async () => {
+    const {password, confirmPassword} = this.state;
+    if (password !== confirmPassword) {
+      Alert.alert('Error', "'Password must be same.'");
+      // this.setState({
+      //   confirmPasswordError: await validate(
+      //     confirmPassword,
+      //     passwordRegex,
+      //     'Password must be same.',
+      //   ),
+      // });
+    } else {
+      this.setState({isloading: true});
+      const payload = {
+        password: password,
+        userId: this.props.route.params.userObj._userId,
+      };
 
-    this.props.passwordReset(payload);
+      this.props.passwordReset(payload);
+    }
   };
 
   onChangePassword = async (value) => {
-    this.setState({ password: value });
+    this.setState({password: value});
     this.setState({
       passwordError: await validate(
         value,
@@ -116,14 +120,7 @@ class UpdatePassword extends Component {
   };
 
   onChangeConfirmPassword = async (value) => {
-    this.setState({ confirmPassword: value });
-    this.setState({
-      passwordError: await validate(
-        value,
-        passwordRegex,
-        'Password must be at least 6 characters.',
-      ),
-    });
+    this.setState({confirmPassword: value});
   };
 
   renderTextInputWithLabel = (
@@ -146,7 +143,7 @@ class UpdatePassword extends Component {
           style={[
             styles.textInput,
             CustomTextInput,
-            Platform.OS == 'ios' && { paddingBottom: 0 },
+            Platform.OS == 'ios' && {paddingBottom: 0},
           ]}
           placeholderTextColor="#81788B"
           ref={(o) => {
@@ -183,13 +180,13 @@ class UpdatePassword extends Component {
 
   renderSubmitBtn = () => {
     return (
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <View
           style={[
             styles.submitBtn,
             this.state.passwordError == null && this.state.emailError == null
-              ? { backgroundColor: 'transparent' }
-              : { backgroundColor: 'transparent' },
+              ? {backgroundColor: 'transparent'}
+              : {backgroundColor: 'transparent'},
           ]}
           disabled={
             this.state.passwordError == null && this.state.emailError == null
@@ -206,7 +203,12 @@ class UpdatePassword extends Component {
   };
 
   render() {
-    const { btnDisabled, confirmPassword, email, password } = this.state;
+    const {
+      passwordError,
+      confirmPassword,
+      confirmPasswordError,
+      password,
+    } = this.state;
 
     return (
       <View style={styles.container}>
@@ -230,7 +232,7 @@ class UpdatePassword extends Component {
               'inputPassword',
               true,
               styles.CustomTextInput,
-              this.state.emailError,
+              passwordError,
             )}
             {this.renderTextInputWithLabel(
               'Confirm Password',
@@ -243,7 +245,7 @@ class UpdatePassword extends Component {
               'onDone',
               true,
               styles.CustomTextInput,
-              this.state.passwordError,
+              confirmPasswordError,
             )}
 
             {this.renderSubmitBtn()}
@@ -259,6 +261,6 @@ const mapStateToProps = (state) => ({
   resetPassword: state.resetPassword,
 });
 
-const action = { passwordReset };
+const action = {passwordReset};
 
 export default connect(mapStateToProps, action)(UpdatePassword);

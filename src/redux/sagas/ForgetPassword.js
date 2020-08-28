@@ -15,12 +15,13 @@ function* watchRequest() {
   while (true) {
     const {payload} = yield take(types.FORGET_PASSWORD.REQUEST);
 
+    console.log('pasdfuiasds', payload);
     // const { targetView } = payload;
     // delete payload.targetView;
     try {
       const response = yield call(callRequest, payload);
 
-      // console.log(response, "registerregisterregisterregisterregisterregister");
+      console.log(response, 'registerregisterregisterregisterregisterregister');
       yield put(success(response));
       console.log('payloadpayload', response);
       //   setTimeout(() => {
