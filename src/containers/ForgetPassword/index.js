@@ -25,7 +25,7 @@ class ForgetPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      phoneNum: '(647) 367-5417', //new_cust1@mailinator.com
+      phoneNum: '', //new_cust1@mailinator.com
       isLoading: false,
       btnDisabled: false,
       phoneNoErr: '',
