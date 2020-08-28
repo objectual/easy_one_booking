@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Modal,
   Text,
@@ -12,12 +12,12 @@ import {
   Alert,
 } from 'react-native';
 import styles from './styles';
-import {Images, Metrics, Fonts, Colors} from '../../theme';
-import {Dropdown} from 'react-native-material-dropdown';
+import { Images, Metrics, Fonts, Colors } from '../../theme';
+import { Dropdown } from 'react-native-material-dropdown';
 import Immutable from 'seamless-immutable';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
-import {token} from './../../config/WebServices';
+import { token } from './../../config/WebServices';
 
 export default class BookingModal extends Component {
   state = {
@@ -71,11 +71,11 @@ export default class BookingModal extends Component {
   }
 
   showDatePicker = () => {
-    this.setState({isDatePickerVisible: true});
+    this.setState({ isDatePickerVisible: true });
   };
 
   hideDatePicker = () => {
-    this.setState({isDatePickerVisible: false});
+    this.setState({ isDatePickerVisible: false });
   };
 
   getDay = async (date) => {
@@ -222,7 +222,7 @@ export default class BookingModal extends Component {
   };
 
   renderShowCategoryButton = () => {
-    const {selectCard, timeSlot, data, time} = this.state;
+    const { selectCard, timeSlot, data, time } = this.state;
     console.log(timeSlot, 'timeSlot');
     console.log(data, 'dataEmployee');
 
@@ -243,7 +243,7 @@ export default class BookingModal extends Component {
         disabled={this.state.buttonDisable}
         style={[
           styles.submitBtn,
-          this.state.buttonDisable && {backgroundColor: '#DEDEDE'},
+          this.state.buttonDisable && { backgroundColor: '#DEDEDE' },
         ]}
         onPress={() => this.submit(selectedEmployeePayload)}>
         <Text style={styles.submitBtnText}>Add To Cart</Text>
@@ -280,7 +280,7 @@ export default class BookingModal extends Component {
           {this.state.isloading && (
             <ActivityIndicator
               size="small"
-              style={{marginVertical: 20}}
+              style={{ marginVertical: 20 }}
               color={Colors.darkStaleBlue}
             />
           )}
@@ -303,7 +303,7 @@ export default class BookingModal extends Component {
                   height: Metrics.ratio(40),
                 }}
                 onPress={() => {
-                  this.setState({date: el.date});
+                  this.setState({ date: el.date });
                 }}>
                 <Text
                   style={{
@@ -440,7 +440,7 @@ export default class BookingModal extends Component {
               </View> */}
             </View>
 
-            <View style={[styles.row, {marginTop: 20}]}>
+            <View style={[styles.row, { marginTop: 20 }]}>
               {this.renderShowCategoryButton()}
             </View>
             {this.state.errorMessages != null && (
