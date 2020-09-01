@@ -17,7 +17,7 @@ export default StyleSheet.create({
   mainheading: {
     color: '#5c0000',
     fontSize: Metrics.ratio(22),
-    fontFamily: Fonts.type.bold,
+    fontFamily: Fonts.type.bold
   },
   mainheading1: {
     color: '#5c0000',

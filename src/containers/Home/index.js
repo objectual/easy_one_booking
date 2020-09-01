@@ -249,7 +249,7 @@ class Home extends Component {
   renderOurServices = () => {
     return (
       <View style={styles.containerForRow}>
-        <Text style={styles.mainheading}>Our Services</Text>
+        <Text style={[styles.mainheading, {marginVertical: Metrics.ratio(10)}]}>Our Services</Text>
       </View>
     );
   };

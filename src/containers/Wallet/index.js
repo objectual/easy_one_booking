@@ -95,7 +95,8 @@ class Wallet extends Component {
 
   render() {
     const { isloading, walletInfo } = this.state;
-
+    console.log(walletInfo.length,'walletInfo.length')
+    console.log(isloading,'isloading')
     return (
       <Footer navigation={this.props.navigation.navigate} screen={''}>
         <View style={styles.container}>
@@ -108,7 +109,7 @@ class Wallet extends Component {
                 return <WalletCard disable={true} walletInfo={item} />;
               }}
             />
-            {!walletInfo.length && !isloading && (
+            {walletInfo.length > 0 && !isloading && (
               <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                 <Text style={{ fontSize: Metrics.ratio(16) }}>
                   No Data Found!
