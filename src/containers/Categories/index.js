@@ -246,7 +246,7 @@ class Categories extends Component {
                 <StarRating
                   disabled={true}
                   maxStars={5}
-                  rating={4}
+                  rating={2}
                   starStyle={{color: 'orange'}}
                   starSize={20}
                 />

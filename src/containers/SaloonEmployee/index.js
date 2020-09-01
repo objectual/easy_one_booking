@@ -226,49 +226,49 @@ class SaloonEmployee extends Component {
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
                   employees.weekPlans &&
-                  employees.weekPlans['0'].availableStatus == 1
+                  employees.weekPlans['0']?.availableStatus == 1
                   ? 'Mon'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
                   employees.weekPlans &&
-                  employees.weekPlans['1'].availableStatus == 1
+                  employees.weekPlans['1']?.availableStatus == 1
                   ? '-Tue'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
                   employees.weekPlans &&
-                  employees.weekPlans['2'].availableStatus == 1
+                  employees.weekPlans['2']?.availableStatus == 1
                   ? '-Wed'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
                   employees.weekPlans &&
-                  employees.weekPlans['3'].availableStatus == 1
+                  employees.weekPlans['3']?.availableStatus == 1
                   ? '-Thu'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
                   employees.weekPlans &&
-                  employees.weekPlans['4'].availableStatus == 1
+                  employees.weekPlans['4']?.availableStatus == 1
                   ? '-Fri'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
                   employees.weekPlans &&
-                  employees.weekPlans['5'].availableStatus == 1
+                  employees.weekPlans['5']?.availableStatus == 1
                   ? '-Sat'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
                   employees.weekPlans &&
-                  employees.weekPlans['6'].availableStatus == 1
+                  employees.weekPlans['6']?.availableStatus == 1
                   ? 'Sun'
                   : null}
               </Text>
