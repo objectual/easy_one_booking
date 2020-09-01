@@ -32,7 +32,7 @@ export default StyleSheet.create({
     paddingVertical: Metrics.ratio(10),
   },
   mainheading2: {
-    color: 'black',
+      color: 'darkgray',
     fontSize: Metrics.ratio(14),
     fontWeight: 'bold',
   },
@@ -43,7 +43,7 @@ export default StyleSheet.create({
     paddingVertical: Metrics.ratio(10),
   },
   headAddress: {
-    color: '#5c0000',
+    color: 'black',
     fontSize: Metrics.ratio(14),
     fontFamily: Fonts.type.bold,
     paddingVertical: Metrics.ratio(8),
@@ -107,14 +107,13 @@ export default StyleSheet.create({
   },
   btnContainer: {
     paddingVertical: Metrics.ratio(12),
-    width: Metrics.screenWidth * 0.4,
-    backgroundColor: '#FF4514',
     justifyContent: 'center',
-    alignItems: 'center',
 
     borderRadius: Metrics.ratio(30),
   },
   btnText: {
-    color: 'white',
+    color: 'black',
+    fontSize: Metrics.ratio(16),
+    fontFamily: Fonts.type.bold,
   },
 });
