@@ -223,7 +223,6 @@ class Categories extends Component {
       <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
         <View style={styles.container}>
           {!isFetching && !failure && <SpinnerLoader isloading={isFetching} />}
-          <ScrollView>
             <View style={styles.containerForRow}>
               <Text style={styles.mainheading0}>{selectedCard?.name}</Text>
 
@@ -270,7 +269,6 @@ class Categories extends Component {
               showsHorizontalScrollIndicator={false}>
               <View>{this.renderCategoryRow()}</View>
             </ScrollView>
-          </ScrollView>
         </View>
       </Footer>
     );
