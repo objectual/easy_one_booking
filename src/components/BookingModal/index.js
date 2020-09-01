@@ -92,15 +92,16 @@ export default class BookingModal extends Component {
 
   validateDate = async (date) => {
     let day = new Date(date).getDay();
-    day = day == 0 ? 7 : day;
     day.toString();
     console.log(day, 'day');
-
+    console.log(this.state.data.weekPlans,'this.state.data.weekPlans[i].dayOfWeek ')
     for (let i = 0; i < this.state.data.weekPlans.length; i++) {
       if (
-        this.state.data.weekPlans[i].dayOfWeek == day &&
+        this.state.data.weekPlans[i].dayOfWeek == day + 1&&
         this.state.data.weekPlans[i].availableStatus == '1'
       ) {
+      
+    
         // return true;
         return await this.validateTime(
           this.state.data.weekPlans[i],
@@ -109,15 +110,6 @@ export default class BookingModal extends Component {
       }
     }
 
-    // await this.setState({errorMessages:'This employee is not available on this date'})
-    // await Alert.alert(
-    //   'We are Sorry',
-    //   'This employee is not available on this date',
-    //   [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
-    //   { cancelable: false },
-    // );
-
-    // return await false
     return await {
       valid: false,
       errorMessages: `This employee is not available on ${await this.getDay(
@@ -132,10 +124,6 @@ export default class BookingModal extends Component {
     let startHourArray = object.checkIn.split(':');
     let endHourArray = object.checkOut.split(':');
     let formatHour = currentHourArray.split(':');
-
-    console.log(formatHour, 'currentHourArray');
-    console.log(startHourArray, 'startHourArray');
-    console.log(endHourArray, 'endHourArray');
 
     var currentHour = new Date();
     currentHour.setHours(formatHour[0], formatHour[1], 0);
@@ -223,8 +211,6 @@ export default class BookingModal extends Component {
 
   renderShowCategoryButton = () => {
     const { selectCard, timeSlot, data, time } = this.state;
-    console.log(timeSlot, 'timeSlot');
-    console.log(data, 'dataEmployee');
 
     let selectedEmployeePayload = {
       checkIn: time,
@@ -236,7 +222,6 @@ export default class BookingModal extends Component {
       servicesName: '',
       serviceId: '',
     };
-    console.log(selectedEmployeePayload, 'bookingpayload');
 
     return (
       <TouchableOpacity
@@ -354,7 +339,6 @@ export default class BookingModal extends Component {
   };
 
   render() {
-    console.log(this.state.selectedEmployee, 'dataBookingModal');
     return (
       <Modal
         animationType={'slide'}

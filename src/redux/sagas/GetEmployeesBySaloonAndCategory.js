@@ -21,7 +21,6 @@ function* watchRequest() {
     // delete payload.targetView;
     try {
       const response = yield call(callRequest, payload);
-      console.log(response, 'responseresponseresponseresponseresponse');
       yield put(success(response));
       //   setTimeout(() => {
       //     Actions.verify({

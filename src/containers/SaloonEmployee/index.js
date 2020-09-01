@@ -60,10 +60,7 @@ class SaloonEmployee extends Component {
         this.setState({
           getEmployeesList: nextProps.getEmployeesBySaloonAndCategory.data.data,
         });
-        console.log(
-          nextProps.getEmployeesBySaloonAndCategory.data.data,
-          'getEmployeesBySaloonAndCategorygetEmployeesBySaloonAndCategory',
-        );
+      
       } else if (
         !nextProps.getEmployeesBySaloonAndCategory.failure &&
         !nextProps.getEmployeesBySaloonAndCategory.isFetching &&
@@ -180,7 +177,6 @@ class SaloonEmployee extends Component {
     );
   };
   renderEmoployee = (employees, index) => {
-    console.log(employees, 'pppppppppp//////////');
     return (
       <TouchableOpacity
         onPress={() =>
@@ -227,49 +223,49 @@ class SaloonEmployee extends Component {
                 {employees &&
                   employees.weekPlans &&
                   employees.weekPlans['0']?.availableStatus == 1
-                  ? 'Mon'
+                  ? 'Sun'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
                   employees.weekPlans &&
                   employees.weekPlans['1']?.availableStatus == 1
-                  ? '-Tue'
+                  ? '-Mon'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
                   employees.weekPlans &&
                   employees.weekPlans['2']?.availableStatus == 1
-                  ? '-Wed'
+                  ? '-Tue'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
                   employees.weekPlans &&
                   employees.weekPlans['3']?.availableStatus == 1
-                  ? '-Thu'
+                  ? '-Wed'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
                   employees.weekPlans &&
                   employees.weekPlans['4']?.availableStatus == 1
-                  ? '-Fri'
+                  ? '-Thu'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
                   employees.weekPlans &&
                   employees.weekPlans['5']?.availableStatus == 1
-                  ? '-Sat'
+                  ? '-Fri'
                   : null}
               </Text>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
                   employees.weekPlans &&
                   employees.weekPlans['6']?.availableStatus == 1
-                  ? 'Sun'
+                  ? 'Sat'
                   : null}
               </Text>
             </View>
@@ -392,13 +388,8 @@ class SaloonEmployee extends Component {
 
   addToCard = async (e) => {
     let { serviceId, companyId, services, categoryId } = this.props.route.params;
-    console.log(services, 'services');
-    console.log(categoryId, 'categoryId');
-    console.log(serviceId, 'serviceId');
 
     let payload = { ...e, ...{ companyId }, ...{ services } };
-
-    console.log(JSON.stringify(payload), 'proceedingpayload');
 
     if ((await this.vaidateService(payload)) == false) {
       await this.props.navigation.navigate('Proceeding', {
@@ -407,24 +398,7 @@ class SaloonEmployee extends Component {
       }),
         this.setState({ showBookedModal: false });
 
-      //  Alert.alert(
-      //   'Oops',
-      //   'This is service is already added',
-      //   [
-      //     {
-      //       text: 'Ok',
-      //       onPress: async() => {
-      //          await this.props.navigation.navigate('Proceeding',{
-      //           companyId: companyId,
-      //           serviceId: serviceId,
-      //         }),
-      //           this.setState({showBookedModal: false});
-      //       },
-      //     },
-      //   ],
-      //   {cancelable: false},
-      // );
-    } else {
+      } else {
       await this.props.addToCard({ payload });
       this.props.navigation.navigate('Proceeding', {
         companyId: companyId,
@@ -487,7 +461,7 @@ class SaloonEmployee extends Component {
   render() {
     const { getEmployeesList, setModalVisible } = this.state;
     const { isFetching, failure } = this.props.getEmployeesBySaloonAndCategory;
-    console.log(this.state.selectedEmployee, 'this.state.selectedEmployee');
+    
     return (
       <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
         <View style={styles.container}>
