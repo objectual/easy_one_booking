@@ -265,7 +265,7 @@ class SaloonEmployee extends Component {
                 {employees &&
                   employees.weekPlans &&
                   employees.weekPlans['6']?.availableStatus == 1
-                  ? 'Sat'
+                  ? '-Sat'
                   : null}
               </Text>
             </View>
@@ -336,7 +336,7 @@ class SaloonEmployee extends Component {
             employees.employeeId &&
             employees.employeeId.weekPlans &&
             employees.employeeId.weekPlans['6'].availableStatus == 1
-            ? 'Sun'
+            ? '-Sun'
             : null}
         </Text>
       </View>
