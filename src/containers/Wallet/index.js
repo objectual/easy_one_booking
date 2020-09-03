@@ -94,7 +94,7 @@ class Wallet extends Component {
   };
 
   render() {
-    const { isloading, walletInfo } = this.state;
+    const { isloading, walletInfo, headerImage } = this.state;
     console.log(walletInfo.length,'walletInfo.length')
     console.log(isloading,'isloading')
     return (

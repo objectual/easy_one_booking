@@ -34,21 +34,6 @@ function* watchRequest() {
     } catch (err) {
       yield put(failure(err));
       ErrorHelper.handleErrors(err, true);
-      if (err) {
-        Alert.alert(
-          'Error',
-          err,
-          [
-            {
-              text: 'ok',
-              onPress: () => {
-                console.log('ok');
-              },
-            },
-          ],
-          {cancelable: false},
-        );
-      }
     }
   }
 }

@@ -43,6 +43,7 @@ export const GET_EMPLOYEES_BY_SALOON_AND_CATEGORY = createRequestTypes(
 );
 export const GET_SERVICES = createRequestTypes('GET_SERVICES');
 export const UPDATE_BOOKING = createRequestTypes('UPDATE_BOOKING');
+export const GETWALLET = createRequestTypes('GETWALLET');
 //
 
 export const LOGOUT = 'LOGOUT';
