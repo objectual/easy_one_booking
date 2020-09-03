@@ -15,7 +15,7 @@ import {
 import {Images, Metrics} from '../../theme';
 
 import {Footer} from './../../components';
-
+import axios from 'axios';
 import Wallet_Icon from 'react-native-vector-icons/dist/SimpleLineIcons';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -23,10 +23,11 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Booking_Icon from 'react-native-vector-icons/dist/EvilIcons';
 import User_Icon from 'react-native-vector-icons/dist/Feather';
 import Logout_Icon from 'react-native-vector-icons/dist/AntDesign';
+import {connect} from 'react-redux';
 
-import {token} from './../../config/WebServices';
+import {initializeToken, logout_api, token} from './../../config/WebServices';
 
-export default class Menu extends Component {
+class Menu extends Component {
   constructor(props) {
     super(props);
     // const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -86,6 +87,53 @@ export default class Menu extends Component {
     });
   };
 
+  handleLogout = async () => {
+    // let token = await initializeToken();
+    console.log('token: ', token);
+
+    axios
+      .get(`${logout_api}`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then(async (res) => {
+        try {
+          await AsyncStorage.removeItem('access_token');
+          // Actions.loginScreen();
+          this.props.navigation.navigate('Login');
+
+          Alert.alert('Success', 'Logout Successfully');
+          this.setState({token: ''});
+          return true;
+        } catch (err) {
+          return false;
+        }
+      })
+      .catch((error) => {
+        console.log('error: ', error);
+        // this.setState({isLoading: false});
+
+        if (error.response) {
+          Alert.alert('Error', error.response.data.msg);
+
+          // Request made and server responded
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          Alert.alert('Error', 'Something Went Wrong');
+
+          // The request was made but no response was received
+          console.log(error.request);
+        } else {
+          Alert.alert('Error', error.msg);
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.msg);
+        }
+      });
+  };
+
   async removeItemValue(key) {
     try {
       await AsyncStorage.removeItem('access_token');
@@ -105,7 +153,7 @@ export default class Menu extends Component {
   onClickListener = (item, viewId) => {
     item.title == 'Login' && this.props.navigation.navigate('Login');
     item.title == 'Register' && this.props.navigation.navigate('Register');
-    item.title == 'Logout' && this.removeItemValue();
+    item.title == 'Logout' && this.handleLogout();
     item.title == 'Booking History' &&
       token &&
       this.props.navigation.navigate('BookingHistory', {
@@ -120,6 +168,9 @@ export default class Menu extends Component {
   };
 
   componentWillUnmount() {
+    console.log('token: ', token);
+    this.setState({token});
+
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
   }
 
@@ -238,6 +289,8 @@ export default class Menu extends Component {
     );
   }
 }
+
+export default Menu;
 
 const styles = StyleSheet.create({
   //   container: {

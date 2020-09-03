@@ -108,6 +108,7 @@ class Home extends Component {
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
+    console.log('nextProps:nextPropsnextProps ', nextProps);
     if (nextProps.getSaloon) {
       if (
         !nextProps.getSaloon.failure &&
@@ -249,7 +250,9 @@ class Home extends Component {
   renderOurServices = () => {
     return (
       <View style={styles.containerForRow}>
-        <Text style={[styles.mainheading, {marginVertical: Metrics.ratio(10)}]}>Our Services</Text>
+        <Text style={[styles.mainheading, {marginVertical: Metrics.ratio(10)}]}>
+          Our Services
+        </Text>
       </View>
     );
   };
