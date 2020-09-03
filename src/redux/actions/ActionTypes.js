@@ -22,7 +22,6 @@ export const GET_SALOON = createRequestTypes('GET_SALOON');
 export const GET_BOOKING = createRequestTypes('GET_BOOKING');
 export const GET_SALOON_NEARBY = createRequestTypes('GET_SALOON_NEARBY');
 export const GET_CATEGORIES = createRequestTypes('GET_CATEGORIES');
-export const GETWALLET = createRequestTypes('GETWALLET');
 export const CUSTOMER_RATING = createRequestTypes('CUSTOMER_RATING');
 export const EMPLOYEE_RATING = createRequestTypes('EMPLOYEE_RATING');
 export const FORGET_PASSWORD = createRequestTypes('FORGET_PASSWORD');
@@ -43,6 +42,7 @@ export const GET_EMPLOYEES_BY_SALOON_AND_CATEGORY = createRequestTypes(
 );
 export const GET_SERVICES = createRequestTypes('GET_SERVICES');
 export const UPDATE_BOOKING = createRequestTypes('UPDATE_BOOKING');
+export const GETWALLET = createRequestTypes('GETWALLET');
 //
 
 export const LOGOUT = 'LOGOUT';

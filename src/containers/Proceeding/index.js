@@ -1,5 +1,5 @@
-import {connect} from 'react-redux';
-import React, {Component, useState} from 'react';
+import { connect } from 'react-redux';
+import React, { Component, useState } from 'react';
 import {
   Text,
   View,
@@ -17,23 +17,23 @@ import {
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
-import {Images, Metrics, Fonts, Colors} from '../../theme';
+import { Images, Metrics, Fonts, Colors } from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
-import {Footer} from '../../components';
+import { Footer } from '../../components';
 import Header from '../../components/Header/index';
 import {
   add as addToCard,
   remove as removeFromCard,
   removeAll,
 } from '../../redux/actions/Cart';
-import RNPickerSelect, {defaultStyles} from 'react-native-picker-select';
+import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 
 // import {initializeToken, token} from '../../config/WebServices'
 import {
   request as create_Booking,
   hideModal,
 } from '../../redux/actions/CreateBooking';
-import {initializeToken, token, getUserInfo} from '../../config/WebServices';
+import { initializeToken, token, getUserInfo } from '../../config/WebServices';
 import BookedSuccessModal from '../../components/BookedSuccessModal';
 
 class Proceeding extends Component {
@@ -70,21 +70,21 @@ class Proceeding extends Component {
     }
 
     if (props.createBooking.success == true) {
-      return {showBookedModal: true};
+      return { showBookedModal: true };
     }
   }
 
   renderServicesSum = () => {
-    const {services} = this.state;
+    const { services } = this.state;
     let price;
     for (i = 0; i < services.length; i++) {
       price = price + services.servicePrice;
     }
-    this.setState({totalServicesSum: '0'});
+    this.setState({ totalServicesSum: '0' });
   };
 
   renderServicesRow = () => {
-    const {services, cart} = this.state;
+    const { services, cart } = this.state;
     console.log(this.state.cart, 'cartstate');
 
     return (
@@ -92,9 +92,9 @@ class Proceeding extends Component {
         <FlatList
           // horizontal
           data={cart.data}
-          renderItem={({item, index}) => this.renderService(item, index)}
-          // keyExtractor={item => item.id}
-          // extraData={selected}
+          renderItem={({ item, index }) => this.renderService(item, index)}
+        // keyExtractor={item => item.id}
+        // extraData={selected}
         />
       </View>
     );
@@ -102,12 +102,12 @@ class Proceeding extends Component {
 
   getRows = (label, value) => {
     return (
-      <View style={{width: '90%', flexDirection: 'row', marginBottom: 5}}>
-        <View style={{width: '50%'}}>
-          <Text style={{fontSize: 18}}>{label}</Text>
+      <View style={{ width: '90%', flexDirection: 'row', marginBottom: 5 }}>
+        <View style={{ width: '50%' }}>
+          <Text style={{ fontSize: 18 }}>{label}</Text>
         </View>
-        <View style={{width: '50%'}}>
-          <Text style={{fontSize: 18, color: Colors.taupeGrey}}>{value}</Text>
+        <View style={{ width: '50%' }}>
+          <Text style={{ fontSize: 18, color: Colors.taupeGrey }}>{value}</Text>
         </View>
       </View>
     );
@@ -116,7 +116,7 @@ class Proceeding extends Component {
   getCancelRow = (index) => {
     return (
       <TouchableOpacity
-        onPress={async () => await this.props.removeFromCard({index})}
+        onPress={async () => await this.props.removeFromCard({ index })}
         style={{
           width: '90%',
           flexDirection: 'row',
@@ -131,7 +131,7 @@ class Proceeding extends Component {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text style={{fontSize: 18}}>x</Text>
+          <Text style={{ fontSize: 18 }}>x</Text>
         </View>
       </TouchableOpacity>
     );
@@ -139,12 +139,12 @@ class Proceeding extends Component {
 
   getRows = (label, value) => {
     return (
-      <View style={{width: '90%', flexDirection: 'row', marginBottom: 5}}>
-        <View style={{width: '50%'}}>
-          <Text style={{fontSize: 18}}>{label}</Text>
+      <View style={{ width: '90%', flexDirection: 'row', marginBottom: 5 }}>
+        <View style={{ width: '50%' }}>
+          <Text style={{ fontSize: 18 }}>{label}</Text>
         </View>
-        <View style={{width: '50%'}}>
-          <Text style={{fontSize: 18, color: Colors.taupeGrey}}>{value}</Text>
+        <View style={{ width: '50%' }}>
+          <Text style={{ fontSize: 18, color: Colors.taupeGrey }}>{value}</Text>
         </View>
       </View>
     );
@@ -158,10 +158,10 @@ class Proceeding extends Component {
           {this.getCancelRow(index)}
           {this.getRows(
             'Name',
-            `${object.payload?.employee?.userId.firstName} ${object.payload?.employee?.userId.lastName}`,
+            `${object.payload?.employee?.employeeId?.userId.firstName} ${object.payload?.employee?.employeeId?.userId.lastName}`,
           )}
-          {this.getRows('Service Name', object.payload?.services.name)}
-          {this.getRows('Price', `$${object.payload?.services.price}`)}
+          {this.getRows('Service Name', object.payload?.serviceObj.name)}
+          {this.getRows('Price', `$${object.payload?.serviceObj.price}`)}
           {this.getRows('Date', object.payload?.date)}
           {this.getRows('Time', object.payload?.checkIn)}
 
@@ -196,24 +196,20 @@ class Proceeding extends Component {
   };
 
   getTotalPrice = () => {
-    const {cart} = this.state;
-
+    const { cart } = this.state;
     let price = 0;
     for (let i = 0; i < cart.data.length; i++) {
-      console.log(cart.data[i].payload.price, 'cart.data[i].payload.price');
-
-      price = price + cart.data[i].payload.services.price;
+      price = price + parseInt(cart.data[i].payload.serviceObj.price);
     }
-
     return price.toString();
   };
 
   renderTotalServices = () => {
-    const {totalServicesSum} = this.state;
+    const { totalServicesSum } = this.state;
     console.log(this.getTotalPrice(), 'price');
     return (
       <View>
-        <View style={{width: '80%', flexDirection: 'row', borderWidth: 0}}>
+        <View style={{ width: '80%', flexDirection: 'row', borderWidth: 0 }}>
           <Text style={styles.serviceheadfontRed}>TOTAL</Text>
           <Text style={styles.serviceheadfontRed}>${this.getTotalPrice()}</Text>
         </View>
@@ -230,7 +226,7 @@ class Proceeding extends Component {
   };
 
   renderPopup = () => {
-    const {modalVisible, setModalVisible} = this.setState;
+    const { modalVisible, setModalVisible } = this.setState;
     return (
       <Modal
         animationType="slide"
@@ -242,9 +238,9 @@ class Proceeding extends Component {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <TouchableOpacity
-              style={{...styles.openButton}}
+              style={{ ...styles.openButton }}
               onPress={() => {
-                this.setState({modalVisible: false});
+                this.setState({ modalVisible: false });
               }}>
               <View
                 style={{
@@ -259,15 +255,15 @@ class Proceeding extends Component {
             </TouchableOpacity>
             <Text style={styles.modalText}>Select Payment Type</Text>
             {this.renderDropdownPicker()}
-            <View style={[styles.containerForRow, {alignItems: 'center'}]}>
+            <View style={[styles.containerForRow, { alignItems: 'center' }]}>
               <TouchableOpacity
                 // onPress={() => this.booKNow()}
                 onPress={() => {
-                  this.setState({modalVisible: false}, () => this.booKNow());
+                  this.setState({ modalVisible: false }, () => this.booKNow());
                 }}
                 style={[
                   styles.submitBtn2,
-                  {width: Metrics.screenWidth * 0.55},
+                  { width: Metrics.screenWidth * 0.55 },
                 ]}>
                 <Text style={styles.submitBtnText2}>Done</Text>
               </TouchableOpacity>
@@ -279,10 +275,10 @@ class Proceeding extends Component {
   };
 
   renderDropdownPicker = (type, data) => {
-    const status = [{label: 'Cancel', value: 3}];
+    const status = [{ label: 'Cancel', value: 3 }];
     const paymentType = [
-      {label: 'Cash', value: 'Cash'},
-      {label: 'Points', value: 'Points'},
+      { label: 'Cash', value: 'Cash' },
+      { label: 'Points', value: 'Points' },
     ];
     return (
       <View style={styles.dropdownContainer}>
@@ -317,16 +313,14 @@ class Proceeding extends Component {
   };
 
   handlePickerValue = (value, type) => {
-    this.setState({status: value});
+    this.setState({ status: value });
   };
 
   createPayload = async () => {
-    const {login} = this.props;
-    const {cart} = this.props;
-    const {status} = this.state;
-    console.log(JSON.stringify(cart.data), 'login.cart');
+    const { login } = this.props;
+    const { cart } = this.props;
+    const { status } = this.state;
     let userInfo = JSON.parse(await getUserInfo());
-    console.log(userInfo, 'userInfo');
 
     let services = [];
 
@@ -339,9 +333,9 @@ class Proceeding extends Component {
 
       let object = {
         // companyId: cart.data[i].payload.companyId,
-        serviceId: cart.data[i].payload.services._id,
+        serviceId: cart.data[i].payload.serviceObj._id,
         employeeId: cart.data[i].payload.employee._id,
-        categoryId: cart.data[i].payload.services.serviceId,
+        categoryId: cart.data[i].payload.serviceObj.serviceId,
         date: dateArray,
         time: timeArray,
       };
@@ -364,19 +358,18 @@ class Proceeding extends Component {
       totalAmount: parseInt(this.getTotalPrice()),
       paymentMethod: status,
     };
-
     console.log(payload, 'postbody');
     this.props.create_Booking(payload);
   };
 
   renderPayNowButton = () => {
     return (
-      <View style={[styles.containerForRow, {alignItems: 'center'}]}>
+      <View style={[styles.containerForRow, { alignItems: 'center' }]}>
         <TouchableOpacity
           // onPress={() => this.booKNow()}
           onPress={() => {
             token
-              ? this.setState({modalVisible: true})
+              ? this.setState({ modalVisible: true })
               : this.props.navigation.navigate('Login');
           }}
           style={styles.submitBtn2}>
@@ -387,16 +380,16 @@ class Proceeding extends Component {
   };
 
   render() {
-    const {services, modalVisible} = this.state;
-    const {cart} = this.props;
-    const {createBooking} = this.props;
+    const { services, modalVisible } = this.state;
+    const { cart } = this.props;
+    const { createBooking } = this.props;
     {
       // alert("sf")
       cart.data.length == 0 &&
         createBooking.success == false &&
         this.props.navigation.navigate('Home');
     }
-    console.log(token, 'ttttttttooopppp');
+
     return (
       <Footer navigation={this.props.navigation.navigate} screen={'menu'}>
         <View style={styles.container}>
@@ -407,10 +400,10 @@ class Proceeding extends Component {
               onPress={() => {
                 this.props.removeAll();
                 this.props.hideModal();
-                this.setState({showBookedModal: false});
+                this.setState({ showBookedModal: false });
                 this.props.navigation.navigate('Home');
               }}
-              onCancel={() => this.setState({showBookedModal: false})}
+              onCancel={() => this.setState({ showBookedModal: false })}
             />
           )}
 
@@ -434,6 +427,6 @@ const mapStateToProps = (state) => ({
   createBooking: state.createBooking,
 });
 
-const action = {removeFromCard, create_Booking, hideModal, removeAll};
+const action = { removeFromCard, create_Booking, hideModal, removeAll };
 
 export default connect(mapStateToProps, action)(Proceeding);

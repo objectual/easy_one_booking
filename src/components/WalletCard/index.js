@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {Text, View, Image, TouchableOpacity} from 'react-native';
-import styles from './style';
-import {Metrics} from "../../theme"
-
+import React, { Component } from 'react';
+import { Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import styles from './styles';
+import { Images, Metrics } from '../../theme';
+import PropTypes from 'prop-types';
 
 class WalletCard extends Component {
   constructor(props) {

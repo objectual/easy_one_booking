@@ -15,18 +15,15 @@ import {
   Button,
   FlatList,
 } from 'react-native';
-import FloatingLabel from 'react-native-floating-labels';
+import _ from "lodash";
 import styles from './styles';
 import { Images, Metrics, Fonts } from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import { Footer } from '../../components';
-import Header from '../../components/Header/index';
-import Rating from './../../components/Rating/index';
-import StarRating from 'react-native-star-rating';
+
 import { request as get_Employees_By_Saloon_And_Category } from '../../redux/actions/GetEmployeesBySaloonAndCategory.js';
 import { request as create_Booking } from '../../redux/actions/CreateBooking.js';
-import DatePicker from 'react-native-datepicker';
-import DateTimePicker from '@react-native-community/datetimepicker';
+
 import BookingModal from '../../components/BookingModal';
 import {
   add as addToCard,
@@ -60,7 +57,7 @@ class SaloonEmployee extends Component {
         this.setState({
           getEmployeesList: nextProps.getEmployeesBySaloonAndCategory.data.data,
         });
-      
+
       } else if (
         !nextProps.getEmployeesBySaloonAndCategory.failure &&
         !nextProps.getEmployeesBySaloonAndCategory.isFetching &&
@@ -77,50 +74,12 @@ class SaloonEmployee extends Component {
         });
       }
     }
-    // if (nextProps.createBooking) {
-    //   console.log(
-    //     nextProps.createBooking,
-    //     'createBookingcreateBookingcreateBookingcreateBookingcreateBooking',
-    //   );
-    //   if (
-    //     !nextProps.createBooking.failure &&
-    //     !nextProps.createBooking.isFetching &&
-    //     nextProps.createBooking.data &&
-    //     nextProps.createBooking.data.success
-    //   ) {
-    //     // this.setState({
-    //     //   getSelectedServices: nextProps.createBooking.data.data,
-    //     // });
-    //     console.log(
-    //       nextProps.createBooking,
-    //       'createBookingcreateBookingcreateBookingcreateBookingcreateBooking',
-    //     );
-    //   } else if (
-    //     !nextProps.createBooking.failure &&
-    //     !nextProps.createBooking.isFetching &&
-    //     nextProps.createBooking.data &&
-    //     !nextProps.createBooking.data.success
-    //   ) {
-    //     this.setState({isloading: false}, () => {
-    //       setTimeout(() => {
-    //         Alert.alert('Error', nextProps.createBooking.data.msg);
-    //       }, 3000);
-    //     });
-    //   }
-    // }
   }
   componentDidMount = () => {
     this.handleSaloonServicesByCategory();
   };
 
   handleSaloonServicesByCategory = () => {
-    // const {ID, servicesId} = this.props;
-    // console.log(servicesId, 'servicesIdservicesIdservicesId');
-    // this.setState({isLoading: true});
-    // const payload = {
-    //   companyId: '5ee3b96663c5580017cd089b',
-    //   serviceId: '5ee7417408ea9d0017d1f881',
-    // };
 
     const { serviceId, companyId } = this.props.route.params;
 
@@ -131,30 +90,6 @@ class SaloonEmployee extends Component {
 
     this.props.get_Employees_By_Saloon_And_Category(payload);
   };
-  // handleCreateBookingLogin = () => {
-  //   const {loginData} = this.state;
-  //   if (loginData && loginData.access_token) {
-  //     this.handleCreateBooking();
-  //   } else {
-  //     Alert.alert('Cannot Create Order', 'Please Login First for order');
-  //   }
-  // };
-
-  // handleCreateBooking = () => {
-  //   this.setState({isLoading: true});
-  //   const {loginData} = this.state;
-  //   const {ID, servicesId} = this.props;
-  //   console.log(servicesId, 'servicesIdservicesIdservicesIdservicesId');
-  //   const payload = {
-  //     // employeeId: '5ee232365391f10aa8a853dc',
-  //     // serviceId: '5ee21ff48384d05ab0b87a1a',
-  //     // categoryId: ID,
-  //     // status: '1',
-  //     // bookingDate: '10-06-2020',
-  //     access_token: loginData.access_token,
-  //   };
-  //   this.props.create_Booking(payload);
-  // };
 
   onStarRatingPress(rating) {
     this.setState({
@@ -194,16 +129,10 @@ class SaloonEmployee extends Component {
                 style={styles.servicesImage}
               />
             )
-            // <Image
-            //   source={Images.select_services}
-            //   style={styles.servicesImage}
-            // />
+
           }
           <View
             style={{
-              // marginVertical: Metrics.ratio(15),
-              // marginHorizontal: Metrics.ratio(5),
-              // flexWrap: 'wrap',
               justifyContent: 'center',
             }}>
             <Text numberOfLines={1} style={{ fontSize: Metrics.ratio(17) }}>
@@ -265,7 +194,7 @@ class SaloonEmployee extends Component {
                 {employees &&
                   employees.weekPlans &&
                   employees.weekPlans['6']?.availableStatus == 1
-                  ? 'Sat'
+                  ? '-Sat'
                   : null}
               </Text>
             </View>
@@ -336,28 +265,12 @@ class SaloonEmployee extends Component {
             employees.employeeId &&
             employees.employeeId.weekPlans &&
             employees.employeeId.weekPlans['6'].availableStatus == 1
-            ? 'Sun'
+            ? '-Sun'
             : null}
         </Text>
       </View>
     );
   };
-  // renderBookNowButton = services => {
-  //   const {selectBookNow} = this.state;
-  //   return (
-  //     <View>
-  //       <TouchableOpacity
-  //         style={
-  //           selectBookNow && selectBookNow._id == services.selectBookNow._id
-  //             ? styles.btnSelect
-  //             : styles.submitBtn1
-  //         }
-  //         onPress={() => this.handleCreateBookingLogin()}>
-  //         <Text style={styles.submitBtnText1}>Book Now</Text>
-  //       </TouchableOpacity>
-  //     </View>
-  //   );
-  // };
 
   renderPopup = () => {
     const { modalVisible, setModalVisible } = this.setState;
@@ -388,9 +301,14 @@ class SaloonEmployee extends Component {
 
   addToCard = async (e) => {
     let { serviceId, companyId, services, categoryId } = this.props.route.params;
+    let companyEmpService = _.find(e.employee.companyServices, 'price', services._id);
+    let serviceObj = { ...services }
+    serviceObj.price = companyEmpService.price
 
-    let payload = { ...e, ...{ companyId }, ...{ services } };
-
+    let payload = { ...e, ...{ companyId }, ...{ serviceObj } };
+    console.log(payload, 'pppppppppppppp/pppppp')
+    console.log("addToCard -> services", services._id)
+    console.log("addToCard -> companyId", companyId)
     if ((await this.vaidateService(payload)) == false) {
       await this.props.navigation.navigate('Proceeding', {
         companyId: companyId,
@@ -398,7 +316,7 @@ class SaloonEmployee extends Component {
       }),
         this.setState({ showBookedModal: false });
 
-      } else {
+    } else {
       await this.props.addToCard({ payload });
       this.props.navigation.navigate('Proceeding', {
         companyId: companyId,
@@ -461,7 +379,7 @@ class SaloonEmployee extends Component {
   render() {
     const { getEmployeesList, setModalVisible } = this.state;
     const { isFetching, failure } = this.props.getEmployeesBySaloonAndCategory;
-    
+
     return (
       <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
         <View style={styles.container}>
