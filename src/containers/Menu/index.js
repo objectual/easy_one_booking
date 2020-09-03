@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,9 +12,9 @@ import {
   BackHandler,
 } from 'react-native';
 
-import {Images, Metrics} from '../../theme';
+import { Images, Metrics } from '../../theme';
 
-import {Footer} from './../../components';
+import { Footer } from './../../components';
 
 import Wallet_Icon from 'react-native-vector-icons/dist/SimpleLineIcons';
 
@@ -24,7 +24,7 @@ import Booking_Icon from 'react-native-vector-icons/dist/EvilIcons';
 import User_Icon from 'react-native-vector-icons/dist/Feather';
 import Logout_Icon from 'react-native-vector-icons/dist/AntDesign';
 
-import {token} from './../../config/WebServices';
+import { token } from './../../config/WebServices';
 
 export default class Menu extends Component {
   constructor(props) {
@@ -90,7 +90,7 @@ export default class Menu extends Component {
     try {
       await AsyncStorage.removeItem('access_token');
       await AsyncStorage.removeItem('loginResponce');
-      this.setState({token: ''});
+      this.setState({ token: '' });
       alert('Logout Successfully');
       return true;
     } catch (exception) {
@@ -99,7 +99,7 @@ export default class Menu extends Component {
   }
 
   removeAndroidBackButtonHandler = () => {
-    BackHandler.removeEventListener('hardwareBackPress', () => {});
+    BackHandler.removeEventListener('hardwareBackPress', () => { });
   };
 
   onClickListener = (item, viewId) => {
@@ -124,7 +124,7 @@ export default class Menu extends Component {
   }
 
   componentDidMount() {
-    this.setState({token});
+    this.setState({ token });
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
   }
 
@@ -156,8 +156,8 @@ export default class Menu extends Component {
             style={{
               paddingLeft: Metrics.ratio(20),
             }}>
-            <Text style={{fontSize: Metrics.ratio(22)}}>Lorem Ispum</Text>
-            <Text style={{fontSize: Metrics.ratio(17)}}>Lorem Ispum</Text>
+            <Text style={{ fontSize: Metrics.ratio(22) }}>Lorem Ispum</Text>
+            <Text style={{ fontSize: Metrics.ratio(17) }}>Lorem Ispum</Text>
           </View>
         </View>
       </View>
@@ -173,7 +173,7 @@ export default class Menu extends Component {
               <View
                 style={[
                   styles.navigationInsideContainer,
-                  {backgroundColor: this.state.bgColor},
+                  { backgroundColor: this.state.bgColor },
                 ]}>
                 <item.iconUrl name={item.icon} size={30} />
                 <Text style={styles.navigationContainerText}>{item.title}</Text>
@@ -193,7 +193,7 @@ export default class Menu extends Component {
               <View
                 style={[
                   styles.navigationInsideContainer,
-                  {backgroundColor: this.state.bgColor},
+                  { backgroundColor: this.state.bgColor },
                 ]}>
                 <item.iconUrl name={item.icon} size={30} />
                 <Text style={styles.navigationContainerText}>{item.title}</Text>
@@ -210,7 +210,7 @@ export default class Menu extends Component {
               <View
                 style={[
                   styles.navigationInsideContainer,
-                  {backgroundColor: this.state.bgColor},
+                  { backgroundColor: this.state.bgColor },
                 ]}>
                 <item.iconUrl name={item.icon} size={30} />
                 <Text style={styles.navigationContainerText}>{item.title}</Text>
@@ -231,7 +231,7 @@ export default class Menu extends Component {
 
           <FlatList
             data={this.state.dataSource}
-            renderItem={({item, index}) => this.renderItemList(item, index)}
+            renderItem={({ item, index }) => this.renderItemList(item, index)}
           />
         </ScrollView>
       </Footer>

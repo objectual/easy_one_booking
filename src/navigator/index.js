@@ -155,6 +155,11 @@ function mainStack({navigation}) {
           component={BookingHistory}
           options={{title: 'Booking History'}}
         />
+        <Stack.Screen
+          name="Wallet"
+          component={Wallet}
+          options={{title: 'Wallet'}}
+        />
 
         <Stack.Screen
           name="Available Services"
