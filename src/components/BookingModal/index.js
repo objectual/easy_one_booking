@@ -94,14 +94,14 @@ export default class BookingModal extends Component {
     let day = new Date(date).getDay();
     day.toString();
     console.log(day, 'day');
-    console.log(this.state.data.weekPlans,'this.state.data.weekPlans[i].dayOfWeek ')
+    console.log(this.state.data.weekPlans, 'this.state.data.weekPlans[i].dayOfWeek ')
     for (let i = 0; i < this.state.data.weekPlans.length; i++) {
       if (
-        this.state.data.weekPlans[i].dayOfWeek == day + 1&&
+        this.state.data.weekPlans[i].dayOfWeek == day + 1 &&
         this.state.data.weekPlans[i].availableStatus == '1'
       ) {
-      
-    
+
+
         // return true;
         return await this.validateTime(
           this.state.data.weekPlans[i],
@@ -217,7 +217,7 @@ export default class BookingModal extends Component {
       checkOut: time,
       date: this.state.date,
       // employee: data.employeeId.userId,
-      employee: data.employeeId,
+      employee: data,
       price: '',
       servicesName: '',
       serviceId: '',
