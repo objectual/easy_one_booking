@@ -31,7 +31,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.socket = io('http://192.168.18.10:3000');
+    // this.socket = io('http://192.168.18.10:3000');
     setTimeout(() => {
       SplashScreen.hide();
     }, 3000);
