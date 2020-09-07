@@ -336,7 +336,8 @@ class Register extends Component {
     CustomTextInput,
     errorMessage,
     contentType,
-    maxLength
+    maxLength,
+    autoCapitalize
   ) => {
     return (
       <View style={{ marginHorizontal: Metrics.ratio(3) }}>
@@ -354,11 +355,9 @@ class Register extends Component {
           autoCompleteType="off"
           keyboardType={keyboardType}
           textContentType={contentType}
-          // onSubmitEditing={() => {
-          //   this.onSubmit(onSubmitEditing);
-          // }}
           secureTextEntry={secureTextEntry}
           maxLength={maxLength}
+          autoCapitalize={autoCapitalize}
         />
         <View>
           <Text style={styles.errorText}>{errorMessage}</Text>
@@ -460,7 +459,9 @@ class Register extends Component {
             'inputPostalCode',
             false,
             styles.CustomTextInput,
-            this.state.nameError
+            this.state.nameError,
+            "name",
+            30,
           )}
           {this.renderTextInputWithLable(
             'Postal Code',
@@ -473,7 +474,9 @@ class Register extends Component {
             'inputEmail',
             false,
             styles.CustomTextInput,
-            this.state.postalCodeError
+            this.state.postalCodeError,
+            "postalCode",
+            30,
           )}
           {this.renderTextInputWithLable(
             'Email',
@@ -486,8 +489,10 @@ class Register extends Component {
             'inputPassword',
             false,
             styles.CustomTextInput,
-            this.state.emailError
-
+            this.state.emailError,
+            "emailAddress",
+            50,
+            "none"
           )}
           {this.renderTextInputWithLable(
             'Phone No',
@@ -502,7 +507,7 @@ class Register extends Component {
             styles.CustomTextInput,
             this.state.phoneNoErr,
             "telephoneNumber",
-            14
+            14,
           )}
 
           {this.renderTextInputWithLable(
@@ -516,7 +521,9 @@ class Register extends Component {
             'inputConfirmPassword',
             true,
             styles.CustomTextInput,
-            this.state.passwordError
+            this.state.passwordError,
+            "password",
+            50,
           )}
           {this.renderTextInputWithLable(
             'Confirm Password',
@@ -529,8 +536,9 @@ class Register extends Component {
             'onDone',
             true,
             styles.CustomTextInput,
-            this.state.confirmPasswordError
-
+            this.state.confirmPasswordError,
+            "password",
+            50,
           )}
           {this.renderSubmitBtn()}
           {this._renderOverlaySpinner()}

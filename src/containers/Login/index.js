@@ -205,6 +205,7 @@ class Login extends Component {
     secureTextEntry,
     CustomTextInput,
     errorMessage,
+    autoCapitalize
   ) => {
     return (
       <View>
@@ -224,6 +225,7 @@ class Login extends Component {
           value={value}
           placeholder={placeholder}
           autoCompleteType="off"
+          autoCapitalize={autoCapitalize}
           // onSubmitEditing={() => {
           //   this.onSubmit(onSubmitEditing);
           // }}
@@ -348,6 +350,7 @@ class Login extends Component {
               false,
               styles.CustomTextInput,
               this.state.emailError,
+              "none"
             )}
             {this.renderTextInputWithLabel(
               'Password',
@@ -361,6 +364,7 @@ class Login extends Component {
               true,
               styles.CustomTextInput,
               this.state.passwordError,
+              "characters"
             )}
 
             <TouchableOpacity
