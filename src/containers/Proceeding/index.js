@@ -115,25 +115,28 @@ class Proceeding extends Component {
 
   getCancelRow = (index) => {
     return (
-      <TouchableOpacity
-        onPress={async () => await this.props.removeFromCard({ index })}
+      <View
         style={{
-          width: '90%',
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
+          width: '95%',
+          alignItems: 'flex-end',
           marginBottom: 5,
         }}>
-        <View
+        <TouchableOpacity
           style={{
-            width: '14%',
-            height: 40,
-            borderWidth: 0,
-            justifyContent: 'center',
+            width: Metrics.ratio(40),
+            height: Metrics.ratio(40),
+            backgroundColor: "#FF3600",
             alignItems: 'center',
-          }}>
-          <Text style={{ fontSize: 18 }}>x</Text>
-        </View>
-      </TouchableOpacity>
+            justifyContent: "center",
+            paddingBottom: 5,
+            borderRadius: 100,
+            elevation: 5
+          }}
+          onPress={async () => await this.props.removeFromCard({ index })}
+        >
+          <Text style={{ fontSize: Metrics.ratio(18), color: "white", alignSelf: "center" }}>x</Text>
+        </TouchableOpacity>
+      </View>
     );
   };
 
@@ -177,6 +180,7 @@ class Proceeding extends Component {
       </>
     );
   };
+
   renderServiceHead = () => {
     return (
       <View>

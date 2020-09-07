@@ -344,7 +344,7 @@ class SaloonEmployee extends Component {
           {
             text: 'Yes',
             onPress: () => {
-              this.props.navigation.navigate('Home'),
+              this.props.navigation.navigate('Categories', { companyId: companyId, onCart: true }),
                 this.setState({ showBookedModal: false });
             },
           },

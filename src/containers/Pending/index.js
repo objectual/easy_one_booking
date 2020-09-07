@@ -1,5 +1,5 @@
-import {connect} from 'react-redux';
-import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -18,28 +18,28 @@ import {
   RefreshControl,
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
-import RNPickerSelect, {defaultStyles} from 'react-native-picker-select';
+import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 import styles from './styles';
-import {Images, Metrics, Fonts, Colors} from '../../theme';
+import { Images, Metrics, Fonts, Colors } from '../../theme';
 
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Cards from '../..//components/Card';
-import {Icon} from 'react-native-vector-icons/MaterialIcons';
-import {request as get_Booking} from '../../redux/actions/GetBooking';
+import { Icon } from 'react-native-vector-icons/MaterialIcons';
+import { request as get_Booking } from '../../redux/actions/GetBooking';
 import Geolocation from '@react-native-community/geolocation';
 // import {request as ge} from '../../redux/actions/GetCategories';
-import {Dropdown} from 'react-native-material-dropdown';
+import { Dropdown } from 'react-native-material-dropdown';
 import Immutable from 'seamless-immutable';
-import {request as get_Saloon_By_Category} from '../../redux/actions/GetSaloonByCategory';
-import {request as updateMyBooking} from '../../redux/actions/updateBooking';
+import { request as get_Saloon_By_Category } from '../../redux/actions/GetSaloonByCategory';
+import { request as updateMyBooking } from '../../redux/actions/updateBooking';
 import {
   place_reverse_Geocoding_URL,
   place_Autocomplete_URL,
   secret_Key,
 } from '../../config/WebServices';
-import {request as get_Services} from '../../redux/actions/GetServices';
+import { request as get_Services } from '../../redux/actions/GetServices';
 import BookingHistoryCard from '../../components/BookingHistory/index';
-import {initializeToken, token, getUserInfo} from '../../config/WebServices';
+import { initializeToken, token, getUserInfo } from '../../config/WebServices';
 import CustomTextInputRow from './../../components/CustomTextInputRow/index';
 import CustomTextInput from './../../components/CustomTextInput/index';
 var saloonsData = [];
@@ -115,7 +115,7 @@ class PendingAppoinment extends Component {
       ) {
         // let payload = JSON.parse(await getUserInfo());
         // this.props.get_Booking({ payload });
-        const {currentBooking} = this.state;
+        const { currentBooking } = this.state;
         let bookingData = nextProps.updateBooking.data.data;
         let bookingId = bookingData._id;
         this.setState(
@@ -125,12 +125,12 @@ class PendingAppoinment extends Component {
           async () => {
             if (bookingId !== currentBooking) {
               let payload = JSON.parse(await getUserInfo());
-              this.props.get_Booking({payload});
+              this.props.get_Booking({ payload });
             }
           },
         );
 
-        this.setState({isloading: false, setModalVisible: false});
+        this.setState({ isloading: false, setModalVisible: false });
       } else if (
         !nextProps.updateBooking.failure &&
         !nextProps.updateBooking.isFetching &&
@@ -142,7 +142,7 @@ class PendingAppoinment extends Component {
         //     Alert.alert('Error', nextProps.login.data.msg);
         //   }, 3000);
         // });
-        this.setState({isloading: false, setModalVisible: false});
+        this.setState({ isloading: false, setModalVisible: false });
       }
     }
   }
@@ -169,15 +169,15 @@ class PendingAppoinment extends Component {
 
   async componentDidMount() {
     let payload = JSON.parse(await getUserInfo());
-    this.props.get_Booking({payload});
+    this.props.get_Booking({ payload });
     this.props.navigation.addListener('focus', () =>
-      this.props.get_Booking({payload}),
+      this.props.get_Booking({ payload }),
     );
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   updateBooking = () => {
-    const {status, paymentType, amount, editAppoinment} = this.state;
+    const { status, paymentType, amount, editAppoinment } = this.state;
     const payload = {
       bookingId: editAppoinment._id,
       status: status,
@@ -190,8 +190,8 @@ class PendingAppoinment extends Component {
 
   refreshingData = async () => {
     let payload = JSON.parse(await getUserInfo());
-    this.props.get_Booking({payload});
-    this.setState({refreshing: true});
+    this.props.get_Booking({ payload });
+    this.setState({ refreshing: true });
   };
 
   renderButton = () => {
@@ -211,15 +211,15 @@ class PendingAppoinment extends Component {
 
   handlePickerValue = (value, type) => {
     type === 'status'
-      ? this.setState({status: value})
-      : this.setState({paymentType: value});
+      ? this.setState({ status: value })
+      : this.setState({ paymentType: value });
   };
 
   renderDropdownPicker = (type, data) => {
-    const status = [{label: 'Cancel', value: 3}];
+    const status = [{ label: 'Cancel', value: 3 }];
     const paymentType = [
-      {label: 'Cash', value: 'Cash'},
-      {label: 'Points', value: 'Points'},
+      { label: 'Cash', value: 'Cash' },
+      { label: 'Points', value: 'Points' },
     ];
     return (
       <View style={styles.dropdownContainer}>
@@ -258,7 +258,7 @@ class PendingAppoinment extends Component {
   };
 
   renderInputField = () => {
-    const {editAppoinment, name, dateTime, amount} = this.state;
+    const { editAppoinment, name, dateTime, amount } = this.state;
     let customerName = editAppoinment?.userId?.firstName
       ? `${editAppoinment?.userId?.firstName} ${editAppoinment?.userId?.lastName}`
       : editAppoinment?.userId?.userName;
@@ -272,20 +272,20 @@ class PendingAppoinment extends Component {
         <Text style={styles.paymentHeaderText}>Customer Name</Text>
         <CustomTextInputRow
           placeholderText={'Name'}
-          CustomStyle={{width: Metrics.screenWidth * 0.7}}
+          CustomStyle={{ width: Metrics.screenWidth * 0.7 }}
           inputValue={customerName}
           handleInput={this.onChangeName}
           isEditable={false}
-          // errorMessage={this.state.formErrors.addressError}
+        // errorMessage={this.state.formErrors.addressError}
         />
         <Text style={styles.paymentHeaderText}>Company Name</Text>
         <CustomTextInputRow
           placeholderText={'Name'}
-          CustomStyle={{width: Metrics.screenWidth * 0.7}}
+          CustomStyle={{ width: Metrics.screenWidth * 0.7 }}
           inputValue={companyName}
           handleInput={this.onChangeName}
           isEditable={false}
-          // errorMessage={this.state.formErrors.addressError}
+        // errorMessage={this.state.formErrors.addressError}
         />
 
         <Text style={styles.paymentHeaderText}>Add more info</Text>
@@ -321,7 +321,7 @@ class PendingAppoinment extends Component {
   };
 
   renderPopup = () => {
-    const {modalVisible} = this.setState;
+    const { modalVisible } = this.setState;
     return (
       <Modal
         animationType="slide"
@@ -332,10 +332,10 @@ class PendingAppoinment extends Component {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <View style={{marginHorizontal: Metrics.ratio(15)}}>
+            <View style={{ marginHorizontal: Metrics.ratio(15) }}>
               <TouchableOpacity
                 onPress={() =>
-                  this.setState({setModalVisible: false, status: null})
+                  this.setState({ setModalVisible: false, status: null })
                 }>
                 <Image source={Images.cross} style={styles.crossImageStyle} />
               </TouchableOpacity>
@@ -349,17 +349,16 @@ class PendingAppoinment extends Component {
   };
 
   render() {
-    let {isFetching, failure, data, success} = this.props.getBooking;
+    let { isFetching, failure, data, success } = this.props.getBooking;
 
-    const {setModalVisible, refreshing} = this.state;
+    const { setModalVisible, refreshing } = this.state;
     let booking = data.success && [...data.data];
-    console.log('data.datadata.data', data.data);
 
     return (
       <ScrollView
         refreshControl={
           <RefreshControl
-            style={{backgroundColor: 'transparent'}}
+            style={{ backgroundColor: 'transparent' }}
             refreshing={refreshing}
             onRefresh={() => {
               this.refreshingData();
@@ -370,7 +369,7 @@ class PendingAppoinment extends Component {
         {data.success && (
           <FlatList
             data={booking}
-            renderItem={({item, index}) => {
+            renderItem={({ item, index }) => {
               let customerName = item?.userId?.firstName
                 ? item?.userId?.firstName + ' ' + item.userId?.lastName
                 : item?.userId?.userName;
@@ -424,7 +423,7 @@ class PendingAppoinment extends Component {
               alignItems: 'center',
               padding: Metrics.ratio(20),
             }}>
-            <Text style={{fontSize: Metrics.ratio(16)}}>No Data Found!</Text>
+            <Text style={{ fontSize: Metrics.ratio(16) }}>No Data Found!</Text>
           </View>
         )}
         {setModalVisible ? this.renderPopup() : null}

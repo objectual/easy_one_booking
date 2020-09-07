@@ -1,5 +1,5 @@
-import {connect} from 'react-redux';
-import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -16,13 +16,13 @@ import {
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
-import {Images, Metrics, Fonts} from '../../theme';
+import { Images, Metrics, Fonts } from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
-import {Footer} from '../../components';
+import { Footer } from '../../components';
 import Header from '../../components/Header/index';
 
 import StarRating from 'react-native-star-rating';
-import {request as get_Saloon_Categories} from '../../redux/actions/SaloonCategories';
+import { request as get_Saloon_Categories } from '../../redux/actions/SaloonCategories';
 
 class Categories extends Component {
   constructor(props) {
@@ -58,7 +58,7 @@ class Categories extends Component {
         nextProps.getSaloonCategories.data &&
         !nextProps.getSaloonCategories.data.success
       ) {
-        this.setState({isloading: false});
+        this.setState({ isloading: false });
       }
     }
   }
@@ -68,9 +68,9 @@ class Categories extends Component {
 
   handleSaloonCategories = () => {
     // const {selectedCard} = this.props.route.params;
-    const {selectedCard} = this.state;
+    const { selectedCard } = this.state;
 
-    this.setState({isloading: true});
+    this.setState({ isloading: true });
     const payload = {
       companyId: selectedCard._id,
     };
@@ -79,12 +79,12 @@ class Categories extends Component {
   };
 
   _renderOverlaySpinner = () => {
-    const {isloading} = this.state;
+    const { isloading } = this.state;
     return <SpinnerLoader isloading={isloading} />;
   };
 
   renderCategory = (category, index) => {
-    const {selectedCard} = this.props.route.params;
+    const { selectedCard } = this.props.route.params;
     let id = selectedCard._id;
 
     console.log('selectedCardselectedCard', selectedCard);
@@ -121,7 +121,7 @@ class Categories extends Component {
                     }}
                     resizeMethod="auto"
                     resizeMode="contain"
-                    source={{uri: category?.image}}
+                    source={{ uri: category?.image }}
                   />
                 </View>
                 <View
@@ -174,7 +174,7 @@ class Categories extends Component {
   };
 
   renderCategoryRow = () => {
-    const {getSelectedCategory} = this.state;
+    const { getSelectedCategory } = this.state;
 
     // if (getSelectedCategory.length) {
     return (
@@ -190,19 +190,19 @@ class Categories extends Component {
               justifyContent: 'space-between',
             }}
             data={getSelectedCategory}
-            renderItem={({item, index}) => this.renderCategory(item, index)}
+            renderItem={({ item, index }) => this.renderCategory(item, index)}
           />
         ) : (
-          <View
-            style={{
-              justifyContent: 'center',
-              marginVertical: Metrics.ratio(20),
-            }}>
-            <Text style={{fontSize: Metrics.ratio(18)}}>
-              No Categories Found
+            <View
+              style={{
+                justifyContent: 'center',
+                marginVertical: Metrics.ratio(20),
+              }}>
+              <Text style={{ fontSize: Metrics.ratio(18) }}>
+                No Categories Found
             </Text>
-          </View>
-        )}
+            </View>
+          )}
       </View>
       //   );
       // }
@@ -215,18 +215,41 @@ class Categories extends Component {
   };
 
   render() {
-    const {getSelectedCategory, selectedCard} = this.state;
+    const { getSelectedCategory, selectedCard } = this.state;
+    const { companyId, onCart } = this.props.route.params;
 
-    const {isFetching, failure} = this.props.getSaloonCategories;
+    const { isFetching, failure } = this.props.getSaloonCategories;
 
     return (
       <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
         <View style={styles.container}>
           {!isFetching && !failure && <SpinnerLoader isloading={isFetching} />}
-            <View style={styles.containerForRow}>
-              <Text style={styles.mainheading0}>{selectedCard?.name}</Text>
+          <View style={styles.containerForRow}>
+            <Text style={styles.mainheading0}>{selectedCard?.name}</Text>
 
-              <Text style={styles.mainheading1}>Description</Text>
+            <Text style={styles.mainheading1}>Description</Text>
+            <Text
+              style={{
+                color: 'darkgray',
+                fontSize: Metrics.ratio(14),
+                fontFamily: Fonts.type.bold,
+                fontWeight: 'bold',
+              }}>
+              {selectedCard?.companyShortDescription}
+            </Text>
+            <Text style={styles.headAddress}>Address</Text>
+            <Text style={styles.mainheading2}>
+              {selectedCard?.address?.toUpperCase()}
+            </Text>
+
+            <View style={styles.ratingContainer}>
+              <StarRating
+                disabled={true}
+                maxStars={5}
+                rating={2}
+                starStyle={{ color: 'orange' }}
+                starSize={20}
+              />
               <Text
                 style={{
                   color: 'darkgray',
@@ -234,41 +257,19 @@ class Categories extends Component {
                   fontFamily: Fonts.type.bold,
                   fontWeight: 'bold',
                 }}>
-                {selectedCard?.companyShortDescription}
-              </Text>
-              <Text style={styles.headAddress}>Address</Text>
-              <Text style={styles.mainheading2}>
-                {selectedCard?.address?.toUpperCase()}
-              </Text>
-
-              <View style={styles.ratingContainer}>
-                <StarRating
-                  disabled={true}
-                  maxStars={5}
-                  rating={2}
-                  starStyle={{color: 'orange'}}
-                  starSize={20}
-                />
-                <Text
-                  style={{
-                    color: 'darkgray',
-                    fontSize: Metrics.ratio(14),
-                    fontFamily: Fonts.type.bold,
-                    fontWeight: 'bold',
-                  }}>
-                  {' '}
+                {' '}
                   (6.6K)
                 </Text>
-              </View>
-              <View style={styles.btnContainer}>
-                <Text style={styles.btnText}>Categories We Offer</Text>
-              </View>
             </View>
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}>
-              <View>{this.renderCategoryRow()}</View>
-            </ScrollView>
+            <View style={styles.btnContainer}>
+              <Text style={styles.btnText}>Categories We Offer</Text>
+            </View>
+          </View>
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}>
+            <View>{this.renderCategoryRow()}</View>
+          </ScrollView>
         </View>
       </Footer>
     );
@@ -281,6 +282,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-const action = {get_Saloon_Categories};
+const action = { get_Saloon_Categories };
 
 export default connect(mapStateToProps, action)(Categories);
