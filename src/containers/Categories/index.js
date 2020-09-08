@@ -68,11 +68,14 @@ class Categories extends Component {
 
   handleSaloonCategories = () => {
     // const {selectedCard} = this.props.route.params;
+    const { companyId, onCart } = this.props.route.params;
+    console.log("Categories -> handleSaloonCategories -> companyId", companyId)
     const { selectedCard } = this.state;
-
+    console.log("Categories -> handleSaloonCategories -> selectedCard", selectedCard)
+    let company = !!selectedCard ? selectedCard._id : companyId;
     this.setState({ isloading: true });
     const payload = {
-      companyId: selectedCard._id,
+      companyId: company,
     };
 
     this.props.get_Saloon_Categories(payload);
@@ -85,7 +88,7 @@ class Categories extends Component {
 
   renderCategory = (category, index) => {
     const { selectedCard } = this.props.route.params;
-    let id = selectedCard._id;
+    let id = selectedCard?._id;
 
     console.log('selectedCardselectedCard', selectedCard);
 
@@ -101,6 +104,7 @@ class Categories extends Component {
             this.props.navigation.navigate('SaloonServicesByCategory', {
               categoryId: category._id,
               companyId: id,
+              selectedCard: selectedCard
             })
           }>
           {
@@ -216,7 +220,7 @@ class Categories extends Component {
 
   render() {
     const { getSelectedCategory, selectedCard } = this.state;
-    const { companyId, onCart } = this.props.route.params;
+
 
     const { isFetching, failure } = this.props.getSaloonCategories;
 
