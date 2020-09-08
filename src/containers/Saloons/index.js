@@ -81,6 +81,7 @@ class Saloons extends Component {
   renderService = (saloons, index) => {
     const { getSelectedSaloon } = this.state;
     const { id } = this.props.route.params;
+    console.log(getSelectedSaloon, 'jjdsjakj');
     return (
       <TouchableOpacity
         onPress={() =>
