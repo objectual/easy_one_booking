@@ -12,7 +12,7 @@ const api = create({
 
 class ApiSauce {
   async post(url, payload, headers) {
-    console.log(payload, 'payloaddddddddddddddddddddd');
+    // console.log(payload, 'payloaddddddddddddddddddddd');
     const Header = {
       headers: {
         // "Content-Type": "application/x-www-form-urlencoded",
@@ -36,11 +36,6 @@ class ApiSauce {
       },
     };
 
-    console.log(url, 'url');
-    console.log(token, 'token');
-
-    console.log(payload, 'payload');
-
     const response = await api.post(url, payload, Header);
 
     return new Promise((resolve, reject) => {
@@ -57,7 +52,6 @@ class ApiSauce {
       },
     };
     const response = await api.put(url, payload, Header);
-    console.log(response, '9999990wwwwww00000000');
     return new Promise((resolve, reject) => {
       this.handlePromise(resolve, reject, response);
     });
@@ -65,8 +59,6 @@ class ApiSauce {
 
   async getWithToken(url, token) {
     // const token = data && data.access_token && data.access_token;
-    console.log(url, 'url');
-    console.log(token, 'token');
 
     api.setHeaders({
       // "Content-Type": "application/x-www-form-urlencoded",
@@ -82,8 +74,6 @@ class ApiSauce {
   // for simple get request
   async get(url, payload = {}, headers = {}) {
     // const token = data && data.access_token && data.access_token;
-    console.log(url, 'url');
-    console.log(payload, 'payload');
 
     api.setHeaders({
       // "Content-Type": "application/x-www-form-urlencoded",
@@ -97,7 +87,6 @@ class ApiSauce {
   }
 
   handlePromise = (resolve, reject, response) => {
-    console.log(response, '///////////hhhhhhhh///////////');
     if (
       (response.ok && response.data && response.originalError === null,
       response.data.success)

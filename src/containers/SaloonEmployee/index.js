@@ -46,6 +46,9 @@ class SaloonEmployee extends Component {
     };
   }
 
+
+
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.getEmployeesBySaloonAndCategory) {
       if (
@@ -301,6 +304,7 @@ class SaloonEmployee extends Component {
 
   addToCard = async (e) => {
     let { serviceId, companyId, services, categoryId } = this.props.route.params;
+
     let companyEmpService = _.find(e.employee.companyServices, 'price', services._id);
     let serviceObj = { ...services }
     serviceObj.price = companyEmpService.price

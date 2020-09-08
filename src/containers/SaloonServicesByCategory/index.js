@@ -121,7 +121,6 @@ class SaloonServicesByCategory extends Component {
       services: services,
       categoryId: categoryId,
     };
-
     return (
       <TouchableWithoutFeedback
         onPress={() =>
