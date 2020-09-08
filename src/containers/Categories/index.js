@@ -14,7 +14,7 @@ import {
   FlatList,
   ImageBackground,
 } from 'react-native';
-import FloatingLabel from 'react-native-floating-labels';
+import _ from "lodash";
 import styles from './styles';
 import { Images, Metrics, Fonts } from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
@@ -64,14 +64,21 @@ class Categories extends Component {
   }
   componentDidMount = () => {
     this.handleSaloonCategories();
+    this.setSalon();
   };
 
+  setSalon = () => {
+    const { companyId } = this.props.route.params;
+    if (!!companyId) {
+      let salon = _.find(this.props.getSaloon.data.saloons, ['_id', companyId]);
+      this.setState({ selectedCard: salon })
+    }
+
+  }
   handleSaloonCategories = () => {
     // const {selectedCard} = this.props.route.params;
     const { companyId, onCart } = this.props.route.params;
-    console.log("Categories -> handleSaloonCategories -> companyId", companyId)
     const { selectedCard } = this.state;
-    console.log("Categories -> handleSaloonCategories -> selectedCard", selectedCard)
     let company = !!selectedCard ? selectedCard._id : companyId;
     this.setState({ isloading: true });
     const payload = {
@@ -87,7 +94,7 @@ class Categories extends Component {
   };
 
   renderCategory = (category, index) => {
-    const { selectedCard } = this.props.route.params;
+    const { selectedCard } = this.state;
     let id = selectedCard?._id;
 
     console.log('selectedCardselectedCard', selectedCard);
@@ -283,6 +290,7 @@ class Categories extends Component {
 const mapStateToProps = (state) => {
   return {
     getSaloonCategories: state.getSaloonCategories,
+    getSaloon: state.getSaloon
   };
 };
 

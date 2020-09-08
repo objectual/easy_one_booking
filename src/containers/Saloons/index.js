@@ -1,5 +1,5 @@
-import {connect} from 'react-redux';
-import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -15,11 +15,11 @@ import {
 } from 'react-native';
 import FloatingLabel from 'react-native-floating-labels';
 import styles from './styles';
-import {Images, Metrics, Fonts} from '../../theme';
+import { Images, Metrics, Fonts } from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Header from '../../components/Header/index';
-import {request as get_Saloon_By_Category} from '../../redux/actions/GetSaloonByCategory';
-import {Footer} from './../../components';
+import { request as get_Saloon_By_Category } from '../../redux/actions/GetSaloonByCategory';
+import { Footer } from './../../components';
 
 class Saloons extends Component {
   constructor(props) {
@@ -55,13 +55,13 @@ class Saloons extends Component {
         //     Alert.alert('Error', nextProps.getSaloonByCategory.data.msg);
         //   }, 3000);
         // });
-        this.setState({isloading: false});
+        this.setState({ isloading: false });
       }
     }
   }
 
   _renderOverlaySpinner = () => {
-    const {isloading} = this.state;
+    const { isloading } = this.state;
     return <SpinnerLoader isloading={isloading} />;
   };
   componentDidMount = () => {
@@ -69,8 +69,8 @@ class Saloons extends Component {
   };
 
   handleGetSaloonByCategory = () => {
-    const {id} = this.props.route.params;
-    this.setState({isLoading: true});
+    const { id } = this.props.route.params;
+    this.setState({ isLoading: true });
     const payload = {
       serviceId: id,
     };
@@ -79,9 +79,9 @@ class Saloons extends Component {
   };
 
   renderService = (saloons, index) => {
-    const {getSelectedSaloon} = this.state;
-    const {id} = this.props.route.params;
-    console.log(saloons, 'jjdsjakj');
+    const { getSelectedSaloon } = this.state;
+    const { id } = this.props.route.params;
+    console.log(getSelectedSaloon, 'jjdsjakj');
     return (
       <TouchableOpacity
         onPress={() =>
@@ -91,19 +91,19 @@ class Saloons extends Component {
           })
         }
         style={styles.containerForRow}>
-        <View style={[styles.servicebox, {flexDirection: 'row'}]}>
+        <View style={[styles.servicebox, { flexDirection: 'row' }]}>
           <View>
             {saloons && saloons.template && saloons.template.coverImage.url ? (
               <Image
-                source={{uri: saloons.template.coverImage.url}}
+                source={{ uri: saloons.template.coverImage.url }}
                 style={styles.servicesImage}
               />
             ) : (
-              <Image
-                source={Images.select_services}
-                style={styles.servicesImage}
-              />
-            )}
+                <Image
+                  source={Images.select_services}
+                  style={styles.servicesImage}
+                />
+              )}
           </View>
           <View style={styles.dataContainer}>
             <Text numberOfLines={1} style={styles.textsize18}>
@@ -125,7 +125,7 @@ class Saloons extends Component {
     );
   };
   renderRow = () => {
-    const {getSelectedSaloon} = this.state;
+    const { getSelectedSaloon } = this.state;
     console.log(getSelectedSaloon, 'getSelectedSaloon1212');
     if (getSelectedSaloon.length == 0) {
       return (
@@ -138,9 +138,9 @@ class Saloons extends Component {
         <View>
           <FlatList
             data={getSelectedSaloon}
-            renderItem={({item, index}) => this.renderService(item, index)}
-            // keyExtractor={item => item.id}
-            // extraData={selected}
+            renderItem={({ item, index }) => this.renderService(item, index)}
+          // keyExtractor={item => item.id}
+          // extraData={selected}
           />
         </View>
       );
@@ -148,8 +148,8 @@ class Saloons extends Component {
   };
 
   render() {
-    const {getSelectedSaloon} = this.state;
-    const {isFetching, failure} = this.props.getSaloonByCategory;
+    const { getSelectedSaloon } = this.state;
+    const { isFetching, failure } = this.props.getSaloonByCategory;
     return (
       <Footer navigation={this.props.navigation.navigate} screen={'saloon'}>
         {<SpinnerLoader isloading={isFetching} />}
@@ -168,6 +168,6 @@ const mapStateToProps = (state) => ({
   getSaloonByCategory: state.getSaloonByCategory,
 });
 
-const action = {get_Saloon_By_Category};
+const action = { get_Saloon_By_Category };
 
 export default connect(mapStateToProps, action)(Saloons);

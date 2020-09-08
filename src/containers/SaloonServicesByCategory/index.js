@@ -111,9 +111,10 @@ class SaloonServicesByCategory extends Component {
       </View>
     );
   };
+
   renderService = (services, index) => {
     const { id } = this.props;
-    const { companyId, categoryId, selectedCard } = this.props.route.params;
+    const { companyId, categoryId } = this.props.route.params;
 
     const payload = {
       companyId: companyId,
@@ -121,11 +122,10 @@ class SaloonServicesByCategory extends Component {
       services: services,
       categoryId: categoryId,
     };
-
     return (
       <TouchableWithoutFeedback
         onPress={() =>
-          this.props.navigation.navigate('SaloonEmployee', payload, selectedCard)
+          this.props.navigation.navigate('SaloonEmployee', payload)
         }>
         <View style={[styles.servicebox, { flexDirection: 'row' }]}>
           {services && services.image && services.image ? (
