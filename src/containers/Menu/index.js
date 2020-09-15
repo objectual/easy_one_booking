@@ -22,7 +22,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import Booking_Icon from 'react-native-vector-icons/dist/EvilIcons';
 import User_Icon from 'react-native-vector-icons/dist/Feather';
-import Logout_Icon from 'react-native-vector-icons/dist/AntDesign';
+import Chat_icon from 'react-native-vector-icons/dist/MaterialIcons'
 import {connect} from 'react-redux';
 
 import {initializeToken, logout_api, token} from './../../config/WebServices';
@@ -37,6 +37,11 @@ class Menu extends Component {
           iconUrl: Wallet_Icon,
           icon: 'wallet',
           title: 'Wallet',
+        },
+        {
+          iconUrl: Booking_Icon,
+          icon: 'comment',
+          title: 'Chat Box',
         },
         {
           iconUrl: Booking_Icon,
@@ -153,6 +158,7 @@ class Menu extends Component {
   onClickListener = (item, viewId) => {
     item.title == 'Login' && this.props.navigation.navigate('Login');
     item.title == 'Register' && this.props.navigation.navigate('Register');
+    item.title == 'Chat Box' && this.props.navigation.navigate('Chatbox');
     item.title == 'Logout' && this.handleLogout();
     item.title == 'Booking History' &&
       token &&
@@ -253,7 +259,7 @@ class Menu extends Component {
           </View>
         </View>
       );
-    } else if (item.title == 'Booking History' || item.title == 'Wallet') {
+    } else if (item.title == 'Booking History' || item.title == 'Wallet' || item.title == 'Chat Box' ) {
       return (
         <View style={styles.container}>
           <View style={styles.servicebox}>
