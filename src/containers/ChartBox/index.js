@@ -20,6 +20,7 @@ import Icon from 'react-native-vector-icons/dist/Feather';
 import { addCollectionWith, getDataByKey, saveMsg, getMsgs } from '../../config/firebase'
 import { getCurrentUser, getUserInfo } from '../../config/WebServices';
 import moment from 'moment'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class ChartBox extends Component {
   constructor(props) {
@@ -242,7 +243,7 @@ class ChartBox extends Component {
     const { allMsg, user } = this.state
     return (
       <View style={styles.container}>
-        <ScrollView
+        {/* <ScrollView
         ref={ref => {this.scrollView = ref}}
         onContentSizeChange={() => this.scrollView.scrollToEnd({animated: true})}>
           <View style={styles.container}>
@@ -253,8 +254,36 @@ class ChartBox extends Component {
               return this.renderSender(value)
             })}
           </View>
-        </ScrollView>
+        </ScrollView> */}
+        {/* {this.renderSend()} */}
+        <KeyboardAwareScrollView
+        ref={ref => {this.scrollView = ref}}
+        onContentSizeChange={() => this.scrollView.scrollToEnd({animated: true})}
+        keyboardShouldPersistTaps='always'>
+        {/* <ScrollView
+        keyboardShouldPersistTaps='always'
+        ref={ref => {this.scrollView = ref}}
+        onContentSizeChange={() => this.scrollView.scrollToEnd({animated: true})}> */}
+          <View style = {{flex:1, justifyContent: "space-between"}}>
+          <View style={{height: Metrics.screenHeight * 0.8, }}>
+          <ScrollView
+            keyboardShouldPersistTaps='always'
+            ref={ref => {this.scrollView = ref}}
+            onContentSizeChange={() => this.scrollView.scrollToEnd({animated: true})}>
+            {allMsg.map(value => {
+              if(user._id === value.userId){
+                return this.renderReciver(value)
+              }
+              return this.renderSender(value)
+            })}
+            </ScrollView>
+          </View>
+        {/* </ScrollView> */}
+        <View style = {{height: Metrics.screenHeight * 0.1}}> 
         {this.renderSend()}
+        </View>
+          </View>
+        </KeyboardAwareScrollView>
       </View>
     );
   }
