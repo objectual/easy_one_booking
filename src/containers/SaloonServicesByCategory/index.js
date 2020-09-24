@@ -144,6 +144,9 @@ class SaloonServicesByCategory extends Component {
               <Text numberOfLines={1} style={{ fontSize: Metrics.ratio(17) }}>
                 {services && services.name ? services.name : 'name'}
               </Text>
+              <Text numberOfLines={1}>
+                Estimated time {services && services.duration || 'name'}
+              </Text>
               {/* <Text>{services && services._id ? services._id : 'id'}</Text> */}
 
               <View

@@ -398,7 +398,7 @@ class PendingAppoinment extends Component {
                     employeeName={employeeName}
                     date={fullDate}
                     time={time}
-                    employee={item.services[0].serviceId.name}
+                    employee={`${item?.services[0]?.serviceId?.name}${" Estimated time : "}$${item?.services[0]?.serviceId?.duration}`}
                     saloon={item?.companyId?.name}
                     price={amount}
                     paymentMethod={item.paymentMethod}
