@@ -3,9 +3,7 @@ import { take, put, call, fork } from "redux-saga/effects";
 import ApiSauce from "../../services/apiSauce";
 import { social_login_Api } from "../../config/WebServices";
 import * as types from "../actions/ActionTypes";
-
 import { success, failure } from "../actions/SocialLogin";
-
 import { ErrorHelper } from "../../helpers";
 
 function callRequest(data) {

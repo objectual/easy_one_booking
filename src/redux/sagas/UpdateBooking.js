@@ -23,6 +23,7 @@ function* watchRequest() {
     const {payload} = yield take(types.UPDATE_BOOKING.REQUEST);
     try {
       const response = yield call(callRequest, payload);
+      console.log("responseresponseresponseresponseresponseresponseresponse", response)
       yield call(storeToken);
       yield put(success(response));
     } catch (err) {
