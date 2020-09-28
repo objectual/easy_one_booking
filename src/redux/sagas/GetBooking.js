@@ -10,7 +10,6 @@ import { ErrorHelper } from "../../helpers";
 
 function callRequest(data) {
   const access_token = data.payload.data.access_token;
-  console.log(access_token,'get_Booking')
   return ApiSauce.getWithToken(get_Booking,access_token);
 
 }
@@ -21,7 +20,6 @@ function* watchRequest() {
     // delete payload.targetView;
     try {
       const response = yield call(callRequest, payload);
-      console.log(response, "get_Booking")
       yield put(success(response));
 
       //   setTimeout(() => {

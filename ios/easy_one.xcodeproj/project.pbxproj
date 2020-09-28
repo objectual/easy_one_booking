@@ -24,12 +24,12 @@
 		682055896D2C4A68B938CDAF /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AB4C5646E2804E98A0E92819 /* Lato-Bold.ttf */; };
 		814447F1E31C46DF93AF5122 /* Lato-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B02BBB9458846BFBFD7974D /* Lato-Italic.ttf */; };
 		888F36BA105F4B78AE944543 /* Lato-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F39943D6868E4F4B909D7C66 /* Lato-BlackItalic.ttf */; };
+		927EC570251BC3430055ABB8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 927EC56F251BC3430055ABB8 /* GoogleService-Info.plist */; };
 		9317E4A4631D06F2AF246C0A /* libPods-easy_one-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB634AE263E699A79120A492 /* libPods-easy_one-tvOS.a */; };
 		99FF9AE6BAE84914831354E8 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E31EB2815AB417794ED3394 /* Lato-Regular.ttf */; };
 		A2E8A440A8E77A6F60221AD2 /* libPods-easy_one-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BA5AA1B7BBE4A3CC6CA8DF6 /* libPods-easy_one-tvOSTests.a */; };
 		B104A0745AD8411ABB92B101 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E278061908E64B618AFDF91A /* Lato-Light.ttf */; };
 		E99703724979834E327D7D77 /* libPods-easy_oneTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54F8FFF7002104872C4D529A /* libPods-easy_oneTests.a */; };
-		FAD0E74524CBD51500E5707A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FAD0E74424CBD51500E5707A /* GoogleService-Info.plist */; };
 		FB01A355BD864F02BD2B6A44 /* Lato-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 285B1B8C34D24867A73FCE34 /* Lato-ThinItalic.ttf */; };
 /* End PBXBuildFile section */
 
@@ -87,6 +87,7 @@
 		727F8D3D7A1F4ADE8EA03C53 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		7E5F88A29C75441A9E84D9F2 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		8566604B8C15ACF4071378C4 /* Pods-easy_one-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-easy_one-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-easy_one-tvOSTests/Pods-easy_one-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		927EC56F251BC3430055ABB8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9E31EB2815AB417794ED3394 /* Lato-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Regular.ttf"; path = "../src/assets/Fonts/Lato-Regular.ttf"; sourceTree = "<group>"; };
 		AA219B44E19A4DEBA2A68B37 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		AB4C5646E2804E98A0E92819 /* Lato-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Bold.ttf"; path = "../src/assets/Fonts/Lato-Bold.ttf"; sourceTree = "<group>"; };
@@ -103,7 +104,6 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F39943D6868E4F4B909D7C66 /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-BlackItalic.ttf"; path = "../src/assets/Fonts/Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
-		FAD0E74424CBD51500E5707A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../salon/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FAEE991D24CE786400421C58 /* easy_1.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = easy_1.entitlements; path = easy_one/easy_1.entitlements; sourceTree = "<group>"; };
 		FB634AE263E699A79120A492 /* libPods-easy_one-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-easy_one-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -164,8 +164,8 @@
 		13B07FAE1A68108700A75B9A /* easy_one */ = {
 			isa = PBXGroup;
 			children = (
+				927EC56F251BC3430055ABB8 /* GoogleService-Info.plist */,
 				FAEE991D24CE786400421C58 /* easy_1.entitlements */,
-				FAD0E74424CBD51500E5707A /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -417,7 +417,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAD0E74524CBD51500E5707A /* GoogleService-Info.plist in Resources */,
+				927EC570251BC3430055ABB8 /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				54C4BE004FF14F31A93255CA /* Lato-Black.ttf in Resources */,
@@ -464,6 +464,16 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		1817EA66A758E8701EE35EA2 /* [CP-User] [RNFB] Crashlytics Configuration */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "[CP-User] [RNFB] Crashlytics Configuration";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\nif [[ ${PODS_ROOT} ]]; then\n  echo \"info: Exec FirebaseCrashlytics Run from Pods\"\n  \"${PODS_ROOT}/FirebaseCrashlytics/run\"\nelse\n  echo \"info: Exec FirebaseCrashlytics Run from framework\"\n  \"${PROJECT_DIR}/FirebaseCrashlytics.framework/run\"\nfi\n";
 		};
 		2B518A73EF52BA4AD563BC57 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -745,6 +755,7 @@
 			baseConfigurationReference = 69C075763454C549CCB617B0 /* Pods-easy_oneTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -769,6 +780,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = easy_oneTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

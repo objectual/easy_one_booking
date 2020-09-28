@@ -59,7 +59,7 @@ class Menu extends Component {
           title: 'Login',
         },
         {
-          iconUrl: Logout_Icon,
+          iconUrl: User_Icon,
           icon: 'logout',
           title: 'Logout',
         },
@@ -76,7 +76,7 @@ class Menu extends Component {
           title: 'Login',
         },
         {
-          iconUrl: Logout_Icon,
+          iconUrl: User_Icon,
           icon: 'logout',
           title: 'Logout',
         },

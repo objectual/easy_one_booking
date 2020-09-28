@@ -163,7 +163,7 @@ class Proceeding extends Component {
             'Name',
             `${object.payload?.employee?.employeeId?.userId.firstName} ${object.payload?.employee?.employeeId?.userId.lastName}`,
           )}
-          {this.getRows('Service Name', object.payload?.serviceObj.name)}
+          {this.getRows('Service Name', `${object.payload?.serviceObj.name}${". Estimated time "}${object.payload?.serviceObj?.duration}`)}
           {this.getRows('Price', `$${object.payload?.serviceObj.price}`)}
           {this.getRows('Date', object.payload?.date)}
           {this.getRows('Time', object.payload?.checkIn)}
@@ -354,7 +354,6 @@ class Proceeding extends Component {
     let payload = {
       services: services,
       // userName: "Test",
-      postalCode: '02221',
       email: userInfo.data.email,
       companyId: cart.data[0].payload.companyId,
       phoneNo: '090078601',

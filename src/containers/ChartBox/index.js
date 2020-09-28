@@ -20,17 +20,18 @@ import Icon from 'react-native-vector-icons/dist/Feather';
 import { addCollectionWith, getDataByKey, saveMsg, getMsgs } from '../../config/firebase'
 import { getCurrentUser, getUserInfo } from '../../config/WebServices';
 import moment from 'moment'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class ChartBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
       text: '',
-      msgText:'',
-      user:null,
-      roomData:null,
+      msgText: '',
+      user: null,
+      roomData: null,
       isLoading: false,
-      allMsg:[]
+      allMsg: []
     };
   }
   onChangeText = value => this.setState({ text: value });
@@ -40,19 +41,19 @@ class ChartBox extends Component {
     return <SpinnerLoader isloading={isloading} />;
   };
 
-  componentDidMount () {
-     this.getUser()
-     
+  componentDidMount() {
+    this.getUser()
+
   }
 
   getUser = async () => {
     const userJson = await getUserInfo()
     console.log("ChartBox -> getUser -> userJson------------------------------------------------------------------------------", userJson)
     const user = JSON.parse(userJson)
-    if(user) {
+    if (user) {
       this.checkRoomFounded(user.data)
-      this.setState({user: user.data})
-    }else {
+      this.setState({ user: user.data })
+    } else {
       alert("Please login first")
     }
   }
@@ -65,13 +66,13 @@ class ChartBox extends Component {
     }
 
     const res = await getDataByKey(payload)
-    if(!res.size){
+    if (!res.size) {
       this.createRoom()
       return
     }
     res.forEach(doc => {
-      const roomData = { _id: doc.id, ...doc.data()}
-      this.setState({roomData})
+      const roomData = { _id: doc.id, ...doc.data() }
+      this.setState({ roomData })
       this.getMsg(roomData)
     })
   }
@@ -79,14 +80,14 @@ class ChartBox extends Component {
   createRoom = async () => {
     const { user } = this.state
     try {
-    const payload = {
-      collectionName: 'chatRooms',
-      data: { 
-        createdAt: Date.now(),
-        userData: user,
-        userId: user._id
+      const payload = {
+        collectionName: 'chatRooms',
+        data: {
+          createdAt: Date.now(),
+          userData: user,
+          userId: user._id
+        }
       }
-    }
       await addCollectionWith(payload)
     } catch (error) {
       console.log("ChartBox -> createRoom -> error", error)
@@ -94,22 +95,22 @@ class ChartBox extends Component {
   }
 
   getMsg = async (roomData) => {
-    const { user } =  this.state
-    if( !user || !roomData ) return
+    const { user } = this.state
+    if (!user || !roomData) return
 
     const payload = {
       collectionName: 'messages',
-      id:roomData._id,
+      id: roomData._id,
     }
 
     try {
       getMsgs(payload).onSnapshot(querySnapshot => {
         let allMsg = [];
-        querySnapshot.forEach(function(doc) {
-            allMsg.push(doc.data());
+        querySnapshot.forEach(function (doc) {
+          allMsg.push(doc.data());
         });
-        allMsg = allMsg.sort((a,b)=> a.createdAt - b.createdAt)
-        this.setState({allMsg})
+        allMsg = allMsg.sort((a, b) => a.createdAt - b.createdAt)
+        this.setState({ allMsg })
       })
     } catch (error) {
       console.log("ChartBox -> sendMsg -> error", error)
@@ -117,26 +118,26 @@ class ChartBox extends Component {
   }
 
   sendMsg = async () => {
-    const { msgText, user, roomData, isLoading } =  this.state
-    if(!msgText || !user || !roomData || isLoading ) return
-    this.setState({isLoading:true})
+    const { msgText, user, roomData, isLoading } = this.state
+    if (!msgText || !user || !roomData || isLoading) return
+    this.setState({ isLoading: true })
     const payload = {
       collectionName: 'messages',
-      id:roomData._id,
-      data: { 
+      id: roomData._id,
+      data: {
         createdAt: Date.now(),
-        type:'text',
-        msg:msgText,
+        type: 'text',
+        msg: msgText,
         userId: user._id,
-        senderName:user.firstName,
+        senderName: user.firstName,
       }
     }
     try {
       await saveMsg(payload)
-      this.setState({isLoading:false, msgText:''})
+      this.setState({ isLoading: false, msgText: '' })
     } catch (error) {
-    console.log("ChartBox -> sendMsg -> error", error)
-    this.setState({isLoading: false})
+      console.log("ChartBox -> sendMsg -> error", error)
+      this.setState({ isLoading: false })
     }
   }
 
@@ -153,9 +154,9 @@ class ChartBox extends Component {
           </View>
           <View style={styles.serviceboxsender}>
             <Text style={styles.textmiddlesender}>
-               {data.msg}
+              {data.msg}
             </Text>
-            <Text style={{fontSize:12, color:'gray'}}>{moment(data.createdAt).fromNow()}</Text>
+            <Text style={{ fontSize: 12, color: 'gray' }}>{moment(data.createdAt).fromNow()}</Text>
           </View>
         </View>
       </View>
@@ -171,11 +172,11 @@ class ChartBox extends Component {
             <Text style={styles.textmiddlereciver}>
               {data.msg}
             </Text>
-            <Text style={{fontSize:10, color:'gray'}}>{moment(data.createdAt).fromNow()}</Text>
+            <Text style={{ fontSize: 10, color: 'gray' }}>{moment(data.createdAt).fromNow()}</Text>
           </View>
           <View>
             <Image
-              source={{uri: user.profile_img}}
+              source={{ uri: user.profile_img }}
               style={styles.servicesImagereciver}
             />
           </View>
@@ -199,7 +200,7 @@ class ChartBox extends Component {
           style={[styles.textInput, CustomTextInput]}
           placeholderTextColor="#81788B"
           urnKeyType={returnKeyType}
-          onChangeText={msgText => this.setState({msgText})}
+          onChangeText={msgText => this.setState({ msgText })}
           value={value}
           placeholder={placeholder}
           autoCompleteType="off"
@@ -215,7 +216,7 @@ class ChartBox extends Component {
       <View>
         <View style={{
           flexDirection: 'row', alignItems: 'center',
-          borderTopWidth: Metrics.ratio(1), justifyContent: 'space-between', paddingHorizontal:10
+          borderTopWidth: Metrics.ratio(1), justifyContent: 'space-between', paddingHorizontal: 10
         }}>
           <Image source={Images.select_services} style={styles.camera} />
           <View style={{ width: Metrics.screenWidth * 0.7 }}>
@@ -231,8 +232,8 @@ class ChartBox extends Component {
             )}
           </View>
           <TouchableOpacity onPress={this.sendMsg}>
-              <Icon name="navigation" size={25} color="black" />
-        </TouchableOpacity>
+            <Icon name="navigation" size={25} color="black" />
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -243,11 +244,11 @@ class ChartBox extends Component {
     return (
       <View style={styles.container}>
         <ScrollView
-        ref={ref => {this.scrollView = ref}}
-        onContentSizeChange={() => this.scrollView.scrollToEnd({animated: true})}>
+          ref={ref => { this.scrollView = ref }}
+          onContentSizeChange={() => this.scrollView.scrollToEnd({ animated: true })}>
           <View style={styles.container}>
             {allMsg.map(value => {
-              if(user._id === value.userId){
+              if (user._id === value.userId) {
                 return this.renderReciver(value)
               }
               return this.renderSender(value)
@@ -255,6 +256,35 @@ class ChartBox extends Component {
           </View>
         </ScrollView>
         {this.renderSend()}
+        {/* {this.renderSend()} */}
+        {/* <KeyboardAwareScrollView
+        ref={ref => {this.scrollView = ref}}
+        onContentSizeChange={() => this.scrollView.scrollToEnd({animated: true})}
+        keyboardShouldPersistTaps='always'>
+        <ScrollView
+        keyboardShouldPersistTaps='always'
+        ref={ref => {this.scrollView = ref}}
+        onContentSizeChange={() => this.scrollView.scrollToEnd({animated: true})}>
+          <View style = {{flex:1, justifyContent: "space-between"}}>
+          <View style={{height: Metrics.screenHeight * 0.8, }}>
+          <ScrollView
+            keyboardShouldPersistTaps='always'
+            ref={ref => {this.scrollView = ref}}
+            onContentSizeChange={() => this.scrollView.scrollToEnd({animated: true})}>
+            {allMsg.map(value => {
+              if(user._id === value.userId){
+                return this.renderReciver(value)
+              }
+              return this.renderSender(value)
+            })}
+            </ScrollView>
+          </View>
+        </ScrollView>
+        <View style = {{height: Metrics.screenHeight * 0.1}}> 
+        {this.renderSend()}
+        </View>
+          </View>
+        </KeyboardAwareScrollView> */}
       </View>
     );
   }

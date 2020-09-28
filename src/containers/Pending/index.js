@@ -31,7 +31,7 @@ import Geolocation from '@react-native-community/geolocation';
 import { Dropdown } from 'react-native-material-dropdown';
 import Immutable from 'seamless-immutable';
 import { request as get_Saloon_By_Category } from '../../redux/actions/GetSaloonByCategory';
-import { request as updateMyBooking } from '../../redux/actions/updateBooking';
+import { request as update_My_Booking } from '../../redux/actions/updateBooking';
 import {
   place_reverse_Geocoding_URL,
   place_Autocomplete_URL,
@@ -135,9 +135,10 @@ class PendingAppoinment extends Component {
         !nextProps.updateBooking.failure &&
         !nextProps.updateBooking.isFetching &&
         nextProps.updateBooking.data &&
-        !nextProps.updateBooking.data.success
+        nextProps.updateBooking.data.success === false
       ) {
-        // this.setState({isloading: false}, () => {
+        Alert.alert('Error', nextProps.updateBooking.data.msg);
+        // this.setState({ isloading: false }, () => {
         //   setTimeout(() => {
         //     Alert.alert('Error', nextProps.login.data.msg);
         //   }, 3000);
@@ -181,11 +182,13 @@ class PendingAppoinment extends Component {
     const payload = {
       bookingId: editAppoinment._id,
       status: status,
-      totalAmount: amount,
-      paymentMethod: paymentType,
+      totalAmount: editAppoinment.totalAmount,
+      paymentMethod: editAppoinment.paymentMethod,
     };
+    console.log("updateBooking -> payload", payload)
     // let bookingStatus = status == null ? editAppoinment.status : status;
-    this.props.updateMyBooking(payload);
+    this.props.update_My_Booking(payload);
+    this.setState({ setModalVisible: false })
   };
 
   refreshingData = async () => {
@@ -227,7 +230,7 @@ class PendingAppoinment extends Component {
           onValueChange={(value) => this.handlePickerValue(value, type)}
           items={type === 'status' ? status : paymentType}
           placeholder={{
-            label: type === 'status' ? 'Pending' : 'Payment Method',
+            label: type === 'status' ? 'Select Status' : 'Payment Method',
             value: null,
           }}
           style={{
@@ -266,7 +269,6 @@ class PendingAppoinment extends Component {
     let totalAmount = editAppoinment?.totalAmount;
     let bookingStatus = editAppoinment?.status;
     let paymentMethod = editAppoinment?.paymentMethod;
-    console.log(editAppoinment, 'editAppoinment');
     return (
       <ScrollView>
         <Text style={styles.paymentHeaderText}>Customer Name</Text>
@@ -398,7 +400,7 @@ class PendingAppoinment extends Component {
                     employeeName={employeeName}
                     date={fullDate}
                     time={time}
-                    employee={item.services[0].serviceId.name}
+                    employee={`${item?.services[0]?.serviceId?.name}${" Estimated time : "}$${item?.services[0]?.serviceId?.duration}`}
                     saloon={item?.companyId?.name}
                     price={amount}
                     paymentMethod={item.paymentMethod}
@@ -441,7 +443,7 @@ const mapStateToProps = (state) => {
 
 const action = {
   get_Booking,
-  updateMyBooking,
+  update_My_Booking,
 };
 
 export default connect(mapStateToProps, action)(PendingAppoinment);

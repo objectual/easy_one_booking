@@ -117,7 +117,6 @@ class CompletedAppoinment extends Component {
 
   async componentDidMount() {
     let payload = JSON.parse(await getUserInfo());
-    console.log(payload, 'payload');
     this.props.get_Booking({ payload });
     this.props.navigation.addListener('focus', () =>
       this.props.get_Booking({ payload }),
@@ -187,7 +186,7 @@ class CompletedAppoinment extends Component {
                     employeeName={employeeName}
                     date={fullDate}
                     time={time}
-                    employee={item?.services[0]?.serviceId?.name}
+                    employee={`${item?.services[0]?.serviceId?.name}${" Estimated time : "}$${item?.services[0]?.serviceId?.duration}`}
                     saloon={item?.companyId?.name}
                     price={item?.totalAmount}
                     paymentMethod={item.paymentMethod}
