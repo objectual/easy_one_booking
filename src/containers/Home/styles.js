@@ -15,7 +15,7 @@ export default StyleSheet.create({
     // resizeMode: "contain",
   },
   content: {
-    fontSize: Metrics.ratio(22),
+    fontSize: Metrics.ratio(15),
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
@@ -76,8 +76,8 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   contentContainer: {
-    paddingHorizontal: Metrics.ratio(20),
-    padding: Metrics.ratio(50),
+    // paddingHorizontal: Metrics.ratio(20),
+    paddingVertical: Metrics.ratio(50),
     alignItems: 'center',
     alignSelf: 'center',
     textAlign: 'center',

@@ -170,7 +170,9 @@ class Home extends Component {
         <Text style={styles.content}>
           We make booking experience a fun to do.
         </Text>
-        <Text style={styles.content}>Let it be easy!</Text>
+        <Text style={[styles.content, {fontSize: Metrics.ratio(18)}]}>
+          Let it be easy!
+        </Text>
         {/* <Text style={{ marginTop: Metrics.ratio(20) }}>
           The beauty parlour shop is the need of every age of men women and
           children famours poet keats defined the word beauty as : " A thing of
