@@ -14,10 +14,19 @@ export default StyleSheet.create({
     // height: Metrics.screenHeight * 0.4,
     // resizeMode: "contain",
   },
+  content: {
+    fontSize: Metrics.ratio(15),
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    fontWeight: 'bold',
+
+    fontFamily: Fonts.type.bold,
+  },
   mainheading: {
     color: '#5c0000',
     fontSize: Metrics.ratio(22),
-    fontFamily: Fonts.type.bold
+    fontFamily: Fonts.type.bold,
   },
   mainheading1: {
     color: '#5c0000',
@@ -64,6 +73,13 @@ export default StyleSheet.create({
     color: '#fff',
     // justifyContent: "center",
     // textAlignVertical: "center"
+    textAlign: 'center',
+  },
+  contentContainer: {
+    // paddingHorizontal: Metrics.ratio(20),
+    paddingVertical: Metrics.ratio(50),
+    alignItems: 'center',
+    alignSelf: 'center',
     textAlign: 'center',
   },
   containerForRow: {
