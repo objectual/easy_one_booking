@@ -21,7 +21,7 @@ import FloatingLabel from 'react-native-floating-labels';
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 import styles from './styles';
 import { Images, Metrics, Fonts, Colors } from '../../theme';
-
+import moment from 'moment'
 import SpinnerLoader from '../../components/SpinnerLoader';
 import Cards from '../..//components/Card';
 import { Icon } from 'react-native-vector-icons/MaterialIcons';
@@ -382,12 +382,15 @@ class PendingAppoinment extends Component {
               let bookingStatus =
                 item?.status === 1 ? 'Pending' : 'Now Serving';
               let dateTime = item?.createdDate;
+              let formatTime = moment(dateTime).format('MM-DD-YYYY');
+
               let newDate = new Date(dateTime);
               let time = newDate.toLocaleTimeString('en-US');
               let date = newDate.getDate();
               let month = newDate.getMonth(); //Month of the Year: 0-based index, so 1 in our example
               let year = newDate.getFullYear();
               let fullDate = `${date}-${month}-${year}`;
+
               let amount =
                 item.paymentMethod == 'Points'
                   ? item?.totalAmount * 1000
@@ -398,7 +401,7 @@ class PendingAppoinment extends Component {
                     orderNo={item._id}
                     customerName={customerName}
                     employeeName={employeeName}
-                    date={fullDate}
+                    date={formatTime}
                     time={time}
                     employee={`${item?.services[0]?.serviceId?.name}${" Estimated time : "}$${item?.services[0]?.serviceId?.duration}`}
                     saloon={item?.companyId?.name}
