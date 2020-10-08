@@ -14,7 +14,7 @@ import {
 
 import { Images, Metrics } from '../../theme';
 
-import {Footer} from './../../components';
+import { Footer } from './../../components';
 import axios from 'axios';
 import Wallet_Icon from 'react-native-vector-icons/dist/SimpleLineIcons';
 
@@ -23,9 +23,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Booking_Icon from 'react-native-vector-icons/dist/EvilIcons';
 import User_Icon from 'react-native-vector-icons/dist/Feather';
 import Chat_icon from 'react-native-vector-icons/dist/MaterialIcons'
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {initializeToken, logout_api, token} from './../../config/WebServices';
+import { initializeToken, logout_api, token } from './../../config/WebServices';
 
 class Menu extends Component {
   constructor(props) {
@@ -94,29 +94,29 @@ class Menu extends Component {
 
   handleLogout = async () => {
     // let token = await initializeToken();
-    console.log('token: ', token);
+    const { fcmToken } = this.state
+    console.log("Menu -> handleLogout -> fcmToken", fcmToken)
 
     axios
-      .get(`${logout_api}`, {
+      .get(`${logout_api}`, { fcmToken }, {
         headers: {
           Authorization: token,
         },
       })
       .then(async (res) => {
+        console.log("Menu -> res", res.data)
         try {
           await AsyncStorage.removeItem('access_token');
-          // Actions.loginScreen();
           this.props.navigation.navigate('Login');
 
           Alert.alert('Success', 'Logout Successfully');
-          this.setState({token: ''});
+          this.setState({ token: '' });
           return true;
         } catch (err) {
           return false;
         }
       })
       .catch((error) => {
-        console.log('error: ', error);
         // this.setState({isLoading: false});
 
         if (error.response) {
@@ -134,7 +134,6 @@ class Menu extends Component {
         } else {
           Alert.alert('Error', error.msg);
           // Something happened in setting up the request that triggered an Error
-          console.log('Error', error.msg);
         }
       });
   };
@@ -174,15 +173,20 @@ class Menu extends Component {
   };
 
   componentWillUnmount() {
-    console.log('token: ', token);
-    this.setState({token});
+    this.setState({ token });
 
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
   }
 
   componentDidMount() {
     this.setState({ token });
+    this.getToken()
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  async getToken() {
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    this.setState({ fcmToken });
   }
 
   onBackPress = () => {
@@ -259,7 +263,7 @@ class Menu extends Component {
           </View>
         </View>
       );
-    } else if (item.title == 'Booking History' || item.title == 'Wallet' || item.title == 'Chat Box' ) {
+    } else if (item.title == 'Booking History' || item.title == 'Wallet' || item.title == 'Chat Box') {
       return (
         <View style={styles.container}>
           <View style={styles.servicebox}>

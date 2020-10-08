@@ -146,10 +146,17 @@ class SaloonEmployee extends Component {
                 ? employees.employeeId.userId.firstName
                 : 'Name'}
             </Text>
+            {/* <Text numberOfLines={1} style={styles.text14}>
+              Employee Price : {employees &&
+                employees.companyServices &&
+                employees.companyServices[0] &&
+                employees.companyServices[0].price
+                ? employees.companyServices[0].price
+                : 'Employee Price'}
+            </Text> */}
             <View
               style={{
                 flexDirection: 'row',
-                marginTop: Metrics.ratio(10),
               }}>
               <Text numberOfLines={1} style={styles.text14}>
                 {employees &&
