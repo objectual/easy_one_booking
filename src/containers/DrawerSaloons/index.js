@@ -612,9 +612,10 @@ class DrawerSaloons extends Component {
                   title={title}
                   description={description}
                   image={
-                    item.template?.coverImage.url
+                    item?.customTemplateId?.headerImage ? item.customTemplateId.headerImage:
+                    (item.template?.coverImage.url
                       ? item.template?.coverImage.url
-                      : item.templateID?.coverImage.url
+                      : item.templateID?.coverImage.url)
                   }
                   // image={item.templateID?.coverImage.url}
                   onPress={() =>

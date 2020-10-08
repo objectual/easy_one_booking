@@ -302,8 +302,10 @@ class Home extends Component {
             ]}>
             {salon?.templateID?.coverImage && (
               <Image
-                // source={{ uri: salon.saloon.companyLogo }}
-                source={{uri: salon.templateID.coverImage.url}}
+                source={{ uri: salon?.customTemplateId?.headerImage ? salon.customTemplateId.headerImage:
+                        (salon?.templateID
+                          ? salon.templateID.coverImage.url
+                          : salon?.template?.coverImage.url) }}
                 style={styles.cardImage}
               />
             )}
