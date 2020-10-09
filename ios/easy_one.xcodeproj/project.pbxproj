@@ -58,7 +58,7 @@
 		0A01102D894D4388A299D733 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		0D5C92E1E933447F901D1C2A /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		131A32B760FC3CE174F29227 /* Pods-easy_one.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-easy_one.release.xcconfig"; path = "Target Support Files/Pods-easy_one/Pods-easy_one.release.xcconfig"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* easy1 Booking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "easy1 Booking.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* Easy1 Booking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Easy1 Booking.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = easy_one/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = easy_one/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -249,7 +249,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* easy1 Booking.app */,
+				13B07F961A680F5B00A75B9A /* Easy1 Booking.app */,
 				00E356EE1AD99517003FC87E /* easy_oneTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* easy_one-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* easy_one-tvOSTests.xctest */,
@@ -314,7 +314,7 @@
 			);
 			name = easy_one;
 			productName = easy_one;
-			productReference = 13B07F961A680F5B00A75B9A /* easy1 Booking.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* Easy1 Booking.app */;
 			productType = "com.apple.product-type.application";
 		};
 		2D02E47A1E0B4A5D006451C7 /* easy_one-tvOS */ = {
@@ -367,10 +367,11 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = AXLJBB2AFL;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = JR6QP2D5KK;
+						DevelopmentTeam = AXLJBB2AFL;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -745,7 +746,7 @@
 			baseConfigurationReference = 69C075763454C549CCB617B0 /* Pods-easy_oneTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = AXLJBB2AFL;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -770,7 +771,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = AXLJBB2AFL;
 				INFOPLIST_FILE = easy_oneTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -793,7 +794,7 @@
 				CODE_SIGN_ENTITLEMENTS = easy_one/easy_1.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = JR6QP2D5KK;
+				DEVELOPMENT_TEAM = AXLJBB2AFL;
 				INFOPLIST_FILE = easy_one/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -802,7 +803,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.easy1;
-				PRODUCT_NAME = "easy1 Booking";
+				PRODUCT_NAME = "Easy1 Booking";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -814,7 +815,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = easy_one/easy_1.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = JR6QP2D5KK;
+				DEVELOPMENT_TEAM = AXLJBB2AFL;
 				INFOPLIST_FILE = easy_one/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -823,7 +824,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.easy1;
-				PRODUCT_NAME = "easy1 Booking";
+				PRODUCT_NAME = "Easy1 Booking";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
