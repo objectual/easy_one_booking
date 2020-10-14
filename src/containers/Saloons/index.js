@@ -96,7 +96,10 @@ class Saloons extends Component {
           <View>
             {saloons && saloons.template && saloons.template.coverImage.url ? (
               <Image
-                source={{ uri: saloons.template.coverImage.url }}
+                source={{ uri: saloons?.customTemplateId?.headerImage ? saloons.customTemplateId.headerImage:
+                  (saloons?.templateID
+                    ? saloons.templateID.coverImage.url
+                    : saloons?.template?.coverImage.url) }}
                 style={styles.servicesImage}
               />
             ) : (

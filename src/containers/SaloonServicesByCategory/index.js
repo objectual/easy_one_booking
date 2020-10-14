@@ -122,6 +122,7 @@ class SaloonServicesByCategory extends Component {
       services: services,
       categoryId: categoryId,
     };
+    if(!services.isActive) return
     return (
       <TouchableWithoutFeedback
         onPress={() =>
@@ -131,7 +132,7 @@ class SaloonServicesByCategory extends Component {
           {services && services.image && services.image ? (
             <Image
               resizeMethod="auto"
-              resizeMode="contain"
+              resizeMode="cover"
               source={{ uri: services.image }}
               style={styles.servicesImage}
             />

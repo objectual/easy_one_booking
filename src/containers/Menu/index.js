@@ -14,7 +14,7 @@ import {
 
 import {Images, Metrics} from '../../theme';
 
-import {Footer} from './../../components';
+import { Footer } from './../../components';
 import axios from 'axios';
 import Wallet_Icon from 'react-native-vector-icons/dist/SimpleLineIcons';
 
@@ -22,14 +22,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import Booking_Icon from 'react-native-vector-icons/dist/EvilIcons';
 import User_Icon from 'react-native-vector-icons/dist/Feather';
-import Chat_icon from 'react-native-vector-icons/dist/MaterialIcons';
-import {connect} from 'react-redux';
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes,
-} from '@react-native-community/google-signin';
-import {initializeToken, logout_api, token} from './../../config/WebServices';
+import person_outline from 'react-native-vector-icons/dist/MaterialIcons'
+import { connect } from 'react-redux';
+
+import { initializeToken, logout_api, token } from './../../config/WebServices';
 
 class Menu extends Component {
   constructor(props) {
@@ -41,6 +37,11 @@ class Menu extends Component {
           iconUrl: Wallet_Icon,
           icon: 'wallet',
           title: 'Wallet',
+        },
+        {
+          iconUrl: person_outline,
+          icon: 'person',
+          title: 'Profile',
         },
         {
           iconUrl: Booking_Icon,
@@ -123,29 +124,29 @@ class Menu extends Component {
 
   handleLogout = async () => {
     // let token = await initializeToken();
-    console.log('token: ', token);
+    const { fcmToken } = this.state
+    console.log("Menu -> handleLogout -> fcmToken", fcmToken)
 
     axios
-      .get(`${logout_api}`, {
+      .get(`${logout_api}`, { fcmToken }, {
         headers: {
           Authorization: token,
         },
       })
       .then(async (res) => {
+        console.log("Menu -> res", res.data)
         try {
           await AsyncStorage.removeItem('access_token');
-          // Actions.loginScreen();
           this.props.navigation.navigate('Login');
 
           Alert.alert('Success', 'Logout Successfully');
-          this.setState({token: ''});
+          this.setState({ token: '' });
           return true;
         } catch (err) {
           return false;
         }
       })
       .catch((error) => {
-        console.log('error: ', error);
         // this.setState({isLoading: false});
 
         if (error.response) {
@@ -163,7 +164,6 @@ class Menu extends Component {
         } else {
           Alert.alert('Error', error.msg);
           // Something happened in setting up the request that triggered an Error
-          console.log('Error', error.msg);
         }
       });
   };
@@ -194,6 +194,11 @@ class Menu extends Component {
       this.props.navigation.navigate('BookingHistory', {
         handleNavigation: this.props.navigation.navigate,
       });
+    item.title == 'Profile' &&
+      token &&
+      this.props.navigation.navigate('Profile', {
+        handleNavigation: this.props.navigation.navigate,
+      });
 
     item.title == 'Wallet' &&
       token &&
@@ -203,56 +208,21 @@ class Menu extends Component {
   };
 
   componentWillUnmount() {
-    console.log('token: ', token);
-    this.setState({token});
+    this.setState({ token });
 
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
   }
 
-  componentDidMount = async () => {
-    // GoogleSignin.configure({
-    //   webClientId:
-    //     // '844382195072-huf6m3ddnm5neciu5f28utac8imr1gmu.apps.googleusercontent.com',
-    //     // "844382195072-huf6m3ddnm5neciu5f28utac8imr1gmu.apps.googleusercontent.com",
-    //     '844382195072-ij8kq3lefkfuda5r4eh3c9g5kic0m1ej.apps.googleusercontent.com',
-    //   offlineAccess: false,
-    // });
-    // try {
-    //     {s
-    //     //webClientId is required if you need offline access
-    //     offlineAccess: true,
-    //     // webClientId:
-    // "844382195072-jk73f3aj8c370hdvj4epa88n55lohron.apps.googleusercontent.com",
-    // "844382195072-huf6m3ddnm5neciu5f28utac8imr1gmu.apps.googleusercontent.com",
-    //       // '844382195072-ij8kq3lefkfuda5r4eh3c9g5kic0m1ej.apps.googleusercontent.com',
-    //     // '844382195072-huf6m3ddnm5neciu5f28utac8imr1gmu.apps.googleusercontent.com',
-    //     androidClientId:
-    //       '844382195072-jk73f3aj8c370hdvj4epa88n55lohron.apps.googleusercontent.com',
-    //     scopes: ['profile', 'email'],
-    //   });
-    //   await GoogleSignin.hasPlayServices();
-    //   console.log('reached google sign in');
-    //   const userInfo = await GoogleSignin.signIn();
-    //   console.log(userInfo);
-    //   this.setState({userInfo});
-    // } catch (error) {
-    //   if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-    //     console.log('error occured SIGN_IN_CANCELLED');
-    //     // user cancelled the login flow
-    //   } else if (error.code === statusCodes.IN_PROGRESS) {
-    //     console.log('error occured IN_PROGRESS');
-    //     // operation (f.e. sign in) is in progress already
-    //   } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-    //     console.log('error: ', error);
-    //     console.log('error occured PLAY_SERVICES_NOT_AVAILABLE');
-    //   } else {
-    //     console.log(error);
-    //     console.log('error occured unknow error');
-    //   }
-    // }
-    this.setState({token});
+  componentDidMount() {
+    this.setState({ token });
+    this.getToken()
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
   };
+
+  async getToken() {
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    this.setState({ fcmToken });
+  }
 
   onBackPress = () => {
     this.props.navigation.navigate('Menu');
@@ -328,11 +298,7 @@ class Menu extends Component {
           </View>
         </View>
       );
-    } else if (
-      item.title == 'Booking History' ||
-      item.title == 'Wallet' ||
-      item.title == 'Chat Box'
-    ) {
+    } else if (item.title == 'Booking History' || item.title == 'Wallet' || item.title == 'Chat Box' || item.title == 'Profile') {
       return (
         <View style={styles.container}>
           <View style={styles.servicebox}>

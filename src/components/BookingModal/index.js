@@ -16,6 +16,7 @@ import { Images, Metrics, Fonts, Colors } from '../../theme';
 import { Dropdown } from 'react-native-material-dropdown';
 import Immutable from 'seamless-immutable';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import moment from 'moment'
 
 import { token } from './../../config/WebServices';
 
@@ -34,6 +35,17 @@ export default class BookingModal extends Component {
     buttonDisable: true,
     errorMessages: null,
     dayDetail: null,
+    isErrorFound: false,
+    daysMock: [
+      { name: "---" },
+      { name: "Sun" },
+      { name: "Mon" },
+      { name: "Tue" },
+      { name: "Wed" },
+      { name: "Thu" },
+      { name: "Fri" },
+      { name: "Sat" },
+    ],
   };
 
   async componentDidMount() {
@@ -90,11 +102,55 @@ export default class BookingModal extends Component {
     ][new Date(date).getDay()];
   };
 
+      checkDateIsAvil = (day, selectedEmployee) => {
+      const { daysMock } = this.state;
+      const getDay = moment(day).format("ddd");
+  
+      const companyDate = [];
+      selectedEmployee.weekPlans.length &&
+        selectedEmployee.weekPlans.forEach((val) => {
+          if (val.availableStatus) {
+            return companyDate.push(val);
+          }
+        });
+  
+      const slectedDataDays = [];
+      
+      companyDate.map((weekPlans) => {
+        slectedDataDays.push({...weekPlans, dayName: daysMock[weekPlans.dayOfWeek].name })
+      });
+      const selectedDate = slectedDataDays.find(vl => vl.dayName == getDay)
+      if(!selectedDate) return false
+       
+       return !!this.checkTimeSlot(day, selectedDate)
+    };
+
+    
+    checkTimeSlot = (time, selectDayOfTime) => {
+      if (!time) return;
+      const selectedTime = moment(time).format("h:mm:ss a");
+  
+      const checkIn = new Date(`01/01/2001 ${selectDayOfTime.checkIn}`).getTime();
+      const checkOut = new Date(
+        `01/01/2001 ${selectDayOfTime.checkOut}`
+      ).getTime();
+      const a = new Date(`01/01/2001 ${selectedTime}`).getTime();
+  
+      if (
+        Math.min(checkIn, checkOut) <= Math.max(a, a) &&
+        Math.max(checkIn, checkOut) >= Math.min(a, a)
+      )
+        return true;
+  
+      return false;
+    };
+
   validateDate = async (date) => {
     let day = new Date(date).getDay();
     day.toString();
     console.log(day, 'day');
-    console.log(this.state.data.weekPlans, 'this.state.data.weekPlans[i].dayOfWeek ')
+
+    this.setState({isErrorFound: !this.checkDateIsAvil(date, this.state.data) })
     for (let i = 0; i < this.state.data.weekPlans.length; i++) {
       if (
         this.state.data.weekPlans[i].dayOfWeek == day + 1 &&
@@ -150,10 +206,9 @@ export default class BookingModal extends Component {
       // );
 
       // await this.setState({errorMessages:'This employee is not available on this time'})
-
       return await {
         valid: false,
-        errorMessages: `This employee is available on ${day} from ${object.checkIn} to ${object.checkOut}`,
+        errorMessages: `This employee is available on ${day} from ${moment(`Fri Oct 09 2020 ${object.checkIn}`).format('h:mm a')} to ${moment(`Fri Oct 09 2020 ${object.checkOut}`).format('h:mm a')}`,
       };
 
       // return await false
@@ -161,6 +216,7 @@ export default class BookingModal extends Component {
   };
 
   handleConfirm = async (date) => {
+    console.log("BookingModal -> handleConfirm -> date", date)
     let validatidaion = await this.validateDate(date);
     let currentHourArray = new Date(date).toTimeString().split(' ')[0];
     let formatHour = currentHourArray.split(':');
@@ -168,7 +224,7 @@ export default class BookingModal extends Component {
     let localFormat = d.toLocaleDateString();
     console.warn('A date has been picked: ', this.state.date);
 
-    if (validatidaion.valid == false) {
+    if (this.state.isErrorFound) {
       this.setState({
         date: localFormat,
         isDatePickerVisible: false,
@@ -225,7 +281,7 @@ export default class BookingModal extends Component {
 
     return (
       <TouchableOpacity
-        disabled={this.state.buttonDisable}
+        disabled={this.state.isErrorFound}
         style={[
           styles.submitBtn,
           this.state.buttonDisable && { backgroundColor: '#DEDEDE' },

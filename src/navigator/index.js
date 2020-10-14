@@ -31,6 +31,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { token } from '../config/WebServices';
 import RNRestart from 'react-native-restart';
 import Wallet from '../containers/Wallet';
+import Profile from '../containers/Profile';
 import GiveFeedBack from '../containers/GiveFeedBack';
 
 import ForgetPassword from './../containers/ForgetPassword/index';
@@ -196,6 +197,11 @@ function mainStack({ navigation }) {
           name="Wallet"
           component={Wallet}
           options={{ title: 'Wallet' }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{ title: 'Profile' }}
         />
         <Stack.Screen
           name="GiveFeedBack"
