@@ -1,5 +1,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import { LoginManager, AccessToken } from 'react-native-fbsdk';
+
 import {
   Text,
   View,
@@ -250,6 +252,19 @@ class Login extends Component {
     return <Text style={styles.screenHeading}>LOGIN</Text>;
   };
 
+  renderFb = () => {
+    LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+      (result) => {
+        if (result.isCancelled) {
+          return Promise.reject(new Error('The user canceled'))
+        }
+        console.log(`sucess :${result.grantedPermissions.toString()}`)
+          .catch((error) => { console.log(error, 'error'); })
+        //  return AccessToken.getCurrentAccessToken()})
+      })
+
+  }
+
   renderSubmitBtn = () => {
     return (
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -295,7 +310,9 @@ class Login extends Component {
   renderFacebookBtn = () => {
     return (
       <TouchableOpacity
-        style={{ backgroundColor: '#3B5999', ...styles.socialBtn }}>
+        style={{ backgroundColor: '#3B5999', ...styles.socialBtn }}
+        onPress={this.renderFb}
+      >
         <View style={{ ...styles.socialBtnIconView }}>
           <Image
             source={Images.facebook_icon}
@@ -374,6 +391,7 @@ class Login extends Component {
             </TouchableOpacity>
             {this.renderSubmitBtn()}
             {this._renderOverlaySpinner()}
+            {this.renderConnectCard()}
           </View>
         </ScrollView>
       </View>
