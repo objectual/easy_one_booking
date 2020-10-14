@@ -1,92 +1,42 @@
 {
   "project_info": {
-    "project_number": "721316989519",
-    "firebase_url": "https://esayone-9821d.firebaseio.com",
-    "project_id": "esayone-9821d",
-    "storage_bucket": "esayone-9821d.appspot.com"
+    "project_number": "844382195072",
+    "firebase_url": "https://saloonapp-7692e.firebaseio.com",
+    "project_id": "saloonapp-7692e",
+    "storage_bucket": "saloonapp-7692e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:721316989519:android:1d310958dadc2f4e43383a",
+        "mobilesdk_app_id": "1:844382195072:android:c00f1c24746b55a56a8565",
         "android_client_info": {
           "package_name": "com.easy_one"
         }
       },
       "oauth_client": [
         {
-          "client_id": "721316989519-h4l4286f1b51g730s34lvmpofslt5or1.apps.googleusercontent.com",
+          "client_id": "844382195072-jk73f3aj8c370hdvj4epa88n55lohron.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.easy_one",
+            "certificate_hash": "55a8e79ad3b8aa4207d3c90f4d1f42a2735f06ed"
+          }
+        },
+        {
+          "client_id": "844382195072-huf6m3ddnm5neciu5f28utac8imr1gmu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCuvy9JYW3x46R6Zbwl1goheh-SpSGNNOw"
+          "current_key": "AIzaSyBkdGueltWYL_3PZPpctynbscWpfUXC-uo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "721316989519-h4l4286f1b51g730s34lvmpofslt5or1.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:721316989519:android:496b2597d9f321e243383a",
-        "android_client_info": {
-          "package_name": "com.salon_employee_app"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "721316989519-h4l4286f1b51g730s34lvmpofslt5or1.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCuvy9JYW3x46R6Zbwl1goheh-SpSGNNOw"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "721316989519-h4l4286f1b51g730s34lvmpofslt5or1.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:721316989519:android:7bd7a65f9ac2541843383a",
-        "android_client_info": {
-          "package_name": "com.saloonclient"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "721316989519-h4l4286f1b51g730s34lvmpofslt5or1.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCuvy9JYW3x46R6Zbwl1goheh-SpSGNNOw"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "721316989519-h4l4286f1b51g730s34lvmpofslt5or1.apps.googleusercontent.com",
+              "client_id": "844382195072-huf6m3ddnm5neciu5f28utac8imr1gmu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

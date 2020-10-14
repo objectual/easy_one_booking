@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,7 +12,7 @@ import {
   BackHandler,
 } from 'react-native';
 
-import { Images, Metrics } from '../../theme';
+import {Images, Metrics} from '../../theme';
 
 import {Footer} from './../../components';
 import axios from 'axios';
@@ -22,9 +22,13 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import Booking_Icon from 'react-native-vector-icons/dist/EvilIcons';
 import User_Icon from 'react-native-vector-icons/dist/Feather';
-import Chat_icon from 'react-native-vector-icons/dist/MaterialIcons'
+import Chat_icon from 'react-native-vector-icons/dist/MaterialIcons';
 import {connect} from 'react-redux';
-
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-community/google-signin';
 import {initializeToken, logout_api, token} from './../../config/WebServices';
 
 class Menu extends Component {
@@ -85,11 +89,36 @@ class Menu extends Component {
     };
   }
 
+  // componentDidMount() {
+  //   GoogleSignin.configure({});
+  // }
+
   handleAndroidBackButton = (callback) => {
     BackHandler.addEventListener('hardwareBackPress', () => {
       callback;
       return true;
     });
+  };
+
+  signIn = async () => {
+    // alert("sf")
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log('userInfo: ', userInfo);
+      this.setState({userInfo});
+    } catch (error) {
+      console.log('error: ', error);
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
   };
 
   handleLogout = async () => {
@@ -143,7 +172,7 @@ class Menu extends Component {
     try {
       await AsyncStorage.removeItem('access_token');
       await AsyncStorage.removeItem('loginResponce');
-      this.setState({ token: '' });
+      this.setState({token: ''});
       alert('Logout Successfully');
       return true;
     } catch (exception) {
@@ -152,7 +181,7 @@ class Menu extends Component {
   }
 
   removeAndroidBackButtonHandler = () => {
-    BackHandler.removeEventListener('hardwareBackPress', () => { });
+    BackHandler.removeEventListener('hardwareBackPress', () => {});
   };
 
   onClickListener = (item, viewId) => {
@@ -180,10 +209,50 @@ class Menu extends Component {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
   }
 
-  componentDidMount() {
-    this.setState({ token });
+  componentDidMount = async () => {
+    // GoogleSignin.configure({
+    //   webClientId:
+    //     // '844382195072-huf6m3ddnm5neciu5f28utac8imr1gmu.apps.googleusercontent.com',
+    //     // "844382195072-huf6m3ddnm5neciu5f28utac8imr1gmu.apps.googleusercontent.com",
+    //     '844382195072-ij8kq3lefkfuda5r4eh3c9g5kic0m1ej.apps.googleusercontent.com',
+    //   offlineAccess: false,
+    // });
+    // try {
+    //     {s
+    //     //webClientId is required if you need offline access
+    //     offlineAccess: true,
+    //     // webClientId:
+    // "844382195072-jk73f3aj8c370hdvj4epa88n55lohron.apps.googleusercontent.com",
+    // "844382195072-huf6m3ddnm5neciu5f28utac8imr1gmu.apps.googleusercontent.com",
+    //       // '844382195072-ij8kq3lefkfuda5r4eh3c9g5kic0m1ej.apps.googleusercontent.com',
+    //     // '844382195072-huf6m3ddnm5neciu5f28utac8imr1gmu.apps.googleusercontent.com',
+    //     androidClientId:
+    //       '844382195072-jk73f3aj8c370hdvj4epa88n55lohron.apps.googleusercontent.com',
+    //     scopes: ['profile', 'email'],
+    //   });
+    //   await GoogleSignin.hasPlayServices();
+    //   console.log('reached google sign in');
+    //   const userInfo = await GoogleSignin.signIn();
+    //   console.log(userInfo);
+    //   this.setState({userInfo});
+    // } catch (error) {
+    //   if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+    //     console.log('error occured SIGN_IN_CANCELLED');
+    //     // user cancelled the login flow
+    //   } else if (error.code === statusCodes.IN_PROGRESS) {
+    //     console.log('error occured IN_PROGRESS');
+    //     // operation (f.e. sign in) is in progress already
+    //   } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+    //     console.log('error: ', error);
+    //     console.log('error occured PLAY_SERVICES_NOT_AVAILABLE');
+    //   } else {
+    //     console.log(error);
+    //     console.log('error occured unknow error');
+    //   }
+    // }
+    this.setState({token});
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
-  }
+  };
 
   onBackPress = () => {
     this.props.navigation.navigate('Menu');
@@ -213,8 +282,8 @@ class Menu extends Component {
             style={{
               paddingLeft: Metrics.ratio(20),
             }}>
-            <Text style={{ fontSize: Metrics.ratio(22) }}>Lorem Ispum</Text>
-            <Text style={{ fontSize: Metrics.ratio(17) }}>Lorem Ispum</Text>
+            <Text style={{fontSize: Metrics.ratio(22)}}>Lorem Ispum</Text>
+            <Text style={{fontSize: Metrics.ratio(17)}}>Lorem Ispum</Text>
           </View>
         </View>
       </View>
@@ -230,7 +299,7 @@ class Menu extends Component {
               <View
                 style={[
                   styles.navigationInsideContainer,
-                  { backgroundColor: this.state.bgColor },
+                  {backgroundColor: this.state.bgColor},
                 ]}>
                 <item.iconUrl name={item.icon} size={30} />
                 <Text style={styles.navigationContainerText}>{item.title}</Text>
@@ -250,7 +319,7 @@ class Menu extends Component {
               <View
                 style={[
                   styles.navigationInsideContainer,
-                  { backgroundColor: this.state.bgColor },
+                  {backgroundColor: this.state.bgColor},
                 ]}>
                 <item.iconUrl name={item.icon} size={30} />
                 <Text style={styles.navigationContainerText}>{item.title}</Text>
@@ -259,7 +328,11 @@ class Menu extends Component {
           </View>
         </View>
       );
-    } else if (item.title == 'Booking History' || item.title == 'Wallet' || item.title == 'Chat Box' ) {
+    } else if (
+      item.title == 'Booking History' ||
+      item.title == 'Wallet' ||
+      item.title == 'Chat Box'
+    ) {
       return (
         <View style={styles.container}>
           <View style={styles.servicebox}>
@@ -267,7 +340,7 @@ class Menu extends Component {
               <View
                 style={[
                   styles.navigationInsideContainer,
-                  { backgroundColor: this.state.bgColor },
+                  {backgroundColor: this.state.bgColor},
                 ]}>
                 <item.iconUrl name={item.icon} size={30} />
                 <Text style={styles.navigationContainerText}>{item.title}</Text>
@@ -288,7 +361,7 @@ class Menu extends Component {
 
           <FlatList
             data={this.state.dataSource}
-            renderItem={({ item, index }) => this.renderItemList(item, index)}
+            renderItem={({item, index}) => this.renderItemList(item, index)}
           />
         </ScrollView>
       </Footer>
