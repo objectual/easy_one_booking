@@ -39,6 +39,11 @@ class Menu extends Component {
           title: 'Wallet',
         },
         {
+          iconUrl: Wallet_Icon,
+          icon: 'Profile',
+          title: 'Profile',
+        },
+        {
           iconUrl: Booking_Icon,
           icon: 'comment',
           title: 'Chat Box',
@@ -164,6 +169,11 @@ class Menu extends Component {
       this.props.navigation.navigate('BookingHistory', {
         handleNavigation: this.props.navigation.navigate,
       });
+    item.title == 'Profile' &&
+      token &&
+      this.props.navigation.navigate('Profile', {
+        handleNavigation: this.props.navigation.navigate,
+      });
 
     item.title == 'Wallet' &&
       token &&
@@ -263,7 +273,7 @@ class Menu extends Component {
           </View>
         </View>
       );
-    } else if (item.title == 'Booking History' || item.title == 'Wallet' || item.title == 'Chat Box') {
+    } else if (item.title == 'Booking History' || item.title == 'Wallet' || item.title == 'Chat Box' || item.title == 'Profile') {
       return (
         <View style={styles.container}>
           <View style={styles.servicebox}>
