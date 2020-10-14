@@ -9,6 +9,8 @@ export const baseUrl = 'https://easy-one.herokuapp.com/api/'; // live
 
 export const login_Api = `${baseUrl}user/login`;
 export const register_Api = `${baseUrl}user/register`;
+export const get_user_Api = `${baseUrl}user/getUser`;
+export const edit_user_profile_Api = `${baseUrl}user/editCustomerProfile`;
 export const forget_Saloon_NearApiget_password_Api = `${baseUrl}forget-password`;
 export const verify_reset_code_Api = `${baseUrl}verify-reset-code`;
 export const reset_password_Api = `${baseUrl}password/reset`;

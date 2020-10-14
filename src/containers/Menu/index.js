@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,7 +12,7 @@ import {
   BackHandler,
 } from 'react-native';
 
-import { Images, Metrics } from '../../theme';
+import {Images, Metrics} from '../../theme';
 
 import { Footer } from './../../components';
 import axios from 'axios';
@@ -22,7 +22,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import Booking_Icon from 'react-native-vector-icons/dist/EvilIcons';
 import User_Icon from 'react-native-vector-icons/dist/Feather';
-import Chat_icon from 'react-native-vector-icons/dist/MaterialIcons'
+import person_outline from 'react-native-vector-icons/dist/MaterialIcons'
 import { connect } from 'react-redux';
 
 import { initializeToken, logout_api, token } from './../../config/WebServices';
@@ -37,6 +37,11 @@ class Menu extends Component {
           iconUrl: Wallet_Icon,
           icon: 'wallet',
           title: 'Wallet',
+        },
+        {
+          iconUrl: person_outline,
+          icon: 'person',
+          title: 'Profile',
         },
         {
           iconUrl: Booking_Icon,
@@ -85,11 +90,36 @@ class Menu extends Component {
     };
   }
 
+  // componentDidMount() {
+  //   GoogleSignin.configure({});
+  // }
+
   handleAndroidBackButton = (callback) => {
     BackHandler.addEventListener('hardwareBackPress', () => {
       callback;
       return true;
     });
+  };
+
+  signIn = async () => {
+    // alert("sf")
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log('userInfo: ', userInfo);
+      this.setState({userInfo});
+    } catch (error) {
+      console.log('error: ', error);
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
   };
 
   handleLogout = async () => {
@@ -142,7 +172,7 @@ class Menu extends Component {
     try {
       await AsyncStorage.removeItem('access_token');
       await AsyncStorage.removeItem('loginResponce');
-      this.setState({ token: '' });
+      this.setState({token: ''});
       alert('Logout Successfully');
       return true;
     } catch (exception) {
@@ -151,7 +181,7 @@ class Menu extends Component {
   }
 
   removeAndroidBackButtonHandler = () => {
-    BackHandler.removeEventListener('hardwareBackPress', () => { });
+    BackHandler.removeEventListener('hardwareBackPress', () => {});
   };
 
   onClickListener = (item, viewId) => {
@@ -162,6 +192,11 @@ class Menu extends Component {
     item.title == 'Booking History' &&
       token &&
       this.props.navigation.navigate('BookingHistory', {
+        handleNavigation: this.props.navigation.navigate,
+      });
+    item.title == 'Profile' &&
+      token &&
+      this.props.navigation.navigate('Profile', {
         handleNavigation: this.props.navigation.navigate,
       });
 
@@ -182,7 +217,7 @@ class Menu extends Component {
     this.setState({ token });
     this.getToken()
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
-  }
+  };
 
   async getToken() {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
@@ -217,8 +252,8 @@ class Menu extends Component {
             style={{
               paddingLeft: Metrics.ratio(20),
             }}>
-            <Text style={{ fontSize: Metrics.ratio(22) }}>Lorem Ispum</Text>
-            <Text style={{ fontSize: Metrics.ratio(17) }}>Lorem Ispum</Text>
+            <Text style={{fontSize: Metrics.ratio(22)}}>Lorem Ispum</Text>
+            <Text style={{fontSize: Metrics.ratio(17)}}>Lorem Ispum</Text>
           </View>
         </View>
       </View>
@@ -234,7 +269,7 @@ class Menu extends Component {
               <View
                 style={[
                   styles.navigationInsideContainer,
-                  { backgroundColor: this.state.bgColor },
+                  {backgroundColor: this.state.bgColor},
                 ]}>
                 <item.iconUrl name={item.icon} size={30} />
                 <Text style={styles.navigationContainerText}>{item.title}</Text>
@@ -254,7 +289,7 @@ class Menu extends Component {
               <View
                 style={[
                   styles.navigationInsideContainer,
-                  { backgroundColor: this.state.bgColor },
+                  {backgroundColor: this.state.bgColor},
                 ]}>
                 <item.iconUrl name={item.icon} size={30} />
                 <Text style={styles.navigationContainerText}>{item.title}</Text>
@@ -263,7 +298,7 @@ class Menu extends Component {
           </View>
         </View>
       );
-    } else if (item.title == 'Booking History' || item.title == 'Wallet' || item.title == 'Chat Box') {
+    } else if (item.title == 'Booking History' || item.title == 'Wallet' || item.title == 'Chat Box' || item.title == 'Profile') {
       return (
         <View style={styles.container}>
           <View style={styles.servicebox}>
@@ -271,7 +306,7 @@ class Menu extends Component {
               <View
                 style={[
                   styles.navigationInsideContainer,
-                  { backgroundColor: this.state.bgColor },
+                  {backgroundColor: this.state.bgColor},
                 ]}>
                 <item.iconUrl name={item.icon} size={30} />
                 <Text style={styles.navigationContainerText}>{item.title}</Text>
@@ -292,7 +327,7 @@ class Menu extends Component {
 
           <FlatList
             data={this.state.dataSource}
-            renderItem={({ item, index }) => this.renderItemList(item, index)}
+            renderItem={({item, index}) => this.renderItemList(item, index)}
           />
         </ScrollView>
       </Footer>
