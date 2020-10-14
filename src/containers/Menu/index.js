@@ -22,7 +22,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import Booking_Icon from 'react-native-vector-icons/dist/EvilIcons';
 import User_Icon from 'react-native-vector-icons/dist/Feather';
-import Chat_icon from 'react-native-vector-icons/dist/MaterialIcons'
+import person_outline from 'react-native-vector-icons/dist/MaterialIcons'
 import { connect } from 'react-redux';
 
 import { initializeToken, logout_api, token } from './../../config/WebServices';
@@ -39,8 +39,8 @@ class Menu extends Component {
           title: 'Wallet',
         },
         {
-          iconUrl: Wallet_Icon,
-          icon: 'Profile',
+          iconUrl: person_outline,
+          icon: 'person',
           title: 'Profile',
         },
         {
