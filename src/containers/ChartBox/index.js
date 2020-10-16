@@ -243,7 +243,7 @@ class ChartBox extends Component {
     const { allMsg, user } = this.state
     return (
       <View style={styles.container}>
-        {/* <ScrollView
+        <ScrollView
           ref={ref => { this.scrollView = ref }}
           onContentSizeChange={() => this.scrollView.scrollToEnd({ animated: true })}>
           <View style={styles.container}>
@@ -255,9 +255,9 @@ class ChartBox extends Component {
             })}
           </View>
         </ScrollView>
-        {this.renderSend()} */}
-        {/* {this.renderSend()} */}
-        <KeyboardAwareScrollView
+        {this.renderSend()} 
+        {/* {this.renderSend()}
+        {/* <KeyboardAwareScrollView
         ref={ref => {this.scrollView = ref}}
         onContentSizeChange={() => this.scrollView.scrollToEnd({animated: true})}
         keyboardShouldPersistTaps='always'>
@@ -279,7 +279,7 @@ class ChartBox extends Component {
         {this.renderSend()}
         </View>
           </View>
-        </KeyboardAwareScrollView>
+        </KeyboardAwareScrollView> */}
       </View>
     );
   }

@@ -1,6 +1,6 @@
-import { connect } from 'react-redux';
-import React, { Component } from 'react';
-import { LoginManager, AccessToken } from 'react-native-fbsdk';
+import {connect} from 'react-redux';
+import React, {Component} from 'react';
+import {LoginManager, AccessToken} from 'react-native-fbsdk';
 
 import {
   Text,
@@ -232,6 +232,7 @@ class Login extends Component {
           onChangeText={onChangeText}
           value={value}
           placeholder={placeholder}
+          key={placeholder || 5}
           autoCompleteType="off"
           autoCapitalize={autoCapitalize}
           // onSubmitEditing={() => {
@@ -262,14 +263,17 @@ class Login extends Component {
     LoginManager.logInWithPermissions(['public_profile', 'email']).then(
       (result) => {
         if (result.isCancelled) {
-          return Promise.reject(new Error('The user canceled'))
+          return Promise.reject(new Error('The user canceled'));
         }
-        console.log(`sucess :${result.grantedPermissions.toString()}`)
-          .catch((error) => { console.log(error, 'error'); })
+        console
+          .log(`sucess :${result.grantedPermissions.toString()}`)
+          .catch((error) => {
+            console.log(error, 'error');
+          });
         //  return AccessToken.getCurrentAccessToken()})
-      })
-
-  }
+      },
+    );
+  };
 
   renderSubmitBtn = () => {
     return (
@@ -302,15 +306,8 @@ class Login extends Component {
     return (
       <TouchableOpacity
         style={{backgroundColor: '#4385F5', ...styles.socialBtn}}
-        
-        onPress={this.signIn}
-        >
-        
-        
-        <View style={{backgroundColor: '#fff', ...styles.socialBtnIconView}}
-        
-        
-        >
+        onPress={this.signIn}>
+        <View style={{backgroundColor: '#fff', ...styles.socialBtnIconView}}>
           <Image
             source={Images.gmail_icon}
             style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
@@ -324,10 +321,9 @@ class Login extends Component {
   renderFacebookBtn = () => {
     return (
       <TouchableOpacity
-        style={{ backgroundColor: '#3B5999', ...styles.socialBtn }}
-        onPress={this.renderFb}
-      >
-        <View style={{ ...styles.socialBtnIconView }}>
+        style={{backgroundColor: '#3B5999', ...styles.socialBtn}}
+        onPress={this.renderFb}>
+        <View style={{...styles.socialBtnIconView}}>
           <Image
             source={Images.facebook_icon}
             style={{width: Metrics.ratio(25), height: Metrics.ratio(25)}}
@@ -411,7 +407,7 @@ class Login extends Component {
               'Enter your password',
               null,
               'onDone',
-              true,
+              (secureTextEntry = true),
               styles.CustomTextInput,
               this.state.passwordError,
               'characters',
