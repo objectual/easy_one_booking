@@ -1,8 +1,7 @@
-import { connect } from 'react-redux';
-import React, { Component } from 'react';
-import { LoginManager, AccessToken } from 'react-native-fbsdk';
-import axios from "axios";
-
+import {connect} from 'react-redux';
+import React, {Component} from 'react';
+import {LoginManager, AccessToken} from 'react-native-fbsdk';
+import axios from 'axios';
 
 import {
   Text,
@@ -17,9 +16,9 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import FloatingLabel from 'react-native-floating-labels';
-import { request as userLogin, success } from '../../redux/actions/Login';
+import {request as userLogin, success} from '../../redux/actions/Login';
 import styles from './styles';
-import { Images, Metrics, Fonts } from '../../theme';
+import {Images, Metrics, Fonts} from '../../theme';
 import SpinnerLoader from '../../components/SpinnerLoader';
 import {
   nameRegex,
@@ -34,8 +33,7 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-community/google-signin';
-import { social_api } from '../../config/WebServices'
-
+import {social_api} from '../../config/WebServices';
 
 // import GoogleSigninBtn from '../../components/GoogleSigninButton';
 // import FacebookSigninButton from '../../components/FacebookSigninButton';
@@ -60,7 +58,7 @@ class Login extends Component {
   }
 
   _renderOverlaySpinner = () => {
-    const { isFetching } = this.props.login;
+    const {isFetching} = this.props.login;
 
     return <SpinnerLoader isloading={isFetching} />;
   };
@@ -73,7 +71,7 @@ class Login extends Component {
         nextProps.login.data &&
         nextProps.login.data.success
       ) {
-        this.setState({ isloading: false }, () => {
+        this.setState({isloading: false}, () => {
           setTimeout(() => {
             Alert.alert(
               'Successfully',
@@ -90,7 +88,7 @@ class Login extends Component {
                   },
                 },
               ],
-              { cancelable: false },
+              {cancelable: false},
             );
           }, 500);
         });
@@ -109,22 +107,31 @@ class Login extends Component {
         //     Alert.alert('Error', nextProps.login.data.msg);
         //   }, 3000);
         // });
-        this.setState({ isloading: false });
+        this.setState({isloading: false});
       }
     }
   }
 
   componentDidMount() {
+    GoogleSignin.configure({
+      // scopes: CONFIG.GOOGLE_SERVICE.SCOPES,
+      webClientId:
+        '844382195072-huf6m3ddnm5neciu5f28utac8imr1gmu.apps.googleusercontent.com',
+      androidClientId:
+        '844382195072-huf6m3ddnm5neciu5f28utac8imr1gmu.apps.googleusercontent.com',
+      offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+    });
+
     this.getToken();
   }
 
   async getToken() {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
-    this.setState({ fcmToken });
+    this.setState({fcmToken});
   }
 
   checkValidation = () => {
-    const { email, password } = this.state;
+    const {email, password} = this.state;
     const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (!email.match(emailRegex)) {
@@ -174,11 +181,10 @@ class Login extends Component {
       // device_token: 'string',
     };
     this.props.userLogin(payload);
-
   };
 
   onChangeEmail = async (value) => {
-    this.setState({ email: value });
+    this.setState({email: value});
     this.setState({
       emailError: await validate(
         value,
@@ -188,7 +194,7 @@ class Login extends Component {
     });
   };
   onChangePassword = async (value) => {
-    this.setState({ password: value });
+    this.setState({password: value});
     this.setState({
       passwordError: await validate(
         value,
@@ -227,7 +233,7 @@ class Login extends Component {
           style={[
             styles.textInput,
             CustomTextInput,
-            Platform.OS == 'ios' && { paddingBottom: 0 },
+            Platform.OS == 'ios' && {paddingBottom: 0},
           ]}
           placeholderTextColor="#81788B"
           ref={(o) => {
@@ -264,28 +270,36 @@ class Login extends Component {
   };
 
   renderFb = () => {
-    LoginManager.logInWithPermissions(['public_profile', 'email','user_birthday']).then(
-      (result) => {
-        if (result.isCancelled) {
-          return Promise.reject(new Error('The user canceled'))
-        }
-        console.log(`sucess :${result.grantedPermissions.toString()}`)
-        console.log('sucess', result)
-        AccessToken.getCurrentAccessToken().then(res => {
-          const { accessToken } = res
+    LoginManager.logInWithPermissions([
+      'public_profile',
+      'email',
+      'user_birthday',
+    ]).then((result) => {
+      if (result.isCancelled) {
+        return Promise.reject(new Error('The user canceled'));
+      }
+      console.log(`sucess :${result.grantedPermissions.toString()}`);
+      console.log('sucess', result);
+      AccessToken.getCurrentAccessToken()
+        .then((res) => {
+          const {accessToken} = res;
           console.log(accessToken, 'resres');
-          this.initUser(accessToken)
+          this.initUser(accessToken);
         })
-          .catch((error) => { console.log(error, 'error'); })
-        //  return AccessToken.getCurrentAccessToken()})
-      })
-  }
+        .catch((error) => {
+          console.log(error, 'error');
+        });
+      //  return AccessToken.getCurrentAccessToken()})
+    });
+  };
 
-  
-   initUser = (token)  =>  {
-    fetch('https://graph.facebook.com/v2.5/me?fields=email,name&access_token=' + token)
+  initUser = (token) => {
+    fetch(
+      'https://graph.facebook.com/v2.5/me?fields=email,name&access_token=' +
+        token,
+    )
       .then((response) => response.json())
-      .then((json)  => {
+      .then((json) => {
         // AsyncStorage.setItem('loginResponce', JSON.stringify(response))
         console.log(val, 'json');
         // Some user object has been set up somewhere, build that user here
@@ -300,58 +314,50 @@ class Login extends Component {
           //  gcm_id: "eyIB1PF-ayQ2QtJytgeBN1:APA91bEmuiikVuLPXIQM9JNq7L-WJqNpC7FxO1CUpvxcrvoHOrPijQfrz3dSDEXFFxULwqW3lnyTip3QLE-teA1Z-RZmd1JpwiZyHGmQsOXOkcxRsbX4_dOgrjvyXTSf-JXyYypiRslU",
           // postalCode: "123",
           //   platform: "ios",
-          role: "5"
-        }
+          role: '5',
+        };
         console.log(payload, 'payload');
-        this.social_login(payload)
-
-
-
-
+        this.social_login(payload);
       })
       .catch(() => {
         // reject('ERROR GETTING DATA FROM FACEBOOK')
-      })
-  }
+      });
+  };
 
   async storeLoginResponce(response) {
-
     try {
-      await AsyncStorage.setItem('loginResponce', JSON.stringify(response))
-      console.log(response,'response');
-    } catch (e) {
-     
-    }
+      await AsyncStorage.setItem('loginResponce', JSON.stringify(response));
+      console.log(response, 'response');
+    } catch (e) {}
   }
 
   social_login = (data) => {
-    console.log(social_api, "Data_in_google");
+    console.log(social_api, 'Data_in_google');
     axios({
       method: 'post',
       url: social_api,
-      data: data
-    }).then((response) => {
-      console.log(response, 'responseresponse');
-      if (response.data.success) {
-
-        // resolve(response);
-      }
+      data: data,
     })
+      .then((response) => {
+        console.log(response, 'responseresponse');
+        if (response.data.success) {
+          // resolve(response);
+        }
+      })
       .catch((error) => {
         console.log(error, 'errr');
       });
-
-  }
+  };
 
   renderSubmitBtn = () => {
     return (
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <TouchableOpacity
           style={[
             styles.submitBtn,
             this.state.passwordError == null && this.state.emailError == null
-              ? { backgroundColor: '#FF3600' }
-              : { backgroundColor: '#DEDEDE' },
+              ? {backgroundColor: '#FF3600'}
+              : {backgroundColor: '#DEDEDE'},
           ]}
           disabled={
             this.state.passwordError == null && this.state.emailError == null
@@ -373,19 +379,12 @@ class Login extends Component {
   renderGmailBtn = () => {
     return (
       <TouchableOpacity
-        style={{ backgroundColor: '#4385F5', ...styles.socialBtn }}
-
-        onPress={this.signIn}
-      >
-
-
-        <View style={{ backgroundColor: '#fff', ...styles.socialBtnIconView }}
-
-
-        >
+        style={{backgroundColor: '#4385F5', ...styles.socialBtn}}
+        onPress={this.signIn}>
+        <View style={{backgroundColor: '#fff', ...styles.socialBtnIconView}}>
           <Image
             source={Images.gmail_icon}
-            style={{ width: Metrics.ratio(30), height: Metrics.ratio(30) }}
+            style={{width: Metrics.ratio(30), height: Metrics.ratio(30)}}
           />
         </View>
         <Text style={styles.socialBtnText}>Sign in with Google</Text>
@@ -396,13 +395,12 @@ class Login extends Component {
   renderFacebookBtn = () => {
     return (
       <TouchableOpacity
-        style={{ backgroundColor: '#3B5999', ...styles.socialBtn }}
-        onPress={this.renderFb}
-      >
-        <View style={{ ...styles.socialBtnIconView }}>
+        style={{backgroundColor: '#3B5999', ...styles.socialBtn}}
+        onPress={this.renderFb}>
+        <View style={{...styles.socialBtnIconView}}>
           <Image
             source={Images.facebook_icon}
-            style={{ width: Metrics.ratio(25), height: Metrics.ratio(25) }}
+            style={{width: Metrics.ratio(25), height: Metrics.ratio(25)}}
           />
         </View>
         <Text style={styles.socialBtnText}>Facebook</Text>
@@ -412,8 +410,8 @@ class Login extends Component {
 
   renderConnectCard = () => {
     return (
-      <View style={{ alignItems: 'center' }}>
-        <View style={{ marginVertical: Metrics.ratio(30), alignItems: 'center' }}>
+      <View style={{alignItems: 'center'}}>
+        <View style={{marginVertical: Metrics.ratio(30), alignItems: 'center'}}>
           <Text style={styles.connectCardText}>OR CONNECT WITH</Text>
           <View
             style={{
@@ -432,7 +430,9 @@ class Login extends Component {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      this.setState({ userInfo });
+      alert(userInfo.user?.name);
+      console.log('userInfo: ', userInfo);
+      this.setState({userInfo});
     } catch (error) {
       console.log('error: ', error);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -448,7 +448,7 @@ class Login extends Component {
   };
 
   render() {
-    const { btnDisabled, formErrors, email, password } = this.state;
+    const {btnDisabled, formErrors, email, password} = this.state;
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -513,8 +513,8 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({ login: state.login, cart: state.cart });
+const mapStateToProps = (state) => ({login: state.login, cart: state.cart});
 
-const action = { userLogin };
+const action = {userLogin};
 
 export default connect(mapStateToProps, action)(Login);

@@ -1,114 +1,59 @@
 {
   "project_info": {
-    "project_number": "942023842711",
-    "firebase_url": "https://scenic-lane-275515.firebaseio.com",
-    "project_id": "scenic-lane-275515",
-    "storage_bucket": "scenic-lane-275515.appspot.com"
+    "project_number": "844382195072",
+    "firebase_url": "https://saloonapp-7692e.firebaseio.com",
+    "project_id": "saloonapp-7692e",
+    "storage_bucket": "saloonapp-7692e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:942023842711:android:32df7a78bc0ab7494ec2d2",
+        "mobilesdk_app_id": "1:844382195072:android:c00f1c24746b55a56a8565",
         "android_client_info": {
           "package_name": "com.easy_one"
         }
       },
       "oauth_client": [
         {
-          "client_id": "942023842711-m5iulf0mokcm16g7m0fsipbtadriq34v.apps.googleusercontent.com",
+          "client_id": "844382195072-dv09sln1bidaf3t9lan123qo9a7o1gqc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.easy_one",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "844382195072-pl6ij10oi10kjhq2mfjhr3jm0sk2lefn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.easy_one",
+            "certificate_hash": "aa67db4f9c8ce6245b998843a495e480578c0675"
+          }
+        },
+        {
+          "client_id": "844382195072-ij8kq3lefkfuda5r4eh3c9g5kic0m1ej.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.easy_one",
+            "certificate_hash": "55a8e79ad3b8aa4207d3c90f4d1f42a2735f06ed"
+          }
+        },
+        {
+          "client_id": "844382195072-huf6m3ddnm5neciu5f28utac8imr1gmu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD4o0n4UNKXQvMCP9VBrDd2tH5tOmX7hqM"
+          "current_key": "AIzaSyBkdGueltWYL_3PZPpctynbscWpfUXC-uo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "942023842711-m5iulf0mokcm16g7m0fsipbtadriq34v.apps.googleusercontent.com",
+              "client_id": "844382195072-huf6m3ddnm5neciu5f28utac8imr1gmu.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "942023842711-8hvdvno28cda3rcq48fb3man0ip6fc20.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "org.reactjs.native.Easy1-Client"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:942023842711:android:82812f246049effd4ec2d2",
-        "android_client_info": {
-          "package_name": "com.salon_employee_app"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "942023842711-m5iulf0mokcm16g7m0fsipbtadriq34v.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyD4o0n4UNKXQvMCP9VBrDd2tH5tOmX7hqM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "942023842711-m5iulf0mokcm16g7m0fsipbtadriq34v.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "942023842711-8hvdvno28cda3rcq48fb3man0ip6fc20.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "org.reactjs.native.Easy1-Client"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:942023842711:android:70acce1c750cd6944ec2d2",
-        "android_client_info": {
-          "package_name": "com.saloonclient"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "942023842711-m5iulf0mokcm16g7m0fsipbtadriq34v.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyD4o0n4UNKXQvMCP9VBrDd2tH5tOmX7hqM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "942023842711-m5iulf0mokcm16g7m0fsipbtadriq34v.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "942023842711-8hvdvno28cda3rcq48fb3man0ip6fc20.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "org.reactjs.native.Easy1-Client"
-              }
             }
           ]
         }
