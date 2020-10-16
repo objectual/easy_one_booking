@@ -25,8 +25,10 @@ function callRequest(data) {
 }
 
 async function storeLoginResponce(response) {
+
   try {
     await AsyncStorage.setItem('loginResponce', JSON.stringify(response))
+    console.log(response,'response');
   } catch (e) {
    
   }
