@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import React, {Component} from 'react';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
+import axios from 'axios';
 
 import {
   Text,
@@ -32,6 +33,7 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-community/google-signin';
+import {social_api} from '../../config/WebServices';
 
 // import GoogleSigninBtn from '../../components/GoogleSigninButton';
 // import FacebookSigninButton from '../../components/FacebookSigninButton';
@@ -111,6 +113,15 @@ class Login extends Component {
   }
 
   componentDidMount() {
+    GoogleSignin.configure({
+      // scopes: CONFIG.GOOGLE_SERVICE.SCOPES,
+      webClientId:
+        '844382195072-huf6m3ddnm5neciu5f28utac8imr1gmu.apps.googleusercontent.com',
+      androidClientId:
+        '844382195072-huf6m3ddnm5neciu5f28utac8imr1gmu.apps.googleusercontent.com',
+      offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+    });
+
     this.getToken();
   }
 
@@ -260,19 +271,83 @@ class Login extends Component {
   };
 
   renderFb = () => {
-    LoginManager.logInWithPermissions(['public_profile', 'email']).then(
-      (result) => {
-        if (result.isCancelled) {
-          return Promise.reject(new Error('The user canceled'));
+    LoginManager.logInWithPermissions([
+      'public_profile',
+      'email',
+      'user_birthday',
+    ]).then((result) => {
+      if (result.isCancelled) {
+        return Promise.reject(new Error('The user canceled'));
+      }
+      console.log(`sucess :${result.grantedPermissions.toString()}`);
+      console.log('sucess', result);
+      AccessToken.getCurrentAccessToken()
+        .then((res) => {
+          const {accessToken} = res;
+          console.log(accessToken, 'resres');
+          this.initUser(accessToken);
+        })
+        .catch((error) => {
+          console.log(error, 'error');
+        });
+      //  return AccessToken.getCurrentAccessToken()})
+    });
+  };
+
+  initUser = (token) => {
+    fetch(
+      'https://graph.facebook.com/v2.5/me?fields=email,name&access_token=' +
+        token,
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        // AsyncStorage.setItem('loginResponce', JSON.stringify(response))
+        console.log(val, 'json');
+        // Some user object has been set up somewhere, build that user here
+        // this.setState({fbuserName:json.name,email:json.email})
+        const payload = {
+          userName: json.name,
+          email: json.email,
+          provider: 'facebook',
+          idToken: token,
+          //  password: "itsol",
+          //  phoneNo: "12121",
+          //  gcm_id: "eyIB1PF-ayQ2QtJytgeBN1:APA91bEmuiikVuLPXIQM9JNq7L-WJqNpC7FxO1CUpvxcrvoHOrPijQfrz3dSDEXFFxULwqW3lnyTip3QLE-teA1Z-RZmd1JpwiZyHGmQsOXOkcxRsbX4_dOgrjvyXTSf-JXyYypiRslU",
+          // postalCode: "123",
+          //   platform: "ios",
+          role: '5',
+        };
+        console.log(payload, 'payload');
+        this.social_login(payload);
+      })
+      .catch(() => {
+        // reject('ERROR GETTING DATA FROM FACEBOOK')
+      });
+  };
+
+  async storeLoginResponce(response) {
+    try {
+      await AsyncStorage.setItem('loginResponce', JSON.stringify(response));
+      console.log(response, 'response');
+    } catch (e) {}
+  }
+
+  social_login = (data) => {
+    console.log(social_api, 'Data_in_google');
+    axios({
+      method: 'post',
+      url: social_api,
+      data: data,
+    })
+      .then((response) => {
+        console.log(response, 'responseresponse');
+        if (response.data.success) {
+          // resolve(response);
         }
-        console
-          .log(`sucess :${result.grantedPermissions.toString()}`)
-          .catch((error) => {
-            console.log(error, 'error');
-          });
-        //  return AccessToken.getCurrentAccessToken()})
-      },
-    );
+      })
+      .catch((error) => {
+        console.log(error, 'errr');
+      });
   };
 
   renderSubmitBtn = () => {
@@ -356,6 +431,8 @@ class Login extends Component {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
+      alert(userInfo.user?.name);
+      console.log('userInfo: ', userInfo);
       this.setState({userInfo});
     } catch (error) {
       console.log('error: ', error);

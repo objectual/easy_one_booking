@@ -32,6 +32,8 @@ export const customer_rating_for_employee = `${baseUrl}rating/customerRatingForE
 export const forget_password = `${baseUrl}password/forget`;
 export const verify_otp = `${baseUrl}password/otpcode`;
 export const logout_api = `${baseUrl}user/logout`;
+export const social_api = `${baseUrl}user/social-login`;
+
 
 export const secret_Key = 'AIzaSyCIGENLCfCwZwPaumiUQs21GfgMhgppa7s';
 export const place_Autocomplete_URL =
